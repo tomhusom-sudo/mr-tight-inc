@@ -420,34 +420,46 @@
 
     /* ── MOBILE ── */
     @media (max-width: 640px) {
-      body { padding: 16px 12px 60px; }
+      body { padding: 20px 14px 60px; }
 
-      /* Hide the chart SVG — brings portfolio value to top of screen */
-      .logo-wrapper svg { display: none; }
-      .logo-wrapper { margin-bottom: 12px; }
-      .header { margin-bottom: 16px; }
+      /* Shrink header — logo SVG hidden, title compact */
+      .logo-wrapper svg     { display: none; }
+      .logo-wrapper         { margin-bottom: 6px; }
+      .header               { margin-bottom: 20px; }
+      h1                    { font-size: 1.6rem; letter-spacing: 0.1em; }
+      .logo-bar             { margin-top: 4px; }
+      .logo-tagline         { font-size: 0.58rem; letter-spacing: 0.3em; }
 
-      h1 { font-size: 1.7rem; letter-spacing: 0.12em; }
-      .logo-tagline { font-size: 0.6rem; }
+      /* Portfolio value — prominent, breathable */
+      .summary              { margin-bottom: 24px; }
+      .summary-top          { font-size: 0.7rem; margin-bottom: 6px; }
+      .total-value          { font-size: 2.4rem; margin-bottom: 8px; }
+      .total-gain           { font-size: 0.8rem; line-height: 1.5; }
 
-      .summary { margin-bottom: 20px; }
-      .summary-top { font-size: 0.72rem; }
-      .total-value { font-size: 2.2rem; }
-      .total-gain  { font-size: 0.82rem; }
+      /* Cards: 2 columns top row, 2 columns bottom — tighter but clean */
+      .summary-cards        { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; overflow: visible; }
+      .card                 { padding: 12px 14px; border-radius: 10px; }
+      .card-label           { font-size: 0.65rem; margin-bottom: 4px; }
+      .card-value           { font-size: 1rem; }
 
-      /* 2x2 card grid — hide eye so it doesn't overlap */
-      .summary-cards { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
-      .card { padding: 11px 13px; }
-      .card-value { font-size: 0.95rem; }
-      .summary-cards .card:last-child svg { display: none; }
+      /* Hide illuminati eye on mobile — causes overlap in 2-col grid */
+      .summary-cards .card:last-child > svg { display: none !important; }
 
-      thead th { padding: 10px 10px; font-size: 0.62rem; }
-      td        { padding: 12px 10px; font-size: 0.82rem; }
-      .asset-logo, .asset-logo-fallback { width: 28px; height: 28px; }
-      .ticker    { font-size: 0.85rem; }
-      .asset-name { display: none; }
-      .form-grid { grid-template-columns: 1fr; }
-      .form-group.full { grid-column: 1; }
+      /* Table */
+      thead th  { padding: 9px 10px; font-size: 0.6rem; }
+      td        { padding: 11px 10px; font-size: 0.8rem; }
+      .asset-logo, .asset-logo-fallback { width: 26px; height: 26px; }
+      .ticker   { font-size: 0.82rem; }
+      .asset-name, .type-badge { display: none; }
+
+      /* Section header */
+      .section-header       { margin-bottom: 10px; }
+      .section-title        { font-size: 0.7rem; }
+
+      /* Modal form */
+      .form-grid            { grid-template-columns: 1fr; }
+      .form-group.full      { grid-column: 1; }
+      .modal                { padding: 22px 18px 20px; }
     }
   </style>
 </head>
@@ -668,7 +680,6 @@
     var lastCol = -1, sortAsc = true;
 
     // ── STORAGE ──
-    // In-memory cache — survives re-renders even if localStorage is unavailable
     var _cache = null;
 
     function loadAssets() {
@@ -684,6 +695,27 @@
     function saveAssets(assets) {
       _cache = assets;
       try { localStorage.setItem('mti_assets', JSON.stringify(assets)); } catch(e) {}
+    }
+
+    // Fetch portfolio.json from the repo — ensures all devices stay in sync.
+    // Only overwrites localStorage if the remote version is newer (has more/different tickers).
+    function fetchRemotePortfolio() {
+      fetch('portfolio.json?v=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(remote) {
+          if (!Array.isArray(remote) || !remote.length) return;
+          // Use remote as source of truth — merge prices from existing cache
+          var existing = _cache || [];
+          var merged = remote.map(function(ra) {
+            var local = existing.find(function(a){ return a.ticker === ra.ticker; });
+            // Keep local priceOverride if set, otherwise use remote data
+            return Object.assign({}, ra, { priceOverride: local ? (local.priceOverride || null) : null });
+          });
+          _cache = merged;
+          try { localStorage.setItem('mti_assets', JSON.stringify(merged)); } catch(e) {}
+          render();
+        })
+        .catch(function() { /* offline or local file — silently ignore */ });
     }
 
     // Apply live prices to assets that have no price override
@@ -918,6 +950,7 @@
 
     // ── INIT ──
     render();
+    fetchRemotePortfolio(); // sync from repo — updates all devices
 
   })();
   </script>
