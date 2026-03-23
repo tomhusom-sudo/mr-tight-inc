@@ -360,123 +360,58 @@
     }
 
     // ── SOURCES PER TICKER ──
-    // Each source: { label, url, type }
-    // allorigins.win/get wraps RSS in JSON so the proxy can't rewrite URLs inside it.
-    // That makes it the safest choice; raw endpoints are fallbacks.
-    var PROXIES = [
-      { url: 'https://api.allorigins.win/get?url=', raw: false },
-      { url: 'https://api.allorigins.win/raw?url=', raw: true  },
-      { url: 'https://corsproxy.io/?',              raw: true  },
-    ];
+    // rss2json.com converts RSS → clean JSON with proper article URLs.
+    // No CORS proxy needed; no XML parsing; links are always absolute.
+    var RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
 
     function sources(a) {
       var list = [];
-      // Google News RSS — pulls from Reuters, Bloomberg, CNBC, WSJ, MarketWatch, etc.
-      var gnUrl = 'https://news.google.com/rss/search?q='
-        + encodeURIComponent(a.query) + '&hl=en-US&gl=US&ceid=US:en';
-      list.push({ label: 'Google News', url: gnUrl, type: 'gn' });
-
-      // Yahoo Finance RSS
+      // Google News RSS — variety of publishers
+      list.push({ label: 'Google News', url: 'https://news.google.com/rss/search?q='
+        + encodeURIComponent(a.query) + '&hl=en-US&gl=US&ceid=US:en' });
+      // Yahoo Finance RSS — direct article links
       var yfTicker = a.ticker === 'BTC' ? 'BTC-USD' : a.ticker;
-      list.push({ label: 'Yahoo Finance', url: 'https://finance.yahoo.com/rss/headline?s=' + yfTicker, type: 'yf' });
-
-      // CoinDesk for BTC
+      list.push({ label: 'Yahoo Finance', url: 'https://finance.yahoo.com/rss/headline?s=' + yfTicker });
+      // CoinDesk for crypto
       if (a.type === 'crypto') {
-        list.push({ label: 'CoinDesk', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', type: 'cd' });
+        list.push({ label: 'CoinDesk', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/' });
       }
-
       return list;
     }
 
-    // ── FETCH + PARSE RSS ──
-    // Tries each proxy in order, returns first success
-    function fetchWithProxy(url, proxyIdx) {
-      proxyIdx = proxyIdx || 0;
-      if (proxyIdx >= PROXIES.length) return Promise.reject(new Error('all proxies failed'));
-      var proxy = PROXIES[proxyIdx];
-      return fetch(proxy.url + encodeURIComponent(url))
-        .then(function(r) { return proxy.raw ? r.text() : r.json().then(function(d){ return d.contents || ''; }); })
-        .then(function(text) {
-          if (!text || text.length < 50) throw new Error('empty response');
-          return text;
-        })
-        .catch(function() { return fetchWithProxy(url, proxyIdx + 1); });
-    }
-
-    function parseItems(xmlText, source) {
-      var parser = new DOMParser();
-      var xml = parser.parseFromString(xmlText, 'text/xml');
-      var items = Array.from(xml.querySelectorAll('item'));
-      return items.map(function(item) {
-        var titleEl = item.querySelector('title');
-        var linkEl  = item.querySelector('link');
-        var dateEl  = item.querySelector('pubDate');
-        var descEl  = item.querySelector('description');
-        var srcEl   = item.querySelector('source');
-
-        var title = titleEl ? titleEl.textContent.trim() : '';
-
-        // Google News appends " - Source Name" to titles — extract it
-        var detectedSource = '';
-        var titleMatch = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,40})$/);
-        if (titleMatch) {
-          detectedSource = titleMatch[1].trim();
-          title = title.slice(0, title.lastIndexOf(titleMatch[0])).trim();
-        }
-        if (!detectedSource && srcEl) detectedSource = srcEl.textContent.trim();
-
-        // Collect all candidate URLs — prefer direct article links over Google redirects
-        var candidates = [];
-        if (linkEl) {
-          var lt = linkEl.textContent.trim();
-          if (lt.indexOf('http') === 0) candidates.push(lt);
-          // Google News: actual URL is a text node after the empty <link/> element
-          var sib = linkEl.nextSibling;
-          while (sib) {
-            var st = (sib.textContent || '').trim();
-            if (st.indexOf('http') === 0) { candidates.push(st); break; }
-            sib = sib.nextSibling;
-          }
-        }
-        var guidEl = item.querySelector('guid');
-        if (guidEl) {
-          var gt = guidEl.textContent.trim();
-          if (gt.indexOf('http') === 0) candidates.push(gt);
-        }
-        // Pick first non-Google-redirect URL; fall back to any URL
-        var link = candidates.find(function(u) { return u.indexOf('news.google.com') === -1; })
-                || candidates[0] || '';
-
-        // Google News RSS uses /rss/articles/ redirect URLs — strip /rss/ to get the real article page
-        link = link.replace('news.google.com/rss/', 'news.google.com/');
-
-        // Final guard: reject anything that isn't an absolute http(s) URL
-        // (relative paths would resolve against GitHub Pages and 404)
-        if (!link || (link.indexOf('https://') !== 0 && link.indexOf('http://') !== 0)) return null;
-
-        var pubDate = dateEl ? new Date(dateEl.textContent) : null;
-
-        var desc = '';
-        if (descEl) {
-          var tmp = document.createElement('div');
-          tmp.innerHTML = descEl.textContent;
-          desc = (tmp.textContent || '').trim();
-        }
-
-        return {
-          title:  title,
-          link:   link,
-          date:   pubDate,
-          desc:   desc.substring(0, 220),
-          source: detectedSource || source.label,
-        };
-      }).filter(function(x) { return x && x.title && x.link && x.link !== '#'; });
-    }
-
+    // ── FETCH RSS VIA RSS2JSON ──
     function fetchRss(source) {
-      return fetchWithProxy(source.url).then(function(text) {
-        return parseItems(text, source);
-      });
+      return fetch(RSS2JSON + encodeURIComponent(source.url))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+          return data.items.map(function(item) {
+            var title = (item.title || '').trim();
+            var link  = (item.link  || '').trim();
+
+            // Google News titles have " - Source Name" suffix — extract it
+            var detectedSource = '';
+            var m = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,45})$/);
+            if (m) {
+              detectedSource = m[1].trim();
+              title = title.slice(0, title.lastIndexOf(m[0])).trim();
+            }
+            if (!detectedSource && item.author) detectedSource = item.author.trim();
+
+            // Only keep absolute URLs — reject anything relative
+            if (!link || link.indexOf('http') !== 0) return null;
+
+            var desc = (item.description || '').replace(/<[^>]+>/g, '').trim();
+
+            return {
+              title:  title,
+              link:   link,
+              date:   item.pubDate ? new Date(item.pubDate) : null,
+              desc:   desc.substring(0, 220),
+              source: detectedSource || source.label,
+            };
+          }).filter(function(x) { return x && x.title && x.link; });
+        });
     }
 
     // ── MERGE + DEDUP ──
