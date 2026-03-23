@@ -391,6 +391,34 @@
 
     .form-hint { font-size: 0.65rem; color: #475569; }
 
+    /* ── SHARE BUTTON ── */
+    .share-bar {
+      max-width: 960px;
+      margin: 0 auto 20px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px;
+      background: transparent;
+      border: 1px solid #22c55e;
+      border-radius: 8px;
+      color: #4ade80;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .share-btn:hover { background: #14532d; color: #86efac; }
+    .share-btn.copied { border-color: #4ade80; color: #86efac; background: #14532d; }
+
     .modal-actions {
       display: flex;
       gap: 10px;
@@ -475,6 +503,11 @@
       <div class="logo-bar"></div>
       <div class="logo-tagline">Capital &bull; Markets &bull; Intelligence</div>
     </div>
+  </div>
+
+  <!-- SHARE BAR -->
+  <div class="share-bar">
+    <button class="share-btn" id="share-btn" onclick="sharePage()">&#8599; Share Portfolio</button>
   </div>
 
   <!-- PORTFOLIO SUMMARY -->
@@ -900,6 +933,38 @@
       th.addEventListener('click',    function()  { sortBy(th); });
       th.addEventListener('touchend', function(e) { e.preventDefault(); sortBy(th); });
     });
+
+    // ── SHARE ──
+    window.sharePage = function() {
+      var url  = 'https://tomhusom-sudo.github.io/mr-tight-inc/stocks.html';
+      var btn  = document.getElementById('share-btn');
+      // Use native share sheet on mobile (iOS/Android)
+      if (navigator.share) {
+        navigator.share({ title: 'Mr. Tight INC — Portfolio', url: url }).catch(function(){});
+        return;
+      }
+      // Fallback: copy to clipboard
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function() {
+          btn.textContent = '✓ Link Copied!';
+          btn.classList.add('copied');
+          setTimeout(function() {
+            btn.innerHTML = '&#8599; Share Portfolio';
+            btn.classList.remove('copied');
+          }, 2000);
+        });
+      } else {
+        // Last resort for old browsers
+        var ta = document.createElement('textarea');
+        ta.value = url; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Link Copied!';
+        btn.classList.add('copied');
+        setTimeout(function() { btn.innerHTML = '&#8599; Share Portfolio'; btn.classList.remove('copied'); }, 2000);
+      }
+    };
 
     // ── INIT ──
     render();
