@@ -433,7 +433,7 @@
       /* Portfolio value — prominent, breathable */
       .summary              { margin-bottom: 24px; }
       .summary-top          { font-size: 0.7rem; margin-bottom: 6px; }
-      .total-value          { font-size: 2.4rem; margin-bottom: 8px; }
+      .total-value          { font-size: 1.7rem; letter-spacing: -0.5px; margin-bottom: 6px; }
       .total-gain           { font-size: 0.8rem; line-height: 1.5; }
 
       /* Cards: 2 columns top row, 2 columns bottom — tighter but clean */
@@ -697,25 +697,19 @@
       try { localStorage.setItem('mti_assets', JSON.stringify(assets)); } catch(e) {}
     }
 
-    // Fetch portfolio.json from the repo — ensures all devices stay in sync.
-    // Only overwrites localStorage if the remote version is newer (has more/different tickers).
+    // Fetch portfolio.json — used only when localStorage has no data (first visit or cleared).
+    // After that, localStorage is the source of truth so UI edits are preserved.
+    // To sync edits across devices, tell Claude to update portfolio.json and push.
     function fetchRemotePortfolio() {
+      try { if (localStorage.getItem('mti_assets')) return; } catch(e) {}
       fetch('portfolio.json?v=' + Date.now())
         .then(function(r) { return r.json(); })
         .then(function(remote) {
           if (!Array.isArray(remote) || !remote.length) return;
-          // Use remote as source of truth — merge prices from existing cache
-          var existing = _cache || [];
-          var merged = remote.map(function(ra) {
-            var local = existing.find(function(a){ return a.ticker === ra.ticker; });
-            // Keep local priceOverride if set, otherwise use remote data
-            return Object.assign({}, ra, { priceOverride: local ? (local.priceOverride || null) : null });
-          });
-          _cache = merged;
-          try { localStorage.setItem('mti_assets', JSON.stringify(merged)); } catch(e) {}
+          saveAssets(remote);
           render();
         })
-        .catch(function() { /* offline or local file — silently ignore */ });
+        .catch(function() {});
     }
 
     // Apply live prices to assets that have no price override
