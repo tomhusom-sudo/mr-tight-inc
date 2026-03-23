@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
+  <script>
+    var VER = 'v=20260322a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
