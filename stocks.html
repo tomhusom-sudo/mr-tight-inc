@@ -420,13 +420,27 @@
 
     /* ── MOBILE ── */
     @media (max-width: 640px) {
-      body { padding: 24px 12px 60px; }
-      h1 { font-size: 2rem; letter-spacing: 0.12em; }
-      .total-value { font-size: 1.9rem; }
-      .total-gain  { font-size: 0.85rem; }
-      .summary-cards { grid-template-columns: repeat(2, 1fr); }
-      .card { padding: 12px 14px; }
-      .card-value { font-size: 1rem; }
+      body { padding: 16px 12px 60px; }
+
+      /* Hide the chart SVG — brings portfolio value to top of screen */
+      .logo-wrapper svg { display: none; }
+      .logo-wrapper { margin-bottom: 12px; }
+      .header { margin-bottom: 16px; }
+
+      h1 { font-size: 1.7rem; letter-spacing: 0.12em; }
+      .logo-tagline { font-size: 0.6rem; }
+
+      .summary { margin-bottom: 20px; }
+      .summary-top { font-size: 0.72rem; }
+      .total-value { font-size: 2.2rem; }
+      .total-gain  { font-size: 0.82rem; }
+
+      /* 2x2 card grid — hide eye so it doesn't overlap */
+      .summary-cards { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-top: 16px; }
+      .card { padding: 11px 13px; }
+      .card-value { font-size: 0.95rem; }
+      .summary-cards .card:last-child svg { display: none; }
+
       thead th { padding: 10px 10px; font-size: 0.62rem; }
       td        { padding: 12px 10px; font-size: 0.82rem; }
       .asset-logo, .asset-logo-fallback { width: 28px; height: 28px; }
