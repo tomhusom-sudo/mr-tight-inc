@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio News — Mr. Tight INC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600&display=swap');
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0a0e17;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 32px 16px 80px;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      max-width: 860px;
+      margin: 0 auto 28px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid #22c55e;
+      border-radius: 8px;
+      color: #4ade80;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.15s;
+      white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0;
+    }
+    .back-btn:hover { background: #14532d; }
+
+    .header-title { display: flex; flex-direction: column; }
+    .header-brand {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: linear-gradient(160deg, #a3f7b5 0%, #22c55e 40%, #ffffff 55%, #22c55e 75%, #15803d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header-sub {
+      font-size: 0.68rem;
+      color: #475569;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 2px;
+    }
+
+    .refresh-btn {
+      margin-left: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 7px 12px;
+      background: #111827;
+      border: 1px solid #1e293b;
+      border-radius: 8px;
+      color: #64748b;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .refresh-btn:hover { border-color: #334155; color: #94a3b8; }
+    .refresh-btn.spinning .refresh-icon { animation: spin 0.7s linear infinite; }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      max-width: 860px;
+      margin: 0 auto 24px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .filter-label {
+      font-size: 0.66rem;
+      color: #475569;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-weight: 600;
+    }
+
+    .filter-pill {
+      padding: 5px 11px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      border: 1px solid #1e293b;
+      background: #111827;
+      color: #64748b;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .filter-pill.active { background: #14532d; color: #4ade80; border-color: #22c55e; }
+    .filter-pill:hover:not(.active) { border-color: #334155; color: #94a3b8; }
+
+    /* ── SOURCE LEGEND ── */
+    .source-legend {
+      max-width: 860px;
+      margin: 0 auto 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .legend-label {
+      font-size: 0.63rem;
+      color: #334155;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      font-weight: 600;
+    }
+
+    /* ── TICKER SECTIONS ── */
+    .news-container { max-width: 860px; margin: 0 auto; }
+    .ticker-section  { margin-bottom: 36px; }
+
+    .ticker-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #1e293b;
+    }
+
+    .ticker-logo {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: #1e293b; object-fit: contain; padding: 3px; flex-shrink: 0;
+    }
+    .ticker-logo-fallback {
+      width: 28px; height: 28px; border-radius: 50%; background: #1e293b;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; font-weight: 700; color: #94a3b8; flex-shrink: 0;
+    }
+
+    .ticker-name  { font-size: 0.95rem; font-weight: 700; color: #f1f5f9; letter-spacing: 0.04em; }
+    .ticker-full  { font-size: 0.74rem; color: #475569; }
+
+    .ticker-badge {
+      margin-left: auto;
+      font-size: 0.6rem; font-weight: 700; padding: 2px 8px; border-radius: 999px;
+    }
+    .badge-stock  { background: #1e3a5f; color: #60a5fa; }
+    .badge-etf    { background: #1a3a2a; color: #4ade80; }
+    .badge-crypto { background: #3a2a10; color: #fbbf24; }
+
+    /* ── NEWS CARDS ── */
+    .news-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .news-card {
+      background: #111827;
+      border: 1px solid #1e293b;
+      border-radius: 10px;
+      padding: 13px 15px;
+      text-decoration: none;
+      display: block;
+      transition: border-color 0.15s, background 0.15s;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .news-card:hover { border-color: #334155; background: #131c2e; }
+    .news-card.top-story { border-color: #1e3b24; }
+    .news-card.top-story:hover { border-color: #22c55e44; }
+
+    .news-card-inner { display: flex; gap: 12px; align-items: flex-start; }
+
+    .news-body { flex: 1; min-width: 0; }
+
+    .news-title {
+      font-size: 0.87rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      line-height: 1.45;
+      margin-bottom: 5px;
+    }
+    .news-card.top-story .news-title { color: #f1f5f9; font-size: 0.92rem; }
+
+    .news-summary {
+      font-size: 0.75rem;
+      color: #64748b;
+      line-height: 1.5;
+      margin-bottom: 7px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .news-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.66rem;
+    }
+
+    .src-badge {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+    }
+
+    /* Source color map */
+    .src-yahoo      { background:#1e1e3f; color:#a78bfa; }
+    .src-reuters    { background:#1c2e3f; color:#60a5fa; }
+    .src-bloomberg  { background:#1c2e3f; color:#38bdf8; }
+    .src-cnbc       { background:#1c2e3f; color:#93c5fd; }
+    .src-marketwatch{ background:#1a3a2a; color:#4ade80; }
+    .src-wsj        { background:#2d2010; color:#fbbf24; }
+    .src-coindesk   { background:#3a2010; color:#f97316; }
+    .src-cointelegraph { background:#3a2010; color:#fb923c; }
+    .src-barrons    { background:#2d2010; color:#fcd34d; }
+    .src-seeking    { background:#1e1e3f; color:#c084fc; }
+    .src-motley     { background:#2a1a1a; color:#f87171; }
+    .src-default    { background:#1e293b; color:#94a3b8; }
+
+    .news-time { color: #334155; }
+    .news-dot  { color: #1e293b; }
+
+    .new-badge {
+      background: #14532d;
+      color: #4ade80;
+      font-size: 0.58rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.06em;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%,100% { opacity:1; }
+      50%      { opacity:0.6; }
+    }
+
+    /* ── STATES ── */
+    .loading-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 0; color: #475569; font-size: 0.8rem;
+    }
+    .spinner {
+      width:15px; height:15px;
+      border: 2px solid #1e293b; border-top-color: #22c55e;
+      border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink:0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .error-row { color: #f87171; font-size: 0.76rem; padding: 12px 0; }
+    .empty-row { color: #475569; font-size: 0.76rem; padding: 12px 0; }
+
+    /* ── FOOTER ── */
+    .page-footer { max-width:860px; margin:32px auto 0; font-size:0.67rem; color:#334155; text-align:center; line-height:1.6; }
+
+    /* ── MOBILE ── */
+    @media (max-width: 600px) {
+      .header-brand { font-size: 1.1rem; }
+      .news-title { font-size: 0.82rem; }
+      .news-card.top-story .news-title { font-size: 0.86rem; }
+      .refresh-btn span:not(.refresh-icon) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a class="back-btn" href="stocks.html">&#8592; Portfolio</a>
+    <div class="header-title">
+      <div class="header-brand">Mr. Tight INC</div>
+      <div class="header-sub">Portfolio News Feed</div>
+    </div>
+    <button class="refresh-btn" id="refresh-btn" onclick="reloadAll()">
+      <span class="refresh-icon">&#8635;</span> <span>Refresh</span>
+    </button>
+  </div>
+
+  <div class="filter-bar" id="filter-bar">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-pill active" data-ticker="ALL" onclick="setFilter('ALL')">All</button>
+  </div>
+
+  <div class="news-container" id="news-container"></div>
+
+  <div class="page-footer" id="page-footer"></div>
+
+  <script>
+  (function () {
+
+    var ASSETS = [
+      { ticker:'AA',   name:'Alcoa Corporation',                 type:'stock',  domain:'alcoa.com',        logoUrl:'',  query:'Alcoa AA stock'        },
+      { ticker:'MSFT', name:'Microsoft Corporation',             type:'stock',  domain:'microsoft.com',    logoUrl:'',  query:'Microsoft MSFT stock'  },
+      { ticker:'AMZN', name:'Amazon.com Inc',                    type:'stock',  domain:'amazon.com',       logoUrl:'',  query:'Amazon AMZN stock'     },
+      { ticker:'BTC',  name:'Bitcoin',                           type:'crypto', domain:'',
+        logoUrl:'https://cryptologos.cc/logos/bitcoin-btc-logo.png',           query:'Bitcoin BTC crypto' },
+      { ticker:'NVDA', name:'NVIDIA Corporation',                type:'stock',  domain:'nvidia.com',       logoUrl:'',  query:'Nvidia NVDA stock'     },
+      { ticker:'VOO',  name:'Vanguard S&P 500 ETF',             type:'etf',    domain:'vanguard.com',     logoUrl:'',  query:'VOO Vanguard SP500 ETF'},
+      { ticker:'VONG', name:'Vanguard Russell 1000 Growth ETF', type:'etf',    domain:'vanguard.com',     logoUrl:'',  query:'VONG Vanguard Growth ETF'},
+      { ticker:'EXE',  name:'Expand Energy Corporation',         type:'stock',  domain:'expandenergy.com', logoUrl:'',  query:'EXE Expand Energy stock'},
+    ];
+
+    // ── SOURCE → STYLE ──
+    var SRC_STYLES = {
+      'yahoo finance':    'src-yahoo',
+      'yahoo':            'src-yahoo',
+      'reuters':          'src-reuters',
+      'bloomberg':        'src-bloomberg',
+      'cnbc':             'src-cnbc',
+      'marketwatch':      'src-marketwatch',
+      'market watch':     'src-marketwatch',
+      'wall street journal': 'src-wsj',
+      'wsj':              'src-wsj',
+      'barron':           'src-barrons',
+      "barron's":         'src-barrons',
+      'coindesk':         'src-coindesk',
+      'coin desk':        'src-coindesk',
+      'cointelegraph':    'src-cointelegraph',
+      'coin telegraph':   'src-cointelegraph',
+      'seeking alpha':    'src-seeking',
+      'motley fool':      'src-motley',
+      'the motley fool':  'src-motley',
+    };
+
+    function srcClass(name) {
+      var key = (name||'').toLowerCase();
+      for (var k in SRC_STYLES) {
+        if (key.indexOf(k) !== -1) return SRC_STYLES[k];
+      }
+      return 'src-default';
+    }
+
+    // ── SOURCES PER TICKER ──
+    // Each source: { label, url }
+    var PROXY = 'https://api.allorigins.win/get?url=';
+
+    function sources(a) {
+      var list = [];
+      // Google News RSS — pulls from Reuters, Bloomberg, CNBC, WSJ, MarketWatch, etc.
+      var gnUrl = 'https://news.google.com/rss/search?q='
+        + encodeURIComponent(a.query) + '&hl=en-US&gl=US&ceid=US:en';
+      list.push({ label: 'Google News', url: gnUrl, type: 'gn' });
+
+      // Yahoo Finance RSS
+      var yfTicker = a.ticker === 'BTC' ? 'BTC-USD' : a.ticker;
+      list.push({ label: 'Yahoo Finance', url: 'https://finance.yahoo.com/rss/headline?s=' + yfTicker, type: 'yf' });
+
+      // CoinDesk for BTC
+      if (a.type === 'crypto') {
+        list.push({ label: 'CoinDesk', url: 'https://www.coindesk.com/arc/outboundfeeds/rss/', type: 'cd' });
+      }
+
+      return list;
+    }
+
+    // ── FETCH + PARSE RSS ──
+    function fetchRss(sourceUrl) {
+      return fetch(PROXY + encodeURIComponent(sourceUrl))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var parser = new DOMParser();
+          var xml = parser.parseFromString(data.contents || '', 'text/xml');
+          var items = Array.from(xml.querySelectorAll('item'));
+          return items.map(function(item) {
+            var titleEl = item.querySelector('title');
+            var linkEl  = item.querySelector('link');
+            var dateEl  = item.querySelector('pubDate');
+            var descEl  = item.querySelector('description');
+            var srcEl   = item.querySelector('source');
+
+            var title = titleEl ? titleEl.textContent.trim() : '';
+            // Google News appends " - Source Name" to titles — extract it
+            var detectedSource = '';
+            var titleMatch = title.match(/\s[-–]\s([^-–]+)$/);
+            if (titleMatch) {
+              detectedSource = titleMatch[1].trim();
+              title = title.replace(/\s[-–]\s[^-–]+$/, '').trim();
+            }
+            if (srcEl) detectedSource = detectedSource || srcEl.textContent.trim();
+
+            var link = '';
+            if (linkEl) {
+              // Google News <link> is text node after element, not inside it
+              link = linkEl.nextSibling
+                ? (linkEl.nextSibling.textContent || '').trim()
+                : linkEl.textContent.trim();
+            }
+            if (!link) link = (item.querySelector('guid') || {}).textContent || '#';
+
+            var pubDate = dateEl ? new Date(dateEl.textContent) : null;
+
+            var desc = '';
+            if (descEl) {
+              var tmp = document.createElement('div');
+              tmp.innerHTML = descEl.textContent;
+              desc = (tmp.textContent || '').trim();
+            }
+
+            return {
+              title:  title,
+              link:   link,
+              date:   pubDate,
+              desc:   desc.substring(0, 220),
+              source: detectedSource || 'Yahoo Finance',
+            };
+          }).filter(function(x) { return x.title && x.link && x.link !== '#'; });
+        });
+    }
+
+    // ── MERGE + DEDUP ──
+    function mergeArticles(arrays) {
+      var seen = {};
+      var all  = [];
+      arrays.forEach(function(arr) {
+        (arr||[]).forEach(function(item) {
+          // Dedup by normalised title (first 60 chars)
+          var key = item.title.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,60);
+          if (!seen[key]) { seen[key] = true; all.push(item); }
+        });
+      });
+      // Sort newest first; items without dates go last
+      all.sort(function(a,b) {
+        if (!a.date && !b.date) return 0;
+        if (!a.date) return 1;
+        if (!b.date) return -1;
+        return b.date - a.date;
+      });
+      return all.slice(0, 8);
+    }
+
+    // ── TIME FORMATTING ──
+    function relTime(date) {
+      if (!date || isNaN(date)) return '';
+      var diffMs  = Date.now() - date;
+      var diffMin = Math.floor(diffMs / 60000);
+      if (diffMin < 1)   return 'just now';
+      if (diffMin < 60)  return diffMin + 'm ago';
+      var diffHr = Math.floor(diffMin / 60);
+      if (diffHr  < 24)  return diffHr  + 'h ago';
+      var diffDay = Math.floor(diffHr / 24);
+      return diffDay + 'd ago';
+    }
+
+    function isNew(date) {
+      return date && (Date.now() - date) < 2 * 3600 * 1000;
+    }
+
+    function escHtml(s) {
+      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    // ── RENDER ARTICLE LIST ──
+    function renderArticles(listEl, articles) {
+      if (!articles.length) {
+        listEl.innerHTML = '<div class="empty-row">No recent headlines found.</div>';
+        return;
+      }
+      listEl.innerHTML = articles.map(function(item, i) {
+        var sc   = srcClass(item.source);
+        var time = relTime(item.date);
+        var topStory = i === 0 ? ' top-story' : '';
+        return '<a class="news-card' + topStory + '" href="' + escHtml(item.link) + '" target="_blank" rel="noopener">'
+          + '<div class="news-card-inner"><div class="news-body">'
+            + '<div class="news-title">' + escHtml(item.title) + '</div>'
+            + (item.desc ? '<div class="news-summary">' + escHtml(item.desc) + '</div>' : '')
+            + '<div class="news-meta">'
+              + '<span class="src-badge ' + sc + '">' + escHtml(item.source) + '</span>'
+              + (isNew(item.date) ? '<span class="new-badge">NEW</span>' : '')
+              + (time ? '<span class="news-dot">·</span><span class="news-time">' + time + '</span>' : '')
+            + '</div>'
+          + '</div></div>'
+          + '</a>';
+      }).join('');
+    }
+
+    // ── LOGO HTML ──
+    function logoHtml(a) {
+      var fb = '<div class="ticker-logo-fallback" style="display:none">' + a.ticker.substring(0,4) + '</div>';
+      if (a.logoUrl) {
+        return '<img class="ticker-logo" src="' + a.logoUrl + '" alt="' + a.ticker + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' + fb;
+      }
+      if (a.domain) {
+        return '<img class="ticker-logo" src="https://www.google.com/s2/favicons?domain=' + a.domain + '&sz=64" alt="' + a.ticker + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' + fb;
+      }
+      return '<div class="ticker-logo-fallback">' + a.ticker.substring(0,4) + '</div>';
+    }
+
+    var badgeClass = { stock:'badge-stock', etf:'badge-etf', crypto:'badge-crypto' };
+    var badgeLabel = { stock:'Stock', etf:'ETF', crypto:'Crypto' };
+
+    // ── BUILD SKELETON ──
+    var container = document.getElementById('news-container');
+    var filterBar = document.getElementById('filter-bar');
+
+    ASSETS.forEach(function(a) {
+      // Filter pill
+      var pill = document.createElement('button');
+      pill.className = 'filter-pill';
+      pill.dataset.ticker = a.ticker;
+      pill.textContent = a.ticker;
+      pill.onclick = function() { setFilter(a.ticker); };
+      filterBar.appendChild(pill);
+
+      // Section
+      var sec = document.createElement('div');
+      sec.className = 'ticker-section';
+      sec.id = 'section-' + a.ticker;
+      sec.dataset.ticker = a.ticker;
+      sec.innerHTML =
+        '<div class="ticker-header">'
+          + logoHtml(a)
+          + '<span class="ticker-name">' + a.ticker + '</span>'
+          + '<span class="ticker-full">&nbsp;· ' + escHtml(a.name) + '</span>'
+          + '<span class="ticker-badge ' + (badgeClass[a.type]||'badge-stock') + '">' + (badgeLabel[a.type]||a.type) + '</span>'
+        + '</div>'
+        + '<div class="news-list" id="list-' + a.ticker + '">'
+          + '<div class="loading-row"><div class="spinner"></div>Loading from multiple sources&hellip;</div>'
+        + '</div>';
+      container.appendChild(sec);
+    });
+
+    // ── LOAD NEWS ──
+    function loadTicker(a, delay) {
+      setTimeout(function() {
+        var listEl = document.getElementById('list-' + a.ticker);
+        var srcs   = sources(a);
+        var promises = srcs.map(function(s) {
+          return fetchRss(s.url).catch(function() { return []; });
+        });
+        Promise.all(promises).then(function(results) {
+          var articles = mergeArticles(results);
+          renderArticles(listEl, articles);
+        }).catch(function() {
+          listEl.innerHTML = '<div class="error-row">&#9888; Could not load news. Check your connection.</div>';
+        });
+      }, delay);
+    }
+
+    function loadAll() {
+      ASSETS.forEach(function(a, i) { loadTicker(a, i * 400); });
+      document.getElementById('page-footer').textContent =
+        'Sources: Google News · Yahoo Finance · CoinDesk  ·  Refreshed '
+        + new Date().toLocaleString('en-US', { month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+    }
+
+    window.reloadAll = function() {
+      var btn = document.getElementById('refresh-btn');
+      btn.classList.add('spinning');
+      // Reset all lists to loading state
+      ASSETS.forEach(function(a) {
+        var listEl = document.getElementById('list-' + a.ticker);
+        listEl.innerHTML = '<div class="loading-row"><div class="spinner"></div>Loading&hellip;</div>';
+      });
+      loadAll();
+      setTimeout(function() { btn.classList.remove('spinning'); }, ASSETS.length * 400 + 1000);
+    };
+
+    window.setFilter = function(ticker) {
+      document.querySelectorAll('.filter-pill').forEach(function(p) {
+        p.classList.toggle('active', p.dataset.ticker === ticker);
+      });
+      document.querySelectorAll('.ticker-section').forEach(function(s) {
+        s.style.display = (ticker === 'ALL' || s.dataset.ticker === ticker) ? '' : 'none';
+      });
+    };
+
+    loadAll();
+
+  })();
+  </script>
+</body>
+</html>
