@@ -5,282 +5,309 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260322a';
+    var VER = 'v=20260322c';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       min-height: 100vh;
-      background: #c8d898;
+      background: #0c1808;
       background-image:
-        radial-gradient(ellipse at 20% 15%, #dae8a8 0%, transparent 55%),
-        radial-gradient(ellipse at 80% 85%, #b4c880 0%, transparent 55%),
-        radial-gradient(ellipse at 55% 50%, #c0d090 0%, transparent 70%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 28px 16px 36px;
-      font-family: 'Inter', sans-serif;
+        radial-gradient(ellipse at 8% 0%,   rgba(34,197,94,0.14) 0%, transparent 48%),
+        radial-gradient(ellipse at 92% 100%, rgba(74,222,128,0.08) 0%, transparent 48%);
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle dot-grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 60px 32px 72px;
+    }
+
+    /* ── HEADER ── */
+    .header { margin-bottom: 56px; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 12px;
     }
 
     .title {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(2.2rem, 7vw, 3.8rem);
-      color: #263510;
-      text-shadow: 1px 2px 4px rgba(0,0,0,0.13);
-      margin-bottom: 5px;
-      letter-spacing: 0.02em;
-      text-align: center;
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.04;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
     }
 
-    .subtitle {
-      font-size: 0.85rem;
-      color: #4a5c22;
-      letter-spacing: 0.28em;
+    .title em {
+      font-style: normal;
+      color: #4ade80;
+    }
+
+    .date-line {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: #4a6838;
+      font-weight: 400;
+    }
+
+    /* ── BENTO GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    /* ── CARD BASE ── */
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 30px 28px 26px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, background 0.22s, border-color 0.22s, box-shadow 0.22s;
+      text-decoration: none;
+      color: inherit;
+      min-height: 210px;
+    }
+
+    /* Featured card spans 2 cols */
+    .card.featured { grid-column: span 2; min-height: 230px; }
+
+    /* Active / clickable */
+    .card.active {
+      background: rgba(34,197,94,0.065);
+      border-color: rgba(34,197,94,0.22);
+      cursor: pointer;
+    }
+
+    .card.active::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(74,222,128,0.13) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card.active:hover {
+      transform: translateY(-6px);
+      background: rgba(34,197,94,0.10);
+      border-color: rgba(74,222,128,0.45);
+      box-shadow: 0 24px 64px rgba(34,197,94,0.16), 0 0 0 1px rgba(74,222,128,0.18);
+    }
+
+    /* Dimmed / coming-soon */
+    .card.dim { opacity: 0.5; }
+
+    /* ── CARD INTERNALS ── */
+    .card-icon {
+      font-size: 2.4rem;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .card-eyebrow {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      margin-bottom: 30px;
+      color: #4ade80;
+      margin-bottom: 5px;
+    }
+    .card.dim .card-eyebrow { color: #3a5028; }
+
+    .card-title {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+    .card.dim .card-title { color: #567048; }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: #5a7848;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-cta {
+      margin-top: 22px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
       font-weight: 600;
+      color: #4ade80;
+      letter-spacing: 0.03em;
     }
 
-    .wheel-wrap {
-      width: min(600px, 90vw);
-      height: min(600px, 90vw);
+    .card-cta svg { transition: transform 0.2s; }
+    .card.active:hover .card-cta svg { transform: translateX(5px); }
+
+    .soon-pill {
+      margin-top: 18px;
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 999px;
+      font-size: 0.63rem;
+      font-weight: 600;
+      color: #3a4e28;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
     }
 
-    svg { width: 100%; height: 100%; overflow: visible; }
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: #2e3e1e;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 20px;
+    }
 
-    .spoke-group { transition: opacity 0.15s; }
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .page { padding: 40px 18px 56px; }
+      .header { margin-bottom: 36px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .card.featured { grid-column: span 2; }
+      .card { min-height: 180px; padding: 22px 20px 20px; }
+      .card-title { font-size: 1.25rem; }
+      .card-icon { font-size: 2rem; margin-bottom: 14px; }
+    }
+
+    @media (max-width: 460px) {
+      .title { font-size: 2.2rem; }
+      .grid { grid-template-columns: 1fr; gap: 10px; }
+      .card.featured { grid-column: span 1; }
+    }
   </style>
 </head>
 <body>
+<div class="page">
 
-  <div class="title">Honest Tom's Dashboard</div>
-  <div class="subtitle">Command Center</div>
+  <header class="header">
+    <div class="eyebrow">Personal Command Center</div>
+    <h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1>
+    <div class="date-line" id="date-line"></div>
+  </header>
 
-  <div class="wheel-wrap">
-    <svg id="wheel-svg" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <!-- Rim wood grain -->
-        <linearGradient id="gRim" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%"   stop-color="#6b4810"/>
-          <stop offset="18%"  stop-color="#c89830"/>
-          <stop offset="36%"  stop-color="#8b5e18"/>
-          <stop offset="54%"  stop-color="#d8b050"/>
-          <stop offset="72%"  stop-color="#9a6820"/>
-          <stop offset="90%"  stop-color="#c08828"/>
-          <stop offset="100%" stop-color="#6b4810"/>
-        </linearGradient>
+  <div class="grid">
 
-        <!-- Hub wood -->
-        <radialGradient id="gHub" cx="37%" cy="30%" r="68%">
-          <stop offset="0%"   stop-color="#e8c048"/>
-          <stop offset="42%"  stop-color="#9a6820"/>
-          <stop offset="100%" stop-color="#3a1e06"/>
-        </radialGradient>
+    <!-- Mr. Tight — featured -->
+    <a class="card active featured" href="./">
+      <div class="card-icon">📈</div>
+      <div class="card-eyebrow">Portfolio</div>
+      <div class="card-title">Mr. Tight INC</div>
+      <div class="card-desc">Live holdings tracker — market prices, P&amp;L, cost basis, and total return across stocks, ETFs, and crypto.</div>
+      <div class="card-cta">
+        Open Portfolio
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
 
-        <!-- Active node -->
-        <radialGradient id="gNode" cx="35%" cy="28%" r="70%">
-          <stop offset="0%"   stop-color="#f4c850"/>
-          <stop offset="48%"  stop-color="#9a6e22"/>
-          <stop offset="100%" stop-color="#4a2c08"/>
-        </radialGradient>
+    <!-- News -->
+    <a class="card active" href="./news.html">
+      <div class="card-icon">📰</div>
+      <div class="card-eyebrow">Headlines</div>
+      <div class="card-title">News Feed</div>
+      <div class="card-desc">Live headlines from Google News, Yahoo Finance &amp; CoinDesk for your holdings.</div>
+      <div class="card-cta">
+        Read News
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
 
-        <!-- Active node hover -->
-        <radialGradient id="gNodeHov" cx="35%" cy="28%" r="70%">
-          <stop offset="0%"   stop-color="#fff8b0"/>
-          <stop offset="48%"  stop-color="#c4a030"/>
-          <stop offset="100%" stop-color="#7a5010"/>
-        </radialGradient>
+    <!-- Research -->
+    <div class="card dim">
+      <div class="card-icon">🔬</div>
+      <div class="card-eyebrow">Analysis</div>
+      <div class="card-title">Research</div>
+      <div class="card-desc">Earnings reports, analyst ratings, and deep dives for your watchlist.</div>
+      <div class="soon-pill">Coming Soon</div>
+    </div>
 
-        <!-- Dimmed node (coming soon) -->
-        <radialGradient id="gNodeDim" cx="35%" cy="28%" r="70%">
-          <stop offset="0%"   stop-color="#b8aa88"/>
-          <stop offset="48%"  stop-color="#706050"/>
-          <stop offset="100%" stop-color="#302818"/>
-        </radialGradient>
+    <!-- Weather -->
+    <div class="card dim">
+      <div class="card-icon">🌤️</div>
+      <div class="card-eyebrow">Forecast</div>
+      <div class="card-title">Weather</div>
+      <div class="card-desc">Local conditions and extended outlook.</div>
+      <div class="soon-pill">Coming Soon</div>
+    </div>
 
-        <filter id="fGlow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="6" result="b"/>
-          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
+    <!-- Markets -->
+    <div class="card dim">
+      <div class="card-icon">💹</div>
+      <div class="card-eyebrow">Markets</div>
+      <div class="card-title">Watchlist</div>
+      <div class="card-desc">Indices, sector performance, and custom tickers.</div>
+      <div class="soon-pill">Coming Soon</div>
+    </div>
 
-      <!-- ── RIM ── -->
-      <!-- Outer shadow -->
-      <circle cx="403" cy="405" r="272" fill="none" stroke="rgba(0,0,0,0.22)" stroke-width="44"/>
-      <!-- Main rim -->
-      <circle cx="400" cy="400" r="272" fill="none" stroke="url(#gRim)" stroke-width="36"/>
-      <!-- Inner edge line -->
-      <circle cx="400" cy="400" r="254" fill="none" stroke="#3a1e06" stroke-width="1.5" opacity="0.55"/>
-      <!-- Outer edge line -->
-      <circle cx="400" cy="400" r="290" fill="none" stroke="#3a1e06" stroke-width="1.5" opacity="0.35"/>
-      <!-- Highlight dashes -->
-      <circle cx="400" cy="400" r="272" fill="none" stroke="#e8c048" stroke-width="2" opacity="0.22" stroke-dasharray="7 16"/>
+    <!-- Contacts -->
+    <div class="card dim">
+      <div class="card-icon">👤</div>
+      <div class="card-eyebrow">People</div>
+      <div class="card-title">Contacts</div>
+      <div class="card-desc">Quick access to your most important connections.</div>
+      <div class="soon-pill">Coming Soon</div>
+    </div>
 
-      <!-- ── SPOKES + NODES (JS) ── -->
-      <g id="spokes-g"></g>
-
-      <!-- ── HUB ── -->
-      <!-- Shadow -->
-      <circle cx="403" cy="404" r="60" fill="rgba(0,0,0,0.30)"/>
-      <!-- Outer ring -->
-      <circle cx="400" cy="400" r="58" fill="#261406"/>
-      <!-- Wood body -->
-      <circle cx="400" cy="400" r="53" fill="url(#gHub)"/>
-      <!-- Decorative rings -->
-      <circle cx="400" cy="400" r="42" fill="none" stroke="#c89830" stroke-width="1.2" opacity="0.45"/>
-      <circle cx="400" cy="400" r="30" fill="none" stroke="#c89830" stroke-width="0.8" opacity="0.3"/>
-      <!-- Bolt -->
-      <circle cx="400" cy="400" r="16" fill="#160c02"/>
-      <circle cx="400" cy="400" r="11" fill="#8b5e18"/>
-      <circle cx="400" cy="400" r="6"  fill="#c89830"/>
-      <circle cx="399" cy="399" r="2.5" fill="rgba(255,240,140,0.72)"/>
-      <!-- Hub text -->
-      <text x="400" y="392" text-anchor="middle" fill="#f4e0a0" font-family="Georgia,serif"
-            font-size="9" font-weight="bold" letter-spacing="1" opacity="0.88">HONEST</text>
-      <text x="400" y="404" text-anchor="middle" fill="#f4e0a0" font-family="Georgia,serif"
-            font-size="9" font-weight="bold" letter-spacing="1" opacity="0.88">TOM'S</text>
-    </svg>
   </div>
 
-  <script>
-  (function () {
+  <footer class="footer">
+    <span>Honest Tom's Dashboard</span>
+    <span id="footer-time"></span>
+  </footer>
 
-    var SPOKES = [
-      { label: 'Mr. Tight', sub: 'Portfolio',   icon: '📈', url: './',           active: true,  angle: -90  },
-      { label: 'News',      sub: 'Headlines',   icon: '📰', url: './news.html',  active: true,  angle: -30  },
-      { label: 'Contacts',  sub: 'Coming Soon', icon: '👤', url: null,           active: false, angle:  30  },
-      { label: 'Research',  sub: 'Coming Soon', icon: '🔬', url: null,           active: false, angle:  90  },
-      { label: 'Weather',   sub: 'Coming Soon', icon: '🌤️', url: null,           active: false, angle:  150 },
-      { label: 'Markets',   sub: 'Coming Soon', icon: '💹', url: null,           active: false, angle:  210 },
-    ];
-
-    var CX  = 400, CY = 400;
-    var HUB = 57;       // hub outer radius
-    var RIM = 272;      // rim center radius
-    var NC  = RIM + 14; // node center distance from wheel center
-    var NR  = 48;       // node radius
-
-    var g = document.getElementById('spokes-g');
-
-    function el(tag, attrs) {
-      var e = document.createElementNS('http://www.w3.org/2000/svg', tag);
-      Object.keys(attrs).forEach(function(k) { e.setAttribute(k, attrs[k]); });
-      return e;
-    }
-
-    SPOKES.forEach(function (s) {
-      var rad = s.angle * Math.PI / 180;
-      var cos = Math.cos(rad), sin = Math.sin(rad);
-
-      // Spoke endpoints
-      var x1 = CX + HUB        * cos,  y1 = CY + HUB        * sin;
-      var x2 = CX + (RIM - 18) * cos,  y2 = CY + (RIM - 18) * sin;
-      // Node center
-      var nx = CX + NC * cos,  ny = CY + NC * sin;
-      // Perpendicular for highlight offset
-      var px = -sin, py = cos;
-
-      var grp = el('g', {});
-      grp.style.cursor = s.url ? 'pointer' : 'default';
-
-      // ── SPOKE ──
-      grp.appendChild(el('line', {
-        x1: x1+2, y1: y1+2, x2: x2+2, y2: y2+2,
-        stroke: 'rgba(0,0,0,0.25)', 'stroke-width': 10, 'stroke-linecap': 'round'
-      }));
-      var spoke = el('line', {
-        x1: x1, y1: y1, x2: x2, y2: y2,
-        stroke: s.active ? '#8b5a14' : '#5a4a32',
-        'stroke-width': 13, 'stroke-linecap': 'round'
-      });
-      grp.appendChild(spoke);
-      // Highlight stripe along spoke
-      grp.appendChild(el('line', {
-        x1: x1 + px*3.5, y1: y1 + py*3.5,
-        x2: x2 + px*3.5, y2: y2 + py*3.5,
-        stroke: '#d8a838', 'stroke-width': 2.5,
-        'stroke-linecap': 'round', opacity: s.active ? '0.48' : '0.15'
-      }));
-
-      // ── NODE ──
-      grp.appendChild(el('circle', { cx: nx+2, cy: ny+3, r: NR+1, fill: 'rgba(0,0,0,0.28)' }));
-      grp.appendChild(el('circle', { cx: nx, cy: ny, r: NR+3.5, fill: '#180e02' }));
-      var nodeEl = el('circle', {
-        cx: nx, cy: ny, r: NR,
-        fill: s.active ? 'url(#gNode)' : 'url(#gNodeDim)',
-        stroke: s.active ? '#6a3e0c' : '#42362a', 'stroke-width': '2'
-      });
-      grp.appendChild(nodeEl);
-      // Inner ring detail
-      grp.appendChild(el('circle', {
-        cx: nx, cy: ny, r: NR - 8,
-        fill: 'none', stroke: '#c89030', 'stroke-width': '0.9',
-        opacity: s.active ? '0.4' : '0.15'
-      }));
-
-      // Icon
-      var iconEl = el('text', {
-        x: nx, y: ny - 8,
-        'text-anchor': 'middle', 'font-size': '28'
-      });
-      iconEl.textContent = s.icon;
-      grp.appendChild(iconEl);
-
-      // Label
-      var labelEl = el('text', {
-        x: nx, y: ny + 18,
-        'text-anchor': 'middle',
-        fill: s.active ? '#180e02' : '#524535',
-        'font-family': 'Georgia, serif',
-        'font-size': '14.5', 'font-weight': 'bold'
-      });
-      labelEl.textContent = s.label;
-      grp.appendChild(labelEl);
-
-      // Sub-label
-      var subEl = el('text', {
-        x: nx, y: ny + 32,
-        'text-anchor': 'middle',
-        fill: s.active ? '#5a3810' : '#6e5e48',
-        'font-family': 'Inter, sans-serif', 'font-size': '11'
-      });
-      subEl.textContent = s.sub;
-      grp.appendChild(subEl);
-
-      // ── INTERACTION ──
-      if (s.url) {
-        grp.addEventListener('mouseenter', function () {
-          nodeEl.setAttribute('fill', 'url(#gNodeHov)');
-          nodeEl.setAttribute('filter', 'url(#fGlow)');
-          spoke.setAttribute('stroke', '#c89830');
-          spoke.setAttribute('stroke-width', '15');
-        });
-        grp.addEventListener('mouseleave', function () {
-          nodeEl.setAttribute('fill', 'url(#gNode)');
-          nodeEl.removeAttribute('filter');
-          spoke.setAttribute('stroke', '#8b5a14');
-          spoke.setAttribute('stroke-width', '13');
-        });
-        grp.addEventListener('click', function () {
-          window.location.href = s.url;
-        });
-        grp.addEventListener('touchend', function (e) {
-          e.preventDefault();
-          window.location.href = s.url;
-        });
-      }
-
-      g.appendChild(grp);
-    });
-
-  })();
-  </script>
+</div>
+<script>
+  var now = new Date();
+  document.getElementById('date-line').textContent =
+    now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('footer-time').textContent =
+    'Loaded ' + now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+</script>
 </body>
 </html>
