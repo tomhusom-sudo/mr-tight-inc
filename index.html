@@ -6,7 +6,7 @@
   <title>Mr. Tight INC</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260323c';
+    var VER = 'v=20260323d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -427,46 +427,59 @@
 
     /* ── MOBILE ── */
     @media (max-width: 640px) {
-      body { padding: 20px 14px 60px; }
+      body { padding: 16px 12px 60px; }
 
-      /* Shrink header — logo SVG hidden, title compact */
-      .logo-wrapper svg     { display: none; }
-      .logo-wrapper         { margin-bottom: 6px; }
-      .header               { margin-bottom: 20px; }
-      h1                    { font-size: 1.6rem; letter-spacing: 0.1em; }
-      .logo-bar             { margin-top: 4px; }
-      .logo-tagline         { font-size: 0.58rem; letter-spacing: 0.3em; }
+      /* Header — hide chart SVG, compact title */
+      .logo-wrapper svg  { display: none; }
+      .logo-wrapper      { margin-bottom: 4px; }
+      .header            { margin-bottom: 14px; }
+      h1                 { font-size: 1.4rem; letter-spacing: 0.08em; }
+      .logo-bar          { margin-top: 3px; }
+      .logo-tagline      { display: none; }
 
-      /* Portfolio value — prominent, breathable */
-      .summary              { margin-bottom: 24px; }
-      .summary-top          { font-size: 0.7rem; margin-bottom: 6px; }
-      .total-value          { font-size: 1.05rem; letter-spacing: -0.3px; margin-bottom: 6px; }
-      .total-gain           { font-size: 0.8rem; line-height: 1.5; }
+      /* Portfolio total */
+      .summary           { margin-bottom: 16px; }
+      .summary-top       { font-size: 0.65rem; margin-bottom: 3px; }
+      .total-value       { font-size: 1.35rem; letter-spacing: -0.5px; margin-bottom: 4px; }
+      .total-gain        { font-size: 0.72rem; }
 
-      /* Cards: 2 columns top row, 2 columns bottom — tighter but clean */
-      .summary-cards        { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; overflow: visible; }
-      .card                 { padding: 12px 14px; border-radius: 10px; }
-      .card-label           { font-size: 0.65rem; margin-bottom: 4px; }
-      .card-value           { font-size: 1rem; }
+      /* Cards — horizontal scroll row, each card fixed width */
+      .summary-cards {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        gap: 8px;
+        margin-top: 14px;
+        padding-bottom: 6px;
+        overflow-y: visible;
+        grid-template-columns: unset;
+      }
+      .card {
+        flex: 0 0 130px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        min-width: 0;
+      }
+      .card-label  { font-size: 0.6rem; margin-bottom: 3px; white-space: nowrap; }
+      .card-value  { font-size: 0.85rem; white-space: nowrap; }
 
-      /* Hide illuminati eye on mobile — causes overlap in 2-col grid */
+      /* Hide illuminati eye on mobile */
       .summary-cards .card:last-child > svg { display: none !important; }
 
       /* Table */
-      thead th  { padding: 9px 10px; font-size: 0.6rem; }
-      td        { padding: 11px 10px; font-size: 0.8rem; }
-      .asset-logo, .asset-logo-fallback { width: 26px; height: 26px; }
-      .ticker   { font-size: 0.82rem; }
+      thead th  { padding: 8px 9px; font-size: 0.58rem; }
+      td        { padding: 10px 9px; font-size: 0.78rem; }
+      .asset-logo, .asset-logo-fallback { width: 24px; height: 24px; }
+      .ticker   { font-size: 0.8rem; }
       .asset-name, .type-badge { display: none; }
+      .section-header    { margin-bottom: 8px; }
+      .section-title     { font-size: 0.68rem; }
 
-      /* Section header */
-      .section-header       { margin-bottom: 10px; }
-      .section-title        { font-size: 0.7rem; }
-
-      /* Modal form */
-      .form-grid            { grid-template-columns: 1fr; }
-      .form-group.full      { grid-column: 1; }
-      .modal                { padding: 22px 18px 20px; }
+      /* Modal */
+      .form-grid         { grid-template-columns: 1fr; }
+      .form-group.full   { grid-column: 1; }
+      .modal             { padding: 20px 16px 18px; }
     }
   </style>
 </head>
@@ -687,7 +700,16 @@
     var lastCol = -1, sortAsc = true;
 
     // ── STORAGE ──
+    var DATA_VER = '4'; // bump this to wipe stale localStorage on all devices
     var _cache = null;
+
+    // Clear stale localStorage if data version changed
+    try {
+      if (localStorage.getItem('mti_data_ver') !== DATA_VER) {
+        localStorage.removeItem('mti_assets');
+        localStorage.setItem('mti_data_ver', DATA_VER);
+      }
+    } catch(e) {}
 
     function loadAssets() {
       if (_cache) return _cache;
