@@ -6,7 +6,7 @@
   <title>Mr. Tight INC</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260323e';
+    var VER = 'v=20260323f';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -18,7 +18,7 @@
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: #0a0e17;
+      background: #0e1209;
       color: #e2e8f0;
       min-height: 100vh;
       padding: 40px 16px 80px;
@@ -102,8 +102,8 @@
     }
 
     .card {
-      background: #111827;
-      border: 1px solid #1e293b;
+      background: #141c0b;
+      border: 1px solid #1e2e12;
       border-radius: 12px;
       padding: 16px 20px;
     }
@@ -201,7 +201,7 @@
       margin: 0 auto;
       border-radius: 14px;
       overflow-x: auto;
-      border: 1px solid #1e293b;
+      border: 1px solid #1e2e12;
       box-shadow: 0 4px 40px rgba(0,0,0,0.5);
       -webkit-overflow-scrolling: touch;
     }
@@ -209,7 +209,7 @@
     table { width: 100%; border-collapse: collapse; }
 
     thead th {
-      background: #0f172a;
+      background: #111a09;
       padding: 12px 18px;
       font-size: 0.7rem;
       font-weight: 600;
@@ -231,12 +231,12 @@
     thead th:first-child { text-align: left; }
 
     tbody tr {
-      background: #0d1321;
-      border-top: 1px solid #1a2235;
+      background: #111a0a;
+      border-top: 1px solid #1a2810;
       transition: background 0.12s;
     }
 
-    tbody tr:hover { background: #131c2e; }
+    tbody tr:hover { background: #17200e; }
 
     td {
       padding: 16px 18px;
@@ -252,7 +252,7 @@
     .asset-logo {
       width: 36px; height: 36px;
       border-radius: 50%;
-      background: #1e293b;
+      background: #1e2e12;
       object-fit: contain;
       padding: 4px;
       flex-shrink: 0;
@@ -261,7 +261,7 @@
     .asset-logo-fallback {
       width: 36px; height: 36px;
       border-radius: 50%;
-      background: #1e293b;
+      background: #1e2e12;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -318,8 +318,8 @@
     .value-col { color: #f1f5f9; font-weight: 600; }
 
     tfoot td {
-      background: #0f172a;
-      border-top: 1px solid #1e293b;
+      background: #111a09;
+      border-top: 1px solid #1e2e12;
       padding: 12px 18px;
       font-size: 0.72rem;
       color: #334155;
@@ -348,8 +348,8 @@
     .modal-overlay.open { display: flex; }
 
     .modal {
-      background: #111827;
-      border: 1px solid #1e293b;
+      background: #141c0b;
+      border: 1px solid #1e2e12;
       border-radius: 16px;
       padding: 28px 24px 24px;
       width: min(480px, 100%);
@@ -382,8 +382,8 @@
     }
 
     .form-input, .form-select {
-      background: #0d1321;
-      border: 1px solid #1e293b;
+      background: #111a0a;
+      border: 1px solid #1e2e12;
       border-radius: 8px;
       padding: 10px 12px;
       font-size: 0.9rem;
@@ -407,7 +407,7 @@
     }
 
     .btn-modal-cancel {
-      background: #1e293b; color: #94a3b8;
+      background: #1e2e12; color: #94a3b8;
       border: 1px solid #334155;
       padding: 9px 18px; border-radius: 8px;
       font-size: 0.82rem; font-weight: 600;
@@ -500,10 +500,10 @@
             <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
           </filter>
         </defs>
-        <line x1="0" y1="22"  x2="455" y2="22"  stroke="#162030" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="0" y1="52"  x2="455" y2="52"  stroke="#162030" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="0" y1="82"  x2="455" y2="82"  stroke="#162030" stroke-width="1" stroke-dasharray="4,4"/>
-        <line x1="0" y1="105" x2="455" y2="105" stroke="#253550" stroke-width="1.5"/>
+        <line x1="0" y1="22"  x2="455" y2="22"  stroke="#1a2810" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="52"  x2="455" y2="52"  stroke="#1a2810" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="82"  x2="455" y2="82"  stroke="#1a2810" stroke-width="1" stroke-dasharray="4,4"/>
+        <line x1="0" y1="105" x2="455" y2="105" stroke="#253818" stroke-width="1.5"/>
         <path d="M20,92 L105,75 L148,83 L228,58 L272,67 L350,40 L380,16 L380,105 L20,105 Z" fill="url(#chartFill)"/>
         <polyline points="20,92  105,75  148,83  228,58  272,67  350,40  380,16"
           stroke="#22c55e" stroke-width="2.8" stroke-linejoin="miter" stroke-linecap="butt"
@@ -568,7 +568,7 @@
             <line x1="13" y1="14" x2="17" y2="18"/>
             <line x1="6"  y1="27" x2="11" y2="29"/>
           </g>
-          <polygon points="40,10 74,68 6,68" stroke="#22c55e" stroke-width="2.2" stroke-linejoin="miter" fill="#0a1a10"/>
+          <polygon points="40,10 74,68 6,68" stroke="#22c55e" stroke-width="2.2" stroke-linejoin="miter" fill="#0e1a08"/>
           <polygon points="40,16 70,65 10,65" stroke="#22c55e" stroke-width="0.5" stroke-linejoin="miter" fill="none" opacity="0.25"/>
           <path d="M40,34 Q52,26 58,40 Q52,54 40,46 Q28,54 22,40 Q28,26 40,34Z" fill="#d4f5d4"/>
           <circle cx="40" cy="40" r="9" fill="#22c55e"/>
