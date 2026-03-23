@@ -25,7 +25,7 @@
 
     .title {
       font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.7rem, 6vw, 3rem);
+      font-size: clamp(2.2rem, 7vw, 3.8rem);
       color: #263510;
       text-shadow: 1px 2px 4px rgba(0,0,0,0.13);
       margin-bottom: 5px;
@@ -34,7 +34,7 @@
     }
 
     .subtitle {
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       color: #4a5c22;
       letter-spacing: 0.28em;
       text-transform: uppercase;
@@ -221,29 +221,29 @@
 
       // Icon
       var iconEl = el('text', {
-        x: nx, y: ny - 7,
-        'text-anchor': 'middle', 'font-size': '22'
+        x: nx, y: ny - 8,
+        'text-anchor': 'middle', 'font-size': '28'
       });
       iconEl.textContent = s.icon;
       grp.appendChild(iconEl);
 
       // Label
       var labelEl = el('text', {
-        x: nx, y: ny + 14,
+        x: nx, y: ny + 18,
         'text-anchor': 'middle',
         fill: s.active ? '#180e02' : '#524535',
         'font-family': 'Georgia, serif',
-        'font-size': '11.5', 'font-weight': 'bold'
+        'font-size': '14.5', 'font-weight': 'bold'
       });
       labelEl.textContent = s.label;
       grp.appendChild(labelEl);
 
       // Sub-label
       var subEl = el('text', {
-        x: nx, y: ny + 26,
+        x: nx, y: ny + 32,
         'text-anchor': 'middle',
         fill: s.active ? '#5a3810' : '#6e5e48',
-        'font-family': 'Inter, sans-serif', 'font-size': '8'
+        'font-family': 'Inter, sans-serif', 'font-size': '11'
       });
       subEl.textContent = s.sub;
       grp.appendChild(subEl);
