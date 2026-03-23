@@ -3,10 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <title>Mr. Tight INC</title>
+  <script>
+    // Force fresh load on every deploy — update VER when pushing new prices
+    var VER = 'v=20260323c';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER + (location.hash || ''));
+    }
+  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600&display=swap');
 
