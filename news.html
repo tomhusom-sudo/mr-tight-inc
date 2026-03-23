@@ -424,13 +424,27 @@
         }
         if (!detectedSource && srcEl) detectedSource = srcEl.textContent.trim();
 
-        var link = '';
+        // Collect all candidate URLs — prefer direct article links over Google redirects
+        var candidates = [];
         if (linkEl) {
-          // Google News <link> is a text node after the element, not inside it
-          link = (linkEl.nextSibling && linkEl.nextSibling.textContent || '').trim()
-              || linkEl.textContent.trim();
+          var lt = linkEl.textContent.trim();
+          if (lt.indexOf('http') === 0) candidates.push(lt);
+          // Google News: actual URL is a text node after the empty <link/> element
+          var sib = linkEl.nextSibling;
+          while (sib) {
+            var st = (sib.textContent || '').trim();
+            if (st.indexOf('http') === 0) { candidates.push(st); break; }
+            sib = sib.nextSibling;
+          }
         }
-        if (!link) link = ((item.querySelector('guid') || {}).textContent || '').trim();
+        var guidEl = item.querySelector('guid');
+        if (guidEl) {
+          var gt = guidEl.textContent.trim();
+          if (gt.indexOf('http') === 0) candidates.push(gt);
+        }
+        // Pick first non-Google-redirect URL; fall back to any URL
+        var link = candidates.find(function(u) { return u.indexOf('news.google.com') === -1; })
+                || candidates[0] || '';
         if (!link) return null;
 
         var pubDate = dateEl ? new Date(dateEl.textContent) : null;
