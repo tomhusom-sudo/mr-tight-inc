@@ -6,7 +6,7 @@
   <title>Mr. Tight INC</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260323f';
+    var VER = 'v=20260323g';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -425,6 +425,28 @@
     .btn-modal-save:hover  { background: #15803d; }
     .btn-modal-cancel:hover { background: #273548; }
 
+    /* Mobile-only news link — hidden on desktop, shown via media query */
+    .news-link-mobile {
+      display: none;
+      max-width: 960px;
+      margin: 0 auto 16px;
+      justify-content: center;
+    }
+    .news-link-mobile a {
+      background: transparent;
+      border: 1px solid #22c55e;
+      color: #4ade80;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 5px 14px;
+      border-radius: 999px;
+      white-space: nowrap;
+      font-family: 'Inter', sans-serif;
+    }
+
     /* ── MOBILE ── */
     @media (max-width: 640px) {
       body { padding: 16px 12px 60px; }
@@ -464,8 +486,12 @@
       .card-label  { font-size: 0.6rem; margin-bottom: 3px; white-space: nowrap; }
       .card-value  { font-size: 0.85rem; white-space: nowrap; }
 
-      /* Hide illuminati eye on mobile */
+      /* Hide illuminati eye and its absolute news link on mobile */
       .summary-cards .card:last-child > svg { display: none !important; }
+      .summary-cards .card:last-child > a   { display: none !important; }
+
+      /* Mobile news link shown instead */
+      .news-link-mobile { display: flex !important; }
 
       /* Table */
       thead th  { padding: 8px 9px; font-size: 0.58rem; }
@@ -585,6 +611,11 @@
         <div class="card-value" id="card-return">—</div>
       </div>
     </div>
+  </div>
+
+  <!-- MOBILE NEWS LINK -->
+  <div class="news-link-mobile">
+    <a href="news.html">&#9656; Portfolio News</a>
   </div>
 
   <!-- HOLDINGS -->
