@@ -361,11 +361,12 @@
 
     // ── SOURCES PER TICKER ──
     // Each source: { label, url, type }
-    // corsproxy.io returns raw content; fallback to allorigins.win if it fails
+    // allorigins.win/get wraps RSS in JSON so the proxy can't rewrite URLs inside it.
+    // That makes it the safest choice; raw endpoints are fallbacks.
     var PROXIES = [
-      { url: 'https://corsproxy.io/?',              raw: true  },
-      { url: 'https://api.allorigins.win/raw?url=', raw: true  },
       { url: 'https://api.allorigins.win/get?url=', raw: false },
+      { url: 'https://api.allorigins.win/raw?url=', raw: true  },
+      { url: 'https://corsproxy.io/?',              raw: true  },
     ];
 
     function sources(a) {
@@ -445,7 +446,13 @@
         // Pick first non-Google-redirect URL; fall back to any URL
         var link = candidates.find(function(u) { return u.indexOf('news.google.com') === -1; })
                 || candidates[0] || '';
-        if (!link) return null;
+
+        // Google News RSS uses /rss/articles/ redirect URLs — strip /rss/ to get the real article page
+        link = link.replace('news.google.com/rss/', 'news.google.com/');
+
+        // Final guard: reject anything that isn't an absolute http(s) URL
+        // (relative paths would resolve against GitHub Pages and 404)
+        if (!link || (link.indexOf('https://') !== 0 && link.indexOf('http://') !== 0)) return null;
 
         var pubDate = dateEl ? new Date(dateEl.textContent) : null;
 
