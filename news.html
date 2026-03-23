@@ -360,8 +360,13 @@
     }
 
     // ── SOURCES PER TICKER ──
-    // Each source: { label, url }
-    var PROXY = 'https://api.allorigins.win/get?url=';
+    // Each source: { label, url, type }
+    // corsproxy.io returns raw content; fallback to allorigins.win if it fails
+    var PROXIES = [
+      { url: 'https://corsproxy.io/?',              raw: true  },
+      { url: 'https://api.allorigins.win/raw?url=', raw: true  },
+      { url: 'https://api.allorigins.win/get?url=', raw: false },
+    ];
 
     function sources(a) {
       var list = [];
@@ -383,57 +388,74 @@
     }
 
     // ── FETCH + PARSE RSS ──
-    function fetchRss(sourceUrl) {
-      return fetch(PROXY + encodeURIComponent(sourceUrl))
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          var parser = new DOMParser();
-          var xml = parser.parseFromString(data.contents || '', 'text/xml');
-          var items = Array.from(xml.querySelectorAll('item'));
-          return items.map(function(item) {
-            var titleEl = item.querySelector('title');
-            var linkEl  = item.querySelector('link');
-            var dateEl  = item.querySelector('pubDate');
-            var descEl  = item.querySelector('description');
-            var srcEl   = item.querySelector('source');
+    // Tries each proxy in order, returns first success
+    function fetchWithProxy(url, proxyIdx) {
+      proxyIdx = proxyIdx || 0;
+      if (proxyIdx >= PROXIES.length) return Promise.reject(new Error('all proxies failed'));
+      var proxy = PROXIES[proxyIdx];
+      return fetch(proxy.url + encodeURIComponent(url))
+        .then(function(r) { return proxy.raw ? r.text() : r.json().then(function(d){ return d.contents || ''; }); })
+        .then(function(text) {
+          if (!text || text.length < 50) throw new Error('empty response');
+          return text;
+        })
+        .catch(function() { return fetchWithProxy(url, proxyIdx + 1); });
+    }
 
-            var title = titleEl ? titleEl.textContent.trim() : '';
-            // Google News appends " - Source Name" to titles — extract it
-            var detectedSource = '';
-            var titleMatch = title.match(/\s[-–]\s([^-–]+)$/);
-            if (titleMatch) {
-              detectedSource = titleMatch[1].trim();
-              title = title.replace(/\s[-–]\s[^-–]+$/, '').trim();
-            }
-            if (srcEl) detectedSource = detectedSource || srcEl.textContent.trim();
+    function parseItems(xmlText, source) {
+      var parser = new DOMParser();
+      var xml = parser.parseFromString(xmlText, 'text/xml');
+      var items = Array.from(xml.querySelectorAll('item'));
+      return items.map(function(item) {
+        var titleEl = item.querySelector('title');
+        var linkEl  = item.querySelector('link');
+        var dateEl  = item.querySelector('pubDate');
+        var descEl  = item.querySelector('description');
+        var srcEl   = item.querySelector('source');
 
-            var link = '';
-            if (linkEl) {
-              // Google News <link> is text node after element, not inside it
-              link = linkEl.nextSibling
-                ? (linkEl.nextSibling.textContent || '').trim()
-                : linkEl.textContent.trim();
-            }
-            if (!link) link = (item.querySelector('guid') || {}).textContent || '#';
+        var title = titleEl ? titleEl.textContent.trim() : '';
 
-            var pubDate = dateEl ? new Date(dateEl.textContent) : null;
+        // Google News appends " - Source Name" to titles — extract it
+        var detectedSource = '';
+        var titleMatch = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,40})$/);
+        if (titleMatch) {
+          detectedSource = titleMatch[1].trim();
+          title = title.slice(0, title.lastIndexOf(titleMatch[0])).trim();
+        }
+        if (!detectedSource && srcEl) detectedSource = srcEl.textContent.trim();
 
-            var desc = '';
-            if (descEl) {
-              var tmp = document.createElement('div');
-              tmp.innerHTML = descEl.textContent;
-              desc = (tmp.textContent || '').trim();
-            }
+        var link = '';
+        if (linkEl) {
+          // Google News <link> is a text node after the element, not inside it
+          link = (linkEl.nextSibling && linkEl.nextSibling.textContent || '').trim()
+              || linkEl.textContent.trim();
+        }
+        if (!link) link = ((item.querySelector('guid') || {}).textContent || '').trim();
+        if (!link) return null;
 
-            return {
-              title:  title,
-              link:   link,
-              date:   pubDate,
-              desc:   desc.substring(0, 220),
-              source: detectedSource || 'Yahoo Finance',
-            };
-          }).filter(function(x) { return x.title && x.link && x.link !== '#'; });
-        });
+        var pubDate = dateEl ? new Date(dateEl.textContent) : null;
+
+        var desc = '';
+        if (descEl) {
+          var tmp = document.createElement('div');
+          tmp.innerHTML = descEl.textContent;
+          desc = (tmp.textContent || '').trim();
+        }
+
+        return {
+          title:  title,
+          link:   link,
+          date:   pubDate,
+          desc:   desc.substring(0, 220),
+          source: detectedSource || source.label,
+        };
+      }).filter(function(x) { return x && x.title && x.link && x.link !== '#'; });
+    }
+
+    function fetchRss(source) {
+      return fetchWithProxy(source.url).then(function(text) {
+        return parseItems(text, source);
+      });
     }
 
     // ── MERGE + DEDUP ──
@@ -554,7 +576,7 @@
         var listEl = document.getElementById('list-' + a.ticker);
         var srcs   = sources(a);
         var promises = srcs.map(function(s) {
-          return fetchRss(s.url).catch(function() { return []; });
+          return fetchRss(s).catch(function() { return []; });
         });
         Promise.all(promises).then(function(results) {
           var articles = mergeArticles(results);
