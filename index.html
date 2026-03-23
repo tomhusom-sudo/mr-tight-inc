@@ -6,7 +6,7 @@
   <title>Mr. Tight INC</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260323d';
+    var VER = 'v=20260323e';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -671,17 +671,12 @@
     </div>
   </div>
 
-  <!-- PRICE DATA — updated by cron job; do not rename this script tag -->
-  <script id="price-data">
-    var LIVE_PRICES = {
-      AA: 56.45, MSFT: 380.58, AMZN: 204.89, BTC: 68951.00,
-      NVDA: 172.76, VOO: 597.94, VONG: 121.99, EXE: 107.55
-    };
-    var LAST_UPDATED = "March 23, 2026";
-  </script>
-
   <script>
   (function () {
+
+    // Prices loaded from prices.json on init — never cached by browser
+    var LIVE_PRICES = {};
+    var LAST_UPDATED = "Loading…";
 
     // ── DEFAULT PORTFOLIO DATA ──
     var DEFAULT_ASSETS = [
@@ -971,8 +966,23 @@
       th.addEventListener('touchend', function(e) { e.preventDefault(); sortBy(th); });
     });
 
+    // ── FETCH LIVE PRICES (bypasses all caches via unique timestamp URL) ──
+    function fetchPrices() {
+      fetch('prices.json?t=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data && data.prices) {
+            LIVE_PRICES   = data.prices;
+            LAST_UPDATED  = data.updated || LAST_UPDATED;
+            render();
+          }
+        })
+        .catch(function() {});
+    }
+
     // ── INIT ──
     render();
+    fetchPrices();
     fetchRemotePortfolio(); // sync from repo — updates all devices
 
   })();
