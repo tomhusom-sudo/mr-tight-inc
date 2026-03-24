@@ -213,6 +213,59 @@
     .brad-note strong { color: #4ade80; }
 
     .page-footer { max-width: 860px; margin: 32px auto 0; font-size: 0.67rem; color: #334155; text-align: center; }
+
+    /* ── GOLF ── */
+    .golf-shrine {
+      max-width: 860px; margin: 0 auto 32px;
+      background: rgba(34,197,94,0.04);
+      border: 1px solid rgba(34,197,94,0.18);
+      border-radius: 14px; padding: 24px;
+      position: relative; overflow: hidden;
+    }
+    .golf-shrine::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(45deg, rgba(34,197,94,0.02) 0px, rgba(34,197,94,0.02) 1px, transparent 1px, transparent 10px);
+      pointer-events: none;
+    }
+    .caddy-grid { display: flex; gap: 20px; flex-wrap: wrap; position: relative; }
+    .caddy-char {
+      flex: 1; min-width: 220px;
+      background: rgba(0,0,0,0.25); border-radius: 12px; padding: 16px 18px;
+      border: 1px solid rgba(74,222,128,0.12);
+    }
+    .caddy-char.smails { border-color: rgba(251,191,36,0.2); background: rgba(251,191,36,0.04); }
+    .caddy-name { font-size: 1rem; font-weight: 800; color: #4ade80; margin-bottom: 2px; }
+    .caddy-char.smails .caddy-name { color: #fbbf24; }
+    .caddy-actor { font-size: 0.65rem; color: #475569; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+    .caddy-quotes { display: flex; flex-direction: column; gap: 8px; }
+    .caddy-quote {
+      padding: 9px 12px; background: rgba(74,222,128,0.06);
+      border-left: 3px solid rgba(74,222,128,0.3); border-radius: 0 7px 7px 0;
+    }
+    .caddy-char.smails .caddy-quote { background: rgba(251,191,36,0.05); border-left-color: rgba(251,191,36,0.3); }
+    .caddy-quote p { font-size: 0.79rem; color: #c8d8b8; line-height: 1.5; font-style: italic; }
+    .caddy-char.smails .caddy-quote p { color: #fde68a; }
+    .caddy-quote cite { display: block; font-size: 0.62rem; color: #4b6b3a; margin-top: 3px; font-style: normal; letter-spacing: 0.05em; text-transform: uppercase; }
+    .caddy-char.smails .caddy-quote cite { color: #92400e; }
+    .golf-trivia {
+      margin-top: 20px; padding: 16px 18px; position: relative;
+      background: rgba(0,0,0,0.2); border-radius: 10px;
+      border: 1px solid rgba(74,222,128,0.1);
+    }
+    .golf-trivia-title { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #4ade80; margin-bottom: 12px; }
+    .trivia-list { display: flex; flex-direction: column; gap: 8px; }
+    .trivia-item { font-size: 0.79rem; color: #94a3b8; line-height: 1.5; padding-left: 14px; position: relative; }
+    .trivia-item::before { content: "⛳"; position: absolute; left: -4px; font-size: 0.75rem; }
+    .golf-jokes {
+      max-width: 860px; margin: 0 auto 16px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px;
+    }
+    .golf-joke {
+      background: #141c0b; border: 1px solid #1e2e12; border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .golf-joke-q { font-size: 0.82rem; font-weight: 600; color: #e2e8f0; margin-bottom: 6px; }
+    .golf-joke-a { font-size: 0.78rem; color: #4ade80; font-style: italic; }
   </style>
 </head>
 <body>
@@ -354,6 +407,93 @@
     </div>
   </div>
 
+  <!-- Golf Section -->
+  <div class="section-label">Golf — Flog Backwards Is Golf, Make It Make Sense</div>
+
+  <div class="golf-shrine">
+    <div style="font-size:1.15rem;font-weight:800;color:#4ade80;margin-bottom:4px;">Caddyshack (1980) — The Greatest Golf Movie Ever Made</div>
+    <div style="font-size:0.72rem;color:#4b6b3a;margin-bottom:18px;">Directed by Harold Ramis &bull; Written by Ramis, Brian Doyle-Murray &amp; Doug Kenney &bull; Rated PG &bull; Required viewing</div>
+    <div class="caddy-grid">
+      <div class="caddy-char">
+        <div class="caddy-name">Carl Spackler</div>
+        <div class="caddy-actor">Bill Murray &mdash; Greenskeeper, Gopher Hunter, Visionary</div>
+        <div class="caddy-quotes">
+          <div class="caddy-quote">
+            <p>"Cinderella story. Outta nowhere. A former greenskeeper, now, about to become the Masters champion. It looks like a mirac... It&#39;s in the hole! It&#39;s in the hole! It&#39;s in the hole!"</p>
+            <cite>— Carl, doing golf commentary to himself while mowing</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"So I got that goin&#39; for me, which is nice."</p>
+            <cite>— Carl, after claiming the Dalai Lama promised him total consciousness on his deathbed</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"License to kill gophers by the government of the United Nations. Man, free to kill gophers at will. To kill, you must know your enemy... and in this case my enemy is a varmint. And a varmint will never quit — ever."</p>
+            <cite>— Carl, justifying his entire life philosophy</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"In the immortal words of Jean Paul Sartre: Au revoir, gopher."</p>
+            <cite>— Carl, detonating explosives under the golf course</cite>
+          </div>
+        </div>
+      </div>
+      <div class="caddy-char smails">
+        <div class="caddy-name">Judge Elihu Smails</div>
+        <div class="caddy-actor">Ted Knight &mdash; The Man. The Myth. The Pompous Legend.</div>
+        <div class="caddy-quotes">
+          <div class="caddy-quote">
+            <p>"You&#39;ll get nothing, and like it!"</p>
+            <cite>— Judge Smails, negotiating the Bushwood scholarship</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"I&#39;ve sentenced boys younger than you to the gas chamber. Didn&#39;t want to do it. I felt I owed it to them."</p>
+            <cite>— Judge Smails, being completely reasonable</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"Well, we&#39;re waiting!"</p>
+            <cite>— Judge Smails, christening The Flying WASP</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"Don&#39;t you people have jobs?!"</p>
+            <cite>— Judge Smails, surveying the pool area with disdain</cite>
+          </div>
+          <div class="caddy-quote">
+            <p>"Spaulding, get your foot off the boat!"</p>
+            <cite>— Judge Smails, a fraction of a second too late</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="golf-trivia">
+      <div class="golf-trivia-title">Behind the Scenes — Making of Caddyshack</div>
+      <div class="trivia-list">
+        <div class="trivia-item">Bill Murray improvised almost everything. The famous "Cinderella story" scene was entirely unscripted — he just grabbed a rake and started narrating into it. Harold Ramis let the cameras roll.</div>
+        <div class="trivia-item">Ted Knight and Bill Murray reportedly did NOT get along. Knight was a classically trained actor who liked hitting his marks and sticking to the script. Murray thought the script was a suggestion at best.</div>
+        <div class="trivia-item">Murray was only supposed to have a small supporting role. He showed up on set, started improvising, and basically took over every scene he was in. Nobody stopped him.</div>
+        <div class="trivia-item">The gopher was originally a minor background gag. Test audiences loved it so much they added more gopher footage in post-production, including the famous dancing scene to "I&#39;m Alright" by Kenny Loggins.</div>
+        <div class="trivia-item">The film was shot almost entirely at the Grande Oaks Golf Club (now called Rolling Hills) in Davie, Florida — not at an actual prestigious country club.</div>
+        <div class="trivia-item">Chevy Chase and Bill Murray had exactly ONE scene together. The entire "Be the ball, Danny. Be the ball." and joint-smoking sequence was shot in one afternoon. They had no other scenes together in the whole film.</div>
+        <div class="trivia-item">Writer/producer Doug Kenney (National Lampoon co-founder) died tragically in 1980, shortly after the film&#39;s release, never knowing how beloved it would become.</div>
+        <div class="trivia-item">The production was described as total chaos. Drugs, parties, and complete disorganization. Harold Ramis later called it "the most disorganized shoot I was ever on." It grossed over M and became one of the most quoted comedies of all time.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="golf-jokes">
+    <div class="golf-joke"><div class="golf-joke-q">Why do golfers bring an extra pair of pants?</div><div class="golf-joke-a">In case they get a hole in one.</div></div>
+    <div class="golf-joke"><div class="golf-joke-q">What do you call a wizard who is great at golf?</div><div class="golf-joke-a">Harry Putter.</div></div>
+    <div class="golf-joke"><div class="golf-joke-q">Why did the golfer bring an extra sweater?</div><div class="golf-joke-a">In case he got a birdie.</div></div>
+    <div class="golf-joke"><div class="golf-joke-q">What&#39;s a golfer&#39;s worst enemy?</div><div class="golf-joke-a">The course... and honesty.</div></div>
+    <div class="golf-joke"><div class="golf-joke-q">How do golfers stay cool?</div><div class="golf-joke-a">They stand next to the fans.</div></div>
+    <div class="golf-joke"><div class="golf-joke-q">What&#39;s the difference between a bad golfer and a bad skydiver?</div><div class="golf-joke-a">A bad skydiver goes thump... WHACK. A bad golfer goes WHACK... thump.</div></div>
+  </div>
+
+  <!-- Golf News -->
+  <div class="section-label">Golf Headlines — Fairways &amp; Failures</div>
+  <div class="news-wrap"><div class="news-list" id="golf-list"><div class="loading-row"><div class="spinner"></div>Loading golf headlines&hellip;</div></div></div>
+
+
+
   <div class="page-footer" id="page-footer"></div>
 
   <script>
@@ -439,7 +579,16 @@
       document.getElementById('spok-list').innerHTML = '<div class="error-row">Could not load SPOK news.</div>';
     });
 
-    // Minnesota sports news
+    // Golf news
+    Promise.all([
+      fetchRss("https://news.google.com/rss/search?q=PGA+Tour+golf+2026&hl=en-US&gl=US&ceid=US:en", "Google News"),
+      fetchRss("https://news.google.com/rss/search?q=golf+funny+fails+course&hl=en-US&gl=US&ceid=US:en", "Google News"),
+      fetchRss("https://news.google.com/rss/search?q=Caddyshack+golf+movie&hl=en-US&gl=US&ceid=US:en", "Google News")
+    ]).then(function(r) { render("golf-list", merge(r), 10); }).catch(function() {
+      document.getElementById("golf-list").innerHTML = "<div class="error-row">Could not load golf news.</div>";
+    });
+
+        // Minnesota sports news
     Promise.all([
       fetchRss('https://news.google.com/rss/search?q=Minnesota+Vikings&hl=en-US&gl=US&ceid=US:en', 'Google News'),
       fetchRss('https://news.google.com/rss/search?q=Minnesota+Twins+OR+Timberwolves+OR+Minnesota+Wild&hl=en-US&gl=US&ceid=US:en', 'Google News'),
