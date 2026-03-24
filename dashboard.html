@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260324f';
+    var VER = 'v=20260324g';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -16,10 +16,7 @@
 
     body {
       min-height: 100vh;
-      background: #0c1808;
-      background-image:
-        radial-gradient(ellipse at 8% 0%,   rgba(34,197,94,0.14) 0%, transparent 48%),
-        radial-gradient(ellipse at 92% 100%, rgba(74,222,128,0.08) 0%, transparent 48%);
+      background: #6b7a38;
       color: #e2eed8;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       overflow-x: hidden;
@@ -30,7 +27,7 @@
       content: '';
       position: fixed;
       inset: 0;
-      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(0,0,0,0.12) 1px, transparent 1px);
       background-size: 28px 28px;
       pointer-events: none;
       z-index: 0;
@@ -293,7 +290,7 @@
     <!-- Abraham Lincoln — Healy oil portrait, 1887, public domain -->
     <div class="lincoln-wrap">
       <img
-        src="./lincoln_drawing.jpg"
+        src="./lincoln_white.jpg"
         alt="Abraham Lincoln — Healy portrait"
         loading="lazy"
       >
