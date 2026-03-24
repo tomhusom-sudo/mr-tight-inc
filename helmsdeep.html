@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Helm's Deep — Mr. Tight INC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0e1209;
+      color: #e2e8f0;
+      min-height: 100vh;
+      padding: 32px 16px 80px;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      max-width: 860px; margin: 0 auto 28px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; background: transparent;
+      border: 1px solid #22c55e; border-radius: 8px;
+      color: #4ade80; font-size: 0.78rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background 0.15s; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+    }
+    .back-btn:hover { background: #14532d; }
+    .header-title { display: flex; flex-direction: column; }
+    .header-brand {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      background: linear-gradient(160deg, #a3f7b5 0%, #22c55e 40%, #ffffff 55%, #22c55e 75%, #15803d 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .header-sub { font-size: 0.68rem; color: #475569; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+
+    /* ── HERO ── */
+    .hero {
+      max-width: 860px; margin: 0 auto 32px;
+      background: rgba(34,197,94,0.05);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 18px; padding: 28px 28px 24px;
+      display: flex; gap: 24px; align-items: flex-start;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; top: -80px; right: -80px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(74,222,128,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-img {
+      width: 120px; height: 120px; object-fit: cover; object-position: top;
+      border-radius: 14px; border: 1px solid rgba(74,222,128,0.3);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6); flex-shrink: 0;
+    }
+    .hero-text { flex: 1; }
+    .hero-eyebrow {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #4ade80; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .hero-eyebrow::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: #4ade80; box-shadow: 0 0 8px #4ade80;
+    }
+    .hero-title {
+      font-size: 2.2rem; font-weight: 800; color: #f0fae8;
+      letter-spacing: -0.03em; line-height: 1; margin-bottom: 8px;
+    }
+    .hero-title em { font-style: normal; color: #4ade80; }
+    .hero-sub { font-size: 0.82rem; color: #5a7848; line-height: 1.55; }
+    .hero-sub strong { color: #94a3b8; }
+    @media (max-width: 560px) {
+      .hero { flex-direction: column; gap: 16px; }
+      .hero-img { width: 90px; height: 90px; }
+      .hero-title { font-size: 1.8rem; }
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      max-width: 860px; margin: 0 auto 14px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: #3a5028;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: #1e2e12; }
+    .section-label.warn { color: #92400e; }
+    .section-label.warn::after { background: #3a200a; }
+    .section-label.sepia { color: #78350f; }
+    .section-label.sepia::after { background: #3d1f0a; }
+
+    /* ── BRAD'S SHAME PANEL ── */
+    .shame-panel {
+      max-width: 860px; margin: 0 auto 32px;
+      background: rgba(251,146,60,0.04);
+      border: 1px solid rgba(251,146,60,0.18);
+      border-radius: 14px; padding: 20px 22px;
+    }
+    .shame-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px;
+    }
+    .shame-stat {
+      background: rgba(251,146,60,0.06); border: 1px solid rgba(251,146,60,0.14);
+      border-radius: 10px; padding: 12px 14px;
+    }
+    .shame-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #92400e; margin-bottom: 4px; }
+    .shame-value { font-size: 1.1rem; font-weight: 700; color: #fed7aa; line-height: 1.2; }
+    .shame-note { font-size: 0.68rem; color: #78350f; margin-top: 3px; }
+    .shame-quote {
+      margin-top: 16px; padding: 12px 16px;
+      background: rgba(251,146,60,0.04); border-left: 3px solid rgba(251,146,60,0.4);
+      border-radius: 0 8px 8px 0; font-size: 0.8rem; color: #94a3b8;
+      font-style: italic; line-height: 1.55;
+    }
+    .shame-quote cite { display: block; margin-top: 5px; font-style: normal; font-size: 0.65rem; color: #78350f; letter-spacing: 0.06em; text-transform: uppercase; }
+
+    /* ── NEWS CARDS ── */
+    .news-wrap { max-width: 860px; margin: 0 auto 32px; }
+    .news-list { display: flex; flex-direction: column; gap: 8px; }
+    .news-card {
+      background: #141c0b; border: 1px solid #1e2e12; border-radius: 10px;
+      padding: 13px 15px; text-decoration: none; display: block;
+      transition: border-color 0.15s, background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .news-card:hover { border-color: #334155; background: #17200e; }
+    .news-card.top-story { border-color: #1e3b24; }
+    .news-title { font-size: 0.87rem; font-weight: 600; color: #e2e8f0; line-height: 1.45; margin-bottom: 5px; }
+    .news-card.top-story .news-title { color: #f1f5f9; font-size: 0.92rem; }
+    .news-summary { font-size: 0.75rem; color: #64748b; line-height: 1.5; margin-bottom: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .news-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.66rem; }
+    .src-badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.03em; }
+    .src-yahoo { background:#1e1e3f; color:#a78bfa; }
+    .src-default { background:#1e2e12; color:#94a3b8; }
+    .news-time { color: #334155; }
+    .news-dot { color: #1e2e12; }
+    .new-badge { background:#14532d; color:#4ade80; font-size:0.58rem; font-weight:700; padding:1px 6px; border-radius:4px; letter-spacing:0.06em; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.6} }
+    .loading-row { display:flex; align-items:center; gap:10px; padding:14px 0; color:#475569; font-size:0.8rem; }
+    .spinner { width:15px; height:15px; border:2px solid #1e2e12; border-top-color:#22c55e; border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-row { color:#f87171; font-size:0.76rem; padding:12px 0; }
+
+    /* ── PENNY STOCKS TABLE ── */
+    .penny-grid {
+      max-width: 860px; margin: 0 auto 16px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px;
+    }
+    .penny-card {
+      background: #141c0b; border: 1px solid #1e2e12; border-radius: 10px;
+      padding: 12px 14px; text-decoration: none; display: block;
+      transition: border-color 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .penny-card:hover { border-color: #4ade8044; }
+    .penny-ticker { font-size: 1.1rem; font-weight: 800; color: #f0fae8; letter-spacing: 0.02em; }
+    .penny-name { font-size: 0.68rem; color: #475569; margin-top: 2px; }
+    .penny-note { font-size: 0.7rem; color: #4ade80; margin-top: 6px; font-weight: 600; }
+
+    /* ── MARGE SHRINE ── */
+    .marge-shrine {
+      max-width: 860px; margin: 0 auto 32px;
+      background: rgba(120,53,15,0.08);
+      border: 1px solid rgba(120,53,15,0.3);
+      border-radius: 14px; padding: 24px;
+      position: relative; overflow: hidden;
+    }
+    .marge-shrine::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      background: repeating-linear-gradient(45deg, rgba(120,53,15,0.02) 0px, rgba(120,53,15,0.02) 1px, transparent 1px, transparent 8px);
+      pointer-events: none;
+    }
+    .marge-inner { display: flex; gap: 24px; align-items: flex-start; position: relative; flex-wrap: wrap; }
+    .marge-portrait {
+      width: 110px; flex-shrink: 0;
+      background: #1a0e05; border: 2px solid rgba(120,53,15,0.5);
+      border-radius: 10px; overflow: hidden;
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 16px 10px; gap: 8px;
+    }
+    .marge-initials {
+      font-size: 2.4rem; font-weight: 800; color: #92400e;
+      line-height: 1; font-family: 'Rajdhani', sans-serif; letter-spacing: 0.05em;
+    }
+    .marge-name-tag { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #78350f; text-align: center; }
+    .marge-badge {
+      background: #7c2d12; color: #fed7aa;
+      font-size: 0.52rem; font-weight: 700; letter-spacing: 0.1em;
+      padding: 2px 6px; border-radius: 4px; text-transform: uppercase; text-align: center;
+    }
+    .marge-content { flex: 1; min-width: 200px; }
+    .marge-title { font-size: 1.1rem; font-weight: 800; color: #d97706; margin-bottom: 4px; }
+    .marge-sub { font-size: 0.72rem; color: #78350f; margin-bottom: 16px; }
+    .marge-quotes { display: flex; flex-direction: column; gap: 10px; }
+    .marge-quote {
+      padding: 10px 14px; background: rgba(120,53,15,0.1);
+      border-left: 3px solid rgba(180,83,9,0.5);
+      border-radius: 0 8px 8px 0;
+    }
+    .marge-quote p { font-size: 0.8rem; color: #d6b48a; line-height: 1.5; font-style: italic; }
+    .marge-quote cite { display: block; font-size: 0.62rem; color: #92400e; font-style: normal; margin-top: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .brad-note {
+      margin-top: 14px; font-size: 0.72rem; color: #475569;
+      background: rgba(74,222,128,0.04); border: 1px solid rgba(74,222,128,0.1);
+      border-radius: 8px; padding: 8px 12px;
+    }
+    .brad-note strong { color: #4ade80; }
+
+    .page-footer { max-width: 860px; margin: 32px auto 0; font-size: 0.67rem; color: #334155; text-align: center; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a class="back-btn" href="./">&#8592; Dashboard</a>
+    <div class="header-title">
+      <div class="header-brand">Mr. Tight INC</div>
+      <div class="header-sub">Helm's Deep</div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <img class="hero-img" src="./spackler.webp" alt="Carl Spackler">
+    <div class="hero-text">
+      <div class="hero-eyebrow">Brad's Command Center</div>
+      <h1 class="hero-title">Helm's <em>Deep</em></h1>
+      <p class="hero-sub">
+        A sanctuary for fine financial minds, hot penny stocks, and
+        <strong>Brad Helmer's legendary database architecture.</strong>
+        Enter if you dare. Watch your step — the NULL pointer exceptions are load-bearing.
+      </p>
+    </div>
+  </div>
+
+  <!-- Brad's Coding Shame Dashboard -->
+  <div class="section-label warn">Brad's Code Quality Metrics — Live</div>
+  <div class="shame-panel">
+    <div class="shame-grid">
+      <div class="shame-stat">
+        <div class="shame-label">Avg Commit Message</div>
+        <div class="shame-value">"fix"</div>
+        <div class="shame-note">Occasionally: "fix2" or "fix final"</div>
+      </div>
+      <div class="shame-stat">
+        <div class="shame-label">Tables Named TEMP</div>
+        <div class="shame-value">TEMP_FINAL_V3</div>
+        <div class="shame-note">Production since Q2 2021</div>
+      </div>
+      <div class="shame-stat">
+        <div class="shame-label">NULL References Today</div>
+        <div class="shame-value">Countless</div>
+        <div class="shame-note">Not a bug, it's a feature</div>
+      </div>
+      <div class="shame-stat">
+        <div class="shame-label">Last Successful Deploy</div>
+        <div class="shame-value">&#128336; Pending</div>
+        <div class="shame-note">"It worked on my machine"</div>
+      </div>
+      <div class="shame-stat">
+        <div class="shame-label">Unit Test Coverage</div>
+        <div class="shame-value">0.0%</div>
+        <div class="shame-note">Eye test only</div>
+      </div>
+      <div class="shame-stat">
+        <div class="shame-label">Stack Overflow Tabs Open</div>
+        <div class="shame-value">47</div>
+        <div class="shame-note">Same question, 47 tabs</div>
+      </div>
+    </div>
+    <div class="shame-quote">
+      "I don't always test my code, but when I do — I do it in production."
+      <cite>— Brad Helmer, Database Architect &amp; Visionary</cite>
+    </div>
+    <div class="shame-quote">
+      "SELECT * FROM everything WHERE it_makes_sense = 1 ORDER BY vibes DESC"
+      <cite>— Actual Brad query, reconstructed from memory</cite>
+    </div>
+  </div>
+
+  <!-- SPOK News -->
+  <div class="section-label">SPOK Holdings — Market Intel</div>
+  <div class="news-wrap">
+    <div class="news-list" id="spok-list">
+      <div class="loading-row"><div class="spinner"></div>Loading SPOK headlines&hellip;</div>
+    </div>
+  </div>
+
+  <!-- Penny Stocks -->
+  <div class="section-label">Penny Stock Patrol</div>
+  <div class="penny-grid">
+    <a class="penny-card" href="https://finance.yahoo.com/quote/SNDL" target="_blank" rel="noopener">
+      <div class="penny-ticker">SNDL</div>
+      <div class="penny-name">SNDL Inc (Cannabis)</div>
+      <div class="penny-note">High volume mover</div>
+    </a>
+    <a class="penny-card" href="https://finance.yahoo.com/quote/MULN" target="_blank" rel="noopener">
+      <div class="penny-ticker">MULN</div>
+      <div class="penny-name">Mullen Automotive</div>
+      <div class="penny-note">EV play</div>
+    </a>
+    <a class="penny-card" href="https://finance.yahoo.com/quote/FFIE" target="_blank" rel="noopener">
+      <div class="penny-ticker">FFIE</div>
+      <div class="penny-name">Faraday Future EV</div>
+      <div class="penny-note">Meme stock energy</div>
+    </a>
+    <a class="penny-card" href="https://finance.yahoo.com/quote/NKLA" target="_blank" rel="noopener">
+      <div class="penny-ticker">NKLA</div>
+      <div class="penny-name">Nikola Corporation</div>
+      <div class="penny-note">Volatile truck play</div>
+    </a>
+    <a class="penny-card" href="https://finance.yahoo.com/quote/ABVC" target="_blank" rel="noopener">
+      <div class="penny-ticker">ABVC</div>
+      <div class="penny-name">ABVC BioPharma</div>
+      <div class="penny-note">Bio speculative</div>
+    </a>
+    <a class="penny-card" href="https://finance.yahoo.com/quote/CENN" target="_blank" rel="noopener">
+      <div class="penny-ticker">CENN</div>
+      <div class="penny-name">Cenntro Electric</div>
+      <div class="penny-note">EV fleet play</div>
+    </a>
+  </div>
+  <div class="news-wrap">
+    <div class="news-list" id="penny-list">
+      <div class="loading-row"><div class="spinner"></div>Loading penny stock news&hellip;</div>
+    </div>
+  </div>
+
+  <!-- Marge Schott Shrine -->
+  <div class="section-label sepia">The Marge Schott Memorial Corner — Brad's Idol</div>
+  <div class="marge-shrine">
+    <div class="marge-inner">
+      <div class="marge-portrait">
+        <div class="marge-initials">MS</div>
+        <div class="marge-name-tag">Marge Schott</div>
+        <div class="marge-badge">Cincinnati Reds Owner 1984–1999</div>
+      </div>
+      <div class="marge-content">
+        <div class="marge-title">Margaret "Marge" Schott</div>
+        <div class="marge-sub">Owner, Cincinnati Reds &bull; Two-time MLB-suspended executive &bull; Brad Helmer's personal hero</div>
+        <div class="marge-quotes">
+          <div class="marge-quote">
+            <p>"Hitler was good in the beginning, but he just went too far."</p>
+            <cite>— Marge Schott, 1996 (resulted in her second MLB suspension)</cite>
+          </div>
+          <div class="marge-quote">
+            <p>"I don't believe in babying people. If you do the job, you do the job. If you don't, I'll find someone who will."</p>
+            <cite>— Marge Schott, on her management philosophy</cite>
+          </div>
+          <div class="marge-quote">
+            <p>"My dog Schottzie is better company than most of my players."</p>
+            <cite>— Marge Schott, on work relationships</cite>
+          </div>
+          <div class="marge-quote">
+            <p>"Snow is only good for Christmas."</p>
+            <cite>— Marge Schott, 1996 (another reason she was suspended)</cite>
+          </div>
+        </div>
+        <div class="brad-note">
+          <strong>Tom's Note:</strong> Brad Helmer has reportedly studied Marge's management style as a blueprint for modern software delivery. The parallels are striking — particularly around documentation, communication, and sensitivity training.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-footer" id="page-footer"></div>
+
+  <script>
+  (function() {
+
+    var RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+
+    function srcClass(name) {
+      var key = (name||'').toLowerCase();
+      if (key.indexOf('yahoo') !== -1) return 'src-yahoo';
+      return 'src-default';
+    }
+
+    function fetchRss(url, label) {
+      return fetch(RSS2JSON + encodeURIComponent(url))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+          return data.items.map(function(item) {
+            var title = (item.title||'').trim();
+            var link  = (item.link||'').trim();
+            var detectedSource = '';
+            var m = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,45})$/);
+            if (m) { detectedSource = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
+            if (!detectedSource && item.author) detectedSource = item.author.trim();
+            if (!link || link.indexOf('http') !== 0) return null;
+            var desc = (item.description||'').replace(/<[^>]+>/g,'').trim();
+            return { title: title, link: link, date: item.pubDate ? new Date(item.pubDate) : null, desc: desc.substring(0,200), source: detectedSource || label };
+          }).filter(function(x) { return x && x.title && x.link; });
+        });
+    }
+
+    function relTime(date) {
+      if (!date || isNaN(date)) return '';
+      var d = Math.floor((Date.now() - date) / 60000);
+      if (d < 1) return 'just now';
+      if (d < 60) return d + 'm ago';
+      var h = Math.floor(d/60);
+      if (h < 24) return h + 'h ago';
+      return Math.floor(h/24) + 'd ago';
+    }
+
+    function isNew(date) { return date && (Date.now() - date) < 2*3600*1000; }
+
+    function esc(s) {
+      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function render(listId, articles, max) {
+      var listEl = document.getElementById(listId);
+      var items = articles.slice(0, max||10);
+      if (!items.length) { listEl.innerHTML = '<div class="error-row">No headlines found.</div>'; return; }
+      listEl.innerHTML = items.map(function(item, i) {
+        var sc = srcClass(item.source);
+        var t  = relTime(item.date);
+        return '<a class="news-card' + (i===0?' top-story':'') + '" href="' + esc(item.link) + '" target="_blank" rel="noopener">'
+          + '<div class="news-title">' + esc(item.title) + '</div>'
+          + (item.desc ? '<div class="news-summary">' + esc(item.desc) + '</div>' : '')
+          + '<div class="news-meta">'
+            + '<span class="src-badge ' + sc + '">' + esc(item.source) + '</span>'
+            + (isNew(item.date) ? '<span class="new-badge">NEW</span>' : '')
+            + (t ? '<span class="news-dot">·</span><span class="news-time">' + t + '</span>' : '')
+          + '</div></a>';
+      }).join('');
+    }
+
+    function merge(arrays) {
+      var seen = {}, all = [];
+      arrays.forEach(function(arr) {
+        (arr||[]).forEach(function(item) {
+          var k = item.title.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,60);
+          if (!seen[k]) { seen[k]=true; all.push(item); }
+        });
+      });
+      return all.sort(function(a,b) { return (!a.date?1:!b.date?-1:b.date-a.date); });
+    }
+
+    // SPOK news
+    Promise.all([
+      fetchRss('https://news.google.com/rss/search?q=SPOK+Holdings+paging&hl=en-US&gl=US&ceid=US:en', 'Google News'),
+      fetchRss('https://finance.yahoo.com/rss/headline?s=SPOK', 'Yahoo Finance')
+    ]).then(function(r) { render('spok-list', merge(r), 10); }).catch(function() {
+      document.getElementById('spok-list').innerHTML = '<div class="error-row">Could not load SPOK news.</div>';
+    });
+
+    // Penny stock news
+    Promise.all([
+      fetchRss('https://news.google.com/rss/search?q=penny+stocks+most+traded&hl=en-US&gl=US&ceid=US:en', 'Google News'),
+      fetchRss('https://news.google.com/rss/search?q=SNDL+OR+MULN+OR+FFIE+penny+stock&hl=en-US&gl=US&ceid=US:en', 'Google News')
+    ]).then(function(r) { render('penny-list', merge(r), 8); }).catch(function() {
+      document.getElementById('penny-list').innerHTML = '<div class="error-row">Could not load penny stock news.</div>';
+    });
+
+    document.getElementById('page-footer').textContent =
+      'Helm\'s Deep · Sources: Google News · Yahoo Finance · Refreshed '
+      + new Date().toLocaleString('en-US', { month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
+
+  })();
+  </script>
+</body>
+</html>

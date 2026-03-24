@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tommy's Choice — Mr. Tight INC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap');
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: #0e1209; color: #e2e8f0;
+      min-height: 100vh; padding: 32px 16px 80px; overflow-x: hidden;
+    }
+
+    /* ── HEADER ── */
+    .header { max-width: 860px; margin: 0 auto 28px; display: flex; align-items: center; gap: 16px; }
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; background: transparent;
+      border: 1px solid #22c55e; border-radius: 8px;
+      color: #4ade80; font-size: 0.78rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background 0.15s; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent; flex-shrink: 0;
+    }
+    .back-btn:hover { background: #14532d; }
+    .header-title { display: flex; flex-direction: column; }
+    .header-brand {
+      font-family: 'Rajdhani', sans-serif; font-size: 1.4rem; font-weight: 700;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      background: linear-gradient(160deg, #a3f7b5 0%, #22c55e 40%, #ffffff 55%, #22c55e 75%, #15803d 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .header-sub { font-size: 0.68rem; color: #475569; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 2px; }
+
+    /* ── PICK BANNER ── */
+    .pick-banner {
+      max-width: 860px; margin: 0 auto 28px;
+      background: rgba(34,197,94,0.06);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 16px; padding: 24px 24px 20px;
+      position: relative; overflow: hidden;
+    }
+    .pick-banner::before {
+      content: ''; position: absolute; top: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(74,222,128,0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .pick-label {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #4ade80; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pick-label::before {
+      content: ''; display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: #4ade80; box-shadow: 0 0 8px #4ade80;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot { 0%,100%{opacity:1;box-shadow:0 0 8px #4ade80}50%{opacity:0.6;box-shadow:0 0 3px #4ade80} }
+    .pick-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .pick-logo {
+      width: 56px; height: 56px; border-radius: 12px;
+      background: #1e2e12; object-fit: contain; padding: 6px;
+      border: 1px solid rgba(74,222,128,0.2); flex-shrink: 0;
+    }
+    .pick-logo-fallback {
+      width: 56px; height: 56px; border-radius: 12px; background: #1e2e12;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; font-weight: 700; color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.2); flex-shrink: 0;
+    }
+    .pick-info { flex: 1; min-width: 0; }
+    .pick-ticker { font-size: 1.7rem; font-weight: 800; color: #f0fae8; letter-spacing: -0.02em; line-height: 1; }
+    .pick-name { font-size: 0.88rem; color: #4ade80; margin-top: 3px; }
+    .pick-tagline { font-size: 0.8rem; color: #5a7848; margin-top: 6px; line-height: 1.45; }
+    .pick-badge { font-size: 0.6rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; align-self: flex-start; margin-top: 4px; }
+    .badge-crypto { background: #3a2a10; color: #fbbf24; }
+    .badge-stock  { background: #1e3a5f; color: #60a5fa; }
+    .badge-etf    { background: #1a3a2a; color: #4ade80; }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      max-width: 860px; margin: 0 auto 12px;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: #3a5028;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: #1e2e12; }
+
+    /* ── CHART ── */
+    .chart-section { max-width: 860px; margin: 0 auto 32px; }
+    .chart-wrap { border: 1px solid #1e2e12; border-radius: 12px; overflow: hidden; height: 440px; }
+
+    /* ── NEWS ── */
+    .news-section { max-width: 860px; margin: 0 auto; }
+    .news-list { display: flex; flex-direction: column; gap: 8px; }
+    .news-card {
+      background: #141c0b; border: 1px solid #1e2e12; border-radius: 10px;
+      padding: 13px 15px; text-decoration: none; display: block;
+      transition: border-color 0.15s, background 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .news-card:hover { border-color: #334155; background: #17200e; }
+    .news-card.top-story { border-color: #1e3b24; }
+    .news-title { font-size: 0.87rem; font-weight: 600; color: #e2e8f0; line-height: 1.45; margin-bottom: 5px; }
+    .news-card.top-story .news-title { color: #f1f5f9; font-size: 0.92rem; }
+    .news-summary { font-size: 0.75rem; color: #64748b; line-height: 1.5; margin-bottom: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .news-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.66rem; }
+    .src-badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.03em; }
+    .src-yahoo      { background:#1e1e3f; color:#a78bfa; }
+    .src-coindesk   { background:#3a2010; color:#f97316; }
+    .src-cointelegraph { background:#3a2010; color:#fb923c; }
+    .src-default    { background:#1e2e12; color:#94a3b8; }
+    .news-time { color: #334155; }
+    .news-dot  { color: #1e2e12; }
+    .new-badge { background:#14532d; color:#4ade80; font-size:0.58rem; font-weight:700; padding:1px 6px; border-radius:4px; letter-spacing:0.06em; animation:pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1}50%{opacity:0.6} }
+    .loading-row { display:flex; align-items:center; gap:10px; padding:14px 0; color:#475569; font-size:0.8rem; }
+    .spinner { width:15px; height:15px; border:2px solid #1e2e12; border-top-color:#22c55e; border-radius:50%; animation:spin 0.7s linear infinite; flex-shrink:0; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-row { color:#f87171; font-size:0.76rem; padding:12px 0; }
+
+    .page-footer { max-width:860px; margin:32px auto 0; font-size:0.67rem; color:#334155; text-align:center; }
+
+    @media (max-width: 600px) {
+      .header-brand { font-size: 1.1rem; }
+      .chart-wrap { height: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <a class="back-btn" href="./">&#8592; Dashboard</a>
+    <div class="header-title">
+      <div class="header-brand">Mr. Tight INC</div>
+      <div class="header-sub">Tommy's Choice Picks</div>
+    </div>
+  </div>
+
+  <div class="pick-banner">
+    <div class="pick-label">Current Pick</div>
+    <div class="pick-main" id="pick-main"></div>
+  </div>
+
+  <div class="chart-section">
+    <div class="section-label">Price vs S&amp;P 500</div>
+    <div class="chart-wrap" id="chart-wrap"></div>
+  </div>
+
+  <div class="news-section">
+    <div class="section-label">Latest News</div>
+    <div class="news-list" id="news-list">
+      <div class="loading-row"><div class="spinner"></div>Loading headlines&hellip;</div>
+    </div>
+  </div>
+
+  <div class="page-footer" id="page-footer"></div>
+
+  <script>
+  (function() {
+
+    // ════════════════════════════════════════════════════════════
+    //   TOMMY'S CURRENT PICK — update all fields to change pick
+    //   tvSymbol: find on TradingView (e.g. BINANCE:AGIXUSDT)
+    //   yfTicker: Yahoo Finance ticker (e.g. AGIX-USD)
+    // ════════════════════════════════════════════════════════════
+    var PICK = {
+      ticker:   'AGIX',
+      name:     'SingularityNET',
+      type:     'crypto',
+      tvSymbol: 'BINANCE:AGIXUSDT',
+      yfTicker: 'AGIX-USD',
+      logoUrl:  'https://cryptologos.cc/logos/singularitynet-agix-logo.png',
+      tagline:  'Decentralized AI marketplace — the protocol connecting AI algorithms to the world.',
+      queries:  ['AGIX SingularityNET', 'SingularityNET AI crypto blockchain']
+    };
+    // ════════════════════════════════════════════════════════════
+
+    // ── BANNER ──
+    var badgeClass = { stock:'badge-stock', etf:'badge-etf', crypto:'badge-crypto' };
+    var badgeLabel = { stock:'Stock', etf:'ETF', crypto:'Crypto Token' };
+    var logoHtml = PICK.logoUrl
+      ? '<img class="pick-logo" src="' + PICK.logoUrl + '" alt="' + PICK.ticker + '" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
+        + '<div class="pick-logo-fallback" style="display:none">' + PICK.ticker.substring(0,4) + '</div>'
+      : '<div class="pick-logo-fallback">' + PICK.ticker.substring(0,4) + '</div>';
+    document.getElementById('pick-main').innerHTML =
+      logoHtml
+      + '<div class="pick-info">'
+        + '<div class="pick-ticker">' + PICK.ticker + '</div>'
+        + '<div class="pick-name">' + PICK.name + '</div>'
+        + '<div class="pick-tagline">' + PICK.tagline + '</div>'
+      + '</div>'
+      + '<span class="pick-badge ' + (badgeClass[PICK.type]||'badge-stock') + '">'
+        + (badgeLabel[PICK.type]||PICK.type) + '</span>';
+
+    // ── TRADINGVIEW CHART ──
+    var tvConfig = JSON.stringify({
+      autosize: true,
+      symbol: PICK.tvSymbol,
+      interval: 'W',
+      timezone: 'America/Chicago',
+      theme: 'dark',
+      style: '1',
+      locale: 'en',
+      compareSymbols: [{ symbol: 'SP:SPX', position: 'SameScale' }],
+      calendar: false,
+      support_host: 'https://www.tradingview.com'
+    });
+    var tvHtml = '<div class="tradingview-widget-container" style="height:100%;width:100%">'
+      + '<div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>'
+      + '<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>'
+      + tvConfig
+      + '<\/script></div>';
+    document.getElementById('chart-wrap').appendChild(
+      document.createRange().createContextualFragment(tvHtml)
+    );
+
+    // ── NEWS ──
+    var RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
+    var SRC_MAP = {
+      'yahoo':'src-yahoo','yahoo finance':'src-yahoo',
+      'coindesk':'src-coindesk','cointelegraph':'src-cointelegraph'
+    };
+    function srcClass(name) {
+      var k = (name||'').toLowerCase();
+      for (var key in SRC_MAP) { if (k.indexOf(key) !== -1) return SRC_MAP[key]; }
+      return 'src-default';
+    }
+    function fetchRss(url, label) {
+      return fetch(RSS2JSON + encodeURIComponent(url))
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
+          return data.items.map(function(item) {
+            var title = (item.title||'').trim(), link = (item.link||'').trim(), src = '';
+            var m = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,45})$/);
+            if (m) { src = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
+            if (!src && item.author) src = item.author.trim();
+            if (!link || link.indexOf('http') !== 0) return null;
+            var desc = (item.description||'').replace(/<[^>]+>/g,'').trim();
+            return { title:title, link:link, date:item.pubDate?new Date(item.pubDate):null, desc:desc.substring(0,220), source:src||label };
+          }).filter(function(x){ return x&&x.title&&x.link; });
+        });
+    }
+    function filterPick(articles) {
+      var kw = [PICK.ticker.toLowerCase(), PICK.name.toLowerCase().split(' ')[0]];
+      return articles.filter(function(a) {
+        var t = (a.title+' '+a.desc).toLowerCase();
+        return kw.some(function(k){ return t.indexOf(k) !== -1; });
+      });
+    }
+    function merge(arrays, labels) {
+      var seen={}, all=[];
+      arrays.forEach(function(arr, i) {
+        var items = (labels && (labels[i]==='CoinDesk'||labels[i]==='CoinTelegraph')) ? filterPick(arr) : arr;
+        items.forEach(function(item) {
+          var k = item.title.toLowerCase().replace(/[^a-z0-9]/g,'').substring(0,60);
+          if (!seen[k]) { seen[k]=true; all.push(item); }
+        });
+      });
+      return all.sort(function(a,b){ return(!a.date?1:!b.date?-1:b.date-a.date); }).slice(0,20);
+    }
+    function relTime(date) {
+      if (!date||isNaN(date)) return '';
+      var d=Math.floor((Date.now()-date)/60000);
+      if(d<1) return 'just now'; if(d<60) return d+'m ago';
+      var h=Math.floor(d/60); if(h<24) return h+'h ago';
+      return Math.floor(h/24)+'d ago';
+    }
+    function esc(s){ return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    var sources = [];
+    PICK.queries.forEach(function(q) {
+      sources.push({ url:'https://news.google.com/rss/search?q='+encodeURIComponent(q)+'&hl=en-US&gl=US&ceid=US:en', label:'Google News' });
+    });
+    sources.push({ url:'https://finance.yahoo.com/rss/headline?s='+PICK.yfTicker, label:'Yahoo Finance' });
+    sources.push({ url:'https://www.coindesk.com/arc/outboundfeeds/rss/', label:'CoinDesk' });
+    sources.push({ url:'https://cointelegraph.com/rss', label:'CoinTelegraph' });
+
+    var labels = sources.map(function(s){ return s.label; });
+    Promise.all(sources.map(function(s){ return fetchRss(s.url, s.label).catch(function(){ return []; }); }))
+      .then(function(results) {
+        var articles = merge(results, labels);
+        var listEl = document.getElementById('news-list');
+        if (!articles.length) {
+          listEl.innerHTML = '<div class="error-row">No headlines found for ' + PICK.ticker + '.</div>';
+          return;
+        }
+        listEl.innerHTML = articles.map(function(item, i) {
+          var sc=srcClass(item.source), t=relTime(item.date);
+          return '<a class="news-card'+(i===0?' top-story':'')+'" href="'+esc(item.link)+'" target="_blank" rel="noopener">'
+            +'<div class="news-title">'+esc(item.title)+'</div>'
+            +(item.desc?'<div class="news-summary">'+esc(item.desc)+'</div>':'')
+            +'<div class="news-meta"><span class="src-badge '+sc+'">'+esc(item.source)+'</span>'
+            +(Date.now()-item.date<7200000?'<span class="new-badge">NEW</span>':'')
+            +(t?'<span class="news-dot">·</span><span class="news-time">'+t+'</span>':'')
+            +'</div></a>';
+        }).join('');
+        document.getElementById('page-footer').textContent =
+          'Sources: Google News · Yahoo Finance · CoinDesk · CoinTelegraph  ·  Refreshed '
+          + new Date().toLocaleString('en-US',{month:'long',day:'numeric',hour:'2-digit',minute:'2-digit'});
+      });
+
+  })();
+  </script>
+</body>
+</html>

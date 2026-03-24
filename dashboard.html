@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260324b';
+    var VER = 'v=20260324c';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -363,6 +363,40 @@
       </div>
     </a>
 
+    <!-- Tommy's Choice -->
+    <a class="card active" href="./tommyschoice.html">
+      <div class="card-icon">
+        <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="stFill" cx="50%" cy="47%" r="52%">
+              <stop offset="0%" stop-color="#4ade80" stop-opacity="0.38"/>
+              <stop offset="100%" stop-color="#4ade80" stop-opacity="0.03"/>
+            </radialGradient>
+            <filter id="stGlow">
+              <feGaussianBlur stdDeviation="2.2" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- 5-pointed star -->
+          <path d="M26 3 L30.7 15.5 L44.1 16.1 L33.6 24.5 L37.2 37.4 L26 30 L14.8 37.4 L18.4 24.5 L7.9 16.1 L21.3 15.5 Z"
+            fill="url(#stFill)" stroke="#4ade80" stroke-opacity="0.55" stroke-width="1.3"
+            stroke-linejoin="round" filter="url(#stGlow)"/>
+          <circle cx="26" cy="21" r="3.8" fill="#4ade80" opacity="0.18" filter="url(#stGlow)"/>
+          <circle cx="26" cy="21" r="2" fill="#4ade80" opacity="0.75"/>
+          <circle cx="26" cy="21" r="0.9" fill="#f0fae8"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Star Pick</div>
+      <div class="card-title">Tommy's Choice</div>
+      <div class="card-desc">Tom's spotlight pick — full chart vs S&amp;P 500, deep news coverage on one featured asset.</div>
+      <div class="card-cta">
+        See the Pick
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
     <!-- News -->
     <a class="card active" href="./news.html">
       <div class="card-icon">
@@ -472,22 +506,28 @@
       </div>
     </a>
 
-    <!-- Contacts -->
-    <a class="card active" href="./contacts.html">
-      <div class="card-icon">👤</div>
-      <div class="card-eyebrow">People</div>
-      <div class="card-title">Contacts</div>
-      <div class="card-desc">Your Google Contacts — searchable, always in reach.</div>
+    <!-- Helm's Deep -->
+    <a class="card active" href="./helmsdeep.html">
+      <div class="card-icon">
+        <img
+          src="./spackler.webp"
+          alt="Carl Spackler"
+          style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(74,222,128,0.25);box-shadow:0 4px 16px rgba(0,0,0,0.5);"
+        >
+      </div>
+      <div class="card-eyebrow">Brad's Lair</div>
+      <div class="card-title">Helm's Deep</div>
+      <div class="card-desc">SPOK intel, penny stock radar &amp; a shrine to Brad's debugging philosophy: "did you try turning the database off?"</div>
       <div class="card-cta">
-        Open Contacts
+        Enter the Deep
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </a>
 
-    <!-- Timmy's Corner — featured -->
-    <a class="card active featured" href="./timmy.html">
+    <!-- Timmy's Corner -->
+    <a class="card active" href="./timmy.html">
       <div class="card-icon">
         <img
           src="https://i.dailymail.co.uk/1s/2025/05/28/15/98825521-14757659-image-a-25_1748442787630.jpg"
