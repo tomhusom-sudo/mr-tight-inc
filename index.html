@@ -6,7 +6,7 @@
   <title>Mr. Tight INC</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260323g';
+    var VER = 'v=20260323h';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -334,6 +334,58 @@
       text-align: right;
     }
 
+    /* ── INDICES BAR ── */
+    .indices-bar {
+      max-width: 960px;
+      margin: 0 auto 28px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .index-pill {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #141c0b;
+      border: 1px solid #1e2e12;
+      border-radius: 10px;
+      padding: 9px 16px;
+      min-width: 160px;
+    }
+
+    .index-name {
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      white-space: nowrap;
+    }
+
+    .index-value {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #f1f5f9;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .index-change {
+      font-size: 0.72rem;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    @media (max-width: 640px) {
+      .indices-bar { gap: 7px; }
+      .index-pill  { padding: 7px 11px; min-width: 0; flex: 1; }
+      .index-name  { font-size: 0.58rem; }
+      .index-value { font-size: 0.78rem; }
+      .index-change{ font-size: 0.62rem; }
+    }
+
     /* ── MODAL ── */
     .modal-overlay {
       display: none;
@@ -549,6 +601,9 @@
       <div class="logo-tagline">Capital &bull; Markets &bull; Intelligence</div>
     </div>
   </div>
+
+  <!-- INDICES BAR -->
+  <div class="indices-bar" id="indices-bar"></div>
 
   <!-- PORTFOLIO SUMMARY -->
   <div class="summary">
@@ -1003,12 +1058,32 @@
         .then(function(r) { return r.json(); })
         .then(function(data) {
           if (data && data.prices) {
-            LIVE_PRICES   = data.prices;
-            LAST_UPDATED  = data.updated || LAST_UPDATED;
+            LIVE_PRICES  = data.prices;
+            LAST_UPDATED = data.updated || LAST_UPDATED;
             render();
           }
+          if (data && data.indices) renderIndices(data.indices);
         })
         .catch(function() {});
+    }
+
+    function renderIndices(indices) {
+      var bar = document.getElementById('indices-bar');
+      if (!bar) return;
+      bar.innerHTML = Object.keys(indices).map(function(name) {
+        var d   = indices[name];
+        var pos = d.change >= 0;
+        var arrow = pos ? '▲' : '▼';
+        var cls   = pos ? 'change-positive' : 'change-negative';
+        var val   = d.value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        var chg   = (pos ? '+' : '') + d.change.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        var pct   = (pos ? '+' : '') + d.pct.toFixed(2) + '%';
+        return '<div class="index-pill">'
+          + '<span class="index-name">' + name + '</span>'
+          + '<span class="index-value">' + val + '</span>'
+          + '<span class="index-change ' + cls + '">' + arrow + ' ' + chg + ' (' + pct + ')</span>'
+          + '</div>';
+      }).join('');
     }
 
     // ── INIT ──

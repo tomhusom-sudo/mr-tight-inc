@@ -9,5 +9,10 @@
     "VONG": 115.04,
     "EXE": 111.07
   },
+  "indices": {
+    "NASDAQ": { "value": 21647.61, "change": -443.08, "pct": -2.01 },
+    "DOW":    { "value": 45577.47, "change": -443.96, "pct": -0.96 },
+    "S&P 500":{ "value": 6506.48,  "change": -100.01, "pct": -1.51 }
+  },
   "updated": "March 23, 2026"
 }
