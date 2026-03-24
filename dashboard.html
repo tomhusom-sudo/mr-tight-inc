@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260324a';
+    var VER = 'v=20260324b';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -365,7 +365,55 @@
 
     <!-- News -->
     <a class="card active" href="./news.html">
-      <div class="card-icon">📰</div>
+      <div class="card-icon">
+        <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="nfFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ade80" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="nfGlow">
+              <feGaussianBlur stdDeviation="1.6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Newspaper page -->
+          <rect x="2" y="2" width="30" height="40" rx="3" fill="rgba(74,222,128,0.045)" stroke="#4ade80" stroke-opacity="0.28" stroke-width="1"/>
+          <!-- Corner fold -->
+          <path d="M24 2 L32 10 L24 10 Z" fill="#0c1808" stroke="#4ade80" stroke-opacity="0.2" stroke-width="0.8"/>
+          <!-- Headline bar -->
+          <rect x="5" y="6" width="16" height="3.5" rx="1" fill="#4ade80" opacity="0.55"/>
+          <!-- Subhead bar -->
+          <rect x="5" y="12" width="22" height="2" rx="1" fill="#4ade80" opacity="0.22"/>
+          <!-- Text lines -->
+          <line x1="5" y1="18" x2="27" y2="18" stroke="#4ade80" stroke-opacity="0.2" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="5" y1="22" x2="23" y2="22" stroke="#4ade80" stroke-opacity="0.16" stroke-width="1" stroke-linecap="round"/>
+          <line x1="5" y1="26" x2="25" y2="26" stroke="#4ade80" stroke-opacity="0.16" stroke-width="1" stroke-linecap="round"/>
+          <line x1="5" y1="30" x2="20" y2="30" stroke="#4ade80" stroke-opacity="0.13" stroke-width="1" stroke-linecap="round"/>
+          <!-- Grid lines for chart panel -->
+          <line x1="33" y1="10" x2="50" y2="10" stroke="#4ade80" stroke-opacity="0.11" stroke-width="0.6"/>
+          <line x1="33" y1="20" x2="50" y2="20" stroke="#4ade80" stroke-opacity="0.11" stroke-width="0.6"/>
+          <line x1="33" y1="30" x2="50" y2="30" stroke="#4ade80" stroke-opacity="0.11" stroke-width="0.6"/>
+          <line x1="33" y1="8"  x2="33" y2="38" stroke="#4ade80" stroke-opacity="0.18" stroke-width="0.8"/>
+          <!-- Chart fill -->
+          <path d="M33 36 L37 30 L41 32 L45 22 L50 8 L50 38 L33 38 Z" fill="url(#nfFill)"/>
+          <!-- Chart line -->
+          <polyline points="33,36 37,30 41,32 45,22 50,8"
+            stroke="#4ade80" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#nfGlow)"/>
+          <!-- Node dots -->
+          <circle cx="37" cy="30" r="1.5" fill="#4ade80" opacity="0.65"/>
+          <circle cx="41" cy="32" r="1.5" fill="#4ade80" opacity="0.65"/>
+          <circle cx="45" cy="22" r="1.5" fill="#4ade80" opacity="0.65"/>
+          <!-- Glowing tip -->
+          <circle cx="50" cy="8" r="2.8" fill="#4ade80" filter="url(#nfGlow)"/>
+          <circle cx="50" cy="8" r="1.4" fill="#f0fae8"/>
+          <!-- Axis -->
+          <line x1="33" y1="8" x2="33" y2="38" stroke="#4ade80" stroke-opacity="0.35" stroke-width="0.9"/>
+          <line x1="33" y1="38" x2="50" y2="38" stroke="#4ade80" stroke-opacity="0.35" stroke-width="0.9"/>
+        </svg>
+      </div>
       <div class="card-eyebrow">Headlines</div>
       <div class="card-title">News Feed</div>
       <div class="card-desc">Live headlines from Google News, Yahoo Finance &amp; CoinDesk for your holdings.</div>
