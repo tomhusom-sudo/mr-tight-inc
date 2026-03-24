@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323i';
+    var VER = 'v=20260323j';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -272,7 +272,51 @@
 
     <!-- Mr. Tight — featured -->
     <a class="card active featured" href="./">
-      <div class="card-icon">📈</div>
+      <div class="card-icon">
+        <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ade80" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="1.8" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glowStrong">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Grid lines -->
+          <line x1="4" y1="10" x2="48" y2="10" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4" y1="20" x2="48" y2="20" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4" y1="30" x2="48" y2="30" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4"  y1="6" x2="4"  y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="16" y1="6" x2="16" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="28" y1="6" x2="28" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="40" y1="6" x2="40" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <!-- Area fill under chart line -->
+          <path d="M4 34 L10 28 L18 30 L24 22 L32 18 L38 12 L46 6 L46 38 L4 38 Z" fill="url(#chartFill)"/>
+          <!-- Chart line -->
+          <polyline points="4,34 10,28 18,30 24,22 32,18 38,12 46,6"
+            stroke="#4ade80" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glow)"/>
+          <!-- Node dots on line -->
+          <circle cx="10" cy="28" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="18" cy="30" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="24" cy="22" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="32" cy="18" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="38" cy="12" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <!-- Bright tip dot with glow -->
+          <circle cx="46" cy="6" r="3" fill="#4ade80" filter="url(#glowStrong)"/>
+          <circle cx="46" cy="6" r="1.6" fill="#f0fae8"/>
+          <!-- Axis lines -->
+          <line x1="4" y1="6" x2="4" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+          <line x1="4" y1="38" x2="48" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+        </svg>
+      </div>
       <div class="card-eyebrow">Portfolio</div>
       <div class="card-title">Mr. Tight</div>
       <div class="card-desc">Live holdings tracker — market prices, P&amp;L, cost basis, and total return across stocks, ETFs, and crypto.</div>
