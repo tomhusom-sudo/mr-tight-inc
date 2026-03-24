@@ -61,7 +61,25 @@
 
     .header {
       margin-bottom: 48px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
     }
+    .header-text { flex: 1; }
+    .timmy-wrap {
+      flex-shrink: 0;
+      width: 150px;
+    }
+    .timmy-wrap img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(74,222,128,0.18);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(74,222,128,0.08);
+      display: block;
+    }
+    @media (max-width: 600px) { .timmy-wrap { width: 100px; } }
+    @media (max-width: 400px) { .timmy-wrap { display: none; } }
 
     .eyebrow {
       font-size: 0.72rem;
@@ -327,9 +345,14 @@
   </a>
 
   <div class="header">
-    <div class="eyebrow">For Timmy</div>
-    <h1 class="title">Timmy's <em>Corner</em></h1>
-    <p class="subtitle">Hot tips and reading material — hand-picked by Tom, just for you. 😉</p>
+    <div class="header-text">
+      <div class="eyebrow">For Timmy</div>
+      <h1 class="title">Timmy's <em>Corner</em></h1>
+      <p class="subtitle">Hot tips and reading material — hand-picked by Tom, just for you. 😉</p>
+    </div>
+    <div class="timmy-wrap">
+      <img src="./IMG_3463.JPEG" alt="Timmy" loading="lazy">
+    </div>
   </div>
 
   <div class="columns">
