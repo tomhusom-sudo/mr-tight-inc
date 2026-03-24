@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260324r';
+    var VER = 'v=20260324s';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -16,7 +16,9 @@
 
     body {
       min-height: 100vh;
-      background: linear-gradient(160deg, #2e4a1a 0%, #121a09 45%, #1e0e07 100%);
+      background:
+        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+        url('./lincoln.jpg') center 15% / cover no-repeat fixed;
       color: #e2eed8;
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
       overflow-x: hidden;
@@ -52,22 +54,12 @@
 
     .header-text { flex: 1; }
 
-    .lincoln-wrap {
-      flex-shrink: 0;
-      width: 160px;
-    }
 
-    .lincoln-wrap img {
-      width: 100%;
-      display: block;
-    }
 
     @media (max-width: 720px) {
-      .lincoln-wrap { width: 100px; }
     }
 
     @media (max-width: 460px) {
-      .lincoln-wrap { width: 80px; }
     }
 
     .eyebrow {
@@ -287,14 +279,6 @@
       <div class="date-line" id="date-line"></div>
     </div>
 
-    <!-- Abraham Lincoln — Healy oil portrait, 1887, public domain -->
-    <div class="lincoln-wrap">
-      <img
-        src="./lincoln.jpg"
-        alt="Abraham Lincoln — Healy portrait"
-        loading="lazy"
-      >
-    </div>
   </header>
 
   <div class="grid">
