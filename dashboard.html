@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323e';
+    var VER = 'v=20260323f';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -308,13 +308,18 @@
     </div>
 
     <!-- Weather -->
-    <div class="card dim">
+    <a class="card active" href="./weather.html">
       <div class="card-icon">🌤️</div>
       <div class="card-eyebrow">Forecast</div>
       <div class="card-title">Weather</div>
-      <div class="card-desc">Local conditions and extended outlook.</div>
-      <div class="soon-pill">Coming Soon</div>
-    </div>
+      <div class="card-desc">Local conditions and 7-day extended outlook. Set your city once, always up to date.</div>
+      <div class="card-cta">
+        Check Weather
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
 
     <!-- Markets -->
     <div class="card dim">
