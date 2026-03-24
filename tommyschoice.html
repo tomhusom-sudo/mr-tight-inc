@@ -214,8 +214,8 @@
     document.getElementById('pick-legend').textContent = PICK.ticker;
 
     function fetchPrices(ticker) {
-      var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + ticker
-        + '?interval=1wk&range=1y&includePrePost=false&events=none';
+      var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + ticker
+        + '?interval=1wk&range=1y&includePrePost=false&events=none&corsDomain=finance.yahoo.com';
       return fetch(url)
         .then(function(r) { return r.json(); })
         .then(function(d) {
