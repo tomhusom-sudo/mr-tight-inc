@@ -4,8 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tommy's Choice — Mr. Tight INC</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600;700;800&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -142,14 +140,10 @@
 
   <div class="chart-section">
     <div class="section-label">1-Year Return vs S&amp;P 500</div>
-    <div class="chart-legend">
-      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4ade80"></div><span id="pick-legend">ICLN</span></div>
-      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#475569"></div><span>S&amp;P 500</span></div>
+    <div class="chart-wrap" style="padding:0;overflow:hidden;">
+      <div id="tv-chart-container"></div>
     </div>
-    <div class="chart-wrap">
-      <div class="chart-loading" id="chart-loading"><div class="spinner"></div>Loading chart&hellip;</div>
-      <canvas id="pick-chart" style="display:none"></canvas>
-    </div>
+  </div>
   </div>
 
   <div class="news-section">
@@ -201,95 +195,38 @@
     // ── COMPARISON CHART ──
     document.getElementById('pick-legend').textContent = PICK.ticker;
 
-    function fetchPrices(ticker) {
-      var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + ticker
-        + '?interval=1wk&range=1y&includePrePost=false&events=none&corsDomain=finance.yahoo.com';
-      return fetch(url)
-        .then(function(r) { return r.json(); })
-        .then(function(d) {
-          var res = d.chart.result[0];
-          var ts  = res.timestamp;
-          var cl  = res.indicators.quote[0].close;
-          return ts.map(function(t, i) {
-            return { x: new Date(t * 1000), y: cl[i] };
-          }).filter(function(p) { return p.y != null; });
-        });
-    }
-
-    function normalize(series) {
-      var base = series[0].y;
-      return series.map(function(p) {
-        return { x: p.x, y: parseFloat(((p.y - base) / base * 100).toFixed(2)) };
+    // ── CHART: TradingView comparison widget ──
+    (function() {
+      var container = document.getElementById('tv-chart-container');
+      var script = document.createElement('script');
+      script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
+      script.async = true;
+      script.innerHTML = JSON.stringify({
+        autosize: true,
+        height: 318,
+        symbol: PICK.yfTicker || PICK.ticker,
+        interval: 'W',
+        timezone: 'America/Chicago',
+        theme: 'dark',
+        style: '3',
+        locale: 'en',
+        backgroundColor: '#0e1209',
+        gridColor: 'rgba(74,222,128,0.06)',
+        hide_top_toolbar: true,
+        hide_legend: false,
+        hide_side_toolbar: true,
+        allow_symbol_change: false,
+        compare_symbols: [{ symbol: 'SPY', position: 'SameScale' }],
+        range: '12M',
+        save_image: false,
+        calendar: false,
+        support_host: 'https://www.tradingview.com'
       });
-    }
+      container.appendChild(script);
+    })();
 
-    Promise.all([
-      fetchPrices(PICK.yfTicker),
-      fetchPrices('SPY')
-    ]).then(function(results) {
-      var pickData = normalize(results[0]);
-      var spyData  = normalize(results[1]);
-
-      document.getElementById('chart-loading').style.display = 'none';
-      var canvas = document.getElementById('pick-chart');
-      canvas.style.display = 'block';
-
-      new Chart(canvas, {
-        type: 'line',
-        data: {
-          datasets: [
-            {
-              label: PICK.ticker,
-              data: pickData,
-              borderColor: '#4ade80',
-              borderWidth: 2,
-              pointRadius: 0,
-              tension: 0.3,
-              fill: false
-            },
-            {
-              label: 'S&P 500',
-              data: spyData,
-              borderColor: '#475569',
-              borderWidth: 1.5,
-              pointRadius: 0,
-              tension: 0.3,
-              fill: false
-            }
-          ]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          events: [],
-          animation: false,
-          plugins: {
-            legend: { display: false },
-            tooltip: { enabled: false }
-          },
-          scales: {
-            x: {
-              type: 'time',
-              time: { unit: 'month', displayFormats: { month: 'MMM yy' } },
-              grid: { color: 'rgba(74,222,128,0.06)' },
-              ticks: { color: '#334155', font: { size: 10 }, maxRotation: 0 }
-            },
-            y: {
-              grid: { color: 'rgba(74,222,128,0.06)' },
-              ticks: {
-                color: '#334155', font: { size: 10 },
-                callback: function(v) { return (v > 0 ? '+' : '') + v + '%'; }
-              }
-            }
-          }
-        }
-      });
-    }).catch(function() {
-      document.getElementById('chart-loading').innerHTML = '<span style="color:#f87171">Could not load chart data.</span>';
-    });
 
     // ── NEWS ──
-    var RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
     var SRC_MAP = {
       'yahoo':'src-yahoo','yahoo finance':'src-yahoo',
       'coindesk':'src-coindesk','cointelegraph':'src-cointelegraph'
@@ -300,18 +237,33 @@
       return 'src-default';
     }
     function fetchRss(url, label) {
-      return fetch(RSS2JSON + encodeURIComponent(url))
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
-          return data.items.map(function(item) {
-            var title = (item.title||'').trim(), link = (item.link||'').trim(), src = '';
-            var m = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,45})$/);
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 8000);
+      return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.text(); })
+        .then(function(txt) {
+          var doc = new DOMParser().parseFromString(txt, 'text/xml');
+          return Array.from(doc.querySelectorAll('item')).map(function(el) {
+            var title = (el.querySelector('title')||{}).textContent||'';
+            var rawLink = '';
+            var linkEl = el.querySelector('link');
+            if (linkEl) { rawLink = linkEl.textContent||linkEl.getAttribute('href')||''; }
+            if (!rawLink) {
+              var ch = el.childNodes;
+              for (var i=0;i<ch.length;i++) { if (ch[i].nodeName==='link') { rawLink=ch[i].textContent||''; break; } }
+            }
+            var pubDate = (el.querySelector('pubDate')||{}).textContent||'';
+            var desc = (el.querySelector('description')||{}).textContent||'';
+            title = title.trim(); rawLink = rawLink.trim();
+            var src = label;
+            var m = title.match(/\s[-\u2013\u2014]\s([^\u2013\u2014]{2,45})$/);
             if (m) { src = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
-            if (!src && item.author) src = item.author.trim();
-            if (!link || link.indexOf('http') !== 0) return null;
-            var desc = (item.description||'').replace(/<[^>]+>/g,'').trim();
-            return { title:title, link:link, date:item.pubDate?new Date(item.pubDate):null, desc:desc.substring(0,220), source:src||label };
+            if (!rawLink || rawLink.indexOf('http') !== 0) return null;
+            return { title:title, link:rawLink, date:pubDate?new Date(pubDate):null, desc:desc.replace(/<[^>]+>/g,'').trim().substring(0,220), source:src };
+          }).filter(function(x){ return x&&x.title&&x.link; });
+        })
+        .catch(function() { clearTimeout(tid); return []; });
+    }
           }).filter(function(x){ return x&&x.title&&x.link; });
         });
     }
