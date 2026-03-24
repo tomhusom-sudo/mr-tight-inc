@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323h';
+    var VER = 'v=20260323i';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -299,13 +299,18 @@
     </a>
 
     <!-- Research -->
-    <div class="card dim">
+    <a class="card active" href="./research.html">
       <div class="card-icon">🔬</div>
       <div class="card-eyebrow">Analysis</div>
       <div class="card-title">Research</div>
-      <div class="card-desc">Earnings reports, analyst ratings, and deep dives for your watchlist.</div>
-      <div class="soon-pill">Coming Soon</div>
-    </div>
+      <div class="card-desc">Upcoming earnings dates &amp; analyst buy/hold/sell consensus for your holdings and watchlist.</div>
+      <div class="card-cta">
+        Open Research
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
 
     <!-- Weather -->
     <a class="card active" href="./weather.html">
