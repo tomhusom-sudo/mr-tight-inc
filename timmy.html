@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timmy's Corner</title>
+  <script>
+    var VER = 'v=20260323a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0c1808;
+      background-image:
+        radial-gradient(ellipse at 8% 0%,   rgba(34,197,94,0.14) 0%, transparent 48%),
+        radial-gradient(ellipse at 92% 100%, rgba(74,222,128,0.08) 0%, transparent 48%);
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 52px 32px 72px;
+    }
+
+    /* ── HEADER ── */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #4ade80;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      margin-bottom: 36px;
+      opacity: 0.8;
+      transition: opacity 0.18s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+    }
+
+    .title em {
+      font-style: normal;
+      color: #4ade80;
+    }
+
+    .subtitle {
+      margin-top: 14px;
+      font-size: 0.93rem;
+      color: #4a6838;
+      line-height: 1.5;
+    }
+
+    /* ── TWO-COLUMN LAYOUT ── */
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 660px) {
+      .columns { grid-template-columns: 1fr; }
+    }
+
+    /* ── PANEL ── */
+    .panel {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-icon { font-size: 1.6rem; line-height: 1; }
+
+    .panel-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 3px;
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── ADD FORM ── */
+    .add-form {
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-row input,
+    .add-form input,
+    .add-form textarea {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.875rem;
+      color: #e2eed8;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    .form-row input:focus,
+    .add-form input:focus,
+    .add-form textarea:focus {
+      border-color: rgba(74,222,128,0.45);
+    }
+
+    .add-form input::placeholder,
+    .add-form textarea::placeholder {
+      color: #3a5028;
+    }
+
+    .add-form textarea {
+      resize: vertical;
+      min-height: 70px;
+      line-height: 1.5;
+    }
+
+    .btn-add {
+      align-self: flex-end;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #4ade80;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.04em;
+      transition: background 0.18s, border-color 0.18s;
+      white-space: nowrap;
+    }
+
+    .btn-add:hover {
+      background: rgba(34,197,94,0.25);
+      border-color: rgba(74,222,128,0.55);
+    }
+
+    /* ── ITEM LIST ── */
+    .item-list {
+      list-style: none;
+      padding: 12px 0;
+      min-height: 60px;
+    }
+
+    .item-list li {
+      padding: 12px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .item-list li:last-child { border-bottom: none; }
+
+    .item-body { flex: 1; min-width: 0; }
+
+    .item-primary {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #d4e8c0;
+      word-break: break-word;
+    }
+
+    .item-primary a {
+      color: #4ade80;
+      text-decoration: none;
+    }
+    .item-primary a:hover { text-decoration: underline; }
+
+    .item-secondary {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #4a6838;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .item-date {
+      margin-top: 5px;
+      font-size: 0.68rem;
+      color: #2e4020;
+      letter-spacing: 0.04em;
+    }
+
+    /* Ticker badge for tips */
+    .ticker-badge {
+      flex-shrink: 0;
+      margin-top: 2px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 7px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #4ade80;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .btn-del {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #2e4020;
+      font-size: 1rem;
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1;
+    }
+    .btn-del:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+
+    .empty-state {
+      padding: 28px 24px;
+      font-size: 0.82rem;
+      color: #2e4020;
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: #2e3e1e;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 36px 16px 56px; }
+      .panel-header { padding: 18px 18px 14px; }
+      .add-form { padding: 14px 18px; }
+      .item-list li { padding: 12px 18px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-btn" href="./dashboard.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Dashboard
+  </a>
+
+  <div class="header">
+    <div class="eyebrow">For Timmy</div>
+    <h1 class="title">Timmy's <em>Corner</em></h1>
+    <p class="subtitle">Hot tips and reading material — hand-picked by Tom, just for you. 😉</p>
+  </div>
+
+  <div class="columns">
+
+    <!-- Tom's Wink Wink Tips -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon">📈</div>
+        <div>
+          <div class="panel-label">Stock &amp; Asset Ideas</div>
+          <div class="panel-title">Tom's Wink Wink Tips</div>
+        </div>
+      </div>
+
+      <div class="add-form" id="tip-form">
+        <div class="form-row">
+          <input type="text" id="tip-ticker" placeholder="Ticker (e.g. NVDA)" maxlength="12" style="max-width:130px;flex:none;">
+          <input type="text" id="tip-title" placeholder="Asset name or short label">
+        </div>
+        <textarea id="tip-note" placeholder="Why Tom thinks you should look at this…"></textarea>
+        <button class="btn-add" onclick="addTip()">+ Add Tip</button>
+      </div>
+
+      <ul class="item-list" id="tips-list"></ul>
+      <div class="empty-state" id="tips-empty" style="display:none;">No tips yet — Tom's keeping his cards close.</div>
+    </div>
+
+    <!-- Suggested Topics -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon">📚</div>
+        <div>
+          <div class="panel-label">Must-Read Articles</div>
+          <div class="panel-title">Suggested Topics</div>
+        </div>
+      </div>
+
+      <div class="add-form" id="article-form">
+        <input type="text" id="art-title" placeholder="Article title or topic">
+        <input type="url" id="art-url" placeholder="https://… (optional)">
+        <textarea id="art-note" placeholder="Why Tom wants you to read this…"></textarea>
+        <button class="btn-add" onclick="addArticle()">+ Add Article</button>
+      </div>
+
+      <ul class="item-list" id="articles-list"></ul>
+      <div class="empty-state" id="articles-empty" style="display:none;">Nothing queued up — Tom's still browsing.</div>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <span>Timmy's Corner — Honest Tom's Dashboard</span>
+    <span id="footer-time"></span>
+  </footer>
+
+</div>
+<script>
+  // ── Storage keys ──
+  var TIPS_KEY     = 'timmy_tips';
+  var ARTICLES_KEY = 'timmy_articles';
+
+  function loadTips()     { try { return JSON.parse(localStorage.getItem(TIPS_KEY))     || []; } catch(e) { return []; } }
+  function loadArticles() { try { return JSON.parse(localStorage.getItem(ARTICLES_KEY)) || []; } catch(e) { return []; } }
+  function saveTips(arr)     { localStorage.setItem(TIPS_KEY,     JSON.stringify(arr)); }
+  function saveArticles(arr) { localStorage.setItem(ARTICLES_KEY, JSON.stringify(arr)); }
+
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+    catch(e) { return ''; }
+  }
+
+  // ── Render Tips ──
+  function renderTips() {
+    var tips = loadTips();
+    var list  = document.getElementById('tips-list');
+    var empty = document.getElementById('tips-empty');
+    if (!tips.length) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = tips.map(function(t, i) {
+      return '<li>'
+        + (t.ticker ? '<span class="ticker-badge">' + esc(t.ticker) + '</span>' : '')
+        + '<div class="item-body">'
+        +   '<div class="item-primary">' + esc(t.title || t.ticker || 'Untitled') + '</div>'
+        +   (t.note ? '<div class="item-secondary">' + esc(t.note) + '</div>' : '')
+        +   '<div class="item-date">Added ' + fmtDate(t.date) + '</div>'
+        + '</div>'
+        + '<button class="btn-del" title="Remove" onclick="deleteTip(' + i + ')">✕</button>'
+        + '</li>';
+    }).join('');
+  }
+
+  // ── Render Articles ──
+  function renderArticles() {
+    var articles = loadArticles();
+    var list  = document.getElementById('articles-list');
+    var empty = document.getElementById('articles-empty');
+    if (!articles.length) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = articles.map(function(a, i) {
+      var titleHtml = a.url
+        ? '<a href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.title || a.url) + ' ↗</a>'
+        : esc(a.title || 'Untitled');
+      return '<li>'
+        + '<div class="item-body">'
+        +   '<div class="item-primary">' + titleHtml + '</div>'
+        +   (a.note ? '<div class="item-secondary">' + esc(a.note) + '</div>' : '')
+        +   '<div class="item-date">Added ' + fmtDate(a.date) + '</div>'
+        + '</div>'
+        + '<button class="btn-del" title="Remove" onclick="deleteArticle(' + i + ')">✕</button>'
+        + '</li>';
+    }).join('');
+  }
+
+  // ── Add / Delete Tips ──
+  function addTip() {
+    var ticker = document.getElementById('tip-ticker').value.trim().toUpperCase();
+    var title  = document.getElementById('tip-title').value.trim();
+    var note   = document.getElementById('tip-note').value.trim();
+    if (!ticker && !title) { document.getElementById('tip-ticker').focus(); return; }
+    var tips = loadTips();
+    tips.unshift({ ticker: ticker, title: title, note: note, date: new Date().toISOString() });
+    saveTips(tips);
+    document.getElementById('tip-ticker').value = '';
+    document.getElementById('tip-title').value  = '';
+    document.getElementById('tip-note').value   = '';
+    renderTips();
+  }
+
+  function deleteTip(i) {
+    var tips = loadTips();
+    tips.splice(i, 1);
+    saveTips(tips);
+    renderTips();
+  }
+
+  // ── Add / Delete Articles ──
+  function addArticle() {
+    var title = document.getElementById('art-title').value.trim();
+    var url   = document.getElementById('art-url').value.trim();
+    var note  = document.getElementById('art-note').value.trim();
+    if (!title && !url) { document.getElementById('art-title').focus(); return; }
+    var articles = loadArticles();
+    articles.unshift({ title: title, url: url, note: note, date: new Date().toISOString() });
+    saveArticles(articles);
+    document.getElementById('art-title').value = '';
+    document.getElementById('art-url').value   = '';
+    document.getElementById('art-note').value  = '';
+    renderArticles();
+  }
+
+  function deleteArticle(i) {
+    var articles = loadArticles();
+    articles.splice(i, 1);
+    saveArticles(articles);
+    renderArticles();
+  }
+
+  // ── Allow Enter key in single-line inputs ──
+  document.getElementById('tip-title').addEventListener('keydown', function(e) { if (e.key === 'Enter') addTip(); });
+  document.getElementById('art-url').addEventListener('keydown',   function(e) { if (e.key === 'Enter') addArticle(); });
+
+  // ── Escape HTML ──
+  function esc(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ── Init ──
+  renderTips();
+  renderArticles();
+
+  document.getElementById('footer-time').textContent =
+    'Loaded ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+</script>
+</body>
+</html>
