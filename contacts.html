@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contacts — Honest Tom's Dashboard</title>
+  <script>
+    var VER = 'v=20260323a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: #0c1808;
+      background-image:
+        radial-gradient(ellipse at 8% 0%,   rgba(34,197,94,0.14) 0%, transparent 48%),
+        radial-gradient(ellipse at 92% 100%, rgba(74,222,128,0.08) 0%, transparent 48%);
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 60px 32px 72px;
+    }
+
+    /* ── HEADER ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4a6838;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #4ade80; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.04;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .title em { font-style: normal; color: #4ade80; }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #4a6838;
+      margin-bottom: 40px;
+    }
+
+    /* ── AUTH PANEL ── */
+    #auth-panel {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 64px 32px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 24px;
+      text-align: center;
+      gap: 20px;
+    }
+
+    .auth-icon { font-size: 3rem; }
+
+    .auth-heading {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f0fae8;
+    }
+
+    .auth-sub {
+      font-size: 0.875rem;
+      color: #4a6838;
+      max-width: 380px;
+      line-height: 1.6;
+    }
+
+    .signin-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #4ade80;
+      color: #0c1808;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 26px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      font-family: inherit;
+      margin-top: 8px;
+    }
+    .signin-btn:hover { background: #86efac; transform: translateY(-2px); }
+    .signin-btn svg { flex-shrink: 0; }
+
+    /* ── SIGNED-IN HEADER ── */
+    #contacts-panel { display: none; }
+
+    .user-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid rgba(74,222,128,0.3);
+      object-fit: cover;
+    }
+
+    .user-name {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #c8ddb8;
+    }
+
+    .user-email {
+      font-size: 0.7rem;
+      color: #4a6838;
+    }
+
+    .signout-btn {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #4a6838;
+      border-radius: 8px;
+      padding: 6px 14px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.2s, border-color 0.2s;
+      letter-spacing: 0.05em;
+    }
+    .signout-btn:hover { color: #f87171; border-color: rgba(248,113,113,0.3); }
+
+    /* ── SEARCH ── */
+    .search-wrap {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      padding: 13px 16px 13px 44px;
+      color: #e2eed8;
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .search-input::placeholder { color: #3a4e28; }
+    .search-input:focus {
+      border-color: rgba(74,222,128,0.4);
+      background: rgba(74,222,128,0.04);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #3a4e28;
+      pointer-events: none;
+    }
+
+    /* ── STATS ── */
+    .contacts-meta {
+      font-size: 0.68rem;
+      color: #3a4e28;
+      margin-bottom: 16px;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── CONTACTS GRID ── */
+    .contacts-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .contact-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.18s, border-color 0.18s, background 0.18s;
+    }
+    .contact-card:hover {
+      transform: translateY(-3px);
+      background: rgba(34,197,94,0.05);
+      border-color: rgba(74,222,128,0.22);
+    }
+
+    .contact-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .contact-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid rgba(74,222,128,0.2);
+      flex-shrink: 0;
+      background: #1a2e10;
+    }
+
+    .contact-initials {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(74,222,128,0.12);
+      border: 1px solid rgba(74,222,128,0.2);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #4ade80;
+      letter-spacing: 0.04em;
+    }
+
+    .contact-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #f0fae8;
+      line-height: 1.3;
+    }
+
+    .contact-org {
+      font-size: 0.7rem;
+      color: #4a6838;
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: #8aab6a;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    a.contact-detail:hover { color: #4ade80; }
+
+    .detail-icon {
+      font-size: 0.7rem;
+      width: 14px;
+      text-align: center;
+      flex-shrink: 0;
+      opacity: 0.7;
+    }
+
+    /* ── EMPTY / LOADING ── */
+    .placeholder {
+      grid-column: span 3;
+      text-align: center;
+      padding: 48px;
+      color: #3a4e28;
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+
+    /* ── ALPHA INDEX ── */
+    .alpha-group { margin-bottom: 24px; }
+
+    .alpha-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 10px;
+      padding-left: 2px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: #2e3e1e;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .page { padding: 40px 18px 56px; }
+      .contacts-grid { grid-template-columns: 1fr 1fr; }
+      .placeholder { grid-column: span 2; }
+    }
+    @media (max-width: 460px) {
+      .title { font-size: 2.2rem; }
+      .contacts-grid { grid-template-columns: 1fr; }
+      .placeholder { grid-column: span 1; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-link" href="./dashboard.html">
+    <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+      <path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Dashboard
+  </a>
+
+  <div class="eyebrow">People</div>
+  <h1 class="title">My <em>Contacts</em></h1>
+  <p class="subtitle">Your Google Contacts, always at hand.</p>
+
+  <!-- Auth panel (shown when signed out) -->
+  <div id="auth-panel">
+    <div class="auth-icon">👤</div>
+    <div class="auth-heading">Connect Google Contacts</div>
+    <div class="auth-sub">Sign in with Google to pull in your contacts. Access is read-only and stays in your browser — nothing is sent anywhere.</div>
+    <button class="signin-btn" id="signin-btn" onclick="signIn()">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+        <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
+        <path d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+        <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.962L3.964 6.294C4.672 4.169 6.656 3.58 9 3.58z" fill="#EA4335"/>
+      </svg>
+      Sign in with Google
+    </button>
+  </div>
+
+  <!-- Contacts panel (shown when signed in) -->
+  <div id="contacts-panel">
+    <div class="user-bar">
+      <div class="user-info">
+        <img class="user-avatar" id="user-avatar" src="" alt="">
+        <div>
+          <div class="user-name" id="user-name"></div>
+          <div class="user-email" id="user-email"></div>
+        </div>
+      </div>
+      <button class="signout-btn" onclick="signOut()">Sign out</button>
+    </div>
+
+    <div class="search-wrap">
+      <svg class="search-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="6.5" cy="6.5" r="4.5" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M10 10l3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <input class="search-input" id="search-input" type="text" placeholder="Search contacts…" oninput="filterContacts()">
+    </div>
+
+    <div class="contacts-meta" id="contacts-meta"></div>
+    <div id="contacts-container"></div>
+  </div>
+
+  <footer class="footer">
+    <span>Honest Tom's Dashboard</span>
+    <a href="./dashboard.html" style="color:#2e3e1e;text-decoration:none;">← Back</a>
+  </footer>
+
+</div>
+<script>
+  // ── REPLACE THIS WITH YOUR CLIENT ID ──
+  var CLIENT_ID = 'PASTE_YOUR_CLIENT_ID_HERE';
+  var SCOPE = 'https://www.googleapis.com/auth/contacts.readonly';
+  var TOKEN_KEY = 'contacts_token';
+
+  var tokenClient;
+  var allContacts = [];
+
+  // Init Google Identity Services
+  window.addEventListener('load', function() {
+    if (typeof google === 'undefined') return;
+    tokenClient = google.accounts.oauth2.initTokenClient({
+      client_id: CLIENT_ID,
+      scope: SCOPE,
+      callback: function(resp) {
+        if (resp.error) { console.error(resp); return; }
+        localStorage.setItem(TOKEN_KEY, resp.access_token);
+        showContactsPanel();
+        loadContacts(resp.access_token);
+      }
+    });
+
+    // Auto-restore session if we have a token
+    var saved = localStorage.getItem(TOKEN_KEY);
+    if (saved) {
+      showContactsPanel();
+      loadContacts(saved);
+    }
+  });
+
+  function signIn() {
+    if (!tokenClient) { alert('Google Identity Services not loaded yet. Try again in a moment.'); return; }
+    tokenClient.requestAccessToken();
+  }
+
+  function signOut() {
+    var token = localStorage.getItem(TOKEN_KEY);
+    if (token && typeof google !== 'undefined') {
+      google.accounts.oauth2.revoke(token, function() {});
+    }
+    localStorage.removeItem(TOKEN_KEY);
+    allContacts = [];
+    document.getElementById('auth-panel').style.display = 'flex';
+    document.getElementById('contacts-panel').style.display = 'none';
+    document.getElementById('user-avatar').src = '';
+    document.getElementById('user-name').textContent = '';
+    document.getElementById('user-email').textContent = '';
+  }
+
+  function showContactsPanel() {
+    document.getElementById('auth-panel').style.display = 'none';
+    document.getElementById('contacts-panel').style.display = 'block';
+  }
+
+  function loadContacts(token) {
+    document.getElementById('contacts-container').innerHTML =
+      '<div class="contacts-grid"><div class="placeholder">Loading contacts…</div></div>';
+    document.getElementById('contacts-meta').textContent = 'Fetching…';
+
+    fetchAllContacts(token, [], null);
+  }
+
+  function fetchAllContacts(token, acc, pageToken) {
+    var url = 'https://people.googleapis.com/v1/people/me/connections' +
+      '?personFields=names,emailAddresses,phoneNumbers,photos,organizations' +
+      '&pageSize=1000&sortOrder=FIRST_NAME_ASCENDING';
+    if (pageToken) url += '&pageToken=' + encodeURIComponent(pageToken);
+
+    fetch(url, { headers: { 'Authorization': 'Bearer ' + token } })
+      .then(function(r) {
+        if (r.status === 401) {
+          localStorage.removeItem(TOKEN_KEY);
+          document.getElementById('contacts-meta').textContent = 'Session expired — please sign in again.';
+          document.getElementById('auth-panel').style.display = 'flex';
+          document.getElementById('contacts-panel').style.display = 'none';
+          return null;
+        }
+        return r.json();
+      })
+      .then(function(data) {
+        if (!data) return;
+        var connections = data.connections || [];
+        acc = acc.concat(connections);
+        if (data.nextPageToken) {
+          fetchAllContacts(token, acc, data.nextPageToken);
+        } else {
+          // Also fetch profile info
+          fetchProfile(token, acc);
+        }
+      })
+      .catch(function(e) {
+        document.getElementById('contacts-meta').textContent = 'Error loading contacts.';
+        console.error(e);
+      });
+  }
+
+  function fetchProfile(token, contacts) {
+    fetch('https://people.googleapis.com/v1/people/me?personFields=names,emailAddresses,photos', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    })
+      .then(function(r) { return r.json(); })
+      .then(function(p) {
+        var name = (p.names && p.names[0] && p.names[0].displayName) || '';
+        var email = (p.emailAddresses && p.emailAddresses[0] && p.emailAddresses[0].value) || '';
+        var photo = (p.photos && p.photos[0] && p.photos[0].url) || '';
+        document.getElementById('user-name').textContent = name;
+        document.getElementById('user-email').textContent = email;
+        if (photo) document.getElementById('user-avatar').src = photo;
+      })
+      .catch(function() {});
+
+    allContacts = parseContacts(contacts);
+    renderContacts(allContacts);
+  }
+
+  function parseContacts(raw) {
+    return raw.map(function(p) {
+      var name = (p.names && p.names[0]) ? p.names[0].displayName || '' : '';
+      if (!name) return null;
+      var phones = (p.phoneNumbers || []).map(function(ph) {
+        return { value: ph.value, type: ph.type || '' };
+      });
+      var emails = (p.emailAddresses || []).map(function(em) {
+        return { value: em.value, type: em.type || '' };
+      });
+      var photo = (p.photos && p.photos[0] && !p.photos[0].default) ? p.photos[0].url : null;
+      var org = (p.organizations && p.organizations[0]) ?
+        (p.organizations[0].name || '') : '';
+      return { name: name, phones: phones, emails: emails, photo: photo, org: org };
+    }).filter(Boolean).sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+  }
+
+  function initials(name) {
+    var parts = name.trim().split(/\s+/);
+    if (parts.length === 1) return parts[0][0].toUpperCase();
+    return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  }
+
+  function buildCard(c) {
+    var avatar = c.photo
+      ? '<img class="contact-avatar" src="' + c.photo + '" alt="" onerror="this.style.display=\'none\'">'
+      : '<div class="contact-initials">' + initials(c.name) + '</div>';
+
+    var details = '';
+    c.phones.slice(0, 2).forEach(function(ph) {
+      details += '<a class="contact-detail" href="tel:' + ph.value.replace(/\s/g,'') + '">' +
+        '<span class="detail-icon">📞</span>' + ph.value + '</a>';
+    });
+    c.emails.slice(0, 1).forEach(function(em) {
+      details += '<a class="contact-detail" href="mailto:' + em.value + '">' +
+        '<span class="detail-icon">✉️</span>' + em.value + '</a>';
+    });
+
+    return '<div class="contact-card">' +
+      '<div class="contact-top">' + avatar +
+      '<div><div class="contact-name">' + esc(c.name) + '</div>' +
+      (c.org ? '<div class="contact-org">' + esc(c.org) + '</div>' : '') +
+      '</div></div>' +
+      (details ? '<div class="contact-details">' + details + '</div>' : '') +
+      '</div>';
+  }
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function renderContacts(contacts) {
+    var meta = document.getElementById('contacts-meta');
+    meta.textContent = contacts.length + ' contact' + (contacts.length === 1 ? '' : 's');
+
+    if (!contacts.length) {
+      document.getElementById('contacts-container').innerHTML =
+        '<div class="contacts-grid"><div class="placeholder">No contacts found.</div></div>';
+      return;
+    }
+
+    // Group alphabetically
+    var groups = {};
+    contacts.forEach(function(c) {
+      var letter = c.name[0].toUpperCase();
+      if (!/[A-Z]/.test(letter)) letter = '#';
+      if (!groups[letter]) groups[letter] = [];
+      groups[letter].push(c);
+    });
+
+    var keys = Object.keys(groups).sort();
+    var html = '';
+    keys.forEach(function(letter) {
+      html += '<div class="alpha-group">' +
+        '<div class="alpha-label">' + letter + '</div>' +
+        '<div class="contacts-grid">' +
+        groups[letter].map(buildCard).join('') +
+        '</div></div>';
+    });
+
+    document.getElementById('contacts-container').innerHTML = html;
+  }
+
+  function filterContacts() {
+    var q = document.getElementById('search-input').value.toLowerCase().trim();
+    if (!q) { renderContacts(allContacts); return; }
+    var filtered = allContacts.filter(function(c) {
+      return c.name.toLowerCase().includes(q) ||
+        c.org.toLowerCase().includes(q) ||
+        c.emails.some(function(e) { return e.value.toLowerCase().includes(q); }) ||
+        c.phones.some(function(p) { return p.value.includes(q); });
+    });
+    renderContacts(filtered);
+  }
+</script>
+</body>
+</html>

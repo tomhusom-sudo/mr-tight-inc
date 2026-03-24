@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323m';
+    var VER = 'v=20260323o';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -296,7 +296,7 @@
     <!-- Abraham Lincoln — Healy oil portrait, 1887, public domain -->
     <div class="lincoln-wrap">
       <img
-        src="https://upload.wikimedia.org/wikipedia/commons/2/22/George_Peter_Alexander_Healy_-_Portrait_of_Abraham_Lincoln_%281887%29_-_Google_Art_Project.jpg"
+        src="./lincoln.jpg"
         alt="Abraham Lincoln — Healy portrait"
         loading="lazy"
       >
@@ -425,13 +425,18 @@
     </a>
 
     <!-- Contacts -->
-    <div class="card dim">
+    <a class="card active" href="./contacts.html">
       <div class="card-icon">👤</div>
       <div class="card-eyebrow">People</div>
       <div class="card-title">Contacts</div>
-      <div class="card-desc">Quick access to your most important connections.</div>
-      <div class="soon-pill">Coming Soon</div>
-    </div>
+      <div class="card-desc">Your Google Contacts — searchable, always in reach.</div>
+      <div class="card-cta">
+        Open Contacts
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
 
     <!-- Timmy's Corner — featured -->
     <a class="card active featured" href="./timmy.html">
