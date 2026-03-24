@@ -150,21 +150,25 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .error-row { color:#f87171; font-size:0.76rem; padding:12px 0; }
 
-    /* ── PENNY STOCKS TABLE ── */
-    .penny-grid {
+    /* -- SPORTS GRID -- */
+    .sports-grid {
       max-width: 860px; margin: 0 auto 16px;
       display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px;
     }
-    .penny-card {
+    .sports-card {
       background: #141c0b; border: 1px solid #1e2e12; border-radius: 10px;
       padding: 12px 14px; text-decoration: none; display: block;
       transition: border-color 0.15s;
       -webkit-tap-highlight-color: transparent;
     }
-    .penny-card:hover { border-color: #4ade8044; }
-    .penny-ticker { font-size: 1.1rem; font-weight: 800; color: #f0fae8; letter-spacing: 0.02em; }
-    .penny-name { font-size: 0.68rem; color: #475569; margin-top: 2px; }
-    .penny-note { font-size: 0.7rem; color: #4ade80; margin-top: 6px; font-weight: 600; }
+    .sports-card:hover { border-color: #4b7abf55; background: #101c30; }
+    .sports-card.local { border-color: #22c55e33; background: #0e1c10; }
+    .sports-card.local:hover { border-color: #22c55e66; }
+    .sports-icon { font-size: 1.5rem; line-height: 1; margin-bottom: 6px; }
+    .sports-name { font-size: 1rem; font-weight: 800; color: #f0fae8; }
+    .sports-league { font-size: 0.63rem; color: #475569; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.08em; }
+    .sports-note { font-size: 0.68rem; margin-top: 6px; font-weight: 600; color: #4b7abf; }
+    .sports-card.local .sports-note { color: #4ade80; }
 
     /* ── MARGE SHRINE ── */
     .marge-shrine {
@@ -236,7 +240,7 @@
       <div class="hero-eyebrow">Brad's Command Center</div>
       <h1 class="hero-title">Helm's <em>Deep</em></h1>
       <p class="hero-sub">
-        A sanctuary for fine financial minds, hot penny stocks, and
+        A sanctuary for fine financial minds, Minnesota sports obsession, and
         <strong>Brad's legendary database architecture.</strong>
         Enter if you dare. Watch your step — the NULL pointer exceptions are load-bearing.
       </p>
@@ -296,45 +300,29 @@
     </div>
   </div>
 
-  <!-- Penny Stocks -->
-  <div class="section-label">Penny Stock Patrol</div>
-  <div class="penny-grid">
-    <a class="penny-card" href="https://finance.yahoo.com/quote/SNDL" target="_blank" rel="noopener">
-      <div class="penny-ticker">SNDL</div>
-      <div class="penny-name">SNDL Inc (Cannabis)</div>
-      <div class="penny-note">High volume mover</div>
+  <!-- Minnesota Sports -->
+  <div class="section-label mn">Minnesota Sports</div>
+  <div class="sports-grid">
+    <a class="sports-card" href="https://www.vikings.com" target="_blank" rel="noopener">
+      <div class="sports-icon">&#127944;</div><div class="sports-name">Vikings</div><div class="sports-league">NFL</div><div class="sports-note">Skol Vikings!</div>
     </a>
-    <a class="penny-card" href="https://finance.yahoo.com/quote/MULN" target="_blank" rel="noopener">
-      <div class="penny-ticker">MULN</div>
-      <div class="penny-name">Mullen Automotive</div>
-      <div class="penny-note">EV play</div>
+    <a class="sports-card" href="https://www.mlb.com/twins" target="_blank" rel="noopener">
+      <div class="sports-icon">&#9918;</div><div class="sports-name">Twins</div><div class="sports-league">MLB</div><div class="sports-note">Target Field</div>
     </a>
-    <a class="penny-card" href="https://finance.yahoo.com/quote/FFIE" target="_blank" rel="noopener">
-      <div class="penny-ticker">FFIE</div>
-      <div class="penny-name">Faraday Future EV</div>
-      <div class="penny-note">Meme stock energy</div>
+    <a class="sports-card" href="https://www.nba.com/timberwolves" target="_blank" rel="noopener">
+      <div class="sports-icon">&#127936;</div><div class="sports-name">Timberwolves</div><div class="sports-league">NBA</div><div class="sports-note">Wolves Den</div>
     </a>
-    <a class="penny-card" href="https://finance.yahoo.com/quote/NKLA" target="_blank" rel="noopener">
-      <div class="penny-ticker">NKLA</div>
-      <div class="penny-name">Nikola Corporation</div>
-      <div class="penny-note">Volatile truck play</div>
+    <a class="sports-card" href="https://www.nhl.com/wild" target="_blank" rel="noopener">
+      <div class="sports-icon">&#127944;</div><div class="sports-name">Wild</div><div class="sports-league">NHL</div><div class="sports-note">State of Hockey</div>
     </a>
-    <a class="penny-card" href="https://finance.yahoo.com/quote/ABVC" target="_blank" rel="noopener">
-      <div class="penny-ticker">ABVC</div>
-      <div class="penny-name">ABVC BioPharma</div>
-      <div class="penny-note">Bio speculative</div>
+    <a class="sports-card" href="https://www.mnufc.com" target="_blank" rel="noopener">
+      <div class="sports-icon">&#9917;</div><div class="sports-name">MN United</div><div class="sports-league">MLS</div><div class="sports-note">Allianz Field</div>
     </a>
-    <a class="penny-card" href="https://finance.yahoo.com/quote/CENN" target="_blank" rel="noopener">
-      <div class="penny-ticker">CENN</div>
-      <div class="penny-name">Cenntro Electric</div>
-      <div class="penny-note">EV fleet play</div>
+    <a class="sports-card local" href="https://www.burnsvillejaguars.com" target="_blank" rel="noopener">
+      <div class="sports-icon">&#127936;</div><div class="sports-name">Jaguars</div><div class="sports-league">Burnsville, MN</div><div class="sports-note">Local Pride</div>
     </a>
   </div>
-  <div class="news-wrap">
-    <div class="news-list" id="penny-list">
-      <div class="loading-row"><div class="spinner"></div>Loading penny stock news&hellip;</div>
-    </div>
-  </div>
+  <div class="news-wrap"><div class="news-list" id="mn-sports-list"><div class="loading-row"><div class="spinner"></div>Loading Minnesota sports news&hellip;</div></div></div>
 
   <!-- Marge Schott Shrine -->
   <div class="section-label sepia">The Marge Schott Memorial Corner — Brad's Idol</div>
@@ -454,12 +442,13 @@
       document.getElementById('spok-list').innerHTML = '<div class="error-row">Could not load SPOK news.</div>';
     });
 
-    // Penny stock news
+    // Minnesota sports news
     Promise.all([
-      fetchRss('https://news.google.com/rss/search?q=penny+stocks+most+traded&hl=en-US&gl=US&ceid=US:en', 'Google News'),
-      fetchRss('https://news.google.com/rss/search?q=SNDL+OR+MULN+OR+FFIE+penny+stock&hl=en-US&gl=US&ceid=US:en', 'Google News')
-    ]).then(function(r) { render('penny-list', merge(r), 8); }).catch(function() {
-      document.getElementById('penny-list').innerHTML = '<div class="error-row">Could not load penny stock news.</div>';
+      fetchRss('https://news.google.com/rss/search?q=Minnesota+Vikings&hl=en-US&gl=US&ceid=US:en', 'Google News'),
+      fetchRss('https://news.google.com/rss/search?q=Minnesota+Twins+OR+Timberwolves+OR+Minnesota+Wild&hl=en-US&gl=US&ceid=US:en', 'Google News'),
+      fetchRss('https://news.google.com/rss/search?q=Burnsville+Jaguars+Minnesota+sports&hl=en-US&gl=US&ceid=US:en', 'Google News')
+    ]).then(function(r) { render('mn-sports-list', merge(r), 12); }).catch(function() {
+      document.getElementById('mn-sports-list').innerHTML = '<div class="error-row">Could not load Minnesota sports news.</div>';
     });
 
     document.getElementById('page-footer').textContent =

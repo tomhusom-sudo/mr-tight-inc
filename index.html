@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mr. Tight INC</title>
+  <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260324f';
+    var VER = 'v=20260324g';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -42,12 +42,30 @@
       max-width: 960px;
       margin: 0 auto 36px;
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 32px;
     }
+    .header-news {
+      display: flex;
+      align-items: flex-start;
+      padding-top: 10px;
+      flex-shrink: 0;
+    }
+    .header-news a {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: transparent; border: 1px solid #22c55e;
+      color: #4ade80; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      text-decoration: none; padding: 6px 14px; border-radius: 999px;
+      white-space: nowrap; font-family: 'Inter', sans-serif;
+      transition: background 0.15s;
+    }
+    .header-news a:hover { background: #14532d; }
+    @media (max-width: 600px) { .header-news { display: none; } }
 
-    .logo-wrapper { margin-bottom: 28px; }
+    .logo-wrapper { margin-bottom: 0; text-align: left; }
 
     h1 {
       font-family: 'Rajdhani', sans-serif;
@@ -610,9 +628,12 @@
         <text x="427" y="19.5" font-family="Inter,sans-serif" font-size="9" font-weight="700"
               fill="#bbf7d0" text-anchor="middle" letter-spacing="0.5">▲ LIVE</text>
       </svg>
-      <h1>Mr. Tight INC</h1>
+      <h1>Mr. Tight</h1>
       <div class="logo-bar"></div>
       <div class="logo-tagline">Capital &bull; Markets &bull; Intelligence</div>
+    </div>
+    <div class="header-news">
+      <a href="news.html">&#9656; Portfolio News</a>
     </div>
   </div>
 
@@ -639,17 +660,6 @@
         <div class="card-value" id="card-gain">—</div>
       </div>
       <div class="card" style="position:relative; overflow:visible;">
-        <!-- News link above pyramid -->
-        <a href="news.html"
-           style="position:absolute; top:-118px; left:50%; transform:translateX(-50%);
-                  background:transparent; border:1px solid #22c55e; color:#4ade80;
-                  font-size:0.65rem; font-weight:700; letter-spacing:0.12em;
-                  text-transform:uppercase; text-decoration:none;
-                  padding:4px 10px; border-radius:999px; white-space:nowrap;
-                  font-family:'Inter',sans-serif;
-                  transition:background 0.15s, color 0.15s;">
-          &#9656; Portfolio News
-        </a>
         <!-- Illuminati Eye -->
         <svg width="48" height="46" viewBox="0 0 80 76"
              style="position:absolute; top:-96px; left:50%; transform:translateX(-50%); filter:drop-shadow(0 0 8px rgba(34,197,94,0.6));"
