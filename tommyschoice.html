@@ -137,12 +137,16 @@
     <div class="pick-label">Current Pick</div>
     <div class="pick-main" id="pick-main"></div>
   </div>
-
   <div class="chart-section">
     <div class="section-label">1-Year Return vs S&amp;P 500</div>
-    <div class="chart-wrap" style="padding:0;overflow:hidden;">
-      <div id="tv-chart-container"></div>
+    <div class="chart-legend">
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#4ade80"></div><span id="pick-legend">ICLN</span></div>
+      <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#475569"></div><span>S&amp;P 500 (SPY)</span></div>
     </div>
+    <div class="chart-wrap" style="padding:0;overflow:hidden;">
+      <div id="tv-chart-container" style="height:318px;width:100%;"></div>
+    </div>
+  </div>
   </div>
   </div>
 
@@ -201,10 +205,10 @@
       var script = document.createElement('script');
       script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';
       script.async = true;
-      script.innerHTML = JSON.stringify({
+      script.textContent = JSON.stringify({
         autosize: true,
         height: 318,
-        symbol: PICK.yfTicker || PICK.ticker,
+        symbol: PICK.tvSymbol || PICK.ticker,
         interval: 'W',
         timezone: 'America/Chicago',
         theme: 'dark',
