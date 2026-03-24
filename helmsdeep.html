@@ -499,31 +499,40 @@
   <script>
   (function() {
 
-    var RSS2JSON = 'https://api.rss2json.com/v1/api.json?rss_url=';
-
     function srcClass(name) {
-      var key = (name||'').toLowerCase();
-      if (key.indexOf('yahoo') !== -1) return 'src-yahoo';
-      return 'src-default';
+      var key = (name||"").toLowerCase();
+      if (key.indexOf("yahoo") !== -1) return "src-yahoo";
+      return "src-default";
     }
 
     function fetchRss(url, label) {
-      return fetch(RSS2JSON + encodeURIComponent(url))
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          if (data.status !== 'ok' || !Array.isArray(data.items)) return [];
-          return data.items.map(function(item) {
-            var title = (item.title||'').trim();
-            var link  = (item.link||'').trim();
-            var detectedSource = '';
-            var m = title.match(/\s[-\u2013\u2014]\s([^-\u2013\u2014]{2,45})$/);
-            if (m) { detectedSource = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
-            if (!detectedSource && item.author) detectedSource = item.author.trim();
-            if (!link || link.indexOf('http') !== 0) return null;
-            var desc = (item.description||'').replace(/<[^>]+>/g,'').trim();
-            return { title: title, link: link, date: item.pubDate ? new Date(item.pubDate) : null, desc: desc.substring(0,200), source: detectedSource || label };
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 8000);
+      var proxy = "https://api.allorigins.win/raw?url=";
+      return fetch(proxy + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.text(); })
+        .then(function(txt) {
+          var doc = new DOMParser().parseFromString(txt, "text/xml");
+          return Array.from(doc.querySelectorAll("item")).map(function(el) {
+            var title = (el.querySelector("title")||{}).textContent||"";
+            var rawLink = "";
+            var linkEl = el.querySelector("link");
+            if (linkEl) { rawLink = linkEl.textContent||linkEl.getAttribute("href")||""; }
+            if (!rawLink) {
+              var ch = el.childNodes;
+              for (var i=0;i<ch.length;i++) { if (ch[i].nodeName==="link") { rawLink=ch[i].textContent||""; break; } }
+            }
+            var pubDate = (el.querySelector("pubDate")||{}).textContent||"";
+            var desc = (el.querySelector("description")||{}).textContent||"";
+            title = title.trim(); rawLink = rawLink.trim();
+            var source = label;
+            var m = title.match(/\s[-\u2013\u2014]\s([^\u2013\u2014]{2,45})$/);
+            if (m) { source = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
+            if (!rawLink || rawLink.indexOf("http") !== 0) return null;
+            return { title:title, link:rawLink, date:pubDate?new Date(pubDate):null, desc:desc.replace(/<[^>]+>/g,"").trim().substring(0,200), source:source };
           }).filter(function(x) { return x && x.title && x.link; });
-        });
+        })
+        .catch(function() { clearTimeout(tid); return []; });
     }
 
     function relTime(date) {
@@ -585,7 +594,7 @@
       fetchRss("https://news.google.com/rss/search?q=golf+funny+fails+course&hl=en-US&gl=US&ceid=US:en", "Google News"),
       fetchRss("https://news.google.com/rss/search?q=Caddyshack+golf+movie&hl=en-US&gl=US&ceid=US:en", "Google News")
     ]).then(function(r) { render("golf-list", merge(r), 10); }).catch(function() {
-      document.getElementById("golf-list").innerHTML = "<div class="error-row">Could not load golf news.</div>";
+      document.getElementById("golf-list").innerHTML = '<div class="error-row">Could not load golf news.</div>';
     });
 
         // Minnesota sports news
