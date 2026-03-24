@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323d';
+    var VER = 'v=20260323e';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -57,13 +57,23 @@
 
     .lincoln-wrap {
       flex-shrink: 0;
-      width: 130px;
-      opacity: 0.92;
-      filter: drop-shadow(0 8px 24px rgba(74,222,128,0.18));
+      width: 160px;
     }
 
-    @media (max-width: 600px) {
-      .lincoln-wrap { width: 80px; }
+    .lincoln-wrap img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(74,222,128,0.18);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(74,222,128,0.08);
+      display: block;
+    }
+
+    @media (max-width: 720px) {
+      .lincoln-wrap { width: 100px; }
+    }
+
+    @media (max-width: 460px) {
+      .lincoln-wrap { display: none; }
     }
 
     .eyebrow {
@@ -248,102 +258,13 @@
       <div class="date-line" id="date-line"></div>
     </div>
 
-    <!-- Abraham Lincoln character art -->
+    <!-- Abraham Lincoln — Healy oil portrait, 1887, public domain -->
     <div class="lincoln-wrap">
-      <svg viewBox="0 0 110 230" width="100%" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <linearGradient id="lSkin" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#d4a068"/>
-            <stop offset="100%" stop-color="#b87845"/>
-          </linearGradient>
-          <linearGradient id="lHat" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stop-color="#0e0e0e"/>
-            <stop offset="40%"  stop-color="#252525"/>
-            <stop offset="100%" stop-color="#0e0e0e"/>
-          </linearGradient>
-          <linearGradient id="lSuit" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"  stop-color="#111a09"/>
-            <stop offset="50%" stop-color="#1e2e10"/>
-            <stop offset="100%" stop-color="#111a09"/>
-          </linearGradient>
-        </defs>
-
-        <!-- ── HAT (tall stovepipe) ── -->
-        <rect x="21" y="8"  width="68" height="84" rx="4" fill="url(#lHat)"/>
-        <!-- hat band -->
-        <rect x="21" y="80" width="68" height="13" rx="0" fill="#1c1c1c"/>
-        <!-- hat brim -->
-        <rect x="8"  y="91" width="94" height="11" rx="4" fill="#111"/>
-        <!-- hat highlight streak -->
-        <rect x="26" y="12" width="7"  height="66" rx="3" fill="rgba(255,255,255,0.045)"/>
-
-        <!-- ── NECK ── -->
-        <rect x="45" y="162" width="20" height="18" rx="2" fill="url(#lSkin)"/>
-
-        <!-- ── HEAD ── -->
-        <!-- shadow -->
-        <ellipse cx="56" cy="133" rx="32" ry="38" fill="#9a5c28"/>
-        <!-- face -->
-        <ellipse cx="55" cy="131" rx="30" ry="37" fill="url(#lSkin)"/>
-
-        <!-- ears -->
-        <ellipse cx="25" cy="129" rx="7" ry="9"   fill="#c48848"/>
-        <ellipse cx="25" cy="129" rx="4" ry="5.5" fill="#b07038"/>
-        <ellipse cx="85" cy="129" rx="7" ry="9"   fill="#c48848"/>
-        <ellipse cx="85" cy="129" rx="4" ry="5.5" fill="#b07038"/>
-
-        <!-- ── FACE DETAILS ── -->
-        <!-- heavy brows -->
-        <path d="M35,114 Q44,108 53,113" stroke="#1a0a02" stroke-width="4"   fill="none" stroke-linecap="round"/>
-        <path d="M57,113 Q66,108 75,114" stroke="#1a0a02" stroke-width="4"   fill="none" stroke-linecap="round"/>
-
-        <!-- deep-set eyes -->
-        <ellipse cx="44" cy="121" rx="7" ry="5.5" fill="#1a0a02"/>
-        <ellipse cx="66" cy="121" rx="7" ry="5.5" fill="#1a0a02"/>
-        <ellipse cx="44" cy="121" rx="4.5" ry="3.5" fill="#2e1808"/>
-        <ellipse cx="66" cy="121" rx="4.5" ry="3.5" fill="#2e1808"/>
-        <circle cx="42" cy="119" r="1.8" fill="rgba(255,255,255,0.45)"/>
-        <circle cx="64" cy="119" r="1.8" fill="rgba(255,255,255,0.45)"/>
-
-        <!-- long nose -->
-        <path d="M55,127 L52,144 Q50,149 55,151 Q60,149 58,144 Z" fill="#c08040"/>
-
-        <!-- gaunt cheek shadows -->
-        <ellipse cx="33" cy="140" rx="9" ry="11" fill="rgba(0,0,0,0.09)"/>
-        <ellipse cx="77" cy="140" rx="9" ry="11" fill="rgba(0,0,0,0.09)"/>
-
-        <!-- thin serious mouth -->
-        <path d="M43,154 Q55,159 67,154" stroke="#7a3a18" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-
-        <!-- ── BEARD (Lincoln's chinstrap style) ── -->
-        <!-- sideburns -->
-        <path d="M26,122 Q20,135 22,152 Q27,160 35,162 Q28,150 30,133 Z" fill="#160a02"/>
-        <path d="M84,122 Q90,135 88,152 Q83,160 75,162 Q82,150 80,133 Z" fill="#160a02"/>
-        <!-- chin beard - Lincoln's distinctive short pointed beard -->
-        <path d="M40,158 Q36,164 38,176 Q55,188 72,176 Q74,164 70,158 Q55,168 40,158 Z" fill="#160a02"/>
-
-        <!-- ── SUIT & SHIRT ── -->
-        <!-- left jacket panel -->
-        <path d="M0,230 L0,192 Q18,180 42,175 L46,182 L46,230 Z" fill="url(#lSuit)"/>
-        <!-- right jacket panel -->
-        <path d="M110,230 L110,192 Q92,180 68,175 L64,182 L64,230 Z" fill="url(#lSuit)"/>
-        <!-- shirt front -->
-        <path d="M46,178 L46,230 L64,230 L64,178 Q55,184 46,178 Z" fill="#dde8d0"/>
-        <!-- shirt studs -->
-        <circle cx="55" cy="196" r="2.2" fill="#b8c8a8"/>
-        <circle cx="55" cy="210" r="2.2" fill="#b8c8a8"/>
-        <!-- left lapel -->
-        <path d="M46,182 Q38,188 36,202 L46,195 Z" fill="#1c2e10"/>
-        <!-- right lapel -->
-        <path d="M64,182 Q72,188 74,202 L64,195 Z" fill="#1c2e10"/>
-        <!-- collar points -->
-        <path d="M46,178 Q50,172 55,175" fill="none" stroke="#dde8d0" stroke-width="2" stroke-linecap="round"/>
-        <path d="M64,178 Q60,172 55,175" fill="none" stroke="#dde8d0" stroke-width="2" stroke-linecap="round"/>
-        <!-- bow tie -->
-        <polygon points="46,179 53,183 46,187" fill="#160a02"/>
-        <polygon points="64,179 57,183 64,187" fill="#160a02"/>
-        <ellipse cx="55" cy="183" rx="4" ry="4.5" fill="#160a02"/>
-      </svg>
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/2/22/George_Peter_Alexander_Healy_-_Portrait_of_Abraham_Lincoln_%281887%29_-_Google_Art_Project.jpg"
+        alt="Abraham Lincoln — Healy portrait"
+        loading="lazy"
+      >
     </div>
   </header>
 
