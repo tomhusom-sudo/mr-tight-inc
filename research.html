@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Research — Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260324b';
+    var VER = 'v=20260324c';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -343,6 +343,7 @@
     <div class="add-ticker-wrap">
       <input type="text" id="new-ticker" placeholder="Add ticker…" maxlength="12">
       <button class="btn-add-ticker" onclick="addTicker()">+ Add</button>
+      <button class="btn-change-key" onclick="resetTickers()" style="margin-left:8px;" title="Restore portfolio tickers">↺ reset</button>
     </div>
   </div>
 
@@ -408,42 +409,41 @@
     if (e.key === 'Enter') saveKey();
   });
 
-  // ── Watchlist ──
+  // ── Watchlist — single unified list ──
   function getWatchlist() {
-    try { return JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || []; } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || null; } catch(e) { return null; }
   }
 
   function saveWatchlist(arr) { localStorage.setItem(WATCHLIST_KEY, JSON.stringify(arr)); }
 
-  // All tickers = portfolio + custom watchlist (deduped)
+  // Seed the list from portfolio tickers on first visit (or after reset)
+  function seedWatchlist() {
+    var existing = getWatchlist();
+    if (!existing) {
+      saveWatchlist(PORTFOLIO_TICKERS.slice());
+    }
+  }
+
   function allTickers() {
-    var custom = getWatchlist();
-    var all = PORTFOLIO_TICKERS.slice();
-    custom.forEach(function(t) { if (all.indexOf(t) === -1) all.push(t); });
-    return all;
+    return getWatchlist() || PORTFOLIO_TICKERS.slice();
   }
 
   function renderWatchlistBar() {
-    var custom = getWatchlist();
-    var bar = document.getElementById('watchlist-bar');
-    var html = PORTFOLIO_TICKERS.map(function(t) {
-      return '<span class="watchlist-tag portfolio" title="Portfolio ticker">' + esc(t) + '</span>';
-    }).join('');
-    html += custom.map(function(t, i) {
+    var list = allTickers();
+    var bar  = document.getElementById('watchlist-bar');
+    bar.innerHTML = list.map(function(t, i) {
       return '<span class="watchlist-tag">' + esc(t)
-        + '<button class="del-tag" onclick="removeTicker(' + i + ')" title="Remove">✕</button>'
+        + '<button class="del-tag" onclick="removeTicker(' + i + ')" title="Remove ' + esc(t) + '">✕</button>'
         + '</span>';
     }).join('');
-    bar.innerHTML = html;
   }
 
   function addTicker() {
     var val = document.getElementById('new-ticker').value.trim().toUpperCase();
     if (!val) return;
     document.getElementById('new-ticker').value = '';
-    var list = getWatchlist();
-    var all  = allTickers();
-    if (all.indexOf(val) !== -1) return; // already tracked
+    var list = allTickers();
+    if (list.indexOf(val) !== -1) return;
     list.push(val);
     saveWatchlist(list);
     renderWatchlistBar();
@@ -451,9 +451,15 @@
   }
 
   function removeTicker(i) {
-    var list = getWatchlist();
+    var list = allTickers();
     list.splice(i, 1);
     saveWatchlist(list);
+    renderWatchlistBar();
+    if (getKey()) loadAll();
+  }
+
+  function resetTickers() {
+    saveWatchlist(PORTFOLIO_TICKERS.slice());
     renderWatchlistBar();
     if (getKey()) loadAll();
   }
@@ -673,9 +679,10 @@
       }
     })
     .catch(function() {
-      PORTFOLIO_TICKERS = FALLBACK; // use fallback if prices.json fails
+      PORTFOLIO_TICKERS = FALLBACK;
     })
     .then(function() {
+      seedWatchlist();
       renderWatchlistBar();
       if (getKey()) loadAll();
     });
