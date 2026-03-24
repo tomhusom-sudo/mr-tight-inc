@@ -346,8 +346,8 @@
 
       <div class="add-form" id="tip-form">
         <div class="form-row">
-          <input type="text" id="tip-ticker" placeholder="Ticker (e.g. NVDA)" maxlength="12" style="max-width:130px;flex:none;">
-          <input type="text" id="tip-title" placeholder="Asset name or short label">
+          <input type="text" id="tip-ticker" placeholder="Ticker (e.g. NVDA)" maxlength="12" style="max-width:130px;flex:none;" oninput="this.value=this.value.toUpperCase()" onblur="lookupName()">
+          <input type="text" id="tip-title" placeholder="Asset name (auto-fills)">
         </div>
         <textarea id="tip-note" placeholder="Why Tom thinks you should look at this…"></textarea>
         <button class="btn-add" onclick="addTip()">+ Add Tip</button>
@@ -493,6 +493,36 @@
     articles.splice(i, 1);
     saveArticles(articles);
     renderArticles();
+  }
+
+  // ── Auto-lookup asset name from ticker ──
+  function lookupName() {
+    var ticker = document.getElementById('tip-ticker').value.trim().toUpperCase();
+    var titleEl = document.getElementById('tip-title');
+    if (!ticker || titleEl.value.trim()) return; // don't overwrite if already filled
+    titleEl.placeholder = 'Looking up…';
+    var url = 'https://query1.finance.yahoo.com/v1/finance/search?q='
+      + encodeURIComponent(ticker) + '&quotesCount=1&newsCount=0&enableFuzzyQuery=false';
+    // Try direct first, fall back to allorigins proxy
+    fetch(url)
+      .then(function(r) { return r.json(); })
+      .then(function(d) { return applyName(d, titleEl); })
+      .catch(function() {
+        return fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(url))
+          .then(function(r) { return r.json(); })
+          .then(function(d) { return applyName(JSON.parse(d.contents), titleEl); })
+          .catch(function() { titleEl.placeholder = 'Asset name (auto-fills)'; });
+      });
+  }
+
+  function applyName(data, el) {
+    var quotes = data && data.quotes;
+    var name = '';
+    if (quotes && quotes.length) {
+      name = quotes[0].longname || quotes[0].shortname || '';
+    }
+    el.placeholder = 'Asset name (auto-fills)';
+    if (name) { el.value = name; el.focus(); el.blur(); }
   }
 
   // ── Allow Enter key in single-line inputs ──
