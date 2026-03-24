@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Research — Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323a';
+    var VER = 'v=20260324a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -370,8 +370,8 @@
   var API_KEY_STORAGE  = 'research_finnhub_key';
   var WATCHLIST_KEY    = 'research_watchlist';
 
-  // Portfolio tickers (stocks/ETFs only — no BTC)
-  var PORTFOLIO_TICKERS = ['AA','MSFT','AMZN','NVDA','VOO','VONG','EXE'];
+  // Portfolio tickers loaded dynamically from prices.json
+  var PORTFOLIO_TICKERS = [];
 
   // ── Key management ──
   function getKey() { return localStorage.getItem(API_KEY_STORAGE) || ''; }
@@ -465,8 +465,15 @@
     var key = getKey();
     return fetch('https://finnhub.io/api/v1' + path + (path.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(key))
       .then(function(r) { return r.json(); })
-      .catch(function() { return null; });
+      .then(function(data) {
+        // Detect invalid/missing key error from Finnhub
+        if (data && data.error) throw new Error(data.error);
+        return data;
+      })
+      .catch(function(e) { return { _error: e.message || 'error' }; });
   }
+
+  function isApiError(data) { return data && data._error; }
 
   function delay(ms) { return new Promise(function(res) { setTimeout(res, ms); }); }
 
@@ -498,6 +505,11 @@
     });
 
     Promise.all(promises).then(function(results) {
+      // Check if first result is an API error
+      if (results.length && isApiError(results[0].data)) {
+        wrap.innerHTML = '<div class="no-key-msg">⚠️ Invalid or missing Finnhub API key — enter a valid key above.</div>';
+        return;
+      }
       var cards = results.map(function(res) {
         var ticker = res.ticker;
         var data   = res.data;
@@ -574,6 +586,10 @@
     });
 
     Promise.all(promises).then(function(results) {
+      if (results.length && isApiError(results[0].data)) {
+        wrap.innerHTML = '<div class="no-key-msg">⚠️ Invalid or missing Finnhub API key — enter a valid key above.</div>';
+        return;
+      }
       var rows = results.map(function(res) {
         var ticker = res.ticker;
         var arr    = Array.isArray(res.data) ? res.data : [];
@@ -633,10 +649,24 @@
       .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 
-  // ── Init ──
+  // ── Init — load tickers from prices.json, then render ──
   showKeyStatus();
-  renderWatchlistBar();
-  if (getKey()) loadAll();
+  fetch('prices.json?t=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.prices) {
+        // Use all tickers from prices.json except crypto (BTC has no earnings/ratings)
+        var CRYPTO = ['BTC','ETH','SOL','DOGE','XRP','ADA','AVAX','MATIC'];
+        PORTFOLIO_TICKERS = Object.keys(data.prices).filter(function(t) {
+          return CRYPTO.indexOf(t) === -1;
+        });
+      }
+    })
+    .catch(function() {})
+    .then(function() {
+      renderWatchlistBar();
+      if (getKey()) loadAll();
+    });
 
   document.getElementById('footer-time').textContent =
     'Loaded ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
