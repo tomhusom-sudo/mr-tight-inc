@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323j';
+    var VER = 'v=20260323k';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -204,6 +204,41 @@
     .card-cta svg { transition: transform 0.2s; }
     .card.active:hover .card-cta svg { transform: translateX(5px); }
 
+    /* ── WEATHER CORNER ── */
+    .wx-corner {
+      position: absolute;
+      top: 22px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      pointer-events: none;
+    }
+
+    .wx-temp {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .wx-cond {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #4ade80;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .wx-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
     .soon-pill {
       margin-top: 18px;
       display: inline-block;
@@ -368,6 +403,11 @@
           <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
+      <div class="wx-corner" id="wx-corner" style="display:none">
+        <div class="wx-icon" id="wx-icon"></div>
+        <div class="wx-temp" id="wx-temp"></div>
+        <div class="wx-cond" id="wx-cond"></div>
+      </div>
     </a>
 
     <!-- Markets -->
@@ -416,6 +456,41 @@
     now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
   document.getElementById('footer-time').textContent =
     'Loaded ' + now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  // ── Weather for 57401 (Aberdeen, SD) via Open-Meteo ──
+  var WMO_ICONS = {
+    0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+    45:'🌫️', 48:'🌫️',
+    51:'🌦️', 53:'🌦️', 55:'🌧️',
+    61:'🌧️', 63:'🌧️', 65:'🌧️',
+    71:'🌨️', 73:'🌨️', 75:'❄️', 77:'❄️',
+    80:'🌦️', 81:'🌧️', 82:'⛈️',
+    85:'🌨️', 86:'❄️',
+    95:'⛈️', 96:'⛈️', 99:'⛈️'
+  };
+  var WMO_DESC = {
+    0:'Clear', 1:'Mostly Clear', 2:'Partly Cloudy', 3:'Overcast',
+    45:'Fog', 48:'Icy Fog',
+    51:'Light Drizzle', 53:'Drizzle', 55:'Heavy Drizzle',
+    61:'Light Rain', 63:'Rain', 65:'Heavy Rain',
+    71:'Light Snow', 73:'Snow', 75:'Heavy Snow', 77:'Snow Grains',
+    80:'Showers', 81:'Heavy Showers', 82:'Violent Showers',
+    85:'Snow Showers', 86:'Heavy Snow Showers',
+    95:'Thunderstorm', 96:'Thunderstorm + Hail', 99:'Severe Thunderstorm'
+  };
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=45.4647&longitude=-98.4865&current_weather=true&temperature_unit=fahrenheit&wind_speed_unit=mph')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var cw = d && d.current_weather;
+      if (!cw) return;
+      var code = cw.weathercode;
+      var temp = Math.round(cw.temperature);
+      document.getElementById('wx-icon').textContent = WMO_ICONS[code] || '🌡️';
+      document.getElementById('wx-temp').textContent = temp + '°F';
+      document.getElementById('wx-cond').textContent = WMO_DESC[code] || 'Aberdeen, SD';
+      document.getElementById('wx-corner').style.display = 'flex';
+    })
+    .catch(function() {});
 </script>
 </body>
 </html>
