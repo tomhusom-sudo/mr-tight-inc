@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Research — Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260324a';
+    var VER = 'v=20260324b';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -332,6 +332,8 @@
     <div class="key-dot"></div>
     <span>Finnhub API key active</span>
     <button class="btn-change-key" onclick="changeKey()">change key</button>
+    <button class="btn-change-key" onclick="loadAll()" style="margin-left:8px;color:#4ade80;">↻ reload data</button>
+    <span id="key-status" style="margin-left:6px;font-size:0.72rem;"></span>
   </div>
 
   <!-- Watchlist -->
@@ -587,9 +589,13 @@
 
     Promise.all(promises).then(function(results) {
       if (results.length && isApiError(results[0].data)) {
-        wrap.innerHTML = '<div class="no-key-msg">⚠️ Invalid or missing Finnhub API key — enter a valid key above.</div>';
+        wrap.innerHTML = '<div class="no-key-msg">⚠️ Finnhub key rejected — double-check it at finnhub.io and re-enter above.</div>';
+        var ks = document.getElementById('key-status');
+        if (ks) ks.innerHTML = '<span style="color:#f87171;">✗ key rejected</span>';
         return;
       }
+      var ks = document.getElementById('key-status');
+      if (ks) ks.innerHTML = '<span style="color:#4ade80;">✓ loaded</span>';
       var rows = results.map(function(res) {
         var ticker = res.ticker;
         var arr    = Array.isArray(res.data) ? res.data : [];
@@ -651,18 +657,24 @@
 
   // ── Init — load tickers from prices.json, then render ──
   showKeyStatus();
+
+  var CRYPTO    = ['BTC','ETH','SOL','DOGE','XRP','ADA','AVAX','MATIC'];
+  var FALLBACK  = ['AA','MSFT','AMZN','NVDA','VOO','VONG','EXE'];
+
   fetch('prices.json?t=' + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data && data.prices) {
-        // Use all tickers from prices.json except crypto (BTC has no earnings/ratings)
-        var CRYPTO = ['BTC','ETH','SOL','DOGE','XRP','ADA','AVAX','MATIC'];
         PORTFOLIO_TICKERS = Object.keys(data.prices).filter(function(t) {
           return CRYPTO.indexOf(t) === -1;
         });
+      } else {
+        PORTFOLIO_TICKERS = FALLBACK;
       }
     })
-    .catch(function() {})
+    .catch(function() {
+      PORTFOLIO_TICKERS = FALLBACK; // use fallback if prices.json fails
+    })
     .then(function() {
       renderWatchlistBar();
       if (getKey()) loadAll();
