@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260325c';
+    var VER = 'v=20260325d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -733,7 +733,7 @@
       <div class="form-grid">
         <div class="form-group">
           <label class="form-label" for="f-ticker">Ticker</label>
-          <input class="form-input" id="f-ticker" type="text" placeholder="e.g. AAPL" maxlength="12" autocorrect="off" autocapitalize="characters">
+          <input class="form-input" id="f-ticker" type="text" placeholder="e.g. AAPL" maxlength="12" autocorrect="off" autocapitalize="characters" onblur="lookupTickerName(this.value)">
         </div>
         <div class="form-group">
           <label class="form-label" for="f-type">Type</label>
@@ -973,6 +973,23 @@
     };
 
     // ── MODAL ──
+    window.lookupTickerName = function(raw) {
+      var ticker = raw.trim().toUpperCase();
+      if (!ticker) return;
+      var nameEl = document.getElementById('f-name');
+      if (nameEl.value.trim()) return;
+      nameEl.placeholder = 'Looking up...';
+      fetch('https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d&corsDomain=finance.yahoo.com')
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          var meta = d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
+          var name = (meta && (meta.longName || meta.shortName)) || '';
+          nameEl.placeholder = 'e.g. Apple Inc.';
+          if (name) nameEl.value = name;
+        })
+        .catch(function() { nameEl.placeholder = 'e.g. Apple Inc.'; });
+    };
+
     window.openModal = function(index) {
       editingIndex = index;
       var assets = loadAssets();
