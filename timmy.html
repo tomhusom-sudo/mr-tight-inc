@@ -525,16 +525,10 @@
     if (!ticker || titleEl.value.trim()) return; // don't overwrite if already filled
     titleEl.placeholder = 'Looking up…';
 
-    // Use allorigins proxy → Yahoo Finance chart endpoint (returns longName in meta)
-    var yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/'
-      + encodeURIComponent(ticker) + '?interval=1d&range=1d&corsDomain=finance.yahoo.com';
-
-    fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(yahooUrl))
+    fetch('https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d')
       .then(function(r) { return r.json(); })
       .then(function(d) {
-        var parsed = JSON.parse(d.contents);
-        var meta = parsed && parsed.chart && parsed.chart.result
-                   && parsed.chart.result[0] && parsed.chart.result[0].meta;
+        var meta = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
         var name = (meta && (meta.longName || meta.shortName)) || '';
         titleEl.placeholder = 'Asset name (auto-fills)';
         if (name) titleEl.value = name;
