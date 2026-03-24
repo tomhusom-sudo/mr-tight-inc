@@ -173,6 +173,7 @@
     .badge-stock  { background: #1e3a5f; color: #60a5fa; }
     .badge-etf    { background: #1a3a2a; color: #4ade80; }
     .badge-crypto { background: #3a2a10; color: #fbbf24; }
+    .badge-market { background: #2a1a3a; color: #c084fc; }
 
     /* ── NEWS CARDS ── */
     .news-list { display: flex; flex-direction: column; gap: 8px; }
@@ -245,7 +246,34 @@
     .src-barrons    { background:#2d2010; color:#fcd34d; }
     .src-seeking    { background:#1e1e3f; color:#c084fc; }
     .src-motley     { background:#2a1a1a; color:#f87171; }
+    .src-forbes     { background:#2d1a10; color:#fb923c; }
+    .src-investopedia { background:#1a2a3a; color:#7dd3fc; }
+    .src-fortune    { background:#2d2010; color:#fcd34d; }
+    .src-ft         { background:#2d1c10; color:#f97316; }
     .src-default    { background:#1e2e12; color:#94a3b8; }
+
+    /* ── SECTION DIVIDER ── */
+    .section-divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 8px 0 28px;
+    }
+    .section-divider::before,
+    .section-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e2e12;
+    }
+    .section-divider span {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #3a5028;
+      white-space: nowrap;
+    }
 
     .news-time { color: #334155; }
     .news-dot  { color: #1e2e12; }
@@ -317,6 +345,12 @@
   <script>
   (function () {
 
+    var GENERAL = [
+      { ticker:'MARKETS',  name:'Market Overview',  type:'market', domain:'', logoUrl:'', query:'stock market today S&P 500 Dow Nasdaq investing' },
+      { ticker:'ECONOMY',  name:'Economy & Fed',    type:'market', domain:'', logoUrl:'', query:'Federal Reserve economy inflation interest rates GDP' },
+      { ticker:'EARNINGS', name:'Earnings & Deals', type:'market', domain:'', logoUrl:'', query:'earnings results quarterly profit beat revenue merger acquisition' },
+    ];
+
     var ASSETS = [
       { ticker:'AA',   name:'Alcoa Corporation',                 type:'stock',  domain:'alcoa.com',        logoUrl:'',  query:'Alcoa AA stock'        },
       { ticker:'MSFT', name:'Microsoft Corporation',             type:'stock',  domain:'microsoft.com',    logoUrl:'',  query:'Microsoft MSFT stock'  },
@@ -349,6 +383,11 @@
       'seeking alpha':    'src-seeking',
       'motley fool':      'src-motley',
       'the motley fool':  'src-motley',
+      'forbes':           'src-forbes',
+      'investopedia':     'src-investopedia',
+      'fortune':          'src-fortune',
+      'financial times':  'src-ft',
+      'ft.com':           'src-ft',
     };
 
     function srcClass(name) {
@@ -492,15 +531,14 @@
       return '<div class="ticker-logo-fallback">' + a.ticker.substring(0,4) + '</div>';
     }
 
-    var badgeClass = { stock:'badge-stock', etf:'badge-etf', crypto:'badge-crypto' };
-    var badgeLabel = { stock:'Stock', etf:'ETF', crypto:'Crypto' };
+    var badgeClass = { stock:'badge-stock', etf:'badge-etf', crypto:'badge-crypto', market:'badge-market' };
+    var badgeLabel = { stock:'Stock', etf:'ETF', crypto:'Crypto', market:'Market' };
 
     // ── BUILD SKELETON ──
     var container = document.getElementById('news-container');
     var filterBar = document.getElementById('filter-bar');
 
-    ASSETS.forEach(function(a) {
-      // Filter pill
+    function buildSection(a) {
       var pill = document.createElement('button');
       pill.className = 'filter-pill';
       pill.dataset.ticker = a.ticker;
@@ -508,7 +546,6 @@
       pill.onclick = function() { setFilter(a.ticker); };
       filterBar.appendChild(pill);
 
-      // Section
       var sec = document.createElement('div');
       sec.className = 'ticker-section';
       sec.id = 'section-' + a.ticker;
@@ -524,7 +561,18 @@
           + '<div class="loading-row"><div class="spinner"></div>Loading from multiple sources&hellip;</div>'
         + '</div>';
       container.appendChild(sec);
-    });
+    }
+
+    GENERAL.forEach(buildSection);
+
+    // Divider between market news and holdings
+    var divEl = document.createElement('div');
+    divEl.className = 'section-divider';
+    divEl.id = 'holdings-divider';
+    divEl.innerHTML = '<span>Your Holdings</span>';
+    container.appendChild(divEl);
+
+    ASSETS.forEach(buildSection);
 
     // ── LOAD NEWS ──
     function loadTicker(a, delay) {
@@ -543,8 +591,10 @@
       }, delay);
     }
 
+    var ALL_FEEDS = GENERAL.concat(ASSETS);
+
     function loadAll() {
-      ASSETS.forEach(function(a, i) { loadTicker(a, i * 400); });
+      ALL_FEEDS.forEach(function(a, i) { loadTicker(a, i * 400); });
       document.getElementById('page-footer').textContent =
         'Sources: Google News · Yahoo Finance · CoinDesk  ·  Refreshed '
         + new Date().toLocaleString('en-US', { month:'long', day:'numeric', hour:'2-digit', minute:'2-digit' });
@@ -553,13 +603,12 @@
     window.reloadAll = function() {
       var btn = document.getElementById('refresh-btn');
       btn.classList.add('spinning');
-      // Reset all lists to loading state
-      ASSETS.forEach(function(a) {
+      ALL_FEEDS.forEach(function(a) {
         var listEl = document.getElementById('list-' + a.ticker);
         listEl.innerHTML = '<div class="loading-row"><div class="spinner"></div>Loading&hellip;</div>';
       });
       loadAll();
-      setTimeout(function() { btn.classList.remove('spinning'); }, ASSETS.length * 400 + 1000);
+      setTimeout(function() { btn.classList.remove('spinning'); }, ALL_FEEDS.length * 400 + 1000);
     };
 
     window.setFilter = function(ticker) {
@@ -569,6 +618,9 @@
       document.querySelectorAll('.ticker-section').forEach(function(s) {
         s.style.display = (ticker === 'ALL' || s.dataset.ticker === ticker) ? '' : 'none';
       });
+      // Show/hide the holdings divider
+      var div = document.getElementById('holdings-divider');
+      if (div) div.style.display = (ticker === 'ALL') ? '' : 'none';
     };
 
     loadAll();
