@@ -96,8 +96,8 @@
       <textarea id="f-desc" placeholder="What happened today?"></textarea>
     </div>
     <div class="form-row">
-      <label>Google Maps Link (optional)</label>
-      <input type="url" id="f-map" placeholder="https://maps.google.com/...">
+      <label>Location (optional)</label>
+      <input type="text" id="f-map" placeholder="Type a place, address, or paste a Maps link">
     </div>
     <button class="btn-save" id="save-btn">Save Entry</button>
   </div>
@@ -141,8 +141,18 @@
 
   document.getElementById('save-btn').addEventListener('click', function() {
     var desc = document.getElementById('f-desc').value.trim();
-    var map = document.getElementById('f-map').value.trim();
+    var mapRaw = document.getElementById('f-map').value.trim();
     if (!desc && !photoData) { alert('Add a photo or some notes first.'); return; }
+    var mapUrl = '', mapLabel = '';
+    if (mapRaw) {
+      if (/^https?:\/\//.test(mapRaw)) {
+        mapUrl = mapRaw;
+        mapLabel = 'View on Map';
+      } else {
+        mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapRaw);
+        mapLabel = mapRaw;
+      }
+    }
     var entries = load();
     var now = new Date();
     entries.unshift({
@@ -151,7 +161,8 @@
       time: now.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }),
       photo: photoData || null,
       desc: desc,
-      map: map
+      map: mapUrl,
+      mapLabel: mapLabel
     });
     save(entries);
     document.getElementById('f-desc').value = '';
@@ -190,7 +201,7 @@
         '<button class="btn-delete" onclick="_journalDel(' + e.id + ')">Delete</button></div>' +
         (e.photo ? '<div class="entry-photo"><img src="' + e.photo + '" alt="photo"></div>' : '') +
         (e.desc ? '<div class="entry-text">' + esc(e.desc) + '</div>' : '') +
-        (e.map ? '<a class="entry-map" href="' + esc(e.map) + '" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>View on Map</a>' : '') +
+        (e.map ? '<a class="entry-map" href="' + esc(e.map) + '" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>" + esc(e.mapLabel || "View on Map") + "</a>' : '') +
       '</div>';
     }).join('');
   }
