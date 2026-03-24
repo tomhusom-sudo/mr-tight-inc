@@ -169,14 +169,14 @@
     //   yfTicker: Yahoo Finance ticker (e.g. AGIX-USD)
     // ════════════════════════════════════════════════════════════
     var PICK = {
-      ticker:   'AGIX',
-      name:     'SingularityNET',
-      type:     'crypto',
-      tvSymbol: 'BINANCE:AGIXUSDT',
-      yfTicker: 'AGIX-USD',
-      logoUrl:  'https://cryptologos.cc/logos/singularitynet-agix-logo.png',
-      tagline:  'Decentralized AI marketplace — the protocol connecting AI algorithms to the world.',
-      queries:  ['AGIX SingularityNET', 'SingularityNET AI crypto blockchain']
+      ticker:   'ICLN',
+      name:     'iShares Global Clean Energy ETF',
+      type:     'etf',
+      tvSymbol: 'NASDAQ:ICLN',
+      yfTicker: 'ICLN',
+      logoUrl:  '',
+      tagline:  'Global clean energy exposure — solar, wind, and renewables across 30+ countries.',
+      queries:  ['ICLN clean energy ETF', 'iShares clean energy solar wind stocks']
     };
     // ════════════════════════════════════════════════════════════
 
@@ -278,8 +278,10 @@
       sources.push({ url:'https://news.google.com/rss/search?q='+encodeURIComponent(q)+'&hl=en-US&gl=US&ceid=US:en', label:'Google News' });
     });
     sources.push({ url:'https://finance.yahoo.com/rss/headline?s='+PICK.yfTicker, label:'Yahoo Finance' });
-    sources.push({ url:'https://www.coindesk.com/arc/outboundfeeds/rss/', label:'CoinDesk' });
-    sources.push({ url:'https://cointelegraph.com/rss', label:'CoinTelegraph' });
+    if (PICK.type === 'crypto') {
+      sources.push({ url:'https://www.coindesk.com/arc/outboundfeeds/rss/', label:'CoinDesk' });
+      sources.push({ url:'https://cointelegraph.com/rss', label:'CoinTelegraph' });
+    }
 
     var labels = sources.map(function(s){ return s.label; });
     Promise.all(sources.map(function(s){ return fetchRss(s.url, s.label).catch(function(){ return []; }); }))
