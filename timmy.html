@@ -527,7 +527,7 @@
 
     // Use allorigins proxy → Yahoo Finance chart endpoint (returns longName in meta)
     var yahooUrl = 'https://query1.finance.yahoo.com/v8/finance/chart/'
-      + encodeURIComponent(ticker) + '?interval=1d&range=1d';
+      + encodeURIComponent(ticker) + '?interval=1d&range=1d&corsDomain=finance.yahoo.com';
 
     fetch('https://api.allorigins.win/get?url=' + encodeURIComponent(yahooUrl))
       .then(function(r) { return r.json(); })
