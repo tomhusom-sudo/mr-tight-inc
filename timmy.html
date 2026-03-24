@@ -414,7 +414,7 @@
     empty.style.display = 'none';
     list.innerHTML = tips.map(function(t, i) {
       return '<li>'
-        + (t.ticker ? '<a class="ticker-badge" href="https://www.google.com/finance/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener" title="Open ' + esc(t.ticker) + ' on Google Finance">' + esc(t.ticker) + ' ↗</a>' : '')
+        + (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener" title="Open ' + esc(t.ticker) + ' on Yahoo Finance">' + esc(t.ticker) + ' ↗</a>' : '')
         + '<div class="item-body">'
         +   '<div class="item-primary">' + esc(t.title || t.ticker || 'Untitled') + '</div>'
         +   (t.note ? '<div class="item-secondary">' + esc(t.note) + '</div>' : '')
