@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions — Future Vision</title>
   <script>
-    var VER = 'v=20260326c';
+    var VER = 'v=20260326d';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -289,6 +289,110 @@
 
     .divider { height: 1px; background: var(--border); margin: 0 64px; }
     @media (max-width: 768px) { .divider { margin: 0 24px; } }
+
+    /* ── DRONE BAND ── */
+    .drone-band {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 64px;
+      position: relative; overflow: hidden;
+    }
+    .drone-band::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--purple), var(--cyan), var(--purple), transparent);
+      box-shadow: 0 0 20px rgba(0,212,255,0.4);
+    }
+    /* Animated scan line */
+    .drone-band::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,212,255,0.04), transparent);
+      animation: droneScan 4s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes droneScan { to { left: 140%; } }
+
+    .drone-band-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; position: relative; z-index: 1;
+    }
+    @media (max-width: 900px) { .drone-band-inner { grid-template-columns: 1fr; gap: 48px; } }
+    @media (max-width: 768px) { .drone-band { padding: 56px 24px; } }
+
+    .drone-eyebrow {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--purple); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .drone-eyebrow::before {
+      content: ''; width: 24px; height: 1px;
+      background: var(--purple); flex-shrink: 0;
+    }
+    .drone-band h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4.2rem);
+      font-weight: 900; line-height: 0.9; letter-spacing: 0.04em;
+      color: var(--cream); margin-bottom: 22px;
+    }
+    .drone-band h2 .cyan { color: var(--cyan); text-shadow: 0 0 24px rgba(0,212,255,0.5); }
+    .drone-band h2 .purple { color: var(--purple); text-shadow: 0 0 24px rgba(123,47,255,0.4); }
+    .drone-band p { font-size: 1rem; color: var(--dim); line-height: 1.7; margin-bottom: 32px; }
+
+    .drone-specs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .drone-spec {
+      background: var(--card); padding: 24px 28px;
+      transition: background 0.2s;
+    }
+    .drone-spec:hover { background: #0f2040; }
+    .drone-spec-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem; font-weight: 700; line-height: 1;
+      margin-bottom: 6px;
+    }
+    .drone-spec-val.cyan { color: var(--cyan); text-shadow: 0 0 16px rgba(0,212,255,0.4); }
+    .drone-spec-val.purple { color: var(--purple); text-shadow: 0 0 16px rgba(123,47,255,0.3); }
+    .drone-spec-label {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--dim);
+    }
+
+    /* Featured drone service card */
+    .service-item.drone-featured {
+      grid-column: 1 / -1;
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 32px; align-items: start;
+      background: linear-gradient(135deg, #0b1a2e 0%, #0f1a30 50%, #0d1428 100%);
+      border-top: 2px solid var(--purple);
+    }
+    .service-item.drone-featured:hover { background: linear-gradient(135deg, #0f2040 0%, #1a1a40 100%); }
+    .drone-icon-large {
+      font-size: 3.5rem; opacity: 0.9; padding-top: 4px;
+    }
+    .drone-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(123,47,255,0.12);
+      border: 1px solid rgba(123,47,255,0.4);
+      border-radius: 999px; padding: 4px 14px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--purple);
+      margin-bottom: 10px;
+    }
+    .drone-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--purple); flex-shrink: 0;
+      animation: droneBlip 1.4s ease-in-out infinite;
+    }
+    @keyframes droneBlip { 0%,100% { opacity:1; } 50% { opacity:0.2; } }
 
     /* ── SERVICES ── */
     .services-grid {
@@ -596,12 +700,26 @@
         <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
         <a href="#packages" class="btn-outline">View Packages</a>
       </div>
-      <img src="./future_todd.png" alt="Future Todd" class="hero-rider">
     </div>
     <div class="hero-right">
       <img src="./toddsvan2.png" alt="ToddFather Productions">
     </div>
   </section>
+
+  <!-- Future Todd Showcase -->
+  <div style="position:relative;overflow:hidden;background:var(--void);border-top:1px solid var(--border);">
+    <img src="./future_todd.png" alt="Future Todd" style="width:100%;max-height:520px;object-fit:cover;object-position:center top;display:block;filter:saturate(0.8) contrast(1.08);opacity:0.92;">
+    <div style="position:absolute;inset:0;background:linear-gradient(0deg,var(--void) 0%,transparent 40%,transparent 70%,var(--void) 100%),linear-gradient(90deg,rgba(0,212,255,0.06) 0%,transparent 60%);"></div>
+    <div style="position:absolute;bottom:36px;left:64px;right:64px;display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px;z-index:1;">
+      <div>
+        <div style="font-family:'Exo 2',sans-serif;font-size:0.68rem;font-weight:700;letter-spacing:0.3em;text-transform:uppercase;color:var(--cyan);margin-bottom:8px;">Todd Father Productions</div>
+        <div style="font-family:'Orbitron',sans-serif;font-size:clamp(1.6rem,3vw,2.6rem);font-weight:900;color:#e8f4ff;line-height:1;letter-spacing:0.04em;">THE FUTURE<br><span style="color:var(--cyan);text-shadow:0 0 24px rgba(0,212,255,0.5);">IS NOW.</span></div>
+      </div>
+      <a href="https://lookslikelarry.com" target="_blank" rel="noopener" style="font-family:'Exo 2',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;text-decoration:none;padding:14px 28px;border:1px solid var(--cyan);color:var(--cyan);background:rgba(0,212,255,0.08);border-radius:2px;white-space:nowrap;transition:background 0.2s;">Book Your Session &#8594;</a>
+    </div>
+    <!-- Cyan top rule -->
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),var(--purple),transparent);"></div>
+  </div>
 
   <!-- Stats Bar -->
   <div class="stats-bar">
@@ -611,12 +729,12 @@
         <div class="stat-small">Years Experience</div>
       </div>
       <div class="stat-item">
-        <div class="stat-big">6</div>
-        <div class="stat-small">Disciplines</div>
+        <div class="stat-big" style="color:var(--purple);text-shadow:0 0 16px rgba(123,47,255,0.5);">400ft</div>
+        <div class="stat-small">Drone Ceiling</div>
       </div>
       <div class="stat-item">
         <div class="stat-big">4K</div>
-        <div class="stat-small">Resolution Ready</div>
+        <div class="stat-small">Aerial Video</div>
       </div>
       <div class="stat-item">
         <div class="stat-big">MN</div>
@@ -667,8 +785,53 @@
         <div class="service-name">Fine Art Prints</div>
         <p class="service-desc">Museum-quality prints in five sizes up to 16x24. Full digital files included with every session. Your images, delivered for life.</p>
       </div>
+      <!-- Drone — full width featured -->
+      <div class="service-item drone-featured">
+        <div class="drone-icon-large">&#128641;</div>
+        <div>
+          <div class="drone-badge">New Capability</div>
+          <div class="service-name" style="font-size:1.4rem;margin-bottom:10px;">Aerial Drone Photography &amp; Video</div>
+          <p class="service-desc" style="font-style:normal;max-width:720px;">See everything from above. 4K aerial footage and high-resolution stills for real estate, events, automotive shoots, landscapes, and commercial projects. Cinematic drone video with full editing included — the perspective no ground-level lens can touch. Coverage up to 400ft altitude across the Minneapolis metro and beyond.</p>
+          <div style="display:flex;gap:24px;margin-top:18px;flex-wrap:wrap;">
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--purple);">&#10003; 4K Video</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--purple);">&#10003; High-Res Stills</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--purple);">&#10003; Full Editing</span>
+            <span style="font-family:'Exo 2',sans-serif;font-size:0.75rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:var(--purple);">&#10003; Metro Coverage</span>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
+
+  <!-- Drone Band -->
+  <div class="drone-band">
+    <div class="drone-band-inner">
+      <div>
+        <div class="drone-eyebrow">Aerial Division</div>
+        <h2><span class="cyan">Above</span><br>Every<br><span class="purple">Frame.</span></h2>
+        <p>ToddFather Productions now launches drone operations for every project type — real estate, automotive, events, and commercial. 4K cinematic footage and high-resolution aerial stills that redefine what a shoot can deliver. The shot nobody else is getting.</p>
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="font-size:0.82rem;">Book an Aerial Session</a>
+      </div>
+      <div class="drone-specs">
+        <div class="drone-spec">
+          <div class="drone-spec-val cyan">4K</div>
+          <div class="drone-spec-label">Video Resolution</div>
+        </div>
+        <div class="drone-spec">
+          <div class="drone-spec-val purple">400ft</div>
+          <div class="drone-spec-label">Max Altitude</div>
+        </div>
+        <div class="drone-spec">
+          <div class="drone-spec-val cyan">RAW</div>
+          <div class="drone-spec-label">Files Delivered</div>
+        </div>
+        <div class="drone-spec">
+          <div class="drone-spec-val purple">MN</div>
+          <div class="drone-spec-label">Metro Coverage</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="divider"></div>
 
@@ -731,6 +894,30 @@
           <div class="product-footer">
             <div class="product-price"><small>From</small><span class="price-val">$79</span></div>
             <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Order Print</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stickers -->
+      <!-- Drone Package -->
+      <div class="product-card wide" style="border-top:2px solid var(--purple);">
+        <div class="sticker-inner">
+          <div class="product-visual" style="background:linear-gradient(135deg,#060820 0%,#0c0828 50%,#080618 100%);min-height:220px;">
+            <div style="text-align:center;position:relative;z-index:1;">
+              <div style="font-size:4rem;opacity:0.7;margin-bottom:8px;">&#128641;</div>
+              <div style="font-family:'Orbitron',sans-serif;font-size:0.7rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:var(--purple);">Aerial Division</div>
+            </div>
+          </div>
+          <div class="product-info">
+            <div>
+              <div class="product-tag" style="border-color:var(--purple);color:var(--purple);background:rgba(123,47,255,0.07);">New Launch</div>
+              <div class="product-name">Drone Aerial Package</div>
+              <p class="product-desc">4K aerial footage + high-res stills from up to 400ft. Full editing included. Perfect for real estate, automotive reveals, events, and commercial shoots. The perspective no ground lens can match.</p>
+            </div>
+            <div class="product-footer">
+              <div class="product-price"><small>Starting at</small><span class="price-val" style="color:var(--purple);text-shadow:0 0 12px rgba(123,47,255,0.4);">$199</span></div>
+              <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book" style="border-color:var(--purple);color:var(--purple);">Book Drone Session</a>
+            </div>
           </div>
         </div>
       </div>
