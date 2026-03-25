@@ -118,15 +118,35 @@
   var previewBox = document.getElementById('photo-preview');
   var dropZone = document.getElementById('drop-zone');
 
+  // Compress image to max 900px wide/tall, JPEG 0.72 — keeps photos small for iOS localStorage
+  function compressPhoto(dataUrl, callback) {
+    var img = new Image();
+    img.onload = function() {
+      var MAX = 900, w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w >= h) { h = Math.round(h * MAX / w); w = MAX; }
+        else        { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', 0.72));
+    };
+    img.onerror = function() { callback(dataUrl); };
+    img.src = dataUrl;
+  }
+
   photoInput.addEventListener('change', function() {
     var file = this.files[0];
     if (!file) return;
     var reader = new FileReader();
     reader.onload = function(e) {
-      photoData = e.target.result;
-      previewImg.src = photoData;
-      previewBox.style.display = 'block';
-      dropZone.style.display = 'none';
+      compressPhoto(e.target.result, function(compressed) {
+        photoData = compressed;
+        previewImg.src = photoData;
+        previewBox.style.display = 'block';
+        dropZone.style.display = 'none';
+      });
     };
     reader.readAsDataURL(file);
   });
@@ -143,19 +163,15 @@
     var desc = document.getElementById('f-desc').value.trim();
     var mapRaw = document.getElementById('f-map').value.trim();
     if (!desc && !photoData) { alert('Add a photo or some notes first.'); return; }
+
     var mapUrl = '', mapLabel = '';
     if (mapRaw) {
-      if (/^https?:\/\//.test(mapRaw)) {
-        mapUrl = mapRaw;
-        mapLabel = 'View on Map';
-      } else {
-        mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapRaw);
-        mapLabel = mapRaw;
-      }
+      if (/^https?:\/\//.test(mapRaw)) { mapUrl = mapRaw; mapLabel = 'View on Map'; }
+      else { mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapRaw); mapLabel = mapRaw; }
     }
-    var entries = load();
+
     var now = new Date();
-    entries.unshift({
+    var entry = {
       id: Date.now(),
       date: now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' }),
       time: now.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }),
@@ -163,8 +179,21 @@
       desc: desc,
       map: mapUrl,
       mapLabel: mapLabel
-    });
-    save(entries);
+    };
+
+    var entries = load();
+    entries.unshift(entry);
+
+    var ok = save(entries);
+    if (!ok && entry.photo) {
+      // Photo too large — retry without it
+      entries[0].photo = null;
+      ok = save(entries);
+      if (ok) { alert('Entry saved — photo was too large for this device\'s storage and was not included.'); }
+    }
+    if (!ok) { alert('Could not save: storage is full. Delete some old entries and try again.'); return; }
+
+    // Clear form
     document.getElementById('f-desc').value = '';
     document.getElementById('f-map').value = '';
     photoData = null;
@@ -172,11 +201,21 @@
     previewImg.src = '';
     photoInput.value = '';
     dropZone.style.display = '';
+
+    // Flash "Saved!" on the button
+    var btn = document.getElementById('save-btn');
+    btn.textContent = 'Saved!';
+    btn.style.background = '#4ade80';
+    setTimeout(function() { btn.textContent = 'Save Entry'; btn.style.background = ''; }, 1800);
+
     render();
   });
 
   function load() { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch(e) { return []; } }
-  function save(e) { localStorage.setItem(STORE_KEY, JSON.stringify(e)); }
+  function save(entries) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); return true; }
+    catch(e) { return false; }
+  }
 
   window._journalDel = function(id) {
     if (confirm('Delete this entry?')) {
