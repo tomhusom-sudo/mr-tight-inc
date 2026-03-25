@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Weather — Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260323a';
+    var VER = 'v=20260325h';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -92,7 +92,7 @@
       cursor: pointer;
       background: none;
       border: none;
-      color: #4a6838;
+      color: #a8bc98;
       font-family: inherit;
       transition: background 0.15s, color 0.15s;
       -webkit-tap-highlight-color: transparent;
@@ -110,7 +110,7 @@
       left: 14px;
       top: 50%;
       transform: translateY(-50%);
-      color: #4a6838;
+      color: #a8bc98;
       font-size: 1rem;
       pointer-events: none;
     }
@@ -128,7 +128,7 @@
       transition: border-color 0.15s, background 0.15s;
       -webkit-appearance: none;
     }
-    .search-input::placeholder { color: #3a5028; }
+    .search-input::placeholder { color: #6a8a52; }
     .search-input:focus {
       border-color: rgba(74,222,128,0.4);
       background: rgba(255,255,255,0.07);
@@ -163,17 +163,17 @@
     .result-item:hover, .result-item:focus { background: rgba(34,197,94,0.08); outline: none; }
 
     .result-city { font-size: 0.92rem; font-weight: 600; color: #f0fae8; }
-    .result-sub  { font-size: 0.72rem; color: #4a6838; }
+    .result-sub  { font-size: 0.72rem; color: #a8bc98; }
 
     /* ── EMPTY STATE ── */
     .empty-state {
       text-align: center;
       padding: 60px 20px;
-      color: #3a5028;
+      color: #6a8a52;
     }
     .empty-icon { font-size: 3.5rem; margin-bottom: 16px; }
-    .empty-text { font-size: 1rem; font-weight: 500; color: #4a6838; }
-    .empty-sub  { font-size: 0.82rem; margin-top: 6px; color: #3a5028; }
+    .empty-text { font-size: 1rem; font-weight: 500; color: #a8bc98; }
+    .empty-sub  { font-size: 0.82rem; margin-top: 6px; color: #6a8a52; }
 
     /* ── CURRENT WEATHER CARD ── */
     .current-card {
@@ -211,13 +211,13 @@
     }
     .current-country {
       font-size: 0.78rem;
-      color: #4a6838;
+      color: #a8bc98;
       font-weight: 500;
       margin-top: 3px;
     }
     .current-updated {
       font-size: 0.68rem;
-      color: #3a5028;
+      color: #6a8a52;
       text-align: right;
       white-space: nowrap;
     }
@@ -242,7 +242,7 @@
     .current-unit-label {
       font-size: 2rem;
       font-weight: 300;
-      color: #4a6838;
+      color: #a8bc98;
       vertical-align: super;
     }
 
@@ -269,7 +269,7 @@
     }
 
     .detail-icon  { font-size: 1.3rem; margin-bottom: 5px; }
-    .detail-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #3a5028; margin-bottom: 4px; }
+    .detail-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #6a8a52; margin-bottom: 4px; }
     .detail-value { font-size: 0.92rem; font-weight: 600; color: #c8e0b8; }
 
     /* ── FORECAST ROW ── */
@@ -278,7 +278,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.16em;
-      color: #3a5028;
+      color: #6a8a52;
       margin-bottom: 10px;
     }
 
@@ -302,17 +302,17 @@
       border-color: rgba(34,197,94,0.18);
     }
 
-    .fc-day   { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #4a6838; margin-bottom: 8px; }
+    .fc-day   { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #a8bc98; margin-bottom: 8px; }
     .fc-icon  { font-size: 1.6rem; margin-bottom: 8px; }
     .fc-high  { font-size: 0.88rem; font-weight: 700; color: #f0fae8; }
-    .fc-low   { font-size: 0.75rem; color: #4a6838; margin-top: 2px; }
+    .fc-low   { font-size: 0.75rem; color: #a8bc98; margin-top: 2px; }
     .fc-rain  { font-size: 0.65rem; color: #60a8e0; margin-top: 5px; font-weight: 600; }
 
     /* ── LOADING / ERROR ── */
     .status-msg {
       text-align: center;
       padding: 40px 20px;
-      color: #4a6838;
+      color: #a8bc98;
       font-size: 0.9rem;
     }
 
@@ -377,7 +377,7 @@
   <!-- WEATHER CONTENT -->
   <div id="weather-content"></div>
 
-  <div class="page-footer">Weather data from <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:#3a5028">Open-Meteo</a> · Free &amp; open source</div>
+  <div class="page-footer">Weather data from <a href="https://open-meteo.com" target="_blank" rel="noopener" style="color:#6a8a52">Open-Meteo</a> · Free &amp; open source</div>
 
 </div>
 <script>

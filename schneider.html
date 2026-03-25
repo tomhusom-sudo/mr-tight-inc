@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Schneider — Maintenance</title>
+  <script>
+    var VER = 'v=20260325h';
+    if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+  </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -42,12 +46,12 @@
       text-transform: uppercase; color: #4ade80; margin-bottom: 5px;
     }
     .hero-text h1 { font-size: 2rem; font-weight: 800; color: #f0fae8; letter-spacing: -0.025em; }
-    .hero-text p { font-size: 0.82rem; color: #4a6838; margin-top: 5px; line-height: 1.5; }
+    .hero-text p { font-size: 0.82rem; color: #a8bc98; margin-top: 5px; line-height: 1.5; }
 
     /* ── SECTION LABEL ── */
     .section-label {
       font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
-      text-transform: uppercase; color: #3a5028;
+      text-transform: uppercase; color: #6a8a52;
       display: flex; align-items: center; gap: 10px; margin-bottom: 12px;
     }
     .section-label::after { content: ''; flex: 1; height: 1px; background: #1e2e12; }
@@ -71,7 +75,7 @@
       background: rgba(0,0,0,0.25); border: 1px solid #1e2e12; border-radius: 12px;
       padding: 16px 14px; text-align: center;
     }
-    .speed-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #4a6838; margin-bottom: 8px; }
+    .speed-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #a8bc98; margin-bottom: 8px; }
     .speed-value {
       font-size: 2rem; font-weight: 800; color: #f0fae8; letter-spacing: -0.03em;
       line-height: 1; font-variant-numeric: tabular-nums;
@@ -79,7 +83,7 @@
     .speed-value.green { color: #4ade80; }
     .speed-value.yellow { color: #fbbf24; }
     .speed-value.red { color: #f87171; }
-    .speed-unit { font-size: 0.7rem; font-weight: 600; color: #4a6838; margin-top: 4px; }
+    .speed-unit { font-size: 0.7rem; font-weight: 600; color: #a8bc98; margin-top: 4px; }
 
     .run-btn {
       display: flex; align-items: center; justify-content: center; gap: 8px;
@@ -97,7 +101,7 @@
     }
     .run-btn.running .btn-spinner { display: block; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    .speed-status { font-size: 0.72rem; color: #3a5028; text-align: center; margin-top: 10px; min-height: 18px; }
+    .speed-status { font-size: 0.72rem; color: #6a8a52; text-align: center; margin-top: 10px; min-height: 18px; }
 
     /* ── INFO GRID ── */
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -106,7 +110,7 @@
       display: flex; flex-direction: column; gap: 2px;
       background: rgba(0,0,0,0.2); border: 1px solid #1a2610; border-radius: 10px; padding: 12px 14px;
     }
-    .info-key { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #3a5028; }
+    .info-key { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: #6a8a52; }
     .info-val { font-size: 0.82rem; font-weight: 500; color: #c8dab8; word-break: break-all; }
 
     /* ── APP TOOLS ── */
@@ -121,7 +125,7 @@
     }
     .tool-btn:hover { background: rgba(34,197,94,0.06); border-color: rgba(34,197,94,0.2); }
     .tool-btn-title { font-size: 0.82rem; font-weight: 700; color: #e2eed8; }
-    .tool-btn-desc  { font-size: 0.7rem; color: #3a5028; line-height: 1.4; }
+    .tool-btn-desc  { font-size: 0.7rem; color: #6a8a52; line-height: 1.4; }
     .tool-btn-status { font-size: 0.7rem; font-weight: 600; margin-top: 6px; min-height: 16px; }
     .tool-btn-status.ok  { color: #4ade80; }
     .tool-btn-status.err { color: #f87171; }
@@ -130,7 +134,7 @@
     /* ── PING LOG ── */
     .ping-log {
       background: rgba(0,0,0,0.3); border: 1px solid #1a2610; border-radius: 10px;
-      padding: 12px 14px; font-size: 0.72rem; color: #4a6838; font-family: monospace;
+      padding: 12px 14px; font-size: 0.72rem; color: #a8bc98; font-family: monospace;
       line-height: 1.7; max-height: 160px; overflow-y: auto; margin-top: 12px;
     }
     .ping-log span.ok  { color: #4ade80; }
@@ -227,7 +231,7 @@
   <!-- ── CROSS-DEVICE SYNC ── -->
   <div class="section-label">Cross-Device Sync</div>
   <div class="tool-card">
-    <div style="font-size:0.82rem;color:#4a6838;line-height:1.6;margin-bottom:16px;">
+    <div style="font-size:0.82rem;color:#a8bc98;line-height:1.6;margin-bottom:16px;">
       Sync uses a private GitHub Gist to keep music picks &amp; tips in sync across iPhone, iPad and desktop — no server needed.
     </div>
     <div id="sync-status-row" style="display:none;background:rgba(34,197,94,0.07);border:1px solid rgba(34,197,94,0.2);border-radius:10px;padding:12px 14px;margin-bottom:14px;">
@@ -235,7 +239,7 @@
       <div style="font-size:0.75rem;color:#c8dab8;" id="sync-gist-line">Connected via GitHub Gist</div>
     </div>
     <div id="sync-setup-area">
-      <div style="font-size:0.75rem;color:#4a6838;margin-bottom:10px;">
+      <div style="font-size:0.75rem;color:#a8bc98;margin-bottom:10px;">
         <strong style="color:#a8bc98;">Step 1:</strong> Go to github.com → Settings → Developer Settings → Personal Access Tokens (classic) → Generate new token → check <strong style="color:#4ade80;">gist</strong> scope only → copy it.<br><br>
         <strong style="color:#a8bc98;">Step 2:</strong> Paste it below.
       </div>
@@ -247,7 +251,7 @@
         style="width:100%;background:#22c55e;color:#0a0e17;border:none;border-radius:8px;padding:11px;font-family:'Inter',sans-serif;font-size:14px;font-weight:700;cursor:pointer;" id="sync-connect-btn">
         Connect
       </button>
-      <div id="sync-connect-status" style="margin-top:10px;font-size:12px;color:#4a6838;min-height:18px;text-align:center;"></div>
+      <div id="sync-connect-status" style="margin-top:10px;font-size:12px;color:#a8bc98;min-height:18px;text-align:center;"></div>
     </div>
     <div id="sync-disconnect-area" style="display:none;">
       <button onclick="disconnectSync()"
