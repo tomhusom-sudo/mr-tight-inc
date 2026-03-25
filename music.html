@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Music Picks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background:
+      linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+      url('./angry_lincoln.png') center 20% / cover no-repeat fixed;
+    min-height: 100vh;
+    color: #e2e8f0;
+  }
+  .page-wrap { max-width: 760px; margin: 0 auto; padding: 28px 16px 80px; }
+
+  /* top bar */
+  .top-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #4ade80; text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 6px 12px; border: 1px solid #22c55e; border-radius: 999px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .back-btn:hover { background: rgba(34,197,94,0.12); }
+  .page-title { font-size: 26px; font-weight: 700; color: #f1f5f9; }
+  .page-sub { font-size: 13px; color: #4b6b3a; margin-bottom: 28px; margin-top: 4px; }
+
+  /* section header */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #4ade80;
+  }
+  .item-count { font-size: 12px; color: #4b6b3a; }
+
+  /* picks list */
+  .picks-list { list-style: none; margin-bottom: 36px; }
+  .picks-list li {
+    background: rgba(15,23,10,0.72);
+    border: 1px solid rgba(34,197,94,0.15);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s;
+  }
+  .picks-list li:hover { border-color: rgba(34,197,94,0.32); }
+
+  .pick-type-badge {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.28);
+    color: #4ade80;
+  }
+  .pick-type-badge.album  { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.3); color: #a78bfa; }
+  .pick-type-badge.track  { background: rgba(34,197,94,0.10); border-color: rgba(34,197,94,0.28); color: #4ade80; }
+  .pick-type-badge.playlist { background: rgba(251,146,60,0.10); border-color: rgba(251,146,60,0.28); color: #fb923c; }
+  .pick-type-badge.artist { background: rgba(56,189,248,0.10); border-color: rgba(56,189,248,0.28); color: #38bdf8; }
+
+  .pick-body { flex: 1; min-width: 0; }
+  .pick-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 2px; }
+  .pick-artist { font-size: 13px; color: #6b9f55; margin-bottom: 4px; }
+  .pick-note { font-size: 13px; color: #94a38a; line-height: 1.5; }
+  .pick-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    margin-top: 8px; font-size: 12px; color: #4ade80; font-weight: 500;
+    text-decoration: none; border-bottom: 1px solid rgba(74,222,128,0.3);
+    transition: color 0.2s;
+  }
+  .pick-link:hover { color: #86efac; }
+
+  .pick-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .btn-del {
+    background: none; border: none; color: #f87171; font-size: 13px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .btn-del:hover { background: rgba(248,113,113,0.12); }
+
+  /* add form */
+  .add-form {
+    background: rgba(15,23,10,0.72);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 16px;
+    padding: 22px 20px;
+    backdrop-filter: blur(8px);
+  }
+  .add-form h3 { font-size: 14px; font-weight: 600; color: #a8bc98; margin-bottom: 16px; }
+  .form-row { margin-bottom: 12px; }
+  label { display: block; font-size: 11px; color: #6b9f55; font-weight: 600; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+  input, select, textarea {
+    width: 100%; background: rgba(0,0,0,0.35); border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 8px; color: #e2e8f0; font-family: 'Inter', sans-serif;
+    font-size: 14px; padding: 9px 12px; outline: none; transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #22c55e; }
+  select option { background: #0e1a08; }
+  textarea { resize: vertical; min-height: 70px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .btn-add {
+    display: block; width: 100%; background: #22c55e; color: #0a0e17;
+    border: none; border-radius: 8px; padding: 11px;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: background 0.2s; margin-top: 4px;
+  }
+  .btn-add:hover { background: #4ade80; }
+
+  .empty-state { text-align: center; padding: 40px 0; color: #4b6b3a; font-size: 14px; }
+
+  @media (max-width: 500px) {
+    .form-row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="top-bar">
+    <a class="back-btn" href="./dashboard.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Dashboard
+    </a>
+    <h1 class="page-title">Music Picks</h1>
+  </div>
+  <p class="page-sub">Tom's current suggested listening — albums, tracks &amp; playlists worth your time.</p>
+
+  <!-- List -->
+  <div class="section-header">
+    <span class="section-label">Current Picks</span>
+    <span class="item-count" id="pick-count"></span>
+  </div>
+  <ul class="picks-list" id="picks-list"></ul>
+
+  <!-- Add form -->
+  <div class="add-form">
+    <h3>Add a Pick</h3>
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Title</label>
+        <input type="text" id="f-title" placeholder="Album, track, or artist name">
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Artist</label>
+        <input type="text" id="f-artist" placeholder="Artist / Band">
+      </div>
+    </div>
+    <div class="form-row-2" style="margin-top:12px">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Type</label>
+        <select id="f-type">
+          <option value="album">Album</option>
+          <option value="track">Track</option>
+          <option value="playlist">Playlist</option>
+          <option value="artist">Artist</option>
+        </select>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Link (optional)</label>
+        <input type="url" id="f-link" placeholder="Spotify / Apple Music URL">
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:12px">
+      <label>Note (optional)</label>
+      <textarea id="f-note" placeholder="Why it's worth a listen..."></textarea>
+    </div>
+    <button class="btn-add" id="btn-add">Add Pick</button>
+  </div>
+
+</div>
+<script>
+(function() {
+  var KEY = 'bacon_music_v1';
+
+  var DEFAULT_PICKS = [
+    { id: 1, type: 'album',  title: 'Kind of Blue',        artist: 'Miles Davis',        note: 'The definitive jazz record. Nothing else sounds like this.',            link: '' },
+    { id: 2, type: 'album',  title: 'Rumours',             artist: 'Fleetwood Mac',      note: 'Start to finish — every track earns its place.',                        link: '' },
+    { id: 3, type: 'track',  title: 'Africa',              artist: 'Toto',               note: 'You know why.',                                                         link: '' }
+  ];
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e) { return null; }
+  }
+  function save(items) {
+    try { localStorage.setItem(KEY, JSON.stringify(items)); } catch(e) {}
+  }
+
+  function getPicks() {
+    var stored = load();
+    return stored !== null ? stored : DEFAULT_PICKS;
+  }
+
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function render() {
+    var picks = getPicks();
+    var list = document.getElementById('picks-list');
+    document.getElementById('pick-count').textContent = picks.length + (picks.length === 1 ? ' pick' : ' picks');
+
+    if (!picks.length) {
+      list.innerHTML = '<div class="empty-state"><p>No picks yet. Add the first one below.</p></div>';
+      return;
+    }
+
+    list.innerHTML = picks.map(function(p) {
+      var typeLabel = { album:'Album', track:'Track', playlist:'Playlist', artist:'Artist' }[p.type] || p.type;
+      return '<li>'
+        + '<span class="pick-type-badge ' + esc(p.type) + '">' + esc(typeLabel) + '</span>'
+        + '<div class="pick-body">'
+          + '<div class="pick-title">' + esc(p.title) + '</div>'
+          + (p.artist ? '<div class="pick-artist">' + esc(p.artist) + '</div>' : '')
+          + (p.note   ? '<div class="pick-note">'   + esc(p.note)   + '</div>' : '')
+          + (p.link   ? '<a class="pick-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
+                        + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+                        + 'Listen</a>' : '')
+        + '</div>'
+        + '<div class="pick-actions">'
+          + '<button class="btn-del" onclick="delPick(' + p.id + ')">Remove</button>'
+        + '</div>'
+        + '</li>';
+    }).join('');
+  }
+
+  window.delPick = function(id) {
+    var picks = getPicks().filter(function(p) { return p.id !== id; });
+    save(picks);
+    render();
+  };
+
+  document.getElementById('btn-add').addEventListener('click', function() {
+    var title  = document.getElementById('f-title').value.trim();
+    var artist = document.getElementById('f-artist').value.trim();
+    var type   = document.getElementById('f-type').value;
+    var link   = document.getElementById('f-link').value.trim();
+    var note   = document.getElementById('f-note').value.trim();
+
+    if (!title) { document.getElementById('f-title').focus(); return; }
+
+    var picks = getPicks();
+    picks.unshift({ id: Date.now(), type: type, title: title, artist: artist, note: note, link: link });
+    save(picks);
+
+    document.getElementById('f-title').value  = '';
+    document.getElementById('f-artist').value = '';
+    document.getElementById('f-link').value   = '';
+    document.getElementById('f-note').value   = '';
+
+    var btn = document.getElementById('btn-add');
+    btn.textContent = 'Added!';
+    btn.style.background = '#4ade80';
+    setTimeout(function() { btn.textContent = 'Add Pick'; btn.style.background = ''; }, 1600);
+
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
