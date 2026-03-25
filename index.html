@@ -953,10 +953,14 @@
     window.lookupTickerName = function(raw) {
       var ticker = raw.trim().toUpperCase();
       if (!ticker) return;
-      var nameEl = document.getElementById('f-name');
+      var nameEl   = document.getElementById('f-name');
+      var domainEl = document.getElementById('f-domain');
       if (nameEl.value.trim()) return;
       nameEl.placeholder = 'Looking up...';
-      fetch('https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d&corsDomain=finance.yahoo.com')
+      var proxy = 'https://api.allorigins.win/raw?url=';
+
+      // Fetch name via chart endpoint
+      fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=1d'))
         .then(function(r) { return r.json(); })
         .then(function(d) {
           var meta = d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
@@ -965,6 +969,20 @@
           if (name) nameEl.value = name;
         })
         .catch(function() { nameEl.placeholder = 'e.g. Apple Inc.'; });
+
+      // Auto-fill domain for logo if not already set
+      if (!domainEl.value.trim()) {
+        fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v11/finance/quoteSummary/' + ticker + '?modules=assetProfile'))
+          .then(function(r) { return r.json(); })
+          .then(function(d) {
+            var profile = d.quoteSummary && d.quoteSummary.result && d.quoteSummary.result[0] && d.quoteSummary.result[0].assetProfile;
+            var website = profile && profile.website;
+            if (website) {
+              domainEl.value = website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+            }
+          })
+          .catch(function() {});
+      }
     };
 
     window.openModal = function(index) {
