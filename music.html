@@ -57,6 +57,21 @@
   }
   .picks-list li:hover { border-color: rgba(34,197,94,0.32); }
 
+  /* album cover */
+  .pick-cover {
+    flex-shrink: 0;
+    width: 64px; height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(34,197,94,0.07);
+    border: 1px solid rgba(34,197,94,0.18);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pick-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pick-cover-placeholder {
+    color: rgba(74,222,128,0.3); font-size: 26px; line-height: 1;
+  }
+
   .pick-type-badge {
     flex-shrink: 0;
     margin-top: 2px;
@@ -251,7 +266,11 @@
 
     list.innerHTML = picks.map(function(p) {
       var typeLabel = { album:'Album', track:'Track', playlist:'Playlist', artist:'Artist' }[p.type] || p.type;
+      var coverHtml = p.coverUrl
+        ? '<img src="' + esc(p.coverUrl) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">'
+        : '<span class="pick-cover-placeholder">♫</span>';
       return '<li data-id="' + p.id + '">'
+        + '<div class="pick-cover" id="cover-' + p.id + '">' + coverHtml + '</div>'
         + '<span class="pick-type-badge ' + esc(p.type) + '">' + esc(typeLabel) + '</span>'
         + '<div class="pick-body">'
           + '<div class="pick-title">' + esc(p.title) + '</div>'
@@ -305,16 +324,18 @@
     var picks = getPicks();
     for (var i = 0; i < picks.length; i++) {
       if (picks[i].id === id) {
-        picks[i].title  = document.getElementById('ei-title-'  + id).value.trim();
-        picks[i].artist = document.getElementById('ei-artist-' + id).value.trim();
-        picks[i].type   = document.getElementById('ei-type-'   + id).value;
-        picks[i].link   = document.getElementById('ei-link-'   + id).value.trim();
-        picks[i].note   = document.getElementById('ei-note-'   + id).value.trim();
+        picks[i].title   = document.getElementById('ei-title-'  + id).value.trim();
+        picks[i].artist  = document.getElementById('ei-artist-' + id).value.trim();
+        picks[i].type    = document.getElementById('ei-type-'   + id).value;
+        picks[i].link    = document.getElementById('ei-link-'   + id).value.trim();
+        picks[i].note    = document.getElementById('ei-note-'   + id).value.trim();
+        picks[i].coverUrl = ''; // clear so art re-fetches for new title/artist
         break;
       }
     }
     save(picks);
     render();
+    fetchCovers();
   };
 
   document.getElementById('btn-add').addEventListener('click', function() {
@@ -343,7 +364,45 @@
     render();
   });
 
+  // ── Fetch album art from iTunes for any pick without a coverUrl ──
+  function fetchCovers() {
+    var picks = getPicks();
+    var changed = false;
+    var pending = 0;
+
+    picks.forEach(function(p) {
+      if (p.coverUrl) return;
+      var query = (p.title + ' ' + p.artist).trim();
+      if (!query) return;
+      var entity = p.type === 'artist' ? 'musicArtist' : 'album';
+      var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(query)
+              + '&media=music&entity=' + entity + '&limit=1';
+      pending++;
+      fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var result = data && data.results && data.results[0];
+          var art = result && (result.artworkUrl100 || result.artistLinkUrl);
+          if (art && result.artworkUrl100) {
+            // upgrade to 500px
+            art = result.artworkUrl100.replace('100x100bb', '500x500bb');
+            p.coverUrl = art;
+            changed = true;
+            // update img in DOM without full re-render
+            var el = document.getElementById('cover-' + p.id);
+            if (el) el.innerHTML = '<img src="' + esc(art) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">';
+          }
+        })
+        .catch(function() {})
+        .then(function() {
+          pending--;
+          if (pending === 0 && changed) save(picks);
+        });
+    });
+  }
+
   render();
+  fetchCovers();
 })();
 </script>
 </body>
