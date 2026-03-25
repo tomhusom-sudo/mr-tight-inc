@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260325c';
+    var VER = 'v=20260325d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -1378,20 +1378,34 @@
       var pending = missing.length;
       function done() { pending--; if (pending === 0) callback(); }
 
+      var PRICE_PROXIES = [
+        'https://api.allorigins.win/raw?url=',
+        'https://corsproxy.io/?',
+        'https://api.codetabs.com/v1/proxy?quest='
+      ];
+
       missing.forEach(function(m) {
         var yf  = m.type === 'crypto' ? m.ticker + '-USD' : m.ticker;
         var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(yf) + '?interval=1d&range=1d';
-        var proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-        fetch(proxy)
-          .then(function(r) { return r.json(); })
-          .then(function(data) {
-            var res = data && data.chart && data.chart.result && data.chart.result[0];
-            if (res && res.meta && res.meta.regularMarketPrice != null) {
-              LIVE_PRICES[m.ticker] = res.meta.regularMarketPrice;
-            }
-            done();
-          })
-          .catch(function() { done(); });
+        var pi = 0;
+        function tryProxy() {
+          if (pi >= PRICE_PROXIES.length) { done(); return; }
+          var ctrl = new AbortController();
+          var tid = setTimeout(function() { ctrl.abort(); }, 7000);
+          fetch(PRICE_PROXIES[pi++] + encodeURIComponent(url), { signal: ctrl.signal })
+            .then(function(r) { clearTimeout(tid); return r.json(); })
+            .then(function(data) {
+              var res = data && data.chart && data.chart.result && data.chart.result[0];
+              if (res && res.meta && res.meta.regularMarketPrice != null) {
+                LIVE_PRICES[m.ticker] = res.meta.regularMarketPrice;
+                done();
+              } else {
+                tryProxy();
+              }
+            })
+            .catch(function() { clearTimeout(tid); tryProxy(); });
+        }
+        tryProxy();
       });
     }
 
