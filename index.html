@@ -950,36 +950,96 @@
     };
 
     // ── MODAL ──
+    // Instant lookup table — name + logo source for common tickers
+    var TICKER_DB = {
+      'AA':   { name:'Alcoa Corporation',                  domain:'alcoa.com' },
+      'AAPL': { name:'Apple Inc.',                         domain:'apple.com' },
+      'AMZN': { name:'Amazon.com, Inc.',                   domain:'amazon.com' },
+      'BAC':  { name:'Bank of America Corporation',        domain:'bankofamerica.com' },
+      'BRK.B':{ name:'Berkshire Hathaway Inc.',            domain:'berkshirehathaway.com' },
+      'BTC':  { name:'Bitcoin',                            logoUrl:'https://cryptologos.cc/logos/bitcoin-btc-logo.png' },
+      'C':    { name:'Citigroup Inc.',                     domain:'citigroup.com' },
+      'DIS':  { name:'The Walt Disney Company',            domain:'disney.com' },
+      'ETH':  { name:'Ethereum',                           logoUrl:'https://cryptologos.cc/logos/ethereum-eth-logo.png' },
+      'EXE':  { name:'Expand Energy Corporation',          domain:'expandenergy.com' },
+      'GLD':  { name:'SPDR Gold Shares ETF',               domain:'ssga.com' },
+      'GOOG': { name:'Alphabet Inc.',                      domain:'abc.xyz' },
+      'GOOGL':{ name:'Alphabet Inc.',                      domain:'abc.xyz' },
+      'ICLN': { name:'iShares Global Clean Energy ETF',    domain:'ishares.com' },
+      'JPM':  { name:'JPMorgan Chase & Co.',               domain:'jpmorganchase.com' },
+      'META': { name:'Meta Platforms, Inc.',               domain:'meta.com' },
+      'MSFT': { name:'Microsoft Corporation',              domain:'microsoft.com' },
+      'NFLX': { name:'Netflix, Inc.',                      domain:'netflix.com' },
+      'NVDA': { name:'NVIDIA Corporation',                 domain:'nvidia.com' },
+      'QQQ':  { name:'Invesco QQQ Trust',                  domain:'invesco.com' },
+      'SOL':  { name:'Solana',                             logoUrl:'https://cryptologos.cc/logos/solana-sol-logo.png' },
+      'SPY':  { name:'SPDR S&P 500 ETF Trust',             domain:'ssga.com' },
+      'TSLA': { name:'Tesla, Inc.',                        domain:'tesla.com' },
+      'V':    { name:'Visa Inc.',                          domain:'visa.com' },
+      'VTI':  { name:'Vanguard Total Stock Market ETF',    domain:'vanguard.com' },
+      'VOO':  { name:'Vanguard S&P 500 ETF',               domain:'vanguard.com' },
+      'VONG': { name:'Vanguard Russell 1000 Growth ETF',   domain:'vanguard.com' },
+      'WMT':  { name:'Walmart Inc.',                       domain:'walmart.com' },
+      'XOM':  { name:'Exxon Mobil Corporation',            domain:'exxonmobil.com' },
+    };
+
     window.lookupTickerName = function(raw) {
       var ticker = raw.trim().toUpperCase();
       if (!ticker) return;
-      var nameEl   = document.getElementById('f-name');
-      var domainEl = document.getElementById('f-domain');
+      var nameEl    = document.getElementById('f-name');
+      var domainEl  = document.getElementById('f-domain');
+      var logourlEl = document.getElementById('f-logourl');
       if (nameEl.value.trim()) return;
+
+      // Instant hit from local table
+      if (TICKER_DB[ticker]) {
+        var k = TICKER_DB[ticker];
+        nameEl.value = k.name;
+        if (!domainEl.value.trim()  && k.domain)   domainEl.value  = k.domain;
+        if (!logourlEl.value.trim() && k.logoUrl)  logourlEl.value = k.logoUrl;
+        return;
+      }
+
       nameEl.placeholder = 'Looking up...';
       var proxy = 'https://api.allorigins.win/raw?url=';
 
-      // Fetch name via chart endpoint
-      fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=1d'))
+      // Yahoo Finance search — returns longname/shortname for stocks, ETFs & crypto
+      var searchUrl = 'https://query1.finance.yahoo.com/v1/finance/search?q='
+        + encodeURIComponent(ticker) + '&quotesCount=6&newsCount=0&enableFuzzyQuery=false';
+      fetch(proxy + encodeURIComponent(searchUrl))
         .then(function(r) { return r.json(); })
         .then(function(d) {
-          var meta = d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
-          var name = (meta && (meta.longName || meta.shortName)) || '';
+          var quotes = d.quotes || [];
+          var match = null;
+          for (var i = 0; i < quotes.length; i++) {
+            if (quotes[i].symbol === ticker) { match = quotes[i]; break; }
+          }
+          if (!match && quotes.length) match = quotes[0];
+          var name = (match && (match.longname || match.shortname)) || '';
           nameEl.placeholder = 'e.g. Apple Inc.';
           if (name) nameEl.value = name;
         })
-        .catch(function() { nameEl.placeholder = 'e.g. Apple Inc.'; });
+        .catch(function() {
+          // Fallback: chart endpoint
+          fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=1d'))
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+              var meta = d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
+              var name = (meta && (meta.longName || meta.shortName)) || '';
+              nameEl.placeholder = 'e.g. Apple Inc.';
+              if (name) nameEl.value = name;
+            })
+            .catch(function() { nameEl.placeholder = 'e.g. Apple Inc.'; });
+        });
 
-      // Auto-fill domain for logo if not already set
+      // Domain auto-fill for stocks (assetProfile works for equities, not ETFs/crypto)
       if (!domainEl.value.trim()) {
         fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v11/finance/quoteSummary/' + ticker + '?modules=assetProfile'))
           .then(function(r) { return r.json(); })
           .then(function(d) {
             var profile = d.quoteSummary && d.quoteSummary.result && d.quoteSummary.result[0] && d.quoteSummary.result[0].assetProfile;
             var website = profile && profile.website;
-            if (website) {
-              domainEl.value = website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
-            }
+            if (website) domainEl.value = website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
           })
           .catch(function() {});
       }
