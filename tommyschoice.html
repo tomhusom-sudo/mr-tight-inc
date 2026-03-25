@@ -187,36 +187,54 @@
   document.getElementById('tv-iframe').src =
     'https://s.tradingview.com/embed-widget/advanced-chart/?locale=en#' + encodeURIComponent(cfg);
 
-  // News
-  function fetchRss(url, label) {
-    var ctrl = new AbortController();
-    var tid = setTimeout(function () { ctrl.abort(); }, 8000);
-    return fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent(url), { signal: ctrl.signal })
-      .then(function (r) { clearTimeout(tid); return r.text(); })
-      .then(function (txt) {
-        var doc = new DOMParser().parseFromString(txt, 'text/xml');
-        return Array.from(doc.querySelectorAll('item')).map(function (el) {
-          var title = (el.querySelector('title') || {}).textContent || '';
-          var link = '';
-          var le = el.querySelector('link');
-          if (le) link = le.textContent || le.getAttribute('href') || '';
-          if (!link) {
-            var ch = el.childNodes;
-            for (var i = 0; i < ch.length; i++) {
-              if (ch[i].nodeName === 'link') { link = ch[i].textContent || ''; break; }
-            }
+  // News — tries multiple CORS proxies in order until one works
+  var PROXIES = [
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://api.codetabs.com/v1/proxy?quest='
+  ];
+
+  function parseRss(txt, label) {
+    try {
+      var doc = new DOMParser().parseFromString(txt, 'text/xml');
+      return Array.from(doc.querySelectorAll('item')).map(function (el) {
+        var title = (el.querySelector('title') || {}).textContent || '';
+        var link = '';
+        var le = el.querySelector('link');
+        if (le) link = le.textContent || le.getAttribute('href') || '';
+        if (!link) {
+          var ch = el.childNodes;
+          for (var i = 0; i < ch.length; i++) {
+            if (ch[i].nodeName === 'link') { link = ch[i].textContent || ''; break; }
           }
-          var pub  = (el.querySelector('pubDate') || {}).textContent || '';
-          var desc = (el.querySelector('description') || {}).textContent || '';
-          title = title.trim(); link = link.trim();
-          var src = label;
-          var m = title.match(/\s[-\u2013\u2014]\s([^\u2013\u2014]{2,45})$/);
-          if (m) { src = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
-          if (!link || link.indexOf('http') !== 0) return null;
-          return { title: title, link: link, date: pub ? new Date(pub) : null, desc: desc.replace(/<[^>]+>/g, '').trim().substring(0, 220), source: src };
-        }).filter(Boolean);
-      })
-      .catch(function () { clearTimeout(tid); return []; });
+        }
+        var pub  = (el.querySelector('pubDate') || {}).textContent || '';
+        var desc = (el.querySelector('description') || {}).textContent || '';
+        title = title.trim(); link = link.trim();
+        var src = label;
+        var m = title.match(/\s[-\u2013\u2014]\s([^\u2013\u2014]{2,45})$/);
+        if (m) { src = m[1].trim(); title = title.slice(0, title.lastIndexOf(m[0])).trim(); }
+        if (!link || link.indexOf('http') !== 0) return null;
+        return { title: title, link: link, date: pub ? new Date(pub) : null, desc: desc.replace(/<[^>]+>/g, '').trim().substring(0, 220), source: src };
+      }).filter(Boolean);
+    } catch(e) { return []; }
+  }
+
+  function fetchRss(url, label) {
+    function tryProxy(idx) {
+      if (idx >= PROXIES.length) return Promise.resolve([]);
+      var ctrl = new AbortController();
+      var tid = setTimeout(function () { ctrl.abort(); }, 7000);
+      return fetch(PROXIES[idx] + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function (r) { clearTimeout(tid); return r.text(); })
+        .then(function (txt) {
+          var items = parseRss(txt, label);
+          if (items.length > 0) return items;
+          return tryProxy(idx + 1); // try next proxy if this one returned nothing
+        })
+        .catch(function () { clearTimeout(tid); return tryProxy(idx + 1); });
+    }
+    return tryProxy(0);
   }
 
   function relTime(d) {
