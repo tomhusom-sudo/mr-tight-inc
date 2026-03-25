@@ -120,8 +120,37 @@
 
   .empty-state { text-align: center; padding: 40px 0; color: #4b6b3a; font-size: 14px; }
 
+  /* inline edit */
+  .edit-wrap { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .edit-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .edit-wrap input, .edit-wrap select, .edit-wrap textarea {
+    width: 100%; background: rgba(0,0,0,0.45); border: 1px solid rgba(74,222,128,0.35);
+    border-radius: 7px; color: #e2e8f0; font-family: 'Inter', sans-serif;
+    font-size: 13px; padding: 7px 10px; outline: none;
+  }
+  .edit-wrap select option { background: #0e1a08; }
+  .edit-wrap textarea { resize: vertical; min-height: 56px; }
+  .edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .btn-save-edit {
+    background: #22c55e; color: #0a0e17; border: none; border-radius: 6px;
+    padding: 6px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-cancel-edit {
+    background: rgba(255,255,255,0.06); color: #94a38a; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-edit {
+    background: none; border: none; color: #6b9f55; font-size: 13px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .btn-edit:hover { background: rgba(74,222,128,0.1); color: #4ade80; }
+
   @media (max-width: 500px) {
     .form-row-2 { grid-template-columns: 1fr; }
+    .edit-row-2 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -222,7 +251,7 @@
 
     list.innerHTML = picks.map(function(p) {
       var typeLabel = { album:'Album', track:'Track', playlist:'Playlist', artist:'Artist' }[p.type] || p.type;
-      return '<li>'
+      return '<li data-id="' + p.id + '">'
         + '<span class="pick-type-badge ' + esc(p.type) + '">' + esc(typeLabel) + '</span>'
         + '<div class="pick-body">'
           + '<div class="pick-title">' + esc(p.title) + '</div>'
@@ -233,7 +262,8 @@
                         + 'Listen</a>' : '')
         + '</div>'
         + '<div class="pick-actions">'
-          + '<button class="btn-del" onclick="delPick(' + p.id + ')">Remove</button>'
+          + '<button class="btn-edit" onclick="editPick(' + p.id + ')">Edit</button>'
+          + '<button class="btn-del"  onclick="delPick('  + p.id + ')">Remove</button>'
         + '</div>'
         + '</li>';
     }).join('');
@@ -241,6 +271,48 @@
 
   window.delPick = function(id) {
     var picks = getPicks().filter(function(p) { return p.id !== id; });
+    save(picks);
+    render();
+  };
+
+  window.editPick = function(id) {
+    var picks = getPicks();
+    var p; for (var i = 0; i < picks.length; i++) { if (picks[i].id === id) { p = picks[i]; break; } }
+    if (!p) return;
+    var li = document.querySelector('[data-id="' + id + '"]');
+    if (!li) return;
+    var typeOpts = ['album','track','playlist','artist'].map(function(t) {
+      return '<option value="' + t + '"' + (p.type === t ? ' selected' : '') + '>' + t.charAt(0).toUpperCase() + t.slice(1) + '</option>';
+    }).join('');
+    li.innerHTML = '<div class="edit-wrap">'
+      + '<div class="edit-row-2">'
+        + '<input id="ei-title-'  + id + '" value="' + esc(p.title)  + '" placeholder="Title">'
+        + '<input id="ei-artist-' + id + '" value="' + esc(p.artist) + '" placeholder="Artist">'
+      + '</div>'
+      + '<div class="edit-row-2">'
+        + '<select id="ei-type-' + id + '">' + typeOpts + '</select>'
+        + '<input id="ei-link-' + id + '" value="' + esc(p.link) + '" placeholder="Listen URL">'
+      + '</div>'
+      + '<textarea id="ei-note-' + id + '" rows="2" placeholder="Note">' + esc(p.note) + '</textarea>'
+      + '<div class="edit-actions">'
+        + '<button class="btn-cancel-edit" onclick="render()">Cancel</button>'
+        + '<button class="btn-save-edit"   onclick="savePick(' + id + ')">Save</button>'
+      + '</div>'
+      + '</div>';
+  };
+
+  window.savePick = function(id) {
+    var picks = getPicks();
+    for (var i = 0; i < picks.length; i++) {
+      if (picks[i].id === id) {
+        picks[i].title  = document.getElementById('ei-title-'  + id).value.trim();
+        picks[i].artist = document.getElementById('ei-artist-' + id).value.trim();
+        picks[i].type   = document.getElementById('ei-type-'   + id).value;
+        picks[i].link   = document.getElementById('ei-link-'   + id).value.trim();
+        picks[i].note   = document.getElementById('ei-note-'   + id).value.trim();
+        break;
+      }
+    }
     save(picks);
     render();
   };

@@ -305,6 +305,46 @@
     }
     .btn-del:hover { color: #f87171; background: rgba(248,113,113,0.1); }
 
+    .btn-edit-tip {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #4a6838;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      font-family: inherit;
+    }
+    .btn-edit-tip:hover { color: #4ade80; background: rgba(74,222,128,0.1); }
+
+    .edit-tip-wrap { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .edit-tip-wrap input,
+    .edit-tip-wrap textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(74,222,128,0.35);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      color: #e2eed8;
+      font-family: inherit;
+      outline: none;
+    }
+    .edit-tip-wrap textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+    .edit-tip-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-save-tip {
+      background: rgba(34,197,94,0.2); border: 1px solid rgba(74,222,128,0.4);
+      border-radius: 7px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+      color: #4ade80; cursor: pointer; font-family: inherit;
+    }
+    .btn-cancel-tip {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px; padding: 6px 12px; font-size: 0.78rem;
+      color: #4a6838; cursor: pointer; font-family: inherit;
+    }
+
     .empty-state {
       padding: 28px 24px;
       font-size: 0.82rem;
@@ -432,13 +472,14 @@
     }
     empty.style.display = 'none';
     list.innerHTML = tips.map(function(t, i) {
-      return '<li>'
+      return '<li data-tip-idx="' + i + '">'
         + (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener" title="Open ' + esc(t.ticker) + ' on Yahoo Finance">' + esc(t.ticker) + ' ↗</a>' : '')
         + '<div class="item-body">'
         +   '<div class="item-primary">' + esc(t.title || t.ticker || 'Untitled') + '</div>'
         +   (t.note ? '<div class="item-secondary">' + esc(t.note) + '</div>' : '')
         +   '<div class="item-date">Added ' + fmtDate(t.date) + '</div>'
         + '</div>'
+        + '<button class="btn-edit-tip" title="Edit" onclick="editTip(' + i + ')">✎</button>'
         + '<button class="btn-del" title="Remove" onclick="deleteTip(' + i + ')">✕</button>'
         + '</li>';
     }).join('');
@@ -488,6 +529,32 @@
   function deleteTip(i) {
     var tips = loadTips();
     tips.splice(i, 1);
+    saveTips(tips);
+    renderTips();
+  }
+
+  function editTip(i) {
+    var tips = loadTips();
+    var t = tips[i];
+    if (!t) return;
+    var li = document.querySelector('[data-tip-idx="' + i + '"]');
+    if (!li) return;
+    li.innerHTML = (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener">' + esc(t.ticker) + ' ↗</a>' : '')
+      + '<div class="edit-tip-wrap">'
+        + '<input id="et-title-' + i + '" value="' + esc(t.title || '') + '" placeholder="Asset name">'
+        + '<textarea id="et-note-' + i + '" placeholder="Why Tom thinks you should look at this…">' + esc(t.note || '') + '</textarea>'
+        + '<div class="edit-tip-actions">'
+          + '<button class="btn-cancel-tip" onclick="renderTips()">Cancel</button>'
+          + '<button class="btn-save-tip"   onclick="saveTip(' + i + ')">Save</button>'
+        + '</div>'
+      + '</div>';
+  }
+
+  function saveTip(i) {
+    var tips = loadTips();
+    if (!tips[i]) return;
+    tips[i].title = document.getElementById('et-title-' + i).value.trim();
+    tips[i].note  = document.getElementById('et-note-'  + i).value.trim();
     saveTips(tips);
     renderTips();
   }
