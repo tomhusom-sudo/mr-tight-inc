@@ -6,5 +6,6 @@
   {"ticker":"NVDA", "name":"NVIDIA Corporation",                "type":"stock",  "domain":"nvidia.com",       "logoUrl":"",                                                  "qty":100,    "avgCost":120.00,  "price":175.21},
   {"ticker":"VOO",  "name":"Vanguard S&P 500 ETF",             "type":"etf",    "domain":"vanguard.com",     "logoUrl":"",                                                  "qty":30,     "avgCost":450.00,  "price":602.45},
   {"ticker":"VONG", "name":"Vanguard Russell 1000 Growth ETF", "type":"etf",    "domain":"vanguard.com",     "logoUrl":"",                                                  "qty":40,     "avgCost":95.00,   "price":121.99},
-  {"ticker":"EXE",  "name":"Expand Energy Corporation",         "type":"stock",  "domain":"expandenergy.com", "logoUrl":"",                                                  "qty":60,     "avgCost":85.00,   "price":108.58}
+  {"ticker":"EXE",  "name":"Expand Energy Corporation",         "type":"stock",  "domain":"expandenergy.com", "logoUrl":"",                                                  "qty":60,     "avgCost":85.00,   "price":108.58},
+  {"ticker":"ICLN", "name":"iShares Global Clean Energy ETF",   "type":"etf",    "domain":"ishares.com",      "logoUrl":"",                                                  "qty":0,      "avgCost":0,       "price":0}
 ]
