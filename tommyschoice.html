@@ -22,6 +22,12 @@
     .pick-ticker { font-size: 1.7rem; font-weight: 800; color: #f0fae8; letter-spacing: -0.02em; line-height: 1; }
     .pick-name { font-size: 0.88rem; color: #4ade80; margin-top: 3px; }
     .pick-tagline { font-size: 0.8rem; color: #5a7848; margin-top: 6px; line-height: 1.45; }
+    .pick-price-block { display: flex; flex-direction: column; align-items: flex-end; flex-shrink: 0; gap: 3px; }
+    .pick-price { font-size: 1.6rem; font-weight: 800; color: #f0fae8; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; line-height: 1; }
+    .pick-change { font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .pick-change.pos { color: #4ade80; }
+    .pick-change.neg { color: #f87171; }
+    .pick-price-label { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3a5028; }
     .badge-etf { font-size: 0.6rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; background: #1a3a2a; color: #4ade80; align-self: flex-start; }
     .thesis-panel { max-width: 860px; margin: 0 auto 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 600px) { .thesis-panel { grid-template-columns: 1fr; } }
@@ -95,6 +101,11 @@
         <div class="pick-name">iShares Global Clean Energy ETF</div>
         <div class="pick-tagline">Global clean energy exposure across solar, wind, hydro, geothermal and renewables in 30+ countries.</div>
       </div>
+      <div class="pick-price-block">
+        <div class="pick-price-label">Last Price</div>
+        <div class="pick-price" id="pick-price">$—</div>
+        <div class="pick-change" id="pick-change"></div>
+      </div>
       <span class="badge-etf">ETF</span>
     </div>
   </div>
@@ -166,6 +177,36 @@
 
   var TV_SYM  = 'NASDAQ:ICLN';
   var YF_TICK = 'ICLN';
+  var FALLBACK_PRICE = 12.34; // last known — updated by fetchPickPrice
+
+  // Fetch live price for the current pick
+  (function fetchPickPrice() {
+    var priceEl  = document.getElementById('pick-price');
+    var changeEl = document.getElementById('pick-change');
+    var url   = 'https://query2.finance.yahoo.com/v8/finance/chart/ICLN?interval=1d&range=2d';
+    var proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+    fetch(proxy)
+      .then(function(r) { return r.json(); })
+      .then(function(data) {
+        var res = data && data.chart && data.chart.result && data.chart.result[0];
+        if (!res || !res.meta) throw new Error('no data');
+        var price  = res.meta.regularMarketPrice;
+        var prev   = res.meta.previousClose || res.meta.chartPreviousClose;
+        if (!price) throw new Error('no price');
+        var chg    = prev ? price - prev : null;
+        var pct    = prev ? (chg / prev) * 100 : null;
+        priceEl.textContent = '$' + price.toFixed(2);
+        if (chg !== null) {
+          var pos = chg >= 0;
+          changeEl.textContent = (pos ? '+' : '') + chg.toFixed(2) + ' (' + (pos ? '+' : '') + pct.toFixed(2) + '%)';
+          changeEl.className = 'pick-change ' + (pos ? 'pos' : 'neg');
+        }
+      })
+      .catch(function() {
+        priceEl.textContent = '$' + FALLBACK_PRICE.toFixed(2);
+        changeEl.textContent = '';
+      });
+  })();
   var QUERIES = ['ICLN clean energy ETF', 'iShares clean energy solar wind'];
 
   // TradingView comparison chart via iframe

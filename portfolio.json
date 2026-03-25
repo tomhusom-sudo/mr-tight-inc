@@ -1,10 +1,10 @@
 [
-  {"ticker":"AA",   "name":"Alcoa Corporation",                 "type":"stock",  "domain":"alcoa.com",        "logoUrl":"",                                                  "qty":555555, "avgCost":7.00},
-  {"ticker":"MSFT", "name":"Microsoft Corporation",             "type":"stock",  "domain":"microsoft.com",    "logoUrl":"",                                                  "qty":50,     "avgCost":310.00},
-  {"ticker":"AMZN", "name":"Amazon.com, Inc.",                  "type":"stock",  "domain":"amazon.com",       "logoUrl":"",                                                  "qty":75,     "avgCost":165.00},
-  {"ticker":"BTC",  "name":"Bitcoin",                           "type":"crypto", "domain":"",                 "logoUrl":"https://cryptologos.cc/logos/bitcoin-btc-logo.png", "qty":0.5,    "avgCost":54846.21},
-  {"ticker":"NVDA", "name":"NVIDIA Corporation",                "type":"stock",  "domain":"nvidia.com",       "logoUrl":"",                                                  "qty":100,    "avgCost":120.00},
-  {"ticker":"VOO",  "name":"Vanguard S&P 500 ETF",             "type":"etf",    "domain":"vanguard.com",     "logoUrl":"",                                                  "qty":30,     "avgCost":450.00},
-  {"ticker":"VONG", "name":"Vanguard Russell 1000 Growth ETF", "type":"etf",    "domain":"vanguard.com",     "logoUrl":"",                                                  "qty":40,     "avgCost":95.00},
-  {"ticker":"EXE",  "name":"Expand Energy Corporation",         "type":"stock",  "domain":"expandenergy.com", "logoUrl":"",                                                  "qty":60,     "avgCost":85.00}
+  {"ticker":"AA",   "name":"Alcoa Corporation",                 "type":"stock",  "domain":"alcoa.com",        "logoUrl":"",                                                  "qty":555555, "avgCost":7.00,    "price":56.33},
+  {"ticker":"MSFT", "name":"Microsoft Corporation",             "type":"stock",  "domain":"microsoft.com",    "logoUrl":"",                                                  "qty":50,     "avgCost":310.00,  "price":372.74},
+  {"ticker":"AMZN", "name":"Amazon.com, Inc.",                  "type":"stock",  "domain":"amazon.com",       "logoUrl":"",                                                  "qty":75,     "avgCost":165.00,  "price":208.00},
+  {"ticker":"BTC",  "name":"Bitcoin",                           "type":"crypto", "domain":"",                 "logoUrl":"https://cryptologos.cc/logos/bitcoin-btc-logo.png", "qty":0.5,    "avgCost":54846.21,"price":70602},
+  {"ticker":"NVDA", "name":"NVIDIA Corporation",                "type":"stock",  "domain":"nvidia.com",       "logoUrl":"",                                                  "qty":100,    "avgCost":120.00,  "price":175.21},
+  {"ticker":"VOO",  "name":"Vanguard S&P 500 ETF",             "type":"etf",    "domain":"vanguard.com",     "logoUrl":"",                                                  "qty":30,     "avgCost":450.00,  "price":602.45},
+  {"ticker":"VONG", "name":"Vanguard Russell 1000 Growth ETF", "type":"etf",    "domain":"vanguard.com",     "logoUrl":"",                                                  "qty":40,     "avgCost":95.00,   "price":121.99},
+  {"ticker":"EXE",  "name":"Expand Energy Corporation",         "type":"stock",  "domain":"expandenergy.com", "logoUrl":"",                                                  "qty":60,     "avgCost":85.00,   "price":108.58}
 ]

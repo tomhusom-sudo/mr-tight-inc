@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260325a';
+    var VER = 'v=20260325b';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -624,7 +624,7 @@
     </a>
 
     <!-- Schneider — Maintenance -->
-    <div class="card active" onclick="void(0)" style="cursor:default; grid-column: 1 / -1;">
+    <a class="card active" href="./schneider.html" style="grid-column: 1 / -1;">
       <div class="card-icon">
         <img
           src="./schnieider.webp"
@@ -635,8 +635,14 @@
       </div>
       <div class="card-eyebrow">Mr. Tight · Paid Staff</div>
       <div class="card-title">Schneider</div>
-      <div class="card-desc">Our Maintenance Technician. Keeps the lights on, the pipes clear, and the whole operation running. If it's broken, Schneider fixes it.</div>
-    </div>
+      <div class="card-desc">Our Maintenance Technician. Speed tests, connection diagnostics, app tools, and cache controls. If it's broken, Schneider fixes it.</div>
+      <div class="card-cta">
+        Open Schneider
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
 
     <!-- Sync -->
     <div class="card active" id="sync-card" onclick="openSyncModal()" style="cursor:pointer; grid-column: 1 / -1;">
