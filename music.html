@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Music Picks</title>
 <script>
-  var VER = 'v=20260325j';
+  var VER = 'v=20260325k';
   if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,13 +93,21 @@
   .pick-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 2px; }
   .pick-artist { font-size: 13px; color: #6b9f55; margin-bottom: 4px; }
   .pick-note { font-size: 13px; color: #94a38a; line-height: 1.5; }
+  .pick-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
   .pick-link {
     display: inline-flex; align-items: center; gap: 5px;
-    margin-top: 8px; font-size: 12px; color: #4ade80; font-weight: 500;
+    font-size: 12px; color: #4ade80; font-weight: 500;
     text-decoration: none; border-bottom: 1px solid rgba(74,222,128,0.3);
     transition: color 0.2s;
   }
   .pick-link:hover { color: #86efac; }
+  .amazon-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; color: #fb923c; font-weight: 500;
+    text-decoration: none; border-bottom: 1px solid rgba(251,146,60,0.3);
+    transition: color 0.2s;
+  }
+  .amazon-link:hover { color: #fdba74; }
 
   .pick-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
   .btn-del {
@@ -237,6 +245,8 @@
 <script>
 (function() {
   var KEY = 'bacon_music_v2';
+  // Amazon Associates affiliate tag — replace with your tag to earn commissions
+  var AMAZON_TAG = '';
 
   var DEFAULT_PICKS = [
     { id: 1, type: 'album', title: 'The Best Of Joe Pass',      artist: 'Joe Pass',                    note: 'One of the best Jazz/Fusion/All Around Guitar Players. Like to listen on a lazy Sunday Morning.', link: '' },
@@ -285,9 +295,18 @@
           + '<div class="pick-title">' + esc(p.title) + '</div>'
           + (p.artist ? '<div class="pick-artist">' + esc(p.artist) + '</div>' : '')
           + (p.note   ? '<div class="pick-note">'   + esc(p.note)   + '</div>' : '')
-          + (p.link   ? '<a class="pick-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
-                        + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
-                        + 'Listen</a>' : '')
+          + (function() {
+              var amzQ = encodeURIComponent((p.title || '') + ' ' + (p.artist || ''));
+              var amzUrl = 'https://www.amazon.com/s?k=' + amzQ + '&i=popular' + (AMAZON_TAG ? '&tag=' + AMAZON_TAG : '');
+              var listenBtn = p.link
+                ? '<a class="pick-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
+                  + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+                  + 'Listen</a>' : '';
+              var amzBtn = '<a class="amazon-link" href="' + amzUrl + '" target="_blank" rel="noopener">'
+                + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.354 15.354A9 9 0 0 1 4.646 3.646"/><path d="M21 21l-4-4"/><path d="M3 3l4 4"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/></svg>'
+                + 'Amazon ↗</a>';
+              return '<div class="pick-links">' + listenBtn + amzBtn + '</div>';
+            })()
         + '</div>'
         + '<div class="pick-actions">'
           + '<button class="btn-edit" onclick="editPick(' + p.id + ')">Edit</button>'
