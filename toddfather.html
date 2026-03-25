@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions</title>
   <script>
-    var VER = 'v=20260325t';
+    var VER = 'v=20260325u';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -41,15 +41,46 @@
       backdrop-filter: blur(10px);
       border-bottom: 3px solid var(--rust);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px; height: 116px;
+      padding: 0 48px; height: 82px;
     }
     .nav-logo {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.75rem; letter-spacing: 0.06em;
-      color: var(--cream); text-decoration: none;
-      display: flex; align-items: center; gap: 14px;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 0;
     }
-    .nav-logo .accent { color: var(--rust); }
+
+    /* ── BADGE LOGO ── */
+    .tf-badge {
+      display: flex; align-items: stretch; gap: 0;
+    }
+    .tf-badge-bar {
+      width: 4px; background: var(--rust);
+      margin-right: 14px; flex-shrink: 0;
+      border-radius: 2px;
+    }
+    .tf-badge-text {
+      display: flex; flex-direction: column;
+      justify-content: center; line-height: 1;
+    }
+    .tf-badge-names {
+      display: flex; align-items: baseline; gap: 0;
+    }
+    .tf-name-todd {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; letter-spacing: 0.04em;
+      color: var(--cream); line-height: 1;
+    }
+    .tf-name-father {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.2rem; letter-spacing: 0.04em;
+      color: var(--rust); line-height: 1;
+      margin-left: 8px;
+    }
+    .tf-name-prod {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.58rem; font-weight: 700;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--dim); margin-top: 5px;
+    }
     .nav-links {
       display: flex; align-items: center; gap: 36px; list-style: none;
     }
@@ -462,8 +493,15 @@
   <!-- Nav -->
   <nav>
     <a class="nav-logo" href="#">
-      <img src="./toddfather3.png" alt="Todd" style="width:104px;height:104px;object-fit:cover;object-position:top;border-radius:4px;border:2px solid var(--rust);" onerror="this.style.display='none'">
-      Todd<span class="accent">Father</span> Productions
+      <div class="tf-badge">
+        <div class="tf-badge-bar"></div>
+        <div class="tf-badge-text">
+          <div class="tf-badge-names">
+            <span class="tf-name-todd">TODD</span><span class="tf-name-father">FATHER</span>
+          </div>
+          <div class="tf-name-prod">Productions &nbsp;·&nbsp; Minneapolis, MN</div>
+        </div>
+      </div>
     </a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
@@ -722,7 +760,7 @@
   <footer id="contact">
     <div class="footer-inner">
       <div>
-        <div class="footer-brand">Todd<span class="accent">Father</span> Productions</div>
+        <div class="footer-brand"><span style="color:var(--cream);">TODD</span><span class="accent">FATHER</span> <span style="font-size:1.2rem;color:var(--dim);letter-spacing:0.18em;">PRODUCTIONS</span></div>
         <p class="footer-desc">Custom pin-up photography for your vehicle, your brand, and your walls. Minneapolis, MN. Est. 10+ Years.</p>
       </div>
       <div class="footer-col">
