@@ -90,12 +90,38 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .error-row { color: #f87171; font-size: 0.76rem; padding: 12px 0; }
     .page-footer { max-width: 860px; margin: 32px auto 0; font-size: 0.67rem; color: #334155; text-align: center; }
+
+    /* ── MORK CORNER ── */
+    @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
+    .mork-corner {
+      display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .shazbot-text {
+      font-family: 'Bangers', 'Impact', sans-serif;
+      font-size: 1.55rem; letter-spacing: 0.12em;
+      line-height: 1;
+      background: linear-gradient(160deg, #ffe033 0%, #ff9d00 40%, #ff4800 70%, #ffe033 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 6px rgba(255,180,0,0.55));
+      text-transform: uppercase;
+    }
+    .mork-img {
+      width: 72px; height: 72px; object-fit: cover; object-position: top;
+      border-radius: 12px;
+      border: 2px solid rgba(255,180,0,0.35);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.55), 0 0 12px rgba(255,160,0,0.2);
+    }
   </style>
 </head>
 <body>
 
-  <div class="header">
+  <div class="header" style="display:flex; align-items:center; justify-content:space-between;">
     <a class="back-btn" href="./dashboard.html">&#8592; Dashboard</a>
+    <div class="mork-corner">
+      <div class="shazbot-text">Shazbot!</div>
+      <img class="mork-img" src="./mork.jpg" alt="Mork from Ork">
+    </div>
   </div>
 
   <div class="pick-banner">
