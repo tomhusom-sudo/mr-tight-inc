@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToddFather Productions — Future Vision</title>
+  <script>
+    var VER = 'v=20260326a';
+    if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:    #020912;
+      --deep:    #060f1e;
+      --surface: #0b1a2e;
+      --card:    #0f2040;
+      --cyan:    #00d4ff;
+      --cyan2:   #06ffd6;
+      --purple:  #7b2fff;
+      --mid:     #4a9eff;
+      --cream:   #e8f4ff;
+      --dim:     #4a7a9b;
+      --border:  rgba(0,212,255,0.2);
+      --glow:    rgba(0,212,255,0.12);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--void); color: var(--cream); font-family: 'Exo 2', sans-serif; overflow-x: hidden; }
+
+    /* Animated scanline overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0,212,255,0.012) 2px, rgba(0,212,255,0.012) 4px
+      );
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(2,9,18,0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 110px;
+    }
+    nav::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+    }
+    .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 0; }
+
+    /* Badge logo */
+    .tf-badge { display: flex; align-items: stretch; }
+    .tf-badge-bar {
+      width: 3px;
+      background: linear-gradient(180deg, var(--cyan), var(--purple));
+      margin-right: 14px; flex-shrink: 0; border-radius: 2px;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .tf-badge-text { display: flex; flex-direction: column; justify-content: center; line-height: 1; }
+    .tf-badge-names { display: flex; align-items: baseline; gap: 0; }
+    .tf-name-todd {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.9rem; font-weight: 800; letter-spacing: 0.08em;
+      color: var(--cream); line-height: 1;
+    }
+    .tf-name-father {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.9rem; font-weight: 800; letter-spacing: 0.08em;
+      color: var(--cyan); line-height: 1; margin-left: 10px;
+      text-shadow: 0 0 20px rgba(0,212,255,0.5);
+    }
+    .tf-name-prod {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--dim); margin-top: 7px;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--dim);
+      text-decoration: none; transition: color 0.2s, text-shadow 0.2s;
+    }
+    .nav-links a:hover { color: var(--cyan); text-shadow: 0 0 12px rgba(0,212,255,0.5); }
+    .nav-cta {
+      border: 1px solid var(--cyan) !important;
+      color: var(--cyan) !important;
+      padding: 9px 22px; border-radius: 2px;
+      background: rgba(0,212,255,0.06) !important;
+      transition: background 0.2s !important, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover { background: rgba(0,212,255,0.15) !important; box-shadow: 0 0 20px rgba(0,212,255,0.2) !important; }
+    @media (max-width: 768px) { nav { padding: 0 20px; } .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; position: relative; overflow: hidden;
+    }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: auto; } }
+
+    /* Grid background */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 64px 64px;
+    }
+    /* Cyan glow top-right */
+    .hero::after {
+      content: '';
+      position: absolute; top: -200px; right: -200px;
+      width: 700px; height: 700px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,212,255,0.07) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-left {
+      padding: 150px 64px 80px; position: relative; z-index: 1;
+    }
+    @media (max-width: 900px) { .hero-left { padding: 130px 24px 48px; text-align: center; } }
+
+    .hero-eyebrow {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.32em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: inline-block; width: 36px; height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent); flex-shrink: 0;
+    }
+    @media (max-width: 900px) { .hero-eyebrow { justify-content: center; } }
+
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 900; line-height: 1.0;
+      letter-spacing: 0.04em; color: var(--cream);
+      max-width: 700px; position: relative; z-index: 1;
+    }
+    .hero h1 .accent {
+      color: var(--cyan);
+      text-shadow: 0 0 30px rgba(0,212,255,0.4);
+    }
+    .hero h1 .outline {
+      -webkit-text-stroke: 1px var(--cyan);
+      color: transparent;
+      text-shadow: none;
+    }
+
+    .hero-rule {
+      width: 64px; height: 2px; margin: 28px 0;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      box-shadow: 0 0 12px rgba(0,212,255,0.4);
+    }
+    @media (max-width: 900px) { .hero-rule { margin: 28px auto; } }
+
+    .hero-sub {
+      font-size: 1.05rem; font-weight: 400; color: var(--dim);
+      max-width: 480px; line-height: 1.7; margin-bottom: 44px;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    @media (max-width: 900px) { .hero-actions { justify-content: center; } }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--cyan), var(--mid));
+      color: var(--void);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 15px 34px; border-radius: 2px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-block;
+      box-shadow: 0 0 24px rgba(0,212,255,0.25);
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 0 36px rgba(0,212,255,0.4); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(0,212,255,0.4);
+      color: var(--cyan);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 14px 32px; border-radius: 2px;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--cyan); background: rgba(0,212,255,0.07); transform: translateY(-2px); }
+
+    .hero-right {
+      position: relative; height: 100vh; overflow: hidden;
+    }
+    @media (max-width: 900px) { .hero-right { height: 55vw; min-height: 280px; } }
+    .hero-right img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; filter: saturate(0.7) brightness(0.85); }
+    .hero-right::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(90deg, var(--void) 0%, transparent 35%),
+                  linear-gradient(0deg, rgba(2,9,18,0.5) 0%, transparent 50%);
+    }
+    .hero-right::after {
+      content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 1px;
+      background: linear-gradient(180deg, transparent, var(--cyan), var(--purple), transparent); z-index: 2;
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px; position: relative; overflow: hidden;
+    }
+    .stats-bar::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+    }
+    @media (max-width: 768px) { .stats-bar { padding: 0 20px; } }
+    .stats-bar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-left: 1px solid var(--border);
+    }
+    @media (max-width: 700px) { .stats-bar-inner { grid-template-columns: 1fr 1fr; } }
+    .stat-item { padding: 24px 32px; border-right: 1px solid var(--border); }
+    .stat-big {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--cyan); line-height: 1;
+      text-shadow: 0 0 16px rgba(0,212,255,0.4);
+    }
+    .stat-small {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--dim); margin-top: 4px;
+    }
+
+    /* ── SECTION ── */
+    .section { padding: 100px 64px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 768px) { .section { padding: 64px 24px; } }
+
+    .section-eyebrow {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 28px; height: 1px;
+      background: linear-gradient(90deg, var(--cyan), transparent); flex-shrink: 0;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 800; line-height: 1.05;
+      letter-spacing: 0.04em; color: var(--cream); margin-bottom: 18px;
+    }
+    .section-title .accent { color: var(--cyan); text-shadow: 0 0 20px rgba(0,212,255,0.35); }
+    .section-sub { font-size: 1rem; color: var(--dim); line-height: 1.7; max-width: 540px; }
+
+    .divider { height: 1px; background: var(--border); margin: 0 64px; }
+    @media (max-width: 768px) { .divider { margin: 0 24px; } }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; margin-top: 56px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+    .service-item {
+      background: var(--card); padding: 40px 32px;
+      transition: background 0.2s; position: relative; overflow: hidden;
+    }
+    .service-item::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: transparent;
+      transition: background 0.3s;
+    }
+    .service-item:hover::before { background: linear-gradient(90deg, var(--cyan), var(--purple)); }
+    .service-item:hover { background: #102238; }
+    .service-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: rgba(0,212,255,0.1); line-height: 1; margin-bottom: 14px;
+    }
+    .service-icon { font-size: 1.8rem; margin-bottom: 14px; opacity: 0.8; }
+    .service-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 12px;
+    }
+    .service-desc { font-size: 0.9rem; color: var(--dim); line-height: 1.65; }
+
+    /* ── PRODUCTS ── */
+    .products-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1px; margin-top: 56px; background: var(--border);
+    }
+    @media (max-width: 700px) { .products-grid { grid-template-columns: 1fr; } }
+    .product-card { background: var(--card); overflow: hidden; transition: background 0.2s; }
+    .product-card:hover { background: #102238; }
+    .product-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
+    .product-card.wide { grid-column: span 2; }
+    .sticker-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 700px) {
+      .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .product-card.wide { grid-column: span 1; }
+      .sticker-inner { grid-template-columns: 1fr; }
+    }
+
+    .product-visual {
+      aspect-ratio: 4/3;
+      background: var(--surface);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; color: rgba(0,212,255,0.1);
+      position: relative; overflow: hidden;
+    }
+    .product-card.featured .product-visual { aspect-ratio: auto; min-height: 280px; }
+    .product-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(0.75) brightness(0.9); }
+    .product-visual::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      box-shadow: 0 0 8px rgba(0,212,255,0.4);
+    }
+
+    .product-info { padding: 28px 30px 30px; display: flex; flex-direction: column; }
+    .product-tag {
+      display: inline-block;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      border: 1px solid var(--cyan); color: var(--cyan);
+      background: rgba(0,212,255,0.07);
+      border-radius: 2px; padding: 3px 10px; margin-bottom: 12px;
+    }
+    .product-name {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 1.3rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 8px; line-height: 1.15;
+    }
+    .product-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.65; margin-bottom: 22px; flex-grow: 1; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+    .product-price { font-family: 'Orbitron', sans-serif; font-size: 1.9rem; font-weight: 700; color: var(--cream); line-height: 1; }
+    .product-price small {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.68rem; font-weight: 600; color: var(--dim);
+      display: block; margin-bottom: 2px; letter-spacing: 0.1em; text-transform: uppercase;
+    }
+    .product-price .price-val { color: var(--cyan); text-shadow: 0 0 12px rgba(0,212,255,0.35); }
+    .btn-book {
+      background: transparent; border: 1px solid var(--cyan); color: var(--cyan);
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+      text-decoration: none; padding: 11px 22px; border-radius: 2px;
+      white-space: nowrap; flex-shrink: 0;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+    .btn-book:hover { background: rgba(0,212,255,0.1); box-shadow: 0 0 16px rgba(0,212,255,0.2); }
+
+    .print-sizes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
+    .size-chip {
+      background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.15);
+      border-radius: 2px; padding: 5px 10px;
+      font-family: 'Exo 2', sans-serif; font-size: 0.78rem; font-weight: 500; color: var(--dim);
+    }
+    .size-chip strong { color: var(--cream); }
+
+    /* ── BIZ BAND ── */
+    .biz-band {
+      background: var(--surface);
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 64px; position: relative; overflow: hidden;
+    }
+    .biz-band::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--purple), var(--cyan), transparent);
+    }
+    @media (max-width: 768px) { .biz-band { padding: 48px 24px; } }
+    .biz-band-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
+    }
+    @media (max-width: 640px) { .biz-band-inner { grid-template-columns: 1fr; } }
+    .biz-band h3 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.8rem);
+      font-weight: 800; letter-spacing: 0.04em;
+      color: var(--cream); margin-bottom: 14px; line-height: 1.1;
+    }
+    .biz-band h3 .accent { color: var(--cyan); text-shadow: 0 0 20px rgba(0,212,255,0.4); }
+    .biz-band p { font-size: 0.95rem; color: var(--dim); line-height: 1.65; max-width: 560px; }
+    .biz-price { text-align: center; flex-shrink: 0; }
+    .biz-from { font-family: 'Exo 2', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+    .biz-amt {
+      font-family: 'Orbitron', sans-serif; font-size: 4rem; font-weight: 900;
+      color: var(--cyan); line-height: 1;
+      text-shadow: 0 0 30px rgba(0,212,255,0.5);
+    }
+    .biz-per { font-family: 'Exo 2', sans-serif; font-size: 0.78rem; color: var(--dim); letter-spacing: 0.1em; }
+
+    /* ── PROCESS ── */
+    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; }
+    @media (max-width: 700px) { .process-grid { grid-template-columns: 1fr; } }
+    .process-step { padding: 44px 32px; border-right: 1px solid var(--border); position: relative; }
+    .process-step:last-child { border-right: none; }
+    @media (max-width: 700px) { .process-step { border-right: none; border-bottom: 1px solid var(--border); } }
+    .step-num {
+      font-family: 'Orbitron', sans-serif; font-size: 4rem; font-weight: 900;
+      color: var(--cyan); opacity: 0.15; line-height: 1; margin-bottom: 14px;
+    }
+    .step-title {
+      font-family: 'Exo 2', sans-serif; font-size: 1.05rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream); margin-bottom: 10px;
+    }
+    .step-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.65; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 56px; background: var(--border); }
+    @media (max-width: 640px) { .testimonials-grid { grid-template-columns: 1fr; } }
+    .testimonial { background: var(--card); padding: 36px 32px; }
+    .testimonial-stars { color: var(--cyan); font-size: 0.9rem; letter-spacing: 4px; margin-bottom: 18px; }
+    .testimonial-text { font-family: 'Exo 2', sans-serif; font-size: 1rem; font-style: italic; font-weight: 300; color: var(--cream); line-height: 1.7; margin-bottom: 22px; }
+    .testimonial-author { font-family: 'Exo 2', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cyan); }
+
+    /* ── ABOUT ── */
+    .about-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
+    @media (max-width: 768px) { .about-strip { grid-template-columns: 1fr; } }
+    .about-visual { position: relative; overflow: hidden; min-height: 320px; background: var(--deep); }
+    .about-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: saturate(0.6) brightness(0.8); }
+    .about-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(2,9,18,0.4) 0%, transparent 60%),
+                  linear-gradient(0deg, rgba(2,9,18,0.65) 0%, transparent 55%);
+    }
+    .about-portrait {
+      position: absolute; bottom: 28px; left: 28px; z-index: 1;
+      display: flex; align-items: flex-end; gap: 16px;
+    }
+    .about-portrait img {
+      width: 72px; height: 72px; object-fit: cover; object-position: top;
+      border-radius: 2px; border: 2px solid var(--cyan); filter: none;
+      box-shadow: 0 0 16px rgba(0,212,255,0.3);
+    }
+    .about-portrait-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; color: var(--cream); line-height: 1;
+    }
+    .about-portrait-title {
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--cyan); margin-top: 4px;
+    }
+    .about-content {
+      background: var(--card); padding: 72px 60px;
+      display: flex; flex-direction: column; justify-content: center;
+      border-left: 1px solid var(--border);
+      position: relative;
+    }
+    .about-content::before {
+      content: ''; position: absolute; top: 0; left: -1px; bottom: 0; width: 2px;
+      background: linear-gradient(180deg, transparent, var(--cyan), var(--purple), transparent);
+      box-shadow: 0 0 8px rgba(0,212,255,0.3);
+    }
+    @media (max-width: 768px) { .about-content { padding: 48px 28px; border-left: none; } .about-content::before { display: none; } }
+    .about-content p { font-size: 0.95rem; color: var(--dim); line-height: 1.75; margin-bottom: 18px; }
+    .about-stat { display: flex; gap: 36px; margin-top: 32px; }
+    .stat-num {
+      font-family: 'Orbitron', sans-serif; font-size: 2.4rem; font-weight: 700;
+      color: var(--cyan); line-height: 1; text-shadow: 0 0 16px rgba(0,212,255,0.4);
+    }
+    .stat-label { font-family: 'Exo 2', sans-serif; font-size: 0.7rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px; }
+
+    /* ── FOOTER ── */
+    footer { background: var(--deep); border-top: 1px solid var(--border); padding: 60px 64px 40px; position: relative; }
+    footer::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--purple), transparent);
+    }
+    @media (max-width: 768px) { footer { padding: 48px 24px 32px; } }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px;
+    }
+    @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
+    .footer-brand {
+      font-family: 'Orbitron', sans-serif; font-size: 1.4rem; font-weight: 800;
+      letter-spacing: 0.08em; color: var(--cream); margin-bottom: 12px;
+    }
+    .footer-brand .accent { color: var(--cyan); text-shadow: 0 0 12px rgba(0,212,255,0.4); }
+    .footer-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.65; max-width: 280px; }
+    .footer-col h4 {
+      font-family: 'Exo 2', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.24em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: 18px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { font-size: 0.88rem; color: var(--dim); text-decoration: none; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--cyan); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      border-top: 1px solid var(--border); padding-top: 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    }
+    .footer-copy { font-size: 0.78rem; color: var(--dim); }
+    .footer-copy a { color: var(--cyan); text-decoration: none; }
+
+    /* ── LIGHTBOX ── */
+    #logo-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(2,9,18,0.92); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    #logo-lightbox.open { display: flex; }
+    #logo-lightbox img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 4px; border: 2px solid var(--cyan);
+      box-shadow: 0 0 60px rgba(0,212,255,0.3);
+      animation: lbIn 0.18s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
+
+    /* ── BACK TO DASHBOARD ── */
+    .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
+    .back-dash {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(2,9,18,0.95); backdrop-filter: blur(8px);
+      border: 1px solid rgba(74,222,128,0.35); border-radius: 999px; padding: 10px 20px;
+      font-family: 'Exo 2', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #4ade80; text-decoration: none; transition: border-color 0.2s;
+    }
+    .back-dash:hover { border-color: rgba(74,222,128,0.75); }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <img src="./toddfather3.png" alt="Todd" style="width:76px;height:76px;object-fit:cover;object-position:top;border-radius:3px;border:2px solid var(--cyan);margin-right:18px;flex-shrink:0;cursor:zoom-in;box-shadow:0 0 16px rgba(0,212,255,0.2);" onclick="document.getElementById('logo-lightbox').classList.add('open')" onerror="this.style.display='none'">
+      <div class="tf-badge">
+        <div class="tf-badge-bar"></div>
+        <div class="tf-badge-text">
+          <div class="tf-badge-names">
+            <span class="tf-name-todd">TODD</span><span class="tf-name-father">FATHER</span>
+          </div>
+          <div class="tf-name-prod">Productions &nbsp;·&nbsp; Minneapolis, MN</div>
+        </div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="nav-cta">Book Now</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow">Minneapolis, MN &nbsp;·&nbsp; Full Spectrum Photography</div>
+      <h1><span class="accent">Every</span><br>Shot.<br><span class="outline">Every</span><br>Story.</h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">ToddFather Productions captures it all — vehicles, portraits, events, commercial, and beyond. 10+ years. Zero compromises. Images that outlast the moment.</p>
+      <div class="hero-actions">
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+        <a href="#packages" class="btn-outline">View Packages</a>
+      </div>
+    </div>
+    <div class="hero-right">
+      <img src="./toddsvan2.png" alt="ToddFather Productions">
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stats-bar-inner">
+      <div class="stat-item">
+        <div class="stat-big">10+</div>
+        <div class="stat-small">Years Experience</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big">6</div>
+        <div class="stat-small">Disciplines</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big">4K</div>
+        <div class="stat-small">Resolution Ready</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big">MN</div>
+        <div class="stat-small">Minneapolis Base</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="section-eyebrow">What We Shoot</div>
+    <div class="section-title">Full Spectrum.<br><span class="accent">Zero Limits.</span></div>
+    <p class="section-sub">From pin-up to portraits to product — if it needs to look incredible, ToddFather Productions delivers.</p>
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-num">01</div>
+        <div class="service-icon">&#128663;</div>
+        <div class="service-name">Automotive &amp; Pin-Up</div>
+        <p class="service-desc">Vehicles shot the way they deserve. Custom pin-up sessions with professional models, full lighting setup, and a print built to hang forever.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">02</div>
+        <div class="service-icon">&#128100;</div>
+        <div class="service-name">Portrait &amp; Personal</div>
+        <p class="service-desc">Professional portraits for individuals, families, athletes, and executives. Lighting that flatters. Direction that relaxes. Results that impress.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">03</div>
+        <div class="service-icon">&#127881;</div>
+        <div class="service-name">Events &amp; Occasions</div>
+        <p class="service-desc">Weddings, corporate events, car shows, concerts. We capture the energy, the details, and the moments people forget but photos don't.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">04</div>
+        <div class="service-icon">&#128188;</div>
+        <div class="service-name">Commercial &amp; Brand</div>
+        <p class="service-desc">Product photography, advertising campaigns, and brand assets. Images that sell. Content your marketing team will actually want to use.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">05</div>
+        <div class="service-icon">&#127780;</div>
+        <div class="service-name">Outdoor &amp; Lifestyle</div>
+        <p class="service-desc">Location shoots, Minnesota landscapes, adventure and lifestyle content. Natural light, real settings, authentic storytelling.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">06</div>
+        <div class="service-icon">&#128444;</div>
+        <div class="service-name">Fine Art Prints</div>
+        <p class="service-desc">Museum-quality prints in five sizes up to 16x24. Full digital files included with every session. Your images, delivered for life.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Packages -->
+  <section class="section" id="packages">
+    <div class="section-eyebrow">Packages</div>
+    <div class="section-title">Choose Your<br><span class="accent">Mission</span></div>
+    <p class="section-sub">Every package includes full digital files, professional editing, and a print. No hidden fees.</p>
+    <div class="products-grid">
+
+      <!-- Featured -->
+      <div class="product-card featured">
+        <div class="product-visual">
+          <img src="https://lookslikelarry.com/cdn/shop/files/june2024Shootshort_1024x1024@2x.jpg?v=1717470088" alt="Signature Session">
+        </div>
+        <div class="product-info">
+          <div>
+            <div class="product-tag">Most Popular</div>
+            <div class="product-name">Signature Vehicle Session</div>
+            <p class="product-desc">The full ToddFather experience. Your vehicle, professional pin-up models, complete lighting setup. 1-2 hours, 3+ social-ready images, and an 18x24 poster of your machine. June 8th — limited spots.</p>
+          </div>
+          <div class="product-footer">
+            <div class="product-price"><small>Starting at</small><span class="price-val">$149</span></div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Reserve Now &#8594;</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Portrait -->
+      <div class="product-card">
+        <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/products/2021Btt50sSam-767-Edit-Edit_530x@2x.jpg?v=1626239779" alt="Portrait Session"></div>
+        <div class="product-info">
+          <div>
+            <div class="product-tag">New</div>
+            <div class="product-name">Portrait Session</div>
+            <p class="product-desc">Solo or group portrait shoots. Indoor studio or outdoor location. Full digital delivery with your choice of print size.</p>
+          </div>
+          <div class="product-footer">
+            <div class="product-price"><small>From</small><span class="price-val">$99</span></div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Book Session</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- MC Poster -->
+      <div class="product-card">
+        <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/files/june2024MCShootshort_530x@2x.jpg?v=1717470056" alt="Custom Poster"></div>
+        <div class="product-info">
+          <div>
+            <div class="product-tag">Best Seller</div>
+            <div class="product-name">Custom Poster Print</div>
+            <p class="product-desc">Your vehicle or portrait on a 13x19 or 18x24 poster. Full digital files included, uncompressed, yours to keep.</p>
+            <div class="print-sizes">
+              <div class="size-chip"><strong>5x7</strong> $15</div>
+              <div class="size-chip"><strong>8x10</strong> $25</div>
+              <div class="size-chip"><strong>13x19</strong> $65</div>
+              <div class="size-chip"><strong>18x24</strong> $105</div>
+            </div>
+          </div>
+          <div class="product-footer">
+            <div class="product-price"><small>From</small><span class="price-val">$79</span></div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Order Print</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stickers -->
+      <div class="product-card wide">
+        <div class="sticker-inner">
+          <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/products/StickerSet1_530x@2x.jpg?v=1679460391" alt="Sticker Set"></div>
+          <div class="product-info">
+            <div>
+              <div class="product-tag">Merch</div>
+              <div class="product-name">Pin-Up Sticker Series A</div>
+              <p class="product-desc">Three die-cut vinyl stickers. Truck. Toolbox. Laptop. Wherever people will ask "where'd you get that?"</p>
+            </div>
+            <div class="product-footer">
+              <div class="product-price"><small>Set of 3</small><span class="price-val">$12</span></div>
+              <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Get Stickers</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business Band -->
+  <div class="biz-band">
+    <div class="biz-band-inner">
+      <div>
+        <h3>Photography for Your <span class="accent">Business</span></h3>
+        <p>Product shots, advertising campaigns, event coverage, or promotional posters — ToddFather Productions creates the visual content your brand needs to stand out. Starting at just $4 per poster for business advertising runs.</p>
+      </div>
+      <div class="biz-price">
+        <div class="biz-from">From just</div>
+        <div class="biz-amt">$4</div>
+        <div class="biz-per">per poster</div>
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="margin-top:18px;display:inline-block;font-size:0.8rem;">Get a Quote</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Process -->
+  <section class="section">
+    <div class="section-eyebrow">How It Works</div>
+    <div class="section-title">Three Steps.<br><span class="accent">One Mission.</span></div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Choose Your Session</div>
+        <p class="step-desc">Pick the package that fits your vision — vehicle shoot, portrait, event coverage, or commercial. We handle everything from there.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Show Up &amp; Shoot</div>
+        <p class="step-desc">We bring the lighting, the direction, and 10+ years of experience. You bring yourself and whatever you want photographed. We do the rest.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Receive &amp; Own</div>
+        <p class="step-desc">Full digital delivery. Print in your size. Files that are yours forever — uncompressed, full resolution, ready for anywhere.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="section-eyebrow">Client Words</div>
+    <div class="section-title">They Said It.<br><span class="accent">We Delivered It.</span></div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Hosting a ToddFather Productions photo shoot was out of this world. He brought the shoot to me with his models."</p>
+        <div class="testimonial-author">— Joe T.</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        <p class="testimonial-text">"Todd is one of the most professional photographers I have worked with. Kind, respectful, creative, and mindful of your time."</p>
+        <div class="testimonial-author">— Vivian R.</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- About -->
+  <div class="about-strip" id="about">
+    <div class="about-visual">
+      <img src="./toddsvan2.png" alt="ToddFather Productions">
+      <div class="about-portrait">
+        <img src="./toddfather3.png" alt="Todd">
+        <div>
+          <div class="about-portrait-name">ToddFather</div>
+          <div class="about-portrait-title">Photographer · Minneapolis, MN</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-content">
+      <div class="section-eyebrow">Who We Are</div>
+      <div class="section-title" style="font-size:2.6rem;">Todd<br><span class="accent">Father</span></div>
+      <p>ToddFather Productions is a Minneapolis-based photography studio with over a decade of experience across automotive, portrait, event, commercial, and fine art photography.</p>
+      <p>Every shoot is handled personally. Every image is delivered with full resolution files. Every client walks away with something worth hanging on the wall.</p>
+      <div class="about-stat">
+        <div>
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Years Active</div>
+        </div>
+        <div>
+          <div class="stat-num">6</div>
+          <div class="stat-label">Specialties</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">Todd<span class="accent">Father</span></div>
+        <p class="footer-desc">Full spectrum photography for vehicles, portraits, events, and brands. Minneapolis, MN. Est. 10+ Years.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Automotive &amp; Pin-Up</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Portrait Sessions</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Events &amp; Occasions</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Commercial &amp; Brand</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Book</h4>
+        <ul>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Reserve a Session</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Shop Prints</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Contact Todd</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">lookslikelarry.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">&copy; 2026 <a href="https://lookslikelarry.com" target="_blank" rel="noopener">ToddFather Productions</a>. Minneapolis, MN.</div>
+      <div class="footer-copy">Design concept &mdash; <a href="./dashboard.html">Honest Tom's Dashboard</a></div>
+    </div>
+  </footer>
+
+  <!-- Portrait lightbox -->
+  <div id="logo-lightbox" onclick="this.classList.remove('open')">
+    <img src="./toddfather3.png" alt="Todd Father">
+  </div>
+
+  <!-- Back to Dashboard -->
+  <div class="dashboard-bar">
+    <a href="./dashboard.html" class="back-dash">&#8592; Dashboard</a>
+  </div>
+
+</body>
+</html>
