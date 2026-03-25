@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260326a';
+    var VER = 'v=20260326b';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -1354,11 +1354,45 @@
           if (data && data.prices) {
             LIVE_PRICES  = data.prices;
             LAST_UPDATED = data.updated || LAST_UPDATED;
-            render();
           }
           if (data && data.indices) renderIndices(data.indices);
+          fetchMissingPrices(function() { render(); });
         })
         .catch(function() {});
+    }
+
+    // ── FETCH YAHOO FINANCE PRICES FOR TICKERS NOT IN prices.json ──
+    function fetchMissingPrices(callback) {
+      var assets = loadAssets();
+      var seen = {};
+      var missing = [];
+      assets.forEach(function(a) {
+        if (!seen[a.ticker] && !(a.ticker in LIVE_PRICES)) {
+          seen[a.ticker] = true;
+          missing.push({ ticker: a.ticker, type: a.type });
+        }
+      });
+
+      if (missing.length === 0) { callback(); return; }
+
+      var pending = missing.length;
+      function done() { pending--; if (pending === 0) callback(); }
+
+      missing.forEach(function(m) {
+        var yf  = m.type === 'crypto' ? m.ticker + '-USD' : m.ticker;
+        var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(yf) + '?interval=1d&range=1d';
+        var proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
+        fetch(proxy)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var res = data && data.chart && data.chart.result && data.chart.result[0];
+            if (res && res.meta && res.meta.regularMarketPrice != null) {
+              LIVE_PRICES[m.ticker] = res.meta.regularMarketPrice;
+            }
+            done();
+          })
+          .catch(function() { done(); });
+      });
     }
 
     function renderIndices(indices) {
