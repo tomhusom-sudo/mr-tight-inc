@@ -349,9 +349,6 @@
       <h1 class="title">Timmy's <em>Corner</em></h1>
 
     </div>
-    <div class="timmy-wrap">
-      <img src="./IMG_3463.JPEG" alt="Timmy" loading="lazy">
-    </div>
   </div>
 
   <div class="columns">
@@ -366,6 +363,9 @@
         </div>
       </div>
 
+      <ul class="item-list" id="tips-list"></ul>
+      <div class="empty-state" id="tips-empty" style="display:none;">No tips yet — Tom's keeping his cards close.</div>
+
       <div class="add-form" id="tip-form">
         <div class="form-row">
           <input type="text" id="tip-ticker" placeholder="Ticker (e.g. NVDA)" maxlength="12" style="max-width:130px;flex:none;" oninput="this.value=this.value.toUpperCase()" onblur="lookupName()">
@@ -374,9 +374,6 @@
         <textarea id="tip-note" placeholder="Why Tom thinks you should look at this…"></textarea>
         <button class="btn-add" onclick="addTip()">+ Add Tip</button>
       </div>
-
-      <ul class="item-list" id="tips-list"></ul>
-      <div class="empty-state" id="tips-empty" style="display:none;">No tips yet — Tom's keeping his cards close.</div>
     </div>
 
     <!-- Suggested Topics -->
@@ -389,15 +386,15 @@
         </div>
       </div>
 
+      <ul class="item-list" id="articles-list"></ul>
+      <div class="empty-state" id="articles-empty" style="display:none;">Nothing queued up — Tom's still browsing.</div>
+
       <div class="add-form" id="article-form">
         <input type="text" id="art-title" placeholder="Article title or topic">
         <input type="url" id="art-url" placeholder="https://… (optional)">
         <textarea id="art-note" placeholder="Why Tom wants you to read this…"></textarea>
         <button class="btn-add" onclick="addArticle()">+ Add Article</button>
       </div>
-
-      <ul class="item-list" id="articles-list"></ul>
-      <div class="empty-state" id="articles-empty" style="display:none;">Nothing queued up — Tom's still browsing.</div>
     </div>
 
   </div>
