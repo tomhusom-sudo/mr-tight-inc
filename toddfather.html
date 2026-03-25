@@ -3,382 +3,869 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Todd Father — Site Review</title>
+  <title>LooksLikeLarry Productions</title>
   <script>
-    var VER = 'v=20260325m';
+    var VER = 'v=20260325o';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #09070a;
+      --surface: #120e14;
+      --card:    #1c1620;
+      --gold:    #c9a227;
+      --gold2:   #e8c84a;
+      --red:     #b82032;
+      --cream:   #f5f0e8;
+      --sub:     #9a8c7e;
+      --border:  rgba(201,162,39,0.18);
+    }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      min-height: 100vh;
-      background:
-        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
-        url('./lincoln.jpg') center 15% / cover no-repeat fixed;
-      color: #e2eed8;
-      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      font-family: 'Jost', sans-serif;
       overflow-x: hidden;
     }
 
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
-      background-size: 28px 28px;
-      pointer-events: none; z-index: 0;
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(9,7,10,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px;
+      height: 68px;
     }
-
-    .page {
-      position: relative; z-index: 1;
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 52px 32px 80px;
-    }
-
-    .back-btn {
-      display: inline-flex; align-items: center; gap: 6px;
-      font-size: 0.78rem; font-weight: 600; color: #4ade80;
-      text-decoration: none; letter-spacing: 0.04em;
-      margin-bottom: 40px; opacity: 0.8; transition: opacity 0.18s;
-    }
-    .back-btn:hover { opacity: 1; }
-
-    /* ── HEADER ── */
-    .header {
-      margin-bottom: 48px;
-      display: flex; align-items: flex-start;
-      justify-content: space-between; gap: 28px;
-    }
-    .header-text { flex: 1; }
-    .eyebrow {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
-      text-transform: uppercase; color: #4ade80; margin-bottom: 10px;
-    }
-    .title {
+    .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: clamp(2.4rem, 5vw, 3.8rem);
-      font-weight: 700; font-style: italic;
-      line-height: 1.05; color: #f0fae8;
-      letter-spacing: -0.02em;
-    }
-    .subtitle {
-      margin-top: 14px; font-size: 0.93rem;
-      color: #a8bc98; line-height: 1.55;
-    }
-    .subtitle a { color: #4ade80; text-decoration: none; }
-    .subtitle a:hover { text-decoration: underline; }
-
-    .verdict-badge {
-      flex-shrink: 0;
-      background: rgba(248,113,113,0.12);
-      border: 1px solid rgba(248,113,113,0.35);
-      border-radius: 18px;
-      padding: 20px 24px;
-      text-align: center;
-      min-width: 130px;
-    }
-    .verdict-score {
-      font-size: 3.2rem; font-weight: 800;
-      line-height: 1; color: #f87171;
-      letter-spacing: -0.04em;
-    }
-    .verdict-label {
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
-      text-transform: uppercase; color: #f87171; margin-top: 6px;
-      opacity: 0.8;
-    }
-    .verdict-out-of {
-      font-size: 0.72rem; color: #7a9068; margin-top: 2px;
-    }
-
-    /* ── OPENING STATEMENT ── */
-    .opening {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      padding: 28px 32px;
-      margin-bottom: 20px;
-      font-size: 1.05rem;
-      line-height: 1.7;
-      color: #c8ddb8;
-      font-style: italic;
-      position: relative;
-    }
-    .opening::before {
-      content: '\201C';
-      font-family: 'Playfair Display', serif;
-      font-size: 5rem; line-height: 0.8;
-      color: rgba(74,222,128,0.15);
-      position: absolute; top: 20px; left: 20px;
-      pointer-events: none;
-    }
-    .opening p { padding-left: 28px; }
-    .opening-attr {
-      margin-top: 16px; padding-left: 28px;
-      font-size: 0.8rem; font-style: normal;
-      color: #4ade80; font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-
-    /* ── SECTION ── */
-    .section {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .section-header {
-      padding: 20px 26px 16px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      font-size: 1.15rem; font-weight: 700; letter-spacing: 0.04em;
+      color: var(--cream); text-decoration: none;
       display: flex; align-items: center; gap: 12px;
     }
-    .section-icon { font-size: 1.4rem; }
-    .section-label {
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em;
-      text-transform: uppercase; color: #4ade80; margin-bottom: 2px;
+    .nav-logo span { color: var(--gold); }
+    .nav-links {
+      display: flex; align-items: center; gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--sub);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--cream); }
+    .nav-cta {
+      background: var(--gold);
+      color: var(--black) !important;
+      padding: 9px 20px; border-radius: 6px;
+      font-weight: 700 !important;
+      transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: var(--gold2) !important; color: var(--black) !important; }
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Art deco diagonal lines */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 60px,
+          rgba(201,162,39,0.025) 60px,
+          rgba(201,162,39,0.025) 61px
+        );
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(201,162,39,0.1);
+      border: 1px solid rgba(201,162,39,0.3);
+      border-radius: 999px;
+      padding: 7px 18px;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gold); flex-shrink: 0;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.02em;
+      color: var(--cream);
+      max-width: 900px;
+      margin-bottom: 14px;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    /* Decorative rule */
+    .hero-rule {
+      display: flex; align-items: center; gap: 16px;
+      justify-content: center; margin: 24px auto;
+      width: 100%; max-width: 420px;
+    }
+    .hero-rule::before, .hero-rule::after {
+      content: ''; flex: 1;
+      height: 1px; background: var(--border);
+    }
+    .hero-rule span {
+      color: var(--gold); font-size: 1rem; flex-shrink: 0;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 300; color: var(--sub);
+      max-width: 540px; line-height: 1.65; margin: 0 auto 40px;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 14px;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .btn-primary {
+      background: var(--gold); color: var(--black);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 14px 32px; border-radius: 6px;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(245,240,232,0.3);
+      color: var(--cream); font-family: 'Jost', sans-serif;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 14px 32px; border-radius: 6px;
+      transition: border-color 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--cream); transform: translateY(-2px); }
+
+    /* ── IMAGE GRID (placeholder art) ── */
+    .hero-photos {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      max-width: 900px;
+      margin: 60px auto 0;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .photo-slot {
+      aspect-ratio: 2/3;
+      background: var(--card);
+      position: relative;
+      overflow: hidden;
+    }
+    .photo-slot::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, #2a1f10 0%, #1c1215 40%, #0e0a12 100%);
+    }
+    .photo-slot::after {
+      content: attr(data-label);
+      position: absolute; bottom: 16px; left: 16px; right: 16px;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: rgba(201,162,39,0.6);
+    }
+    .photo-slot .slot-icon {
+      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
+      font-size: 2.5rem; opacity: 0.12;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section {
+      padding: 100px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    @media (max-width: 768px) { .section { padding: 64px 20px; } }
+
+    .section-eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 12px;
     }
     .section-title {
-      font-size: 1.1rem; font-weight: 700;
-      color: #f0fae8; letter-spacing: -0.02em;
-    }
-
-    /* ── ROAST ITEMS ── */
-    .roast-list {
-      list-style: none;
-      padding: 10px 0;
-    }
-    .roast-list li {
-      padding: 16px 26px;
-      border-bottom: 1px solid rgba(255,255,255,0.04);
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 14px;
-      align-items: start;
-    }
-    .roast-list li:last-child { border-bottom: none; }
-    .roast-num {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
-      color: #f87171; background: rgba(248,113,113,0.1);
-      border: 1px solid rgba(248,113,113,0.2);
-      border-radius: 6px; padding: 2px 7px;
-      margin-top: 2px; flex-shrink: 0;
-      white-space: nowrap;
-    }
-    .roast-body {}
-    .roast-charge {
-      font-size: 0.92rem; font-weight: 700;
-      color: #f0fae8; margin-bottom: 5px;
-    }
-    .roast-finding {
-      font-size: 0.85rem; color: #a8bc98; line-height: 1.55;
-    }
-    .roast-finding strong { color: #e2eed8; }
-
-    /* ── CLOSING ── */
-    .closing {
-      background: rgba(248,113,113,0.06);
-      border: 1px solid rgba(248,113,113,0.18);
-      border-radius: 22px;
-      padding: 28px 32px;
-      margin-top: 20px;
-    }
-    .closing-title {
       font-family: 'Playfair Display', serif;
-      font-size: 1.4rem; font-weight: 700;
-      color: #f0fae8; margin-bottom: 14px;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700; line-height: 1.1;
+      color: var(--cream); margin-bottom: 16px;
     }
-    .closing p {
-      font-size: 0.92rem; color: #a8bc98; line-height: 1.65;
-      margin-bottom: 10px;
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-sub {
+      font-size: 1rem; color: var(--sub);
+      line-height: 1.65; max-width: 560px;
     }
-    .closing p:last-child { margin-bottom: 0; }
-    .closing strong { color: #e2eed8; }
 
-    /* ── VISIT BTN ── */
-    .visit-btn {
+    /* Divider */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0 48px;
+    }
+
+    /* ── SERVICES ── */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 56px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+
+    .service-item {
+      background: var(--card);
+      padding: 36px 32px;
+      border-right: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .service-item:last-child { border-right: none; }
+    .service-item:hover { background: #221b28; }
+
+    .service-num {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em;
+      color: var(--gold); text-transform: uppercase;
+      margin-bottom: 20px; opacity: 0.7;
+    }
+    .service-icon { font-size: 2rem; margin-bottom: 16px; }
+    .service-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 12px;
+    }
+    .service-desc {
+      font-size: 0.88rem; color: var(--sub);
+      line-height: 1.65;
+    }
+
+    /* ── PRODUCTS ── */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-top: 56px;
+    }
+    @media (max-width: 700px) { .products-grid { grid-template-columns: 1fr; } }
+
+    .product-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .product-card:hover {
+      border-color: rgba(201,162,39,0.45);
+      transform: translateY(-4px);
+    }
+
+    .product-card.featured {
+      grid-column: span 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    @media (max-width: 700px) { .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; } }
+
+    .product-visual {
+      aspect-ratio: 4/3;
+      background: linear-gradient(135deg, #2a1a10 0%, #1c1015 50%, #100a18 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3rem; color: rgba(201,162,39,0.15);
+      position: relative; overflow: hidden;
+    }
+    .product-card.featured .product-visual {
+      aspect-ratio: auto;
+      min-height: 280px;
+    }
+    .product-visual::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(9,7,10,0.4) 100%);
+    }
+
+    .product-info { padding: 26px 28px 28px; }
+    .product-tag {
+      display: inline-block;
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase;
+      background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.25);
+      color: var(--gold); border-radius: 4px; padding: 3px 9px;
+      margin-bottom: 12px;
+    }
+    .product-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.35rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 8px; line-height: 1.2;
+    }
+    .product-desc {
+      font-size: 0.86rem; color: var(--sub);
+      line-height: 1.6; margin-bottom: 20px;
+    }
+    .product-footer {
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 12px;
+    }
+    .product-price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem; font-weight: 700;
+      color: var(--cream);
+    }
+    .product-price small {
+      font-family: 'Jost', sans-serif;
+      font-size: 0.72rem; font-weight: 400; color: var(--sub);
+      display: block; margin-bottom: 2px;
+    }
+    .product-price span { color: var(--gold); }
+    .btn-book {
+      background: var(--gold); color: var(--black);
+      font-family: 'Jost', sans-serif;
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      text-decoration: none; padding: 11px 22px; border-radius: 6px;
+      white-space: nowrap; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .btn-book:hover { background: var(--gold2); }
+
+    /* Print sizes table */
+    .print-sizes {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 20px;
+    }
+    .size-chip {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px; padding: 5px 12px;
+      font-size: 0.78rem; color: var(--sub);
+    }
+    .size-chip strong { color: var(--cream); }
+
+    /* ── PROCESS ── */
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 56px;
+    }
+    @media (max-width: 700px) { .process-grid { grid-template-columns: 1fr; gap: 16px; } }
+
+    .process-step {
+      padding: 40px 32px;
+      position: relative;
+    }
+    .process-step::after {
+      content: '';
+      position: absolute; right: 0; top: 40px; bottom: 40px;
+      width: 1px; background: var(--border);
+    }
+    .process-step:last-child::after { display: none; }
+    @media (max-width: 700px) { .process-step::after { display: none; } }
+
+    .step-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem; font-weight: 900; font-style: italic;
+      color: rgba(201,162,39,0.15); line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step-title {
+      font-size: 1.05rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 10px;
+    }
+    .step-desc {
+      font-size: 0.86rem; color: var(--sub); line-height: 1.65;
+    }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 56px;
+    }
+    @media (max-width: 640px) { .testimonials-grid { grid-template-columns: 1fr; } }
+
+    .testimonial {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px 30px;
+    }
+    .testimonial-stars {
+      color: var(--gold); font-size: 0.9rem;
+      letter-spacing: 3px; margin-bottom: 18px;
+    }
+    .testimonial-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-style: italic;
+      color: var(--cream); line-height: 1.65;
+      margin-bottom: 22px;
+    }
+    .testimonial-author {
+      font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* ── BUSINESS CTA BAND ── */
+    .biz-band {
+      background: var(--card);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 60px 48px;
+    }
+    .biz-band-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 40px; align-items: center;
+    }
+    @media (max-width: 640px) { .biz-band-inner { grid-template-columns: 1fr; } }
+    .biz-band h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700; color: var(--cream); margin-bottom: 10px;
+    }
+    .biz-band h3 em { font-style: italic; color: var(--gold); }
+    .biz-band p {
+      font-size: 0.92rem; color: var(--sub); line-height: 1.6;
+    }
+    .biz-price {
+      text-align: center; flex-shrink: 0;
+    }
+    .biz-from { font-size: 0.72rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; }
+    .biz-amt {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem; font-weight: 900; color: var(--gold); line-height: 1;
+    }
+    .biz-per { font-size: 0.78rem; color: var(--sub); }
+
+    /* ── ABOUT STRIP ── */
+    .about-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 440px;
+    }
+    @media (max-width: 768px) { .about-strip { grid-template-columns: 1fr; } }
+
+    .about-visual {
+      background: linear-gradient(135deg, #1e1218 0%, #0e0a14 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 5rem; color: rgba(201,162,39,0.1);
+      position: relative; min-height: 300px;
+    }
+    .about-visual::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 40px,
+        rgba(201,162,39,0.03) 40px, rgba(201,162,39,0.03) 41px
+      );
+    }
+    .about-content {
+      background: var(--surface);
+      padding: 64px 56px;
+      display: flex; flex-direction: column; justify-content: center;
+      border-left: 1px solid var(--border);
+    }
+    @media (max-width: 768px) { .about-content { padding: 48px 28px; border-left: none; border-top: 1px solid var(--border); } }
+
+    .about-content .section-eyebrow { margin-bottom: 10px; }
+    .about-content .section-title { font-size: 2rem; margin-bottom: 20px; }
+    .about-content p {
+      font-size: 0.92rem; color: var(--sub); line-height: 1.7;
+      margin-bottom: 16px;
+    }
+    .about-stat {
+      display: flex; gap: 32px; margin-top: 28px;
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem; font-weight: 900;
+      color: var(--gold); line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.75rem; font-weight: 600;
+      color: var(--sub); text-transform: uppercase;
+      letter-spacing: 0.1em; margin-top: 4px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 56px 48px 40px;
+    }
+    .footer-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 2fr 1fr 1fr;
+      gap: 48px; margin-bottom: 48px;
+    }
+    @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
+
+    .footer-brand {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 700;
+      color: var(--cream); margin-bottom: 12px;
+    }
+    .footer-brand span { color: var(--gold); }
+    .footer-desc {
+      font-size: 0.86rem; color: var(--sub); line-height: 1.65;
+      max-width: 300px;
+    }
+    .footer-col h4 {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a {
+      font-size: 0.86rem; color: var(--sub);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-col a:hover { color: var(--cream); }
+    .footer-bottom {
+      max-width: 1200px; margin: 0 auto;
+      border-top: 1px solid var(--border);
+      padding-top: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .footer-copy {
+      font-size: 0.78rem; color: var(--sub);
+    }
+    .footer-copy a { color: var(--gold); text-decoration: none; }
+
+    /* ── BACK TO DASHBOARD ── */
+    .dashboard-bar {
+      position: fixed; bottom: 20px; right: 20px; z-index: 200;
+    }
+    .back-dash {
       display: inline-flex; align-items: center; gap: 8px;
-      margin-top: 20px;
-      background: rgba(248,113,113,0.1);
-      border: 1px solid rgba(248,113,113,0.3);
-      border-radius: 12px;
-      padding: 11px 20px;
-      font-size: 0.82rem; font-weight: 700;
-      color: #f87171; text-decoration: none;
-      letter-spacing: 0.04em;
-      transition: background 0.18s;
+      background: rgba(9,7,10,0.92); backdrop-filter: blur(8px);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 999px; padding: 10px 18px;
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em;
+      color: #4ade80; text-decoration: none;
+      transition: border-color 0.2s;
     }
-    .visit-btn:hover { background: rgba(248,113,113,0.18); }
-
-    @media (max-width: 600px) {
-      .header { flex-direction: column; }
-      .verdict-badge { align-self: flex-start; }
-      .page { padding: 36px 16px 64px; }
-    }
+    .back-dash:hover { border-color: rgba(74,222,128,0.7); }
   </style>
 </head>
 <body>
-<div class="page">
 
-  <a class="back-btn" href="./dashboard.html">
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-      <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Dashboard
-  </a>
-
-  <div class="header">
-    <div class="header-text">
-      <div class="eyebrow">The Todd Father Weighs In</div>
-      <div style="display:flex;align-items:center;gap:14px;margin-bottom:12px;">
-        <img src="./toddfather.jpg" alt="The Todd Father" style="width:64px;height:64px;object-fit:cover;object-position:top;border-radius:12px;border:1px solid rgba(74,222,128,0.25);box-shadow:0 4px 20px rgba(0,0,0,0.6);flex-shrink:0;" onerror="this.style.display='none'">
-        <h1 class="title">lookslikelarry.com</h1>
-      </div>
-      <p class="subtitle">
-        A professional critique of <a href="https://lookslikelarry.com" target="_blank" rel="noopener">LooksLikeLarry Productions</a> —
-        pin-up poster revivalists, custom car photographers, and apparently Todd's problem now.
-      </p>
-    </div>
-    <div class="verdict-badge">
-      <div class="verdict-score">3.2</div>
-      <div class="verdict-label">Verdict</div>
-      <div class="verdict-out-of">out of 10</div>
-    </div>
-  </div>
-
-  <!-- Opening Statement -->
-  <div class="opening">
-    <p>I have reviewed this website with the full weight of my authority and a strong cup of coffee.
-    What I found was a brave attempt — and I use the word "brave" the way you'd describe someone
-    who orders the fish at an airport — technically a choice, but raises real questions about judgment.</p>
-    <div class="opening-attr">— The Todd Father, Site Critic Emeritus</div>
-  </div>
-
-  <!-- The Charges -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-icon">⚖️</div>
-      <div>
-        <div class="section-label">Formal Charges</div>
-        <div class="section-title">The Indictment</div>
-      </div>
-    </div>
-    <ul class="roast-list">
-      <li>
-        <span class="roast-num">COUNT I</span>
-        <div class="roast-body">
-          <div class="roast-charge">The Name</div>
-          <div class="roast-finding">
-            <strong>lookslikelarry.com</strong> — a domain name that sounds like something you'd
-            whisper to someone at a funeral. "Psst... lookslikelarry." Nobody knows who Larry is.
-            Nobody asked. The name implies a resemblance to a Larry, which raises the question:
-            is the site itself Larry? Are we Larry? Has Larry been inside us all along?
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="roast-num">COUNT II</span>
-        <div class="roast-body">
-          <div class="roast-charge">"Bringing Back the Pin-Up Poster"</div>
-          <div class="roast-finding">
-            Larry, with respect — pin-up posters never left. They have been continuously available
-            at Spencer's Gifts since 1987 and remain there today, sandwiched between the
-            body glitter and the shot glasses with sayings on them. <strong>You are not reviving a lost art.
-            You are selling a calendar.</strong>
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="roast-num">COUNT III</span>
-        <div class="roast-body">
-          <div class="roast-charge">The Pricing Structure</div>
-          <div class="roast-finding">
-            $149 to <em>reserve</em> a photoshoot. Not for the photoshoot. To <em>reserve</em> it.
-            That is $149 for the privilege of giving Larry your calendar availability.
-            Meanwhile, a <strong>$79 custom car poster</strong> gets you a pin-up model next to your
-            vehicle — which, coincidentally, is also what happens when you park near a dealership
-            on a Saturday. Free of charge.
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="roast-num">COUNT IV</span>
-        <div class="roast-body">
-          <div class="roast-charge">The Design Philosophy</div>
-          <div class="roast-finding">
-            White background. Arial font. Dark gray buttons. This is not a design —
-            <strong>this is what happens when you dismiss every suggestion in Squarespace's onboarding wizard.</strong>
-            The aesthetic can be summarized as "someone installed a WordPress theme and then
-            left for lunch and never came back." The retro pin-up concept deserves
-            something bold. What it got was a dental office website.
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="roast-num">COUNT V</span>
-        <div class="roast-body">
-          <div class="roast-charge">The Stickers</div>
-          <div class="roast-finding">
-            <strong>$12 pin-up stickers.</strong> Stickers are the merchandise you sell when you're
-            not entirely sure you have a real business yet. They're the "we'll figure it out"
-            of the product catalog. Larry is selling $12 stickers on a site that also promises
-            to revolutionize the pin-up industry. <strong>These two facts cannot coexist peacefully.</strong>
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="roast-num">COUNT VI</span>
-        <div class="roast-body">
-          <div class="roast-charge">The Country Selector</div>
-          <div class="roast-finding">
-            There is a <strong>country selector in the footer.</strong> Larry is going international.
-            Larry, who is selling $12 stickers and charging $149 to talk about scheduling,
-            has prepared for a global audience. One imagines customs officials in 47 countries
-            opening packages and finding a pin-up calendar from a man named Larry.
-            Bold. Visionary. Bewildering.
-          </div>
-        </div>
-      </li>
-      <li>
-        <span class="roast-num">COUNT VII</span>
-        <div class="roast-body">
-          <div class="roast-charge">The Testimonials</div>
-          <div class="roast-finding">
-            The site features customer testimonials praising Larry's professionalism and quality.
-            <strong>Larry is using his own website to tell you that people like him.</strong>
-            This is the digital equivalent of putting your own name on your trophy.
-            The testimonials may be genuine. The Todd Father cannot verify this.
-            The Todd Father is suspicious.
-          </div>
-        </div>
-      </li>
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="#"><img src="./toddfather3.png" alt="Todd" style="width:38px;height:38px;object-fit:cover;object-position:top;border-radius:6px;border:1px solid rgba(201,162,39,0.3);" onerror="this.style.display='none'">Looks<span>Like</span>Larry <em style="font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--sub);font-weight:400;">Productions</em></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#products">Shop</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact" class="nav-cta">Book a Shoot</a></li>
     </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">Lino Lakes, Minnesota · Est. 10+ Years</div>
+    <h1>The Art of the<br><em>Pin-Up,</em> Reimagined.</h1>
+    <div class="hero-rule"><span>✦</span></div>
+    <p class="hero-sub">Custom pin-up photography for your vehicle, your brand, and your walls. Vintage soul. Modern execution. Unforgettable results.</p>
+    <div class="hero-actions">
+      <a href="#products" class="btn-primary">Book a Shoot — $149</a>
+      <a href="#products" class="btn-outline">View the Shop</a>
+    </div>
+
+    <div class="hero-photos">
+      <div class="photo-slot" data-label="Custom Shoot">
+        <span class="slot-icon">📸</span>
+      </div>
+      <div class="photo-slot" data-label="Pin-Up Poster">
+        <span class="slot-icon">🎞</span>
+      </div>
+      <div class="photo-slot" data-label="Custom Print">
+        <span class="slot-icon">🖼</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Services -->
+  <section class="section" id="services">
+    <div class="section-eyebrow">What We Do</div>
+    <div class="section-title">Photography for the<br><em>Bold &amp; the Passionate</em></div>
+    <p class="section-sub">From vintage pin-up sessions to custom car posters and business advertising — we bring the aesthetic you've always imagined.</p>
+
+    <div class="services-grid">
+      <div class="service-item">
+        <div class="service-num">01</div>
+        <div class="service-icon">🚗</div>
+        <div class="service-name">Vehicle &amp; Pin-Up Sessions</div>
+        <p class="service-desc">Bring your car, truck, or motorcycle. We supply the models, lighting, and vision. You leave with an 18×24 poster and social-ready shots.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">02</div>
+        <div class="service-icon">🖼</div>
+        <div class="service-name">Custom Prints &amp; Posters</div>
+        <p class="service-desc">Professional photo prints in five sizes from 5×7 to 16×24. Custom car posters at 13×19 or 18×24 with full digital files included.</p>
+      </div>
+      <div class="service-item">
+        <div class="service-num">03</div>
+        <div class="service-icon">📣</div>
+        <div class="service-name">Business Advertising</div>
+        <p class="service-desc">Turn heads at your shop, event, or garage. Promotional pin-up posters starting at $4 each. Instant cult following, guaranteed.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Products -->
+  <section class="section" id="products">
+    <div class="section-eyebrow">The Shop</div>
+    <div class="section-title">Pick Your <em>Statement</em></div>
+    <p class="section-sub">Every product is built to be displayed, shared, and talked about.</p>
+
+    <div class="products-grid">
+
+      <!-- Featured: Photoshoot -->
+      <div class="product-card featured">
+        <div class="product-visual" style="background:linear-gradient(135deg,#2a1206 0%,#1a0c10 40%,#0d0816 100%);">
+          📸
+        </div>
+        <div class="product-info" style="display:flex;flex-direction:column;justify-content:space-between;">
+          <div>
+            <div class="product-tag">Limited Date</div>
+            <div class="product-name">Pin-Up Photoshoot<br>Saturday, June 8th</div>
+            <p class="product-desc">A 1–2 hour shoot with your vehicle and professional pin-up models in Lino Lakes, MN. Includes 3+ social media ready images and a stunning 18×24 poster of your machine.</p>
+          </div>
+          <div class="product-footer">
+            <div class="product-price">
+              <small>Starting at</small>
+              <span>$149</span>
+            </div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Reserve Your Spot →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Custom Car Poster -->
+      <div class="product-card">
+        <div class="product-visual">🏎</div>
+        <div class="product-info">
+          <div class="product-tag">Best Seller</div>
+          <div class="product-name">Custom Car Poster</div>
+          <p class="product-desc">Your vehicle, your pin-up, your walls. Available in 13×19 photo print or 18×24 paper poster. Full digital files included — uncompressed, yours to keep.</p>
+          <div class="product-footer">
+            <div class="product-price"><small>From</small><span>$79</span></div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Order Now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photo Prints -->
+      <div class="product-card">
+        <div class="product-visual">🖼</div>
+        <div class="product-info">
+          <div class="product-tag">Fine Art Prints</div>
+          <div class="product-name">Photo Prints</div>
+          <p class="product-desc">Professional prints in five sizes, ready to frame and display.</p>
+          <div class="print-sizes">
+            <div class="size-chip"><strong>5×7</strong> $15</div>
+            <div class="size-chip"><strong>8×10</strong> $25</div>
+            <div class="size-chip"><strong>11×14</strong> $45</div>
+            <div class="size-chip"><strong>13×19</strong> $65</div>
+            <div class="size-chip"><strong>16×24</strong> $105</div>
+          </div>
+          <div class="product-footer">
+            <div class="product-price"><small>From</small><span>$15</span></div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Shop Prints</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stickers -->
+      <div class="product-card" style="grid-column: span 2;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+          <div class="product-visual" style="background:linear-gradient(135deg,#0f1a0a 0%,#0a1218 100%);">🎨</div>
+          <div class="product-info" style="display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div class="product-tag">Merch</div>
+              <div class="product-name">Pin-Up Sticker Series A</div>
+              <p class="product-desc">Three die-cut vinyl stickers. Put them on your truck, your toolbox, your laptop — wherever people will ask "where'd you get that?"</p>
+            </div>
+            <div class="product-footer">
+              <div class="product-price"><span>$12</span><small style="display:inline;margin-left:6px;">/ set of 3</small></div>
+              <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Get Stickers</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Business band -->
+  <div class="biz-band">
+    <div class="biz-band-inner">
+      <div>
+        <h3>Put a Pin-Up on Your <em>Business</em></h3>
+        <p>Posters for your shop floor, event booth, or showroom. The kind of promotional material people actually hang on their wall. Starting at just $4 per poster — an instant cult classic following for your brand.</p>
+      </div>
+      <div class="biz-price">
+        <div class="biz-from">From just</div>
+        <div class="biz-amt">$4</div>
+        <div class="biz-per">per poster</div>
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="margin-top:16px;display:inline-block;font-size:0.78rem;">Get a Quote</a>
+      </div>
+    </div>
   </div>
 
-  <!-- The Ruling -->
-  <div class="closing">
-    <div class="closing-title">The Ruling</div>
-    <p>
-      LooksLikeLarry Productions is found <strong>guilty on all seven counts</strong>. The sentence is
-      a mandatory website redesign, the immediate retirement of the Arial font, and a serious
-      conversation with someone — anyone — about what the word "branding" means.
-    </p>
-    <p>
-      That said, The Todd Father acknowledges that Larry is out here <strong>doing something</strong>.
-      He has a domain. He has products. He has a country selector for reasons that remain
-      unclear. In the grand tradition of American hustle, Larry looked at the pin-up poster
-      market and said "I want in." You cannot fully hate that.
-    </p>
-    <p>
-      You can, however, hate the font. <strong>The font is Arial. There is no excuse.</strong>
-    </p>
-    <a class="visit-btn" href="https://lookslikelarry.com" target="_blank" rel="noopener">
-      Visit the Scene of the Crime ↗
+  <div class="divider"></div>
+
+  <!-- How It Works -->
+  <section class="section">
+    <div class="section-eyebrow">The Process</div>
+    <div class="section-title">Simple. <em>Memorable.</em> Yours.</div>
+    <div class="process-grid">
+      <div class="process-step">
+        <div class="step-num">01</div>
+        <div class="step-title">Reserve Your Date</div>
+        <p class="step-desc">Book your spot for an upcoming shoot event or reach out to schedule a private session. We handle everything from models to location.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">02</div>
+        <div class="step-title">Bring Your Machine</div>
+        <p class="step-desc">Roll in with your car, truck, or motorcycle. We set the scene. You relax. Our models and 10+ years of experience do the rest.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-num">03</div>
+        <div class="step-title">Own the Wall</div>
+        <p class="step-desc">Walk away with an 18×24 poster, social media shots, and the kind of photos people actually stop and look at.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- Testimonials -->
+  <section class="section">
+    <div class="section-eyebrow">What People Say</div>
+    <div class="section-title">Don't Take <em>Our Word For It</em></div>
+    <div class="testimonials-grid">
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Hosting a LooksLikeLarry photo shoot was out of this world. He brought the shoot to me with his models."</p>
+        <div class="testimonial-author">— Joe T.</div>
+      </div>
+      <div class="testimonial">
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Todd is one of the most professional photographers I have worked with. Kind, respectful, creative, and mindful of your time."</p>
+        <div class="testimonial-author">— Vivian R.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <div class="about-strip" id="about">
+    <div class="about-visual">📷</div>
+    <div class="about-content">
+      <div class="section-eyebrow">About</div>
+      <h2 class="section-title">Ten Years.<br><em>One Vision.</em></h2>
+      <p>LooksLikeLarry Productions is a Minnesota-based photography studio dedicated to reviving the art of the pin-up poster — combining vintage aesthetics with modern photography to create images that are bold, timeless, and built to be displayed.</p>
+      <p>Whether it's your prized vehicle, your business, or your own story — we bring the vision, the talent, and the craft to make it unforgettable.</p>
+      <div class="about-stat">
+        <div>
+          <div class="stat-num">10+</div>
+          <div class="stat-label">Years Experience</div>
+        </div>
+        <div>
+          <div class="stat-num">∞</div>
+          <div class="stat-label">Wall-Worthy Shots</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand">LooksLike<span>Larry</span> Productions</div>
+        <p class="footer-desc">Bringing back the pin-up poster. Providing stock and customizable media for personal and business use. Lino Lakes, Minnesota.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Shop</h4>
+        <ul>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Book a Shoot</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Custom Car Posters</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Photo Prints</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Stickers</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="https://lookslikelarry.com/pages/contact-us" target="_blank" rel="noopener">Get in Touch</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Business Inquiries</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Full Site →</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© LooksLikeLarry Productions. All rights reserved. <a href="https://lookslikelarry.com" target="_blank" rel="noopener">lookslikelarry.com</a></p>
+      <p class="footer-copy" style="color:rgba(154,140,126,0.4);font-size:0.68rem;">Design concept — Honest Tom's Dashboard</p>
+    </div>
+  </footer>
+
+  <!-- Back to Dashboard pill -->
+  <div class="dashboard-bar">
+    <a class="back-dash" href="./dashboard.html">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Dashboard
     </a>
   </div>
 
-</div>
 </body>
 </html>
