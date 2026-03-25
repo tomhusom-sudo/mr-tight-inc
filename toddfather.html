@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Todd Father — Site Review</title>
+  <script>
+    var VER = 'v=20260325l';
+    if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+        url('./lincoln.jpg') center 15% / cover no-repeat fixed;
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 52px 32px 80px;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 600; color: #4ade80;
+      text-decoration: none; letter-spacing: 0.04em;
+      margin-bottom: 40px; opacity: 0.8; transition: opacity 0.18s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    /* ── HEADER ── */
+    .header {
+      margin-bottom: 48px;
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 28px;
+    }
+    .header-text { flex: 1; }
+    .eyebrow {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: #4ade80; margin-bottom: 10px;
+    }
+    .title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 700; font-style: italic;
+      line-height: 1.05; color: #f0fae8;
+      letter-spacing: -0.02em;
+    }
+    .subtitle {
+      margin-top: 14px; font-size: 0.93rem;
+      color: #a8bc98; line-height: 1.55;
+    }
+    .subtitle a { color: #4ade80; text-decoration: none; }
+    .subtitle a:hover { text-decoration: underline; }
+
+    .verdict-badge {
+      flex-shrink: 0;
+      background: rgba(248,113,113,0.12);
+      border: 1px solid rgba(248,113,113,0.35);
+      border-radius: 18px;
+      padding: 20px 24px;
+      text-align: center;
+      min-width: 130px;
+    }
+    .verdict-score {
+      font-size: 3.2rem; font-weight: 800;
+      line-height: 1; color: #f87171;
+      letter-spacing: -0.04em;
+    }
+    .verdict-label {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: #f87171; margin-top: 6px;
+      opacity: 0.8;
+    }
+    .verdict-out-of {
+      font-size: 0.72rem; color: #7a9068; margin-top: 2px;
+    }
+
+    /* ── OPENING STATEMENT ── */
+    .opening {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #c8ddb8;
+      font-style: italic;
+      position: relative;
+    }
+    .opening::before {
+      content: '\201C';
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; line-height: 0.8;
+      color: rgba(74,222,128,0.15);
+      position: absolute; top: 20px; left: 20px;
+      pointer-events: none;
+    }
+    .opening p { padding-left: 28px; }
+    .opening-attr {
+      margin-top: 16px; padding-left: 28px;
+      font-size: 0.8rem; font-style: normal;
+      color: #4ade80; font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .section-header {
+      padding: 20px 26px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-icon { font-size: 1.4rem; }
+    .section-label {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #4ade80; margin-bottom: 2px;
+    }
+    .section-title {
+      font-size: 1.1rem; font-weight: 700;
+      color: #f0fae8; letter-spacing: -0.02em;
+    }
+
+    /* ── ROAST ITEMS ── */
+    .roast-list {
+      list-style: none;
+      padding: 10px 0;
+    }
+    .roast-list li {
+      padding: 16px 26px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+    .roast-list li:last-child { border-bottom: none; }
+    .roast-num {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
+      color: #f87171; background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.2);
+      border-radius: 6px; padding: 2px 7px;
+      margin-top: 2px; flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .roast-body {}
+    .roast-charge {
+      font-size: 0.92rem; font-weight: 700;
+      color: #f0fae8; margin-bottom: 5px;
+    }
+    .roast-finding {
+      font-size: 0.85rem; color: #a8bc98; line-height: 1.55;
+    }
+    .roast-finding strong { color: #e2eed8; }
+
+    /* ── CLOSING ── */
+    .closing {
+      background: rgba(248,113,113,0.06);
+      border: 1px solid rgba(248,113,113,0.18);
+      border-radius: 22px;
+      padding: 28px 32px;
+      margin-top: 20px;
+    }
+    .closing-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem; font-weight: 700;
+      color: #f0fae8; margin-bottom: 14px;
+    }
+    .closing p {
+      font-size: 0.92rem; color: #a8bc98; line-height: 1.65;
+      margin-bottom: 10px;
+    }
+    .closing p:last-child { margin-bottom: 0; }
+    .closing strong { color: #e2eed8; }
+
+    /* ── VISIT BTN ── */
+    .visit-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      margin-top: 20px;
+      background: rgba(248,113,113,0.1);
+      border: 1px solid rgba(248,113,113,0.3);
+      border-radius: 12px;
+      padding: 11px 20px;
+      font-size: 0.82rem; font-weight: 700;
+      color: #f87171; text-decoration: none;
+      letter-spacing: 0.04em;
+      transition: background 0.18s;
+    }
+    .visit-btn:hover { background: rgba(248,113,113,0.18); }
+
+    @media (max-width: 600px) {
+      .header { flex-direction: column; }
+      .verdict-badge { align-self: flex-start; }
+      .page { padding: 36px 16px 64px; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-btn" href="./dashboard.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Dashboard
+  </a>
+
+  <div class="header">
+    <div class="header-text">
+      <div class="eyebrow">The Todd Father Weighs In</div>
+      <h1 class="title">lookslikelarry.com</h1>
+      <p class="subtitle">
+        A professional critique of <a href="https://lookslikelarry.com" target="_blank" rel="noopener">LooksLikeLarry Productions</a> —
+        pin-up poster revivalists, custom car photographers, and apparently Todd's problem now.
+      </p>
+    </div>
+    <div class="verdict-badge">
+      <div class="verdict-score">3.2</div>
+      <div class="verdict-label">Verdict</div>
+      <div class="verdict-out-of">out of 10</div>
+    </div>
+  </div>
+
+  <!-- Opening Statement -->
+  <div class="opening">
+    <p>I have reviewed this website with the full weight of my authority and a strong cup of coffee.
+    What I found was a brave attempt — and I use the word "brave" the way you'd describe someone
+    who orders the fish at an airport — technically a choice, but raises real questions about judgment.</p>
+    <div class="opening-attr">— The Todd Father, Site Critic Emeritus</div>
+  </div>
+
+  <!-- The Charges -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">⚖️</div>
+      <div>
+        <div class="section-label">Formal Charges</div>
+        <div class="section-title">The Indictment</div>
+      </div>
+    </div>
+    <ul class="roast-list">
+      <li>
+        <span class="roast-num">COUNT I</span>
+        <div class="roast-body">
+          <div class="roast-charge">The Name</div>
+          <div class="roast-finding">
+            <strong>lookslikelarry.com</strong> — a domain name that sounds like something you'd
+            whisper to someone at a funeral. "Psst... lookslikelarry." Nobody knows who Larry is.
+            Nobody asked. The name implies a resemblance to a Larry, which raises the question:
+            is the site itself Larry? Are we Larry? Has Larry been inside us all along?
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="roast-num">COUNT II</span>
+        <div class="roast-body">
+          <div class="roast-charge">"Bringing Back the Pin-Up Poster"</div>
+          <div class="roast-finding">
+            Larry, with respect — pin-up posters never left. They have been continuously available
+            at Spencer's Gifts since 1987 and remain there today, sandwiched between the
+            body glitter and the shot glasses with sayings on them. <strong>You are not reviving a lost art.
+            You are selling a calendar.</strong>
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="roast-num">COUNT III</span>
+        <div class="roast-body">
+          <div class="roast-charge">The Pricing Structure</div>
+          <div class="roast-finding">
+            $149 to <em>reserve</em> a photoshoot. Not for the photoshoot. To <em>reserve</em> it.
+            That is $149 for the privilege of giving Larry your calendar availability.
+            Meanwhile, a <strong>$79 custom car poster</strong> gets you a pin-up model next to your
+            vehicle — which, coincidentally, is also what happens when you park near a dealership
+            on a Saturday. Free of charge.
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="roast-num">COUNT IV</span>
+        <div class="roast-body">
+          <div class="roast-charge">The Design Philosophy</div>
+          <div class="roast-finding">
+            White background. Arial font. Dark gray buttons. This is not a design —
+            <strong>this is what happens when you dismiss every suggestion in Squarespace's onboarding wizard.</strong>
+            The aesthetic can be summarized as "someone installed a WordPress theme and then
+            left for lunch and never came back." The retro pin-up concept deserves
+            something bold. What it got was a dental office website.
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="roast-num">COUNT V</span>
+        <div class="roast-body">
+          <div class="roast-charge">The Stickers</div>
+          <div class="roast-finding">
+            <strong>$12 pin-up stickers.</strong> Stickers are the merchandise you sell when you're
+            not entirely sure you have a real business yet. They're the "we'll figure it out"
+            of the product catalog. Larry is selling $12 stickers on a site that also promises
+            to revolutionize the pin-up industry. <strong>These two facts cannot coexist peacefully.</strong>
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="roast-num">COUNT VI</span>
+        <div class="roast-body">
+          <div class="roast-charge">The Country Selector</div>
+          <div class="roast-finding">
+            There is a <strong>country selector in the footer.</strong> Larry is going international.
+            Larry, who is selling $12 stickers and charging $149 to talk about scheduling,
+            has prepared for a global audience. One imagines customs officials in 47 countries
+            opening packages and finding a pin-up calendar from a man named Larry.
+            Bold. Visionary. Bewildering.
+          </div>
+        </div>
+      </li>
+      <li>
+        <span class="roast-num">COUNT VII</span>
+        <div class="roast-body">
+          <div class="roast-charge">The Testimonials</div>
+          <div class="roast-finding">
+            The site features customer testimonials praising Larry's professionalism and quality.
+            <strong>Larry is using his own website to tell you that people like him.</strong>
+            This is the digital equivalent of putting your own name on your trophy.
+            The testimonials may be genuine. The Todd Father cannot verify this.
+            The Todd Father is suspicious.
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- The Ruling -->
+  <div class="closing">
+    <div class="closing-title">The Ruling</div>
+    <p>
+      LooksLikeLarry Productions is found <strong>guilty on all seven counts</strong>. The sentence is
+      a mandatory website redesign, the immediate retirement of the Arial font, and a serious
+      conversation with someone — anyone — about what the word "branding" means.
+    </p>
+    <p>
+      That said, The Todd Father acknowledges that Larry is out here <strong>doing something</strong>.
+      He has a domain. He has products. He has a country selector for reasons that remain
+      unclear. In the grand tradition of American hustle, Larry looked at the pin-up poster
+      market and said "I want in." You cannot fully hate that.
+    </p>
+    <p>
+      You can, however, hate the font. <strong>The font is Arial. There is no excuse.</strong>
+    </p>
+    <a class="visit-btn" href="https://lookslikelarry.com" target="_blank" rel="noopener">
+      Visit the Scene of the Crime ↗
+    </a>
+  </div>
+
+</div>
+</body>
+</html>
