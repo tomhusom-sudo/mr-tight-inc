@@ -482,6 +482,52 @@
 
     .form-hint { font-size: 0.65rem; color: #475569; }
 
+    /* Ticker search dropdown */
+    .ticker-search-wrap { position: relative; margin-bottom: 16px; }
+    .ticker-search-wrap label { display: block; font-size: 0.7rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+    .ticker-dropdown {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      background: #0e1a08; border: 1px solid #22c55e; border-top: none;
+      border-radius: 0 0 10px 10px; z-index: 200;
+      max-height: 220px; overflow-y: auto;
+    }
+    .ticker-result {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; cursor: pointer;
+      border-bottom: 1px solid #1a2e10; transition: background 0.1s;
+    }
+    .ticker-result:last-child { border-bottom: none; }
+    .ticker-result:hover { background: rgba(34,197,94,0.09); }
+    .ticker-result-sym { font-weight: 700; font-size: 0.85rem; color: #f0fae8; min-width: 52px; }
+    .ticker-result-name { flex: 1; font-size: 0.78rem; color: #6b9f55; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .type-badge { font-size: 0.58rem; font-weight: 700; padding: 2px 7px; border-radius: 999px; letter-spacing: 0.06em; flex-shrink: 0; }
+    .type-stock  { background: rgba(34,197,94,0.1);  color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+    .type-etf    { background: rgba(96,165,250,0.1); color: #60a5fa; border: 1px solid rgba(96,165,250,0.25); }
+    .type-crypto { background: rgba(251,191,36,0.1); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+
+    /* Selected ticker row */
+    .ticker-selected-row {
+      display: none; align-items: center; gap: 12px;
+      background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 10px; padding: 12px 14px; margin-bottom: 16px;
+    }
+    .ticker-sel-icon {
+      width: 38px; height: 38px; border-radius: 8px; background: #1e2e12;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem; font-weight: 700; color: #4ade80;
+      flex-shrink: 0; overflow: hidden;
+    }
+    .ticker-sel-icon img { width: 28px; height: 28px; object-fit: contain; }
+    .ticker-sel-info { flex: 1; min-width: 0; }
+    .ticker-sel-sym  { font-size: 1rem; font-weight: 700; color: #f0fae8; }
+    .ticker-sel-name { font-size: 0.72rem; color: #6b9f55; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .ticker-change-btn {
+      background: none; border: 1px solid #334155; color: #64748b;
+      font-size: 0.72rem; font-weight: 600; padding: 4px 10px;
+      border-radius: 6px; cursor: pointer; font-family: inherit; flex-shrink: 0;
+    }
+    .ticker-change-btn:hover { border-color: #4ade80; color: #4ade80; }
+
 
     .modal-actions {
       display: flex;
@@ -709,30 +755,37 @@
   <div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
     <div class="modal">
       <div class="modal-title" id="modal-title">Add Asset</div>
+
+      <!-- Search (shown when no ticker selected) -->
+      <div class="ticker-search-wrap" id="ticker-search-wrap">
+        <label>Search by ticker or company name</label>
+        <input class="form-input" id="f-search" type="text" placeholder="e.g. AAPL or Apple"
+          autocorrect="off" autocomplete="off" autocapitalize="characters"
+          oninput="tickerSearch(this.value)">
+        <div class="ticker-dropdown" id="ticker-dropdown"></div>
+      </div>
+
+      <!-- Selected ticker display (shown after selection) -->
+      <div class="ticker-selected-row" id="ticker-selected-row">
+        <div class="ticker-sel-icon" id="ticker-sel-icon"></div>
+        <div class="ticker-sel-info">
+          <div class="ticker-sel-sym" id="ticker-sel-sym"></div>
+          <div class="ticker-sel-name" id="ticker-sel-name"></div>
+        </div>
+        <span class="type-badge" id="ticker-sel-type"></span>
+        <button class="ticker-change-btn" onclick="clearTickerSelection()">Change</button>
+      </div>
+
+      <!-- Hidden fields (read by saveModal) -->
+      <input type="hidden" id="f-ticker">
+      <input type="hidden" id="f-name">
+      <input type="hidden" id="f-type" value="stock">
+      <input type="hidden" id="f-domain">
+      <input type="hidden" id="f-logourl">
+
       <div class="form-grid">
         <div class="form-group">
-          <label class="form-label" for="f-ticker">Ticker</label>
-          <input class="form-input" id="f-ticker" type="text" placeholder="e.g. AAPL" maxlength="12" autocorrect="off" autocapitalize="characters" onblur="lookupTickerName(this.value)">
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="f-type">Type</label>
-          <select class="form-select" id="f-type">
-            <option value="stock">Stock</option>
-            <option value="etf">ETF</option>
-            <option value="crypto">Crypto</option>
-          </select>
-        </div>
-        <div class="form-group full">
-          <label class="form-label" for="f-name">Full Name</label>
-          <input class="form-input" id="f-name" type="text" placeholder="e.g. Apple Inc.">
-        </div>
-        <div class="form-group full">
-          <label class="form-label" for="f-domain">Logo Domain</label>
-          <input class="form-input" id="f-domain" type="text" placeholder="e.g. apple.com" autocorrect="off" autocapitalize="none">
-          <span class="form-hint">Used to fetch company logo. Leave blank for initials fallback.</span>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="f-qty">Quantity</label>
+          <label class="form-label" for="f-qty">Shares / Units</label>
           <input class="form-input" id="f-qty" type="number" placeholder="0" step="any" min="0" inputmode="decimal">
         </div>
         <div class="form-group">
@@ -740,14 +793,8 @@
           <input class="form-input" id="f-avgcost" type="number" placeholder="0.00" step="any" min="0" inputmode="decimal">
         </div>
         <div class="form-group full">
-          <label class="form-label" for="f-price">Price Override ($)</label>
-          <input class="form-input" id="f-price" type="number" placeholder="Leave blank to use auto-refresh price" step="any" min="0" inputmode="decimal">
-          <span class="form-hint">Optional — overrides the auto-refreshed price.</span>
-        </div>
-        <div class="form-group full" id="f-logo-url-group">
-          <label class="form-label" for="f-logourl">Logo URL (optional)</label>
-          <input class="form-input" id="f-logourl" type="text" placeholder="e.g. https://cryptologos.cc/logos/bitcoin-btc-logo.png" autocorrect="off" autocapitalize="none">
-          <span class="form-hint">Direct image URL — useful for crypto where favicon doesn't work well.</span>
+          <label class="form-label" for="f-price">Price Override <span style="font-weight:400;text-transform:none;letter-spacing:0;font-size:0.65rem;color:#475569">(optional — leave blank for live price)</span></label>
+          <input class="form-input" id="f-price" type="number" placeholder="Leave blank to use live price" step="any" min="0" inputmode="decimal">
         </div>
       </div>
       <div class="modal-actions">
@@ -985,66 +1032,118 @@
       'XOM':  { name:'Exxon Mobil Corporation',            domain:'exxonmobil.com' },
     };
 
-    window.lookupTickerName = function(raw) {
-      var ticker = raw.trim().toUpperCase();
-      if (!ticker) return;
-      var nameEl    = document.getElementById('f-name');
-      var domainEl  = document.getElementById('f-domain');
-      var logourlEl = document.getElementById('f-logourl');
-      if (nameEl.value.trim()) return;
+    // ── TICKER SEARCH ──────────────────────────────────────────────
+    var _searchTimer = null;
 
-      // Instant hit from local table
-      if (TICKER_DB[ticker]) {
-        var k = TICKER_DB[ticker];
-        nameEl.value = k.name;
-        if (!domainEl.value.trim()  && k.domain)   domainEl.value  = k.domain;
-        if (!logourlEl.value.trim() && k.logoUrl)  logourlEl.value = k.logoUrl;
-        return;
-      }
+    function _typeClass(t) {
+      return t === 'crypto' ? 'type-crypto' : t === 'etf' ? 'type-etf' : 'type-stock';
+    }
+    function _resolveType(quoteType) {
+      if (!quoteType) return 'stock';
+      var q = quoteType.toUpperCase();
+      if (q === 'ETF' || q === 'MUTUALFUND') return 'etf';
+      if (q === 'CRYPTOCURRENCY') return 'crypto';
+      return 'stock';
+    }
 
-      nameEl.placeholder = 'Looking up...';
-      var proxy = 'https://api.allorigins.win/raw?url=';
+    function _showDropdown(results) {
+      var dd = document.getElementById('ticker-dropdown');
+      if (!results.length) { dd.style.display = 'none'; dd.innerHTML = ''; return; }
+      dd.innerHTML = results.map(function(r) {
+        var tc = _typeClass(r.type);
+        return '<div class="ticker-result" onmousedown="selectTicker(' + JSON.stringify(r).replace(/\"/g, '&quot;') + ')">'
+          + '<span class="ticker-result-sym">' + r.symbol + '</span>'
+          + '<span class="ticker-result-name">' + r.name + '</span>'
+          + '<span class="type-badge ' + tc + '">' + r.type.toUpperCase() + '</span>'
+          + '</div>';
+      }).join('');
+      dd.style.display = 'block';
+    }
 
-      // Yahoo Finance search — returns longname/shortname for stocks, ETFs & crypto
-      var searchUrl = 'https://query1.finance.yahoo.com/v1/finance/search?q='
-        + encodeURIComponent(ticker) + '&quotesCount=6&newsCount=0&enableFuzzyQuery=false';
-      fetch(proxy + encodeURIComponent(searchUrl))
-        .then(function(r) { return r.json(); })
-        .then(function(d) {
-          var quotes = d.quotes || [];
-          var match = null;
-          for (var i = 0; i < quotes.length; i++) {
-            if (quotes[i].symbol === ticker) { match = quotes[i]; break; }
-          }
-          if (!match && quotes.length) match = quotes[0];
-          var name = (match && (match.longname || match.shortname)) || '';
-          nameEl.placeholder = 'e.g. Apple Inc.';
-          if (name) nameEl.value = name;
-        })
-        .catch(function() {
-          // Fallback: chart endpoint
-          fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v8/finance/chart/' + ticker + '?interval=1d&range=1d'))
-            .then(function(r) { return r.json(); })
-            .then(function(d) {
-              var meta = d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
-              var name = (meta && (meta.longName || meta.shortName)) || '';
-              nameEl.placeholder = 'e.g. Apple Inc.';
-              if (name) nameEl.value = name;
-            })
-            .catch(function() { nameEl.placeholder = 'e.g. Apple Inc.'; });
-        });
+    function _closeDropdown() {
+      var dd = document.getElementById('ticker-dropdown');
+      dd.style.display = 'none'; dd.innerHTML = '';
+    }
 
-      // Domain auto-fill for stocks (assetProfile works for equities, not ETFs/crypto)
-      if (!domainEl.value.trim()) {
-        fetch(proxy + encodeURIComponent('https://query2.finance.yahoo.com/v11/finance/quoteSummary/' + ticker + '?modules=assetProfile'))
+    window.tickerSearch = function(val) {
+      val = val.trim();
+      clearTimeout(_searchTimer);
+      if (!val) { _closeDropdown(); return; }
+      var upper = val.toUpperCase();
+
+      // Instant local results
+      var local = [];
+      var ETF_SET = { VOO:1,VONG:1,QQQ:1,SPY:1,GLD:1,VTI:1,ICLN:1 };
+      Object.keys(TICKER_DB).forEach(function(t) {
+        if (t.indexOf(upper) === 0 || TICKER_DB[t].name.toUpperCase().indexOf(upper) !== -1) {
+          local.push({
+            symbol: t,
+            name: TICKER_DB[t].name,
+            type: TICKER_DB[t].logoUrl ? 'crypto' : (ETF_SET[t] ? 'etf' : 'stock')
+          });
+        }
+      });
+      if (local.length) _showDropdown(local.slice(0, 6));
+
+      // API search (debounced 280ms)
+      _searchTimer = setTimeout(function() {
+        var proxy = 'https://api.allorigins.win/raw?url=';
+        var url = 'https://query1.finance.yahoo.com/v1/finance/search?q='
+          + encodeURIComponent(val) + '&quotesCount=8&newsCount=0&enableFuzzyQuery=false';
+        fetch(proxy + encodeURIComponent(url))
           .then(function(r) { return r.json(); })
           .then(function(d) {
-            var profile = d.quoteSummary && d.quoteSummary.result && d.quoteSummary.result[0] && d.quoteSummary.result[0].assetProfile;
-            var website = profile && profile.website;
-            if (website) domainEl.value = website.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+            var quotes = (d.quotes || []).filter(function(q) {
+              return q.isYahooFinance && (q.quoteType === 'EQUITY' || q.quoteType === 'ETF' || q.quoteType === 'CRYPTOCURRENCY');
+            }).slice(0, 7);
+            if (quotes.length) _showDropdown(quotes.map(function(q) {
+              return { symbol: q.symbol, name: q.longname || q.shortname || q.symbol, type: _resolveType(q.quoteType) };
+            }));
           })
           .catch(function() {});
+      }, 280);
+    };
+
+    window.selectTicker = function(r) {
+      var known = TICKER_DB[r.symbol] || {};
+      document.getElementById('f-ticker').value  = r.symbol;
+      document.getElementById('f-name').value    = r.name;
+      document.getElementById('f-type').value    = r.type;
+      document.getElementById('f-domain').value  = known.domain  || '';
+      document.getElementById('f-logourl').value = known.logoUrl || '';
+      _closeDropdown();
+
+      // Update selected display
+      document.getElementById('ticker-sel-sym').textContent  = r.symbol;
+      document.getElementById('ticker-sel-name').textContent = r.name;
+      var tb = document.getElementById('ticker-sel-type');
+      tb.textContent = r.type.toUpperCase();
+      tb.className = 'type-badge ' + _typeClass(r.type);
+
+      var icon = document.getElementById('ticker-sel-icon');
+      if (known.logoUrl) {
+        icon.innerHTML = '<img src="' + known.logoUrl + '" onerror="this.parentNode.textContent=\'' + r.symbol.substring(0,3) + '\'">';
+      } else if (known.domain) {
+        icon.innerHTML = '<img src="https://www.google.com/s2/favicons?domain=' + known.domain + '&sz=64" onerror="this.parentNode.textContent=\'' + r.symbol.substring(0,3) + '\'">';
+      } else {
+        icon.textContent = r.symbol.substring(0, 3);
       }
+
+      document.getElementById('ticker-search-wrap').style.display = 'none';
+      document.getElementById('ticker-selected-row').style.display = 'flex';
+      setTimeout(function() { document.getElementById('f-qty').focus(); }, 50);
+    };
+
+    window.clearTickerSelection = function() {
+      document.getElementById('f-ticker').value  = '';
+      document.getElementById('f-name').value    = '';
+      document.getElementById('f-type').value    = 'stock';
+      document.getElementById('f-domain').value  = '';
+      document.getElementById('f-logourl').value = '';
+      document.getElementById('ticker-selected-row').style.display = 'none';
+      document.getElementById('ticker-search-wrap').style.display  = '';
+      var s = document.getElementById('f-search');
+      s.value = ''; s.focus();
     };
 
     window.openModal = function(index) {
@@ -1052,17 +1151,31 @@
       var assets = loadAssets();
       var a = (index !== null && index !== undefined) ? assets[index] : null;
       document.getElementById('modal-title').textContent = a ? 'Edit Asset' : 'Add Asset';
-      document.getElementById('f-ticker').value   = a ? a.ticker   : '';
-      document.getElementById('f-name').value     = a ? a.name     : '';
-      document.getElementById('f-type').value     = a ? a.type     : 'stock';
-      document.getElementById('f-domain').value   = a ? (a.domain  || '') : '';
-      document.getElementById('f-logourl').value  = a ? (a.logoUrl || '') : '';
-      document.getElementById('f-qty').value      = a ? (a.qty     != null ? a.qty     : '') : '';
-      document.getElementById('f-avgcost').value  = a ? (a.avgCost != null ? a.avgCost : '') : '';
-      document.getElementById('f-price').value    = a ? (a.priceOverride != null ? a.priceOverride : '') : '';
+      document.getElementById('f-qty').value     = a ? (a.qty     != null ? a.qty     : '') : '';
+      document.getElementById('f-avgcost').value = a ? (a.avgCost != null ? a.avgCost : '') : '';
+      document.getElementById('f-price').value   = a ? (a.priceOverride != null ? a.priceOverride : '') : '';
+
+      if (a) {
+        // Editing — show selected row pre-filled
+        document.getElementById('f-ticker').value  = a.ticker;
+        document.getElementById('f-name').value    = a.name;
+        document.getElementById('f-type').value    = a.type;
+        document.getElementById('f-domain').value  = a.domain  || '';
+        document.getElementById('f-logourl').value = a.logoUrl || '';
+        selectTicker({ symbol: a.ticker, name: a.name, type: a.type });
+      } else {
+        // New asset — show search
+        document.getElementById('ticker-selected-row').style.display = 'none';
+        document.getElementById('ticker-search-wrap').style.display  = '';
+        document.getElementById('f-search').value = '';
+        _closeDropdown();
+      }
+
       document.getElementById('modal-overlay').classList.add('open');
-      // Focus first field after a short delay (iOS keyboard)
-      setTimeout(function(){ document.getElementById('f-ticker').focus(); }, 100);
+      setTimeout(function() {
+        var el = a ? document.getElementById('f-qty') : document.getElementById('f-search');
+        el.focus();
+      }, 100);
     };
 
     window.closeModal = function() {
