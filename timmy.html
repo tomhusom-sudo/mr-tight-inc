@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timmy's Corner</title>
   <script>
-    var VER = 'v=20260325e';
+    var VER = 'v=20260325f';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -774,12 +774,13 @@
       var titleHtml = a.url
         ? '<a href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.title || a.url) + ' ↗</a>'
         : esc(a.title || 'Untitled');
-      return '<li>'
+      return '<li data-art-idx="' + i + '">'
         + '<div class="item-body">'
         +   '<div class="item-primary">' + titleHtml + '</div>'
         +   (a.note ? '<div class="item-secondary">' + esc(a.note) + '</div>' : '')
         +   '<div class="item-date">Added ' + fmtDate(a.date) + '</div>'
         + '</div>'
+        + '<button class="btn-edit-tip" title="Edit" onclick="editArticle(' + i + ')">✎</button>'
         + '<button class="btn-del" title="Remove" onclick="deleteArticle(' + i + ')">✕</button>'
         + '</li>';
     }).join('');
@@ -855,6 +856,34 @@
   function deleteArticle(i) {
     var articles = loadArticles();
     articles.splice(i, 1);
+    saveArticles(articles);
+    renderArticles();
+    syncPush();
+  }
+
+  function editArticle(i) {
+    var articles = loadArticles();
+    var a = articles[i];
+    if (!a) return;
+    var li = document.querySelector('[data-art-idx="' + i + '"]');
+    if (!li) return;
+    li.innerHTML = '<div class="edit-tip-wrap">'
+      + '<input id="ea-title-' + i + '" value="' + esc(a.title || '') + '" placeholder="Article title or topic">'
+      + '<input id="ea-url-' + i + '" value="' + esc(a.url || '') + '" placeholder="https://… (optional)" style="margin-top:0;">'
+      + '<textarea id="ea-note-' + i + '" placeholder="Why Tom wants you to read this…">' + esc(a.note || '') + '</textarea>'
+      + '<div class="edit-tip-actions">'
+        + '<button class="btn-cancel-tip" onclick="renderArticles()">Cancel</button>'
+        + '<button class="btn-save-tip" onclick="saveArticle(' + i + ')">Save</button>'
+      + '</div>'
+    + '</div>';
+  }
+
+  function saveArticle(i) {
+    var articles = loadArticles();
+    if (!articles[i]) return;
+    articles[i].title = document.getElementById('ea-title-' + i).value.trim();
+    articles[i].url   = document.getElementById('ea-url-'   + i).value.trim();
+    articles[i].note  = document.getElementById('ea-note-'  + i).value.trim();
     saveArticles(articles);
     renderArticles();
     syncPush();
