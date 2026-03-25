@@ -41,9 +41,18 @@
     .thesis-item strong { color: #f1f5f9; }
     .section-label { max-width: 860px; margin: 0 auto 12px; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #3a5028; display: flex; align-items: center; gap: 10px; }
     .section-label::after { content: ''; flex: 1; height: 1px; background: #1e2e12; }
-    .tommy-log { max-width: 860px; margin: 0 auto 14px; display: flex; align-items: baseline; gap: 10px; }
-    .tommy-log-title { font-size: 1rem; font-weight: 700; color: #4ade80; letter-spacing: 0.04em; }
-    .tommy-log-stardate { font-size: 0.72rem; color: #3a5028; font-style: italic; }
+    .tommy-log { max-width: 860px; margin: 0 auto 18px; background: rgba(10,18,6,0.85); border: 1px solid rgba(34,197,94,0.18); border-left: 4px solid #22c55e; border-radius: 0 10px 10px 0; padding: 14px 18px 14px 20px; position: relative; }
+    .tommy-log-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+    .tommy-log-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: #22c55e; }
+    .tommy-log-rec { display: flex; align-items: center; gap: 5px; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.12em; color: #f87171; }
+    .tommy-log-rec-dot { width: 6px; height: 6px; border-radius: 50%; background: #f87171; animation: recblink 1.1s step-start infinite; }
+    @keyframes recblink { 0%,49%{opacity:1}50%,100%{opacity:0} }
+    .tommy-log-meta { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; flex-wrap: wrap; }
+    .tommy-log-officer { font-size: 0.78rem; font-weight: 700; color: #f0fae8; }
+    .tommy-log-rank { font-size: 0.65rem; color: #4ade80; }
+    .tommy-log-stardate { font-size: 0.65rem; color: #3a5028; letter-spacing: 0.06em; }
+    .tommy-log-divider { width: 1px; height: 12px; background: #1e2e12; }
+    .tommy-log-entry { font-size: 0.78rem; color: #7aaa68; line-height: 1.55; font-style: italic; }
     .chart-section { max-width: 860px; margin: 0 auto 32px; }
     .chart-legend { display: flex; gap: 20px; margin-bottom: 10px; }
     .chart-legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.72rem; color: #94a3b8; font-weight: 600; }
@@ -91,8 +100,17 @@
   </div>
 
   <div class="tommy-log">
-    <span class="tommy-log-title">Tommy's Log</span>
-    <span class="tommy-log-stardate" id="tommy-stardate"></span>
+    <div class="tommy-log-top">
+      <span class="tommy-log-label">Portfolio Log &mdash; Supplemental</span>
+      <span class="tommy-log-rec"><span class="tommy-log-rec-dot"></span>REC</span>
+    </div>
+    <div class="tommy-log-meta">
+      <span class="tommy-log-officer">Lt. Cmdr. T. Husom</span>
+      <span class="tommy-log-rank">Portfolio Division, USS Mr. Tight</span>
+      <span class="tommy-log-divider"></span>
+      <span class="tommy-log-stardate" id="tommy-stardate"></span>
+    </div>
+    <div class="tommy-log-entry">Maintaining current position in ICLN. Clean energy signals remain mixed &mdash; solar holding firm, wind exposure under political pressure. Monitoring Bloom Energy upside and China allocation closely. Standing by for further market data before adjusting course.</div>
   </div>
 
   <div class="thesis-panel">
