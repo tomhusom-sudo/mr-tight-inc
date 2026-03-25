@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions</title>
   <script>
-    var VER = 'v=20260326a';
+    var VER = 'v=20260326b';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -482,6 +482,22 @@
     .footer-copy { font-size: 0.78rem; color: var(--dim); }
     .footer-copy a { color: var(--rust); text-decoration: none; }
 
+    /* ── LIGHTBOX ── */
+    #logo-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.88); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    #logo-lightbox.open { display: flex; }
+    #logo-lightbox img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 12px;
+      border: 3px solid var(--rust);
+      box-shadow: 0 20px 80px rgba(0,0,0,0.9);
+      animation: lbIn 0.18s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
+
     /* ── BACK TO DASHBOARD ── */
     .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
     .back-dash {
@@ -500,7 +516,7 @@
   <!-- Nav -->
   <nav>
     <a class="nav-logo" href="#">
-      <img src="./toddfather3.png" alt="Todd" style="width:76px;height:76px;object-fit:cover;object-position:top;border-radius:5px;border:2px solid var(--rust);margin-right:18px;flex-shrink:0;" onerror="this.style.display='none'">
+      <img src="./toddfather3.png" alt="Todd" style="width:76px;height:76px;object-fit:cover;object-position:top;border-radius:5px;border:2px solid var(--rust);margin-right:18px;flex-shrink:0;cursor:zoom-in;" onclick="document.getElementById('logo-lightbox').classList.add('open')" onerror="this.style.display='none'">
       <div class="tf-badge">
         <div class="tf-badge-bar"></div>
         <div class="tf-badge-text">
@@ -795,6 +811,11 @@
       <div class="footer-copy">Design concept &mdash; <a href="./dashboard.html">Honest Tom's Dashboard</a></div>
     </div>
   </footer>
+
+  <!-- Portrait lightbox -->
+  <div id="logo-lightbox" onclick="this.classList.remove('open')">
+    <img src="./toddfather3.png" alt="Todd Father">
+  </div>
 
   <!-- Back to Dashboard -->
   <div class="dashboard-bar">
