@@ -11,9 +11,7 @@
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background:
-        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
-        url('./angry_lincoln.png') center 20% / cover no-repeat fixed;
+      background: #0e1209;
       color: #e2e8f0;
       min-height: 100vh;
       padding: 32px 16px 80px;
@@ -49,6 +47,19 @@
     }
     .back-btn:hover { background: #14532d; }
 
+    .header-title { display: flex; flex-direction: column; }
+    .header-brand {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      background: linear-gradient(160deg, #a3f7b5 0%, #22c55e 40%, #ffffff 55%, #22c55e 75%, #15803d 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header-sub {
       font-size: 0.68rem;
       color: #475569;
       letter-spacing: 0.08em;
@@ -302,6 +313,7 @@
 
     /* ── MOBILE ── */
     @media (max-width: 600px) {
+      .header-brand { font-size: 1.1rem; }
       .news-title { font-size: 0.82rem; }
       .news-card.top-story .news-title { font-size: 0.86rem; }
       .refresh-btn span:not(.refresh-icon) { display: none; }
@@ -312,6 +324,10 @@
 
   <div class="header">
     <a class="back-btn" href="./dashboard.html">&#8592; Dashboard</a>
+    <div class="header-title">
+      <div class="header-brand">Mr. Tight INC</div>
+      <div class="header-sub">Portfolio News Feed</div>
+    </div>
     <button class="refresh-btn" id="refresh-btn" onclick="reloadAll()">
       <span class="refresh-icon">&#8635;</span> <span>Refresh</span>
     </button>
