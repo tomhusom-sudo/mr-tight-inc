@@ -181,6 +181,10 @@
     <h1 class="page-title">Music Picks</h1>
   </div>
   <p class="page-sub">Tom's current suggested listening — albums, tracks &amp; playlists worth your time.</p>
+  <div id="sync-bar" style="display:none;align-items:center;gap:7px;margin-bottom:14px;font-size:11px;">
+    <span id="sync-dot" style="width:6px;height:6px;border-radius:50%;display:inline-block;background:#4b6b3a;flex-shrink:0;"></span>
+    <span id="sync-txt" style="color:#4b6b3a;">Sync</span>
+  </div>
 
   <!-- List -->
   <div class="section-header">
@@ -225,6 +229,7 @@
   </div>
 
 </div>
+<script src="./sync.js"></script>
 <script>
 (function() {
   var KEY = 'bacon_music_v1';
@@ -291,6 +296,7 @@
   window.delPick = function(id) {
     var picks = getPicks().filter(function(p) { return p.id !== id; });
     save(picks);
+    syncPush(picks);
     render();
   };
 
@@ -334,6 +340,7 @@
       }
     }
     save(picks);
+    syncPush(picks);
     render();
     fetchCovers();
   };
@@ -350,6 +357,7 @@
     var picks = getPicks();
     picks.unshift({ id: Date.now(), type: type, title: title, artist: artist, note: note, link: link });
     save(picks);
+    syncPush(picks);
 
     document.getElementById('f-title').value  = '';
     document.getElementById('f-artist').value = '';
@@ -401,8 +409,37 @@
     });
   }
 
+  // ── Sync helpers ──
+  function setSyncStatus(state) {
+    var bar = document.getElementById('sync-bar');
+    var dot = document.getElementById('sync-dot');
+    var txt = document.getElementById('sync-txt');
+    if (!bar) return;
+    bar.style.display = 'flex';
+    var s = { synced:{c:'#4ade80',t:'Synced'}, syncing:{c:'#fb923c',t:'Syncing\u2026'}, error:{c:'#f87171',t:'Sync error'} }[state] || {c:'#4b6b3a',t:'Sync active'};
+    dot.style.background = s.c; txt.style.color = s.c; txt.textContent = s.t;
+  }
+  function syncPush(picks) {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    GistSync.setSection('music', picks, function(ok) { setSyncStatus(ok ? 'synced' : 'error'); });
+  }
+  function syncInit() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    GistSync.getSection('music', function(data, err) {
+      if (!err && data && Array.isArray(data)) {
+        save(data);
+        render();
+        fetchCovers();
+      }
+      setSyncStatus(err ? 'error' : 'synced');
+    });
+  }
+
   render();
   fetchCovers();
+  syncInit();
 })();
 </script>
 </body>

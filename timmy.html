@@ -391,6 +391,11 @@
     </div>
   </div>
 
+  <div id="sync-bar" style="display:none;align-items:center;gap:7px;margin-bottom:20px;font-size:11px;">
+    <span id="sync-dot" style="width:6px;height:6px;border-radius:50%;display:inline-block;background:#4b6b3a;flex-shrink:0;"></span>
+    <span id="sync-txt" style="color:#4b6b3a;">Sync</span>
+  </div>
+
   <div class="columns">
 
     <!-- Tom's Wink Wink Tips -->
@@ -483,6 +488,7 @@
   </footer>
 
 </div>
+<script src="./sync.js"></script>
 <script>
   // ── Storage keys ──
   var TIPS_KEY     = 'timmy_tips';
@@ -562,6 +568,7 @@
     document.getElementById('tip-title').value  = '';
     document.getElementById('tip-note').value   = '';
     renderTips();
+    syncPush();
   }
 
   function deleteTip(i) {
@@ -569,6 +576,7 @@
     tips.splice(i, 1);
     saveTips(tips);
     renderTips();
+    syncPush();
   }
 
   function editTip(i) {
@@ -595,6 +603,7 @@
     tips[i].note  = document.getElementById('et-note-'  + i).value.trim();
     saveTips(tips);
     renderTips();
+    syncPush();
   }
 
   // ── Add / Delete Articles ──
@@ -610,6 +619,7 @@
     document.getElementById('art-url').value   = '';
     document.getElementById('art-note').value  = '';
     renderArticles();
+    syncPush();
   }
 
   function deleteArticle(i) {
@@ -617,6 +627,7 @@
     articles.splice(i, 1);
     saveArticles(articles);
     renderArticles();
+    syncPush();
   }
 
   // ── Auto-lookup asset name from ticker ──
@@ -648,9 +659,38 @@
       .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
   }
 
+  // ── Sync ──
+  function setSyncStatus(state) {
+    var bar = document.getElementById('sync-bar');
+    var dot = document.getElementById('sync-dot');
+    var txt = document.getElementById('sync-txt');
+    if (!bar) return;
+    bar.style.display = 'flex';
+    var s = { synced:{c:'#4ade80',t:'Synced'}, syncing:{c:'#fb923c',t:'Syncing\u2026'}, error:{c:'#f87171',t:'Sync error'} }[state] || {c:'#4b6b3a',t:'Sync active'};
+    dot.style.background = s.c; txt.style.color = s.c; txt.textContent = s.t;
+  }
+  function syncPush() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    var data = { tips: loadTips(), articles: loadArticles() };
+    GistSync.setSection('timmy', data, function(ok) { setSyncStatus(ok ? 'synced' : 'error'); });
+  }
+  function syncInit() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    GistSync.getSection('timmy', function(data, err) {
+      if (!err && data) {
+        if (Array.isArray(data.tips))     { saveTips(data.tips);         renderTips(); }
+        if (Array.isArray(data.articles)) { saveArticles(data.articles); renderArticles(); }
+      }
+      setSyncStatus(err ? 'error' : 'synced');
+    });
+  }
+
   // ── Init ──
   renderTips();
   renderArticles();
+  syncInit();
 
   document.getElementById('footer-time').textContent =
     'Loaded ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
