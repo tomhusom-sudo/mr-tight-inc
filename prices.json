@@ -1,18 +1,18 @@
 {
   "prices": {
-    "AA":    56.33,
+    "AA":    56.68,
     "MSFT": 400.60,
     "AMZN": 210.64,
-    "BTC":  69541.00,
+    "BTC":  70600.00,
     "NVDA": 175.21,
-    "VOO":  603.38,
+    "VOO":  602.29,
     "VONG": 121.99,
-    "EXE":  110.88
+    "EXE":  107.32
   },
   "indices": {
-    "NASDAQ": { "value": 21761.89, "change": -184.87, "pct": -0.84 },
-    "DOW":    { "value": 46124.06, "change":  -84.41, "pct": -0.18 },
-    "S&P 500":{ "value":  6556.37, "change":  -24.63, "pct": -0.37 }
+    "NASDAQ": { "value": 21860.64, "change":   98.75, "pct":  0.45 },
+    "DOW":    { "value": 46340.71, "change":  216.65, "pct":  0.47 },
+    "S&P 500":{ "value":  6585.07, "change":   28.70, "pct":  0.44 }
   },
-  "updated": "March 27, 2026"
+  "updated": "March 25, 2026"
 }
