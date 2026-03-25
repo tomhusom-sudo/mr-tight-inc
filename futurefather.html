@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions — Future Vision</title>
   <script>
-    var VER = 'v=20260326b';
+    var VER = 'v=20260326c';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -130,8 +130,20 @@
 
     .hero-left {
       padding: 150px 64px 80px; position: relative; z-index: 1;
+      display: flex; flex-direction: column;
     }
-    @media (max-width: 900px) { .hero-left { padding: 130px 24px 48px; text-align: center; } }
+    @media (max-width: 900px) { .hero-left { padding: 130px 24px 48px; text-align: center; align-items: center; } }
+
+    .hero-rider {
+      margin-top: 48px;
+      width: 100%; max-width: 460px;
+      border-radius: 4px;
+      border: 1px solid rgba(0,212,255,0.3);
+      box-shadow: 0 0 40px rgba(0,212,255,0.12), 0 20px 60px rgba(0,0,0,0.6);
+      filter: saturate(0.85) contrast(1.05);
+      display: block;
+    }
+    @media (max-width: 900px) { .hero-rider { max-width: 90vw; } }
 
     .hero-eyebrow {
       font-family: 'Exo 2', sans-serif;
@@ -584,6 +596,7 @@
         <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
         <a href="#packages" class="btn-outline">View Packages</a>
       </div>
+      <img src="./future_todd.png" alt="Future Todd" class="hero-rider">
     </div>
     <div class="hero-right">
       <img src="./toddsvan2.png" alt="ToddFather Productions">
