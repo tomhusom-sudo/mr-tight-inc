@@ -1002,6 +1002,8 @@
     // Instant lookup table — name + logo source for common tickers
     var TICKER_DB = {
       'AA':   { name:'Alcoa Corporation',                  domain:'alcoa.com' },
+      'AGIX': { name:'SingularityNET',                      logoUrl:'https://cryptologos.cc/logos/singularitynet-agix-logo.png' },
+      'ARKK': { name:'ARK Innovation ETF',                  domain:'ark-funds.com' },
       'AAPL': { name:'Apple Inc.',                         domain:'apple.com' },
       'AMZN': { name:'Amazon.com, Inc.',                   domain:'amazon.com' },
       'BAC':  { name:'Bank of America Corporation',        domain:'bankofamerica.com' },
@@ -1073,7 +1075,7 @@
 
       // Instant local results
       var local = [];
-      var ETF_SET = { VOO:1,VONG:1,QQQ:1,SPY:1,GLD:1,VTI:1,ICLN:1 };
+      var ETF_SET = { VOO:1,VONG:1,QQQ:1,SPY:1,GLD:1,VTI:1,ICLN:1,ARKK:1,ARKW:1,ARKQ:1,ARKG:1 };
       Object.keys(TICKER_DB).forEach(function(t) {
         if (t.indexOf(upper) === 0 || TICKER_DB[t].name.toUpperCase().indexOf(upper) !== -1) {
           local.push({
