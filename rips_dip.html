@@ -589,32 +589,46 @@
     'https://api.codetabs.com/v1/proxy?quest='
   ];
 
-  function fetchProxy(url, cb) {
+  // Try each proxy in order; move to next if fetch fails OR parsed items are empty
+  function fetchRss(url, src, cb) {
     function tryNext(i) {
-      if (i >= PROXIES.length) { cb(null); return; }
+      if (i >= PROXIES.length) { cb([]); return; }
       var ctrl = new AbortController();
       var tid = setTimeout(function() { ctrl.abort(); }, 7000);
       fetch(PROXIES[i] + encodeURIComponent(url), { signal: ctrl.signal })
         .then(function(r) { clearTimeout(tid); return r.text(); })
-        .then(function(t) { cb(t); })
+        .then(function(txt) {
+          var items = parseRss(txt, src);
+          if (items.length > 0) { cb(items); }
+          else { tryNext(i + 1); }
+        })
         .catch(function() { clearTimeout(tid); tryNext(i + 1); });
     }
     tryNext(0);
   }
 
   function parseRss(xml, src) {
-    var items = [];
-    var parser = new DOMParser();
-    var doc = parser.parseFromString(xml, 'text/xml');
-    var nodes = doc.querySelectorAll('item');
-    nodes.forEach(function(n) {
-      var title = n.querySelector('title');
-      var link  = n.querySelector('link');
-      if (title && link) {
-        items.push({ title: title.textContent.trim(), link: link.textContent.trim(), src: src });
-      }
-    });
-    return items.slice(0, 5);
+    try {
+      var doc = new DOMParser().parseFromString(xml, 'text/xml');
+      return Array.from(doc.querySelectorAll('item')).map(function(n) {
+        var title = (n.querySelector('title') || {}).textContent || '';
+        // RSS <link> is tricky — try element text, then childNode scan
+        var link = '';
+        var le = n.querySelector('link');
+        if (le) link = le.textContent || le.getAttribute('href') || '';
+        if (!link) {
+          var ch = n.childNodes;
+          for (var i = 0; i < ch.length; i++) {
+            if (ch[i].nodeName === 'link') { link = ch[i].textContent || ''; break; }
+          }
+        }
+        title = title.trim(); link = link.trim();
+        // Strip trailing source attribution (e.g. " - Star Tribune")
+        title = title.replace(/\s[-–—]\s[^-–—]{2,50}$/, '').trim();
+        if (!link || link.indexOf('http') !== 0) return null;
+        return { title: title, link: link, src: src };
+      }).filter(Boolean);
+    } catch(e) { return []; }
   }
 
   function renderNews(containerId, items) {
@@ -633,63 +647,54 @@
 
   // ── Crypto prices ──
   function fetchCrypto(ticker, priceId, changeId) {
-    var yf = ticker + '-USD';
-    var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(yf) + '?interval=1d&range=1d';
-    fetchProxy(url, function(txt) {
-      if (!txt) return;
-      try {
-        var d = JSON.parse(txt);
-        var res = d.chart && d.chart.result && d.chart.result[0];
-        if (!res) return;
-        var meta = res.meta;
-        var price = meta.regularMarketPrice;
-        var prev  = meta.chartPreviousClose || meta.previousClose;
-        var chg   = prev ? price - prev : null;
-        var pct   = prev ? (chg / prev * 100) : null;
-        document.getElementById(priceId).textContent =
-          '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        if (chg !== null) {
-          var sign = chg >= 0 ? '+' : '';
-          var el = document.getElementById(changeId);
-          el.textContent = sign + '$' + Math.abs(chg).toFixed(2) + ' (' + sign + pct.toFixed(2) + '%)';
-          el.className = 'crypto-change ' + (chg >= 0 ? 'up' : 'dn');
-        }
-      } catch(e) {}
-    });
+    var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker + '-USD') + '?interval=1d&range=1d';
+    var pi = 0;
+    function tryNext() {
+      if (pi >= PROXIES.length) return;
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 7000);
+      fetch(PROXIES[pi++] + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.json(); })
+        .then(function(d) {
+          var res = d.chart && d.chart.result && d.chart.result[0];
+          if (!res || !res.meta || !res.meta.regularMarketPrice) { tryNext(); return; }
+          var meta = res.meta;
+          var price = meta.regularMarketPrice;
+          var prev  = meta.chartPreviousClose || meta.previousClose;
+          var chg   = prev ? price - prev : null;
+          var pct   = prev ? (chg / prev * 100) : null;
+          document.getElementById(priceId).textContent =
+            '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          if (chg !== null) {
+            var sign = chg >= 0 ? '+' : '';
+            var el = document.getElementById(changeId);
+            el.textContent = sign + '$' + Math.abs(chg).toFixed(2) + ' (' + sign + pct.toFixed(2) + '%)';
+            el.className = 'crypto-change ' + (chg >= 0 ? 'up' : 'dn');
+          }
+        })
+        .catch(function() { clearTimeout(tid); tryNext(); });
+    }
+    tryNext();
   }
 
   fetchCrypto('BTC', 'btc-price', 'btc-change');
   fetchCrypto('ETH', 'eth-price', 'eth-change');
 
-  // ── Minnesota Sports News ──
-  fetchProxy('https://www.espn.com/espn/rss/nfl/news', function(txt) {
-    var items = txt ? parseRss(txt, 'ESPN NFL') : [];
-    fetchProxy('https://www.espn.com/espn/rss/nba/news', function(txt2) {
-      var items2 = txt2 ? parseRss(txt2, 'ESPN NBA') : [];
-      var all = items.concat(items2)
-        .filter(function(i) {
-          var t = i.title.toLowerCase();
-          return t.indexOf('viking') !== -1 || t.indexOf('timberwolv') !== -1
-            || t.indexOf('twin') !== -1 || t.indexOf('wild') !== -1 || t.indexOf('minnesota') !== -1;
-        });
-      if (all.length === 0) {
-        // fallback: show any ESPN items
-        all = items.slice(0, 5).concat(items2.slice(0, 5));
-        all = all.slice(0, 6);
-      }
-      renderNews('sports-news', all.slice(0, 6));
-    });
+  // ── Minnesota Sports News — Google News RSS (no ESPN dependency) ──
+  var sportsUrl = 'https://news.google.com/rss/search?q=Vikings+OR+Timberwolves+OR+Twins+OR+"Minnesota+Wild"+OR+"MN+United"+OR+Lynx+Minnesota+sports&hl=en-US&gl=US&ceid=US:en';
+  fetchRss(sportsUrl, 'Google News', function(items) {
+    renderNews('sports-news', items.slice(0, 6));
   });
 
   // ── Fishing News ──
-  fetchProxy('https://news.google.com/rss/search?q=Minnesota+bass+fishing+smallmouth&hl=en-US&gl=US&ceid=US:en', function(txt) {
-    var items = txt ? parseRss(txt, 'Google') : [];
+  var fishUrl = 'https://news.google.com/rss/search?q=Minnesota+bass+fishing+smallmouth&hl=en-US&gl=US&ceid=US:en';
+  fetchRss(fishUrl, 'Google News', function(items) {
     renderNews('fishing-news', items.slice(0, 5));
   });
 
   // ── MN Music News ──
-  fetchProxy('https://news.google.com/rss/search?q=First+Avenue+Minneapolis+music&hl=en-US&gl=US&ceid=US:en', function(txt) {
-    var items = txt ? parseRss(txt, 'Google') : [];
+  var musicUrl = 'https://news.google.com/rss/search?q=First+Avenue+Minneapolis+music+concert&hl=en-US&gl=US&ceid=US:en';
+  fetchRss(musicUrl, 'Google News', function(items) {
     renderNews('music-news', items.slice(0, 5));
   });
 </script>
