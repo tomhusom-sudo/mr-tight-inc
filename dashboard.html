@@ -54,12 +54,22 @@
 
     .header-text { flex: 1; }
 
+    .lincoln-wrap {
+      flex-shrink: 0;
+      width: 160px;
+    }
 
+    .lincoln-wrap img {
+      width: 100%;
+      display: block;
+    }
 
     @media (max-width: 720px) {
+      .lincoln-wrap { width: 100px; }
     }
 
     @media (max-width: 460px) {
+      .lincoln-wrap { width: 80px; }
     }
 
     .eyebrow {
@@ -290,6 +300,15 @@
       <div class="eyebrow">Personal Command Center</div>
       <h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1>
       <div class="date-line" id="date-line"></div>
+    </div>
+
+    <!-- Abraham Lincoln — Healy oil portrait, 1887, public domain -->
+    <div class="lincoln-wrap">
+      <img
+        src="./lincoln.jpg"
+        alt="Abraham Lincoln — Healy portrait"
+        loading="lazy"
+      >
     </div>
 
   </header>
