@@ -64,7 +64,25 @@
       height: 120px;
       border-radius: 20px;
       object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
     }
+    .header-logo img:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(0,0,0,0.6); }
+
+    /* Lightbox */
+    #logo-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    #logo-lightbox.open { display: flex; }
+    #logo-lightbox img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 18px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.8);
+      animation: lbIn 0.18s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform:scale(0.9); } to { opacity:1; transform:scale(1); } }
 
     .eyebrow {
       font-size: 0.68rem;
@@ -213,6 +231,10 @@
       font-size: 1.8rem;
       line-height: 1;
     }
+    .team-logo img {
+      width: 48px; height: 48px; object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
 
     .team-name {
       font-size: 0.88rem;
@@ -354,7 +376,7 @@
 
   <header class="header">
     <div class="header-logo">
-      <img src="./rips_dip.png" alt="Rip's Dip" onerror="this.parentElement.textContent='🎸'">
+      <img src="./rips_dip.png" alt="Rip's Dip" onclick="document.getElementById('logo-lightbox').classList.add('open')" onerror="this.parentElement.textContent='🎸'">
     </div>
     <div>
       <div class="eyebrow">Pat Ripley · Flat Buzz · Minneapolis</div>
@@ -392,37 +414,37 @@
     <div class="section-title">Minnesota Pro Sports</div>
     <div class="sports-grid">
       <a class="team-card" href="https://www.vikings.com" target="_blank" rel="noopener">
-        <div class="team-logo">🏈</div>
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/nfl/500/min.png" alt="Vikings" onerror="this.outerHTML='🏈'"></div>
         <div class="team-name">Vikings</div>
         <div class="team-sport">NFL · Football</div>
         <div class="team-record" id="vikes-info">Minnesota Vikings</div>
       </a>
       <a class="team-card" href="https://www.nba.com/timberwolves" target="_blank" rel="noopener">
-        <div class="team-logo">🏀</div>
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/nba/500/min.png" alt="Timberwolves" onerror="this.outerHTML='🏀'"></div>
         <div class="team-name">Timberwolves</div>
         <div class="team-sport">NBA · Basketball</div>
         <div class="team-record" id="wolves-info">Minnesota Timberwolves</div>
       </a>
       <a class="team-card" href="https://www.nhl.com/wild" target="_blank" rel="noopener">
-        <div class="team-logo">🏒</div>
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/nhl/500/min.png" alt="Wild" onerror="this.outerHTML='🏒'"></div>
         <div class="team-name">Wild</div>
         <div class="team-sport">NHL · Hockey</div>
         <div class="team-record" id="wild-info">Minnesota Wild</div>
       </a>
       <a class="team-card" href="https://www.mlb.com/twins" target="_blank" rel="noopener">
-        <div class="team-logo">⚾</div>
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/mlb/500/min.png" alt="Twins" onerror="this.outerHTML='⚾'"></div>
         <div class="team-name">Twins</div>
         <div class="team-sport">MLB · Baseball</div>
         <div class="team-record" id="twins-info">Minnesota Twins</div>
       </a>
       <a class="team-card" href="https://www.mnunited.com" target="_blank" rel="noopener">
-        <div class="team-logo">⚽</div>
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/soccer/500/994.png" alt="MN United" onerror="this.outerHTML='⚽'"></div>
         <div class="team-name">MN United</div>
         <div class="team-sport">MLS · Soccer</div>
         <div class="team-record">Minnesota United FC</div>
       </a>
       <a class="team-card" href="https://lynx.wnba.com" target="_blank" rel="noopener">
-        <div class="team-logo">🏀</div>
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/minx.png" alt="Lynx" onerror="this.outerHTML='🏀'"></div>
         <div class="team-name">Lynx</div>
         <div class="team-sport">WNBA · Basketball</div>
         <div class="team-record">Minnesota Lynx</div>
@@ -581,6 +603,11 @@
   }
   .err { color: #f87171; font-size: 0.8rem; }
 </style>
+
+<!-- Logo lightbox -->
+<div id="logo-lightbox" onclick="this.classList.remove('open')">
+  <img src="./rips_dip.png" alt="Rip's Dip full size">
+</div>
 
 <script>
   var PROXIES = [
