@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions</title>
   <script>
-    var VER = 'v=20260325z';
+    var VER = 'v=20260326a';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -312,7 +312,14 @@
     .product-card { background: var(--plate); overflow: hidden; transition: background 0.2s; }
     .product-card:hover { background: #221a12; }
     .product-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 700px) { .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; } }
+    .product-card.wide    { grid-column: span 2; }
+    .sticker-inner        { display: grid; grid-template-columns: 1fr 1fr; }
+    @media (max-width: 700px) {
+      .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
+      .product-card.wide     { grid-column: span 1; }
+      .sticker-inner         { grid-template-columns: 1fr; }
+      .product-card.featured .product-visual { min-height: 220px; }
+    }
     .product-visual {
       aspect-ratio: 4/3;
       background: linear-gradient(135deg, #1e1008 0%, #140c0e 50%, #0e0a14 100%);
@@ -645,8 +652,8 @@
       </div>
 
       <!-- Stickers -->
-      <div class="product-card" style="grid-column:span 2;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+      <div class="product-card wide">
+        <div class="sticker-inner">
           <div class="product-visual" style="background:linear-gradient(135deg,#0e1008 0%,#0a1018 100%);"><img src="https://lookslikelarry.com/cdn/shop/products/StickerSet1_530x@2x.jpg?v=1679460391" alt="Sticker Set"></div>
           <div class="product-info">
             <div>
