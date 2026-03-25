@@ -3,25 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LooksLikeLarry Productions</title>
+  <title>Looks Like Larry Productions</title>
   <script>
-    var VER = 'v=20260325q';
+    var VER = 'v=20260325s';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Jost:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black:   #09070a;
-      --surface: #120e14;
-      --card:    #1c1620;
-      --gold:    #c9a227;
-      --gold2:   #e8c84a;
-      --red:     #b82032;
-      --cream:   #f5f0e8;
-      --sub:     #9a8c7e;
-      --border:  rgba(201,162,39,0.18);
+      --black:   #0c0906;
+      --deep:    #130e0a;
+      --plate:   #1c1510;
+      --rust:    #c4602a;
+      --rust2:   #d87840;
+      --steel:   #4a6878;
+      --cream:   #f0ead8;
+      --dim:     #7a6a58;
+      --border:  rgba(196,96,42,0.22);
+      --rule:    rgba(255,255,255,0.07);
     }
 
     html { scroll-behavior: smooth; }
@@ -29,45 +30,42 @@
     body {
       background: var(--black);
       color: var(--cream);
-      font-family: 'Jost', sans-serif;
+      font-family: 'Barlow', sans-serif;
       overflow-x: hidden;
     }
 
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(9,7,10,0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
+      background: rgba(12,9,6,0.97);
+      backdrop-filter: blur(10px);
+      border-bottom: 3px solid var(--rust);
       display: flex; align-items: center; justify-content: space-between;
-      padding: 0 48px;
-      height: 68px;
+      padding: 0 48px; height: 72px;
     }
     .nav-logo {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.15rem; font-weight: 700; letter-spacing: 0.04em;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.75rem; letter-spacing: 0.06em;
       color: var(--cream); text-decoration: none;
-      display: flex; align-items: center; gap: 12px;
+      display: flex; align-items: center; gap: 14px;
     }
-    .nav-logo span { color: var(--gold); }
+    .nav-logo .accent { color: var(--rust); }
     .nav-links {
-      display: flex; align-items: center; gap: 32px;
-      list-style: none;
+      display: flex; align-items: center; gap: 36px; list-style: none;
     }
     .nav-links a {
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.14em;
-      text-transform: uppercase; color: var(--sub);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--dim);
       text-decoration: none; transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--cream); }
     .nav-cta {
-      background: var(--gold);
-      color: var(--black) !important;
-      padding: 9px 20px; border-radius: 6px;
-      font-weight: 700 !important;
+      background: var(--rust) !important; color: var(--cream) !important;
+      padding: 9px 22px; border-radius: 3px;
       transition: background 0.2s !important;
     }
-    .nav-cta:hover { background: var(--gold2) !important; color: var(--black) !important; }
+    .nav-cta:hover { background: var(--rust2) !important; }
     @media (max-width: 768px) {
       nav { padding: 0 20px; }
       .nav-links { display: none; }
@@ -76,584 +74,467 @@
     /* ── HERO ── */
     .hero {
       min-height: 100vh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 0;
       position: relative;
       overflow: hidden;
     }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; min-height: auto; }
+    }
 
-    /* Art deco diagonal lines */
-    .hero::before {
+    /* Crosshatch texture */
+    .hero-left {
+      padding: 140px 64px 80px;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 900px) { .hero-left { padding: 120px 24px 48px; text-align: center; } }
+
+    .hero-left::before {
       content: '';
       position: absolute; inset: 0;
-      background:
-        repeating-linear-gradient(
-          -45deg,
-          transparent,
-          transparent 60px,
-          rgba(201,162,39,0.025) 60px,
-          rgba(201,162,39,0.025) 61px
-        );
+      background-image:
+        linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+      background-size: 52px 52px;
       pointer-events: none;
     }
 
-    .hero-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(201,162,39,0.1);
-      border: 1px solid rgba(201,162,39,0.3);
-      border-radius: 999px;
-      padding: 7px 18px;
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 28px;
+    .hero-right {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
     }
-    .hero-badge::before {
+    @media (max-width: 900px) {
+      .hero-right { height: 55vw; min-height: 280px; }
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+      filter: sepia(20%) contrast(1.08);
+    }
+    /* Rust overlay gradient on the image */
+    .hero-right::before {
       content: '';
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--gold); flex-shrink: 0;
+      position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(90deg, var(--black) 0%, transparent 30%),
+                  linear-gradient(0deg, rgba(12,9,6,0.5) 0%, transparent 40%);
     }
+    /* Rust border line on left edge */
+    .hero-right::after {
+      content: '';
+      position: absolute; top: 0; left: 0; bottom: 0; width: 3px;
+      background: var(--rust); z-index: 2;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--rust);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: inline-block; width: 36px; height: 2px;
+      background: var(--rust); flex-shrink: 0;
+    }
+    @media (max-width: 900px) { .hero-eyebrow { justify-content: center; } }
 
     .hero h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3rem, 8vw, 7rem);
-      font-weight: 900;
-      line-height: 0.95;
-      letter-spacing: -0.02em;
-      color: var(--cream);
-      max-width: 900px;
-      margin-bottom: 14px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4.5rem, 9vw, 8.5rem);
+      font-weight: 400; line-height: 0.88;
+      letter-spacing: 0.03em;
+      color: var(--cream); max-width: 700px;
+      margin-bottom: 0; position: relative; z-index: 1;
     }
-    .hero h1 em {
-      font-style: italic;
-      color: var(--gold);
+    .hero h1 .accent { color: var(--rust); }
+    .hero h1 .outline {
+      -webkit-text-stroke: 2px var(--cream);
+      color: transparent;
     }
 
-    /* Decorative rule */
     .hero-rule {
-      display: flex; align-items: center; gap: 16px;
-      justify-content: center; margin: 24px auto;
-      width: 100%; max-width: 420px;
+      width: 72px; height: 4px; background: var(--rust);
+      margin: 28px 0;
     }
-    .hero-rule::before, .hero-rule::after {
-      content: ''; flex: 1;
-      height: 1px; background: var(--border);
-    }
-    .hero-rule span {
-      color: var(--gold); font-size: 1rem; flex-shrink: 0;
-    }
+    @media (max-width: 900px) { .hero-rule { margin: 28px auto; } }
 
     .hero-sub {
-      font-size: 1.1rem; font-weight: 300; color: var(--sub);
-      max-width: 540px; line-height: 1.65; margin: 0 auto 40px;
+      font-size: 1.1rem; font-weight: 400; color: var(--dim);
+      max-width: 460px; line-height: 1.65; margin-bottom: 44px;
     }
 
-    .hero-actions {
-      display: flex; align-items: center; gap: 14px;
-      flex-wrap: wrap; justify-content: center;
-    }
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    @media (max-width: 900px) { .hero-actions { justify-content: center; } }
+
     .btn-primary {
-      background: var(--gold); color: var(--black);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em;
+      background: var(--rust); color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.92rem; font-weight: 800; letter-spacing: 0.18em;
       text-transform: uppercase; text-decoration: none;
-      padding: 14px 32px; border-radius: 6px;
-      transition: background 0.2s, transform 0.15s;
-      display: inline-block;
+      padding: 16px 36px; border-radius: 3px;
+      transition: background 0.2s, transform 0.15s; display: inline-block;
     }
-    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
+    .btn-primary:hover { background: var(--rust2); transform: translateY(-2px); }
 
     .btn-outline {
       background: transparent;
-      border: 1px solid rgba(245,240,232,0.3);
-      color: var(--cream); font-family: 'Jost', sans-serif;
-      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.1em;
+      border: 2px solid rgba(240,234,216,0.25);
+      color: var(--cream);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.92rem; font-weight: 700; letter-spacing: 0.18em;
       text-transform: uppercase; text-decoration: none;
-      padding: 14px 32px; border-radius: 6px;
-      transition: border-color 0.2s, transform 0.15s;
-      display: inline-block;
+      padding: 14px 34px; border-radius: 3px;
+      transition: border-color 0.2s, transform 0.15s; display: inline-block;
     }
     .btn-outline:hover { border-color: var(--cream); transform: translateY(-2px); }
 
-    /* ── IMAGE GRID (placeholder art) ── */
-    .hero-photos {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-      max-width: 900px;
-      margin: 60px auto 0;
-      border-radius: 12px;
-      overflow: hidden;
+    /* ── STATS BAR ── */
+    .stats-bar { background: var(--rust); padding: 0 48px; }
+    @media (max-width: 768px) { .stats-bar { padding: 0 20px; } }
+    .stats-bar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-left: 1px solid rgba(0,0,0,0.18);
     }
-    .photo-slot {
-      aspect-ratio: 2/3;
-      background: var(--card);
-      position: relative;
-      overflow: hidden;
+    @media (max-width: 700px) { .stats-bar-inner { grid-template-columns: 1fr 1fr; } }
+    .stat-item {
+      padding: 24px 32px;
+      border-right: 1px solid rgba(0,0,0,0.18);
     }
-    .photo-slot::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(135deg, #2a1f10 0%, #1c1215 40%, #0e0a12 100%);
-    }
-    .photo-slot::after {
-      content: attr(data-label);
-      position: absolute; bottom: 16px; left: 16px; right: 16px;
-      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em;
-      text-transform: uppercase; color: rgba(201,162,39,0.6);
-    }
-    .photo-slot .slot-icon {
-      position: absolute; top: 50%; left: 50%; transform: translate(-50%,-60%);
-      font-size: 2.5rem; opacity: 0.12;
+    .stat-big { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--cream); line-height: 1; }
+    .stat-small {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: rgba(240,234,216,0.6); margin-top: 3px;
     }
 
     /* ── SECTION WRAPPER ── */
-    .section {
-      padding: 100px 48px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    @media (max-width: 768px) { .section { padding: 64px 20px; } }
+    .section { padding: 100px 64px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 768px) { .section { padding: 64px 24px; } }
 
     .section-eyebrow {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.22em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.28em;
+      text-transform: uppercase; color: var(--rust);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 28px; height: 2px; background: var(--rust); flex-shrink: 0;
     }
     .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      font-weight: 700; line-height: 1.1;
-      color: var(--cream); margin-bottom: 16px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 4.5rem);
+      font-weight: 400; line-height: 0.9;
+      letter-spacing: 0.04em;
+      color: var(--cream); margin-bottom: 18px;
     }
-    .section-title em { font-style: italic; color: var(--gold); }
-    .section-sub {
-      font-size: 1rem; color: var(--sub);
-      line-height: 1.65; max-width: 560px;
-    }
+    .section-title .accent { color: var(--rust); }
+    .section-sub { font-size: 1rem; color: var(--dim); line-height: 1.65; max-width: 520px; }
 
-    /* Divider */
-    .divider {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border), transparent);
-      margin: 0 48px;
-    }
+    .divider { height: 1px; background: var(--rule); margin: 0 64px; }
+    @media (max-width: 768px) { .divider { margin: 0 24px; } }
 
     /* ── SERVICES ── */
     .services-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 56px;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      margin-top: 56px; border: 1px solid var(--rule);
     }
     @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
-
     .service-item {
-      background: var(--card);
-      padding: 36px 32px;
-      border-right: 1px solid var(--border);
-      transition: background 0.2s;
+      background: var(--plate); padding: 40px 36px;
+      border-right: 1px solid var(--rule);
+      transition: background 0.2s; position: relative;
     }
+    .service-item::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 3px; background: transparent; transition: background 0.2s;
+    }
+    .service-item:hover::before { background: var(--rust); }
     .service-item:last-child { border-right: none; }
-    .service-item:hover { background: #221b28; }
-
+    .service-item:hover { background: #221a12; }
     .service-num {
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.2em;
-      color: var(--gold); text-transform: uppercase;
-      margin-bottom: 20px; opacity: 0.7;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4rem; color: rgba(196,96,42,0.15); line-height: 1; margin-bottom: 12px;
     }
-    .service-icon { font-size: 2rem; margin-bottom: 16px; }
+    .service-icon { font-size: 1.8rem; margin-bottom: 14px; }
     .service-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.3rem; font-weight: 700;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase;
       color: var(--cream); margin-bottom: 12px;
     }
-    .service-desc {
-      font-size: 0.88rem; color: var(--sub);
-      line-height: 1.65;
-    }
+    .service-desc { font-size: 0.9rem; color: var(--dim); line-height: 1.65; }
 
     /* ── PRODUCTS ── */
     .products-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
-      margin-top: 56px;
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 2px; margin-top: 56px; background: var(--rule);
     }
     @media (max-width: 700px) { .products-grid { grid-template-columns: 1fr; } }
-
-    .product-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .product-card:hover {
-      border-color: rgba(201,162,39,0.45);
-      transform: translateY(-4px);
-    }
-
-    .product-card.featured {
-      grid-column: span 2;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
+    .product-card { background: var(--plate); overflow: hidden; transition: background 0.2s; }
+    .product-card:hover { background: #221a12; }
+    .product-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
     @media (max-width: 700px) { .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; } }
-
     .product-visual {
       aspect-ratio: 4/3;
-      background: linear-gradient(135deg, #2a1a10 0%, #1c1015 50%, #100a18 100%);
+      background: linear-gradient(135deg, #1e1008 0%, #140c0e 50%, #0e0a14 100%);
       display: flex; align-items: center; justify-content: center;
-      font-size: 3rem; color: rgba(201,162,39,0.15);
+      font-size: 3rem; color: rgba(196,96,42,0.15);
       position: relative; overflow: hidden;
     }
-    .product-card.featured .product-visual {
-      aspect-ratio: auto;
-      min-height: 280px;
-    }
+    .product-card.featured .product-visual { aspect-ratio: auto; min-height: 280px; }
     .product-visual::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 50%, rgba(9,7,10,0.4) 100%);
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; background: var(--rust);
     }
+    .product-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: sepia(15%) contrast(1.05); }
 
-    .product-info { padding: 26px 28px 28px; }
+    .product-info { padding: 28px 30px 30px; display: flex; flex-direction: column; }
     .product-tag {
       display: inline-block;
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.16em;
-      text-transform: uppercase;
-      background: rgba(201,162,39,0.1); border: 1px solid rgba(201,162,39,0.25);
-      color: var(--gold); border-radius: 4px; padding: 3px 9px;
-      margin-bottom: 12px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.62rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase;
+      background: var(--rust); color: var(--cream);
+      border-radius: 2px; padding: 3px 10px; margin-bottom: 12px;
     }
     .product-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem; font-weight: 700;
-      color: var(--cream); margin-bottom: 8px; line-height: 1.2;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.5rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 8px; line-height: 1.1;
     }
-    .product-desc {
-      font-size: 0.86rem; color: var(--sub);
-      line-height: 1.6; margin-bottom: 20px;
-    }
-    .product-footer {
-      display: flex; align-items: center;
-      justify-content: space-between; gap: 12px;
-    }
-    .product-price {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.6rem; font-weight: 700;
-      color: var(--cream);
-    }
+    .product-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.6; margin-bottom: 22px; flex-grow: 1; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
+    .product-price { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; color: var(--cream); line-height: 1; }
     .product-price small {
-      font-family: 'Jost', sans-serif;
-      font-size: 0.72rem; font-weight: 400; color: var(--sub);
-      display: block; margin-bottom: 2px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; font-weight: 600; color: var(--dim);
+      display: block; margin-bottom: 2px; letter-spacing: 0.1em; text-transform: uppercase;
     }
-    .product-price span { color: var(--gold); }
+    .product-price .price-val { color: var(--rust); }
     .btn-book {
-      background: var(--gold); color: var(--black);
-      font-family: 'Jost', sans-serif;
-      font-size: 0.78rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      text-decoration: none; padding: 11px 22px; border-radius: 6px;
-      white-space: nowrap; flex-shrink: 0;
-      transition: background 0.2s;
+      background: var(--black); border: 2px solid var(--rust); color: var(--rust);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+      text-decoration: none; padding: 11px 22px; border-radius: 3px;
+      white-space: nowrap; flex-shrink: 0; transition: background 0.2s, color 0.2s;
     }
-    .btn-book:hover { background: var(--gold2); }
+    .btn-book:hover { background: var(--rust); color: var(--cream); }
 
-    /* Print sizes table */
-    .print-sizes {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      margin-bottom: 20px;
-    }
+    .print-sizes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
     .size-chip {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 6px; padding: 5px 12px;
-      font-size: 0.78rem; color: var(--sub);
+      background: rgba(255,255,255,0.04); border: 1px solid var(--rule);
+      border-radius: 2px; padding: 5px 10px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; font-weight: 600; color: var(--dim);
     }
     .size-chip strong { color: var(--cream); }
 
-    /* ── PROCESS ── */
-    .process-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2px;
-      margin-top: 56px;
-    }
-    @media (max-width: 700px) { .process-grid { grid-template-columns: 1fr; gap: 16px; } }
-
-    .process-step {
-      padding: 40px 32px;
-      position: relative;
-    }
-    .process-step::after {
-      content: '';
-      position: absolute; right: 0; top: 40px; bottom: 40px;
-      width: 1px; background: var(--border);
-    }
-    .process-step:last-child::after { display: none; }
-    @media (max-width: 700px) { .process-step::after { display: none; } }
-
-    .step-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.5rem; font-weight: 900; font-style: italic;
-      color: rgba(201,162,39,0.15); line-height: 1;
-      margin-bottom: 16px;
-    }
-    .step-title {
-      font-size: 1.05rem; font-weight: 700;
-      color: var(--cream); margin-bottom: 10px;
-    }
-    .step-desc {
-      font-size: 0.86rem; color: var(--sub); line-height: 1.65;
-    }
-
-    /* ── TESTIMONIALS ── */
-    .testimonials-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 56px;
-    }
-    @media (max-width: 640px) { .testimonials-grid { grid-template-columns: 1fr; } }
-
-    .testimonial {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 32px 30px;
-    }
-    .testimonial-stars {
-      color: var(--gold); font-size: 0.9rem;
-      letter-spacing: 3px; margin-bottom: 18px;
-    }
-    .testimonial-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.05rem; font-style: italic;
-      color: var(--cream); line-height: 1.65;
-      margin-bottom: 22px;
-    }
-    .testimonial-author {
-      font-size: 0.78rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    /* ── BUSINESS CTA BAND ── */
+    /* ── BIZ BAND ── */
     .biz-band {
-      background: var(--card);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 60px 48px;
+      background: var(--plate);
+      border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      padding: 64px;
     }
+    @media (max-width: 768px) { .biz-band { padding: 48px 24px; } }
     .biz-band-inner {
       max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 1fr auto;
-      gap: 40px; align-items: center;
+      display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center;
     }
     @media (max-width: 640px) { .biz-band-inner { grid-template-columns: 1fr; } }
     .biz-band h3 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.5rem, 3vw, 2.2rem);
-      font-weight: 700; color: var(--cream); margin-bottom: 10px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: 0.04em;
+      color: var(--cream); margin-bottom: 12px; line-height: 0.95;
     }
-    .biz-band h3 em { font-style: italic; color: var(--gold); }
-    .biz-band p {
-      font-size: 0.92rem; color: var(--sub); line-height: 1.6;
-    }
-    .biz-price {
-      text-align: center; flex-shrink: 0;
-    }
-    .biz-from { font-size: 0.72rem; color: var(--sub); text-transform: uppercase; letter-spacing: 0.1em; }
-    .biz-amt {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem; font-weight: 900; color: var(--gold); line-height: 1;
-    }
-    .biz-per { font-size: 0.78rem; color: var(--sub); }
+    .biz-band h3 .accent { color: var(--rust); }
+    .biz-band p { font-size: 0.95rem; color: var(--dim); line-height: 1.65; max-width: 560px; }
+    .biz-price { text-align: center; flex-shrink: 0; }
+    .biz-from { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
+    .biz-amt { font-family: 'Bebas Neue', sans-serif; font-size: 4.5rem; color: var(--rust); line-height: 1; }
+    .biz-per { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; color: var(--dim); letter-spacing: 0.1em; }
+
+    /* ── PROCESS ── */
+    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; }
+    @media (max-width: 700px) { .process-grid { grid-template-columns: 1fr; } }
+    .process-step { padding: 44px 36px; border-right: 1px solid var(--rule); }
+    .process-step:last-child { border-right: none; }
+    @media (max-width: 700px) { .process-step { border-right: none; border-bottom: 1px solid var(--rule); } }
+    .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: var(--rust); opacity: 0.2; line-height: 1; margin-bottom: 14px; }
+    .step-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--cream); margin-bottom: 10px; }
+    .step-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.65; }
+
+    /* ── TESTIMONIALS ── */
+    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 56px; background: var(--rule); }
+    @media (max-width: 640px) { .testimonials-grid { grid-template-columns: 1fr; } }
+    .testimonial { background: var(--plate); padding: 36px 32px; }
+    .testimonial-stars { color: var(--rust); font-size: 0.9rem; letter-spacing: 4px; margin-bottom: 18px; }
+    .testimonial-text { font-family: 'Barlow', sans-serif; font-size: 1.05rem; font-style: italic; font-weight: 300; color: var(--cream); line-height: 1.65; margin-bottom: 22px; }
+    .testimonial-author { font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--rust); }
 
     /* ── ABOUT STRIP ── */
-    .about-strip {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      min-height: 440px;
-    }
+    .about-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
     @media (max-width: 768px) { .about-strip { grid-template-columns: 1fr; } }
-
     .about-visual {
-      background: linear-gradient(135deg, #1e1218 0%, #0e0a14 100%);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 5rem; color: rgba(201,162,39,0.1);
-      position: relative; min-height: 300px;
+      position: relative; overflow: hidden; min-height: 320px;
+      background: var(--deep);
     }
-    .about-visual::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: repeating-linear-gradient(
-        45deg, transparent, transparent 40px,
-        rgba(201,162,39,0.03) 40px, rgba(201,162,39,0.03) 41px
-      );
+    .about-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: sepia(25%) contrast(1.1); }
+    .about-visual::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(12,9,6,0.3) 0%, transparent 60%),
+                  linear-gradient(0deg, rgba(12,9,6,0.6) 0%, transparent 50%);
+    }
+    .about-visual .about-portrait {
+      position: absolute; bottom: 28px; left: 28px; z-index: 1;
+      display: flex; align-items: flex-end; gap: 16px;
+    }
+    .about-visual .about-portrait img {
+      width: 72px; height: 72px; object-fit: cover; object-position: top;
+      border-radius: 4px; border: 3px solid var(--rust); filter: none;
+    }
+    .about-portrait-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; letter-spacing: 0.06em; color: var(--cream);
+      line-height: 1;
+    }
+    .about-portrait-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--rust); margin-top: 3px;
     }
     .about-content {
-      background: var(--surface);
-      padding: 64px 56px;
+      background: var(--plate); padding: 72px 60px;
       display: flex; flex-direction: column; justify-content: center;
-      border-left: 1px solid var(--border);
+      border-left: 3px solid var(--rust);
     }
-    @media (max-width: 768px) { .about-content { padding: 48px 28px; border-left: none; border-top: 1px solid var(--border); } }
-
-    .about-content .section-eyebrow { margin-bottom: 10px; }
-    .about-content .section-title { font-size: 2rem; margin-bottom: 20px; }
-    .about-content p {
-      font-size: 0.92rem; color: var(--sub); line-height: 1.7;
-      margin-bottom: 16px;
-    }
-    .about-stat {
-      display: flex; gap: 32px; margin-top: 28px;
-    }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.4rem; font-weight: 900;
-      color: var(--gold); line-height: 1;
-    }
-    .stat-label {
-      font-size: 0.75rem; font-weight: 600;
-      color: var(--sub); text-transform: uppercase;
-      letter-spacing: 0.1em; margin-top: 4px;
-    }
+    @media (max-width: 768px) { .about-content { padding: 48px 28px; border-left: none; border-top: 3px solid var(--rust); } }
+    .about-content p { font-size: 0.95rem; color: var(--dim); line-height: 1.75; margin-bottom: 18px; }
+    .about-stat { display: flex; gap: 36px; margin-top: 32px; }
+    .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--rust); line-height: 1; }
+    .stat-label { font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.12em; margin-top: 4px; }
 
     /* ── FOOTER ── */
-    footer {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 56px 48px 40px;
-    }
+    footer { background: var(--deep); border-top: 3px solid var(--rust); padding: 60px 64px 40px; }
+    @media (max-width: 768px) { footer { padding: 48px 24px 32px; } }
     .footer-inner {
       max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: 2fr 1fr 1fr;
-      gap: 48px; margin-bottom: 48px;
+      display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px;
     }
     @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
-
-    .footer-brand {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem; font-weight: 700;
-      color: var(--cream); margin-bottom: 12px;
-    }
-    .footer-brand span { color: var(--gold); }
-    .footer-desc {
-      font-size: 0.86rem; color: var(--sub); line-height: 1.65;
-      max-width: 300px;
-    }
-    .footer-col h4 {
-      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--gold);
-      margin-bottom: 16px;
-    }
+    .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.06em; color: var(--cream); margin-bottom: 12px; }
+    .footer-brand .accent { color: var(--rust); }
+    .footer-desc { font-size: 0.88rem; color: var(--dim); line-height: 1.65; max-width: 280px; }
+    .footer-col h4 { font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rust); margin-bottom: 18px; }
     .footer-col ul { list-style: none; }
     .footer-col li { margin-bottom: 10px; }
-    .footer-col a {
-      font-size: 0.86rem; color: var(--sub);
-      text-decoration: none; transition: color 0.2s;
-    }
+    .footer-col a { font-size: 0.88rem; color: var(--dim); text-decoration: none; transition: color 0.2s; }
     .footer-col a:hover { color: var(--cream); }
     .footer-bottom {
       max-width: 1200px; margin: 0 auto;
-      border-top: 1px solid var(--border);
-      padding-top: 24px;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
+      border-top: 1px solid var(--rule); padding-top: 24px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
     }
-    .footer-copy {
-      font-size: 0.78rem; color: var(--sub);
-    }
-    .footer-copy a { color: var(--gold); text-decoration: none; }
+    .footer-copy { font-size: 0.78rem; color: var(--dim); }
+    .footer-copy a { color: var(--rust); text-decoration: none; }
 
     /* ── BACK TO DASHBOARD ── */
-    .dashboard-bar {
-      position: fixed; bottom: 20px; right: 20px; z-index: 200;
-    }
+    .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
     .back-dash {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(9,7,10,0.92); backdrop-filter: blur(8px);
-      border: 1px solid rgba(74,222,128,0.3);
-      border-radius: 999px; padding: 10px 18px;
-      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.06em;
-      color: #4ade80; text-decoration: none;
-      transition: border-color 0.2s;
+      background: rgba(12,9,6,0.95); backdrop-filter: blur(8px);
+      border: 1px solid rgba(74,222,128,0.35); border-radius: 999px; padding: 10px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #4ade80; text-decoration: none; transition: border-color 0.2s;
     }
-    .back-dash:hover { border-color: rgba(74,222,128,0.7); }
+    .back-dash:hover { border-color: rgba(74,222,128,0.75); }
   </style>
 </head>
 <body>
 
   <!-- Nav -->
   <nav>
-    <a class="nav-logo" href="#"><img src="./toddfather3.png" alt="Todd" style="width:52px;height:52px;object-fit:cover;object-position:top;border-radius:8px;border:1px solid rgba(201,162,39,0.3);" onerror="this.style.display='none'">Looks<span>Like</span>Larry <em style="font-family:'Playfair Display',serif;font-size:0.9rem;color:var(--sub);font-weight:400;">Productions</em></a>
+    <a class="nav-logo" href="#">
+      <img src="./toddfather3.png" alt="Todd" style="width:52px;height:52px;object-fit:cover;object-position:top;border-radius:4px;border:2px solid var(--rust);" onerror="this.style.display='none'">
+      Looks<span class="accent">Like</span>Larry
+    </a>
     <ul class="nav-links">
       <li><a href="#services">Services</a></li>
       <li><a href="#products">Shop</a></li>
       <li><a href="#about">About</a></li>
-      <li><a href="#contact" class="nav-cta">Book a Shoot</a></li>
+      <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="nav-cta">Book a Shoot</a></li>
     </ul>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero — split: copy left, van right -->
   <section class="hero">
-    <div class="hero-badge">Minneapolis, Minnesota · Est. 10+ Years</div>
-    <h1>The Art of the<br><em>Pin-Up,</em> Reimagined.</h1>
-    <div class="hero-rule"><span>✦</span></div>
-    <p class="hero-sub">Custom pin-up photography for your vehicle, your brand, and your walls. Vintage soul. Modern execution. Unforgettable results.</p>
-    <div class="hero-actions">
-      <a href="#products" class="btn-primary">Book a Shoot — $149</a>
-      <a href="#products" class="btn-outline">View the Shop</a>
+    <div class="hero-left">
+      <div class="hero-eyebrow">Minneapolis, Minnesota &nbsp;·&nbsp; Pin-Up Photography</div>
+      <h1>Your Ride.<br><span class="accent">Your</span> Poster.<br><span class="outline">Your Walls.</span></h1>
+      <div class="hero-rule"></div>
+      <p class="hero-sub">Looks Like Larry brings custom pin-up photography to your vehicle. Vintage muscle, modern execution — and a print built to hang forever.</p>
+      <div class="hero-actions">
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Book a Shoot — $149</a>
+        <a href="#products" class="btn-outline">See the Shop</a>
+      </div>
     </div>
-
-    <div class="hero-photos">
-      <div class="photo-slot" data-label="Custom Shoot">
-        <span class="slot-icon">📸</span>
-      </div>
-      <div class="photo-slot" data-label="Pin-Up Poster">
-        <span class="slot-icon">🎞</span>
-      </div>
-      <div class="photo-slot" data-label="Custom Print">
-        <span class="slot-icon">🖼</span>
-      </div>
+    <div class="hero-right">
+      <img src="./toddsvan2.png" alt="Looks Like Larry — The Van">
     </div>
   </section>
 
-  <div class="divider"></div>
+  <!-- Stats Bar -->
+  <div class="stats-bar">
+    <div class="stats-bar-inner">
+      <div class="stat-item">
+        <div class="stat-big">10+</div>
+        <div class="stat-small">Years Shooting</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big">18×24</div>
+        <div class="stat-small">Poster Included</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big">$149</div>
+        <div class="stat-small">Full Session</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-big">$4</div>
+        <div class="stat-small">Business Posters</div>
+      </div>
+    </div>
+  </div>
 
   <!-- Services -->
   <section class="section" id="services">
     <div class="section-eyebrow">What We Do</div>
-    <div class="section-title">Photography for the<br><em>Bold &amp; the Passionate</em></div>
-    <p class="section-sub">From vintage pin-up sessions to custom car posters and business advertising — we bring the aesthetic you've always imagined.</p>
-
+    <div class="section-title">Built for<br><span class="accent">Real Machines</span></div>
+    <p class="section-sub">Cars, trucks, motorcycles — we shoot it all. Every session comes with professional models, lighting, and a print you'll brag about.</p>
     <div class="services-grid">
       <div class="service-item">
         <div class="service-num">01</div>
-        <div class="service-icon">🚗</div>
+        <div class="service-icon">&#128663;</div>
         <div class="service-name">Vehicle &amp; Pin-Up Sessions</div>
-        <p class="service-desc">Bring your car, truck, or motorcycle. We supply the models, lighting, and vision. You leave with an 18×24 poster and social-ready shots.</p>
+        <p class="service-desc">Roll in with your machine. We bring the models, the lighting, and 10+ years of know-how. You leave with an 18×24 poster and social-ready shots.</p>
       </div>
       <div class="service-item">
         <div class="service-num">02</div>
-        <div class="service-icon">🖼</div>
+        <div class="service-icon">&#128444;</div>
         <div class="service-name">Custom Prints &amp; Posters</div>
-        <p class="service-desc">Professional photo prints in five sizes from 5×7 to 16×24. Custom car posters at 13×19 or 18×24 with full digital files included.</p>
+        <p class="service-desc">Professional prints from 5×7 to 16×24. Custom car posters at 13×19 or 18×24. Full digital files included — uncompressed, yours to keep.</p>
       </div>
       <div class="service-item">
         <div class="service-num">03</div>
-        <div class="service-icon">📣</div>
+        <div class="service-icon">&#128227;</div>
         <div class="service-name">Business Advertising</div>
-        <p class="service-desc">Turn heads at your shop, event, or garage. Promotional pin-up posters starting at $4 each. Instant cult following, guaranteed.</p>
+        <p class="service-desc">Pin-up posters for your shop floor, event booth, or showroom. Starting at $4 each. The kind of promo material people actually want to look at.</p>
       </div>
     </div>
   </section>
@@ -663,41 +544,39 @@
   <!-- Products -->
   <section class="section" id="products">
     <div class="section-eyebrow">The Shop</div>
-    <div class="section-title">Pick Your <em>Statement</em></div>
-    <p class="section-sub">Every product is built to be displayed, shared, and talked about.</p>
-
+    <div class="section-title">Pick Your<br><span class="accent">Statement</span></div>
+    <p class="section-sub">Every product is built to be displayed, talked about, and remembered.</p>
     <div class="products-grid">
 
-      <!-- Featured: Photoshoot -->
+      <!-- Featured -->
       <div class="product-card featured">
-        <div class="product-visual" style="background:linear-gradient(135deg,#2a1206 0%,#1a0c10 40%,#0d0816 100%);">
-          📸
+        <div class="product-visual">
+          <img src="https://lookslikelarry.com/cdn/shop/files/june2024Shootshort_1024x1024@2x.jpg?v=1717470088" alt="Pin-Up Photoshoot">
         </div>
-        <div class="product-info" style="display:flex;flex-direction:column;justify-content:space-between;">
+        <div class="product-info">
           <div>
             <div class="product-tag">Limited Date</div>
             <div class="product-name">Pin-Up Photoshoot<br>Saturday, June 8th</div>
-            <p class="product-desc">A 1–2 hour shoot with your vehicle and professional pin-up models in Lino Lakes, MN. Includes 3+ social media ready images and a stunning 18×24 poster of your machine.</p>
+            <p class="product-desc">A 1–2 hour shoot with your vehicle and professional pin-up models in Minneapolis, MN. Includes 3+ social-ready images and a knockout 18×24 poster of your machine. No experience needed — just show up with your ride.</p>
           </div>
           <div class="product-footer">
-            <div class="product-price">
-              <small>Starting at</small>
-              <span>$149</span>
-            </div>
-            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Reserve Your Spot →</a>
+            <div class="product-price"><small>Starting at</small><span class="price-val">$149</span></div>
+            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Reserve Your Spot &#8594;</a>
           </div>
         </div>
       </div>
 
-      <!-- Custom Car Poster -->
+      <!-- Car Poster -->
       <div class="product-card">
-        <div class="product-visual">🏎</div>
+        <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/files/june2024MCShootshort_530x@2x.jpg?v=1717470056" alt="Custom Car Poster"></div>
         <div class="product-info">
-          <div class="product-tag">Best Seller</div>
-          <div class="product-name">Custom Car Poster</div>
-          <p class="product-desc">Your vehicle, your pin-up, your walls. Available in 13×19 photo print or 18×24 paper poster. Full digital files included — uncompressed, yours to keep.</p>
+          <div>
+            <div class="product-tag">Best Seller</div>
+            <div class="product-name">Custom Car Poster</div>
+            <p class="product-desc">Your vehicle. Your pin-up. Your walls. Available in 13×19 photo print or 18×24 paper poster. Full digital files included — uncompressed, yours to keep.</p>
+          </div>
           <div class="product-footer">
-            <div class="product-price"><small>From</small><span>$79</span></div>
+            <div class="product-price"><small>From</small><span class="price-val">$79</span></div>
             <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Order Now</a>
           </div>
         </div>
@@ -705,37 +584,39 @@
 
       <!-- Photo Prints -->
       <div class="product-card">
-        <div class="product-visual">🖼</div>
+        <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/products/2021Btt50sSam-767-Edit-Edit_530x@2x.jpg?v=1626239779" alt="Photo Print"></div>
         <div class="product-info">
-          <div class="product-tag">Fine Art Prints</div>
-          <div class="product-name">Photo Prints</div>
-          <p class="product-desc">Professional prints in five sizes, ready to frame and display.</p>
-          <div class="print-sizes">
-            <div class="size-chip"><strong>5×7</strong> $15</div>
-            <div class="size-chip"><strong>8×10</strong> $25</div>
-            <div class="size-chip"><strong>11×14</strong> $45</div>
-            <div class="size-chip"><strong>13×19</strong> $65</div>
-            <div class="size-chip"><strong>16×24</strong> $105</div>
+          <div>
+            <div class="product-tag">Fine Art Prints</div>
+            <div class="product-name">Photo Prints</div>
+            <p class="product-desc">Professional prints ready to frame and hang. Five sizes available.</p>
+            <div class="print-sizes">
+              <div class="size-chip"><strong>5×7</strong> $15</div>
+              <div class="size-chip"><strong>8×10</strong> $25</div>
+              <div class="size-chip"><strong>11×14</strong> $45</div>
+              <div class="size-chip"><strong>13×19</strong> $65</div>
+              <div class="size-chip"><strong>16×24</strong> $105</div>
+            </div>
           </div>
           <div class="product-footer">
-            <div class="product-price"><small>From</small><span>$15</span></div>
+            <div class="product-price"><small>From</small><span class="price-val">$15</span></div>
             <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Shop Prints</a>
           </div>
         </div>
       </div>
 
       <!-- Stickers -->
-      <div class="product-card" style="grid-column: span 2;">
+      <div class="product-card" style="grid-column:span 2;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
-          <div class="product-visual" style="background:linear-gradient(135deg,#0f1a0a 0%,#0a1218 100%);">🎨</div>
-          <div class="product-info" style="display:flex;flex-direction:column;justify-content:space-between;">
+          <div class="product-visual" style="background:linear-gradient(135deg,#0e1008 0%,#0a1018 100%);"><img src="https://lookslikelarry.com/cdn/shop/products/StickerSet1_530x@2x.jpg?v=1679460391" alt="Sticker Set"></div>
+          <div class="product-info">
             <div>
               <div class="product-tag">Merch</div>
               <div class="product-name">Pin-Up Sticker Series A</div>
-              <p class="product-desc">Three die-cut vinyl stickers. Put them on your truck, your toolbox, your laptop — wherever people will ask "where'd you get that?"</p>
+              <p class="product-desc">Three die-cut vinyl stickers. Truck. Toolbox. Laptop. Wherever people will ask "where'd you get that?"</p>
             </div>
             <div class="product-footer">
-              <div class="product-price"><span>$12</span><small style="display:inline;margin-left:6px;">/ set of 3</small></div>
+              <div class="product-price"><small>Set of 3</small><span class="price-val">$12</span></div>
               <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Get Stickers</a>
             </div>
           </div>
@@ -744,18 +625,18 @@
     </div>
   </section>
 
-  <!-- Business band -->
+  <!-- Business Band -->
   <div class="biz-band">
     <div class="biz-band-inner">
       <div>
-        <h3>Put a Pin-Up on Your <em>Business</em></h3>
-        <p>Posters for your shop floor, event booth, or showroom. The kind of promotional material people actually hang on their wall. Starting at just $4 per poster — an instant cult classic following for your brand.</p>
+        <h3>Put a Pin-Up on Your <span class="accent">Business</span></h3>
+        <p>Posters for your shop floor, event booth, or showroom. The kind of promotional material people actually hang on the wall. Starting at just $4 per poster — instant cult classic following for your brand.</p>
       </div>
       <div class="biz-price">
         <div class="biz-from">From just</div>
         <div class="biz-amt">$4</div>
         <div class="biz-per">per poster</div>
-        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="margin-top:16px;display:inline-block;font-size:0.78rem;">Get a Quote</a>
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="margin-top:18px;display:inline-block;font-size:0.82rem;">Get a Quote</a>
       </div>
     </div>
   </div>
@@ -765,22 +646,22 @@
   <!-- How It Works -->
   <section class="section">
     <div class="section-eyebrow">The Process</div>
-    <div class="section-title">Simple. <em>Memorable.</em> Yours.</div>
+    <div class="section-title">Three Steps.<br><span class="accent">Zero BS.</span></div>
     <div class="process-grid">
       <div class="process-step">
         <div class="step-num">01</div>
         <div class="step-title">Reserve Your Date</div>
-        <p class="step-desc">Book your spot for an upcoming shoot event or reach out to schedule a private session. We handle everything from models to location.</p>
+        <p class="step-desc">Book your spot for an upcoming shoot or reach out to schedule a private session. We handle models, lighting, and location. You just show up.</p>
       </div>
       <div class="process-step">
         <div class="step-num">02</div>
         <div class="step-title">Bring Your Machine</div>
-        <p class="step-desc">Roll in with your car, truck, or motorcycle. We set the scene. You relax. Our models and 10+ years of experience do the rest.</p>
+        <p class="step-desc">Roll in with your car, truck, or motorcycle. We set the scene. You relax. 10+ years of experience does the rest.</p>
       </div>
       <div class="process-step">
         <div class="step-num">03</div>
         <div class="step-title">Own the Wall</div>
-        <p class="step-desc">Walk away with an 18×24 poster, social media shots, and the kind of photos people actually stop and look at.</p>
+        <p class="step-desc">Leave with an 18×24 poster, social-ready shots, and the kind of photos people actually stop and look at. Every time.</p>
       </div>
     </div>
   </section>
@@ -790,37 +671,48 @@
   <!-- Testimonials -->
   <section class="section">
     <div class="section-eyebrow">What People Say</div>
-    <div class="section-title">Don't Take <em>Our Word For It</em></div>
+    <div class="section-title">Don't Take<br><span class="accent">Our Word For It</span></div>
     <div class="testimonials-grid">
       <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="testimonial-text">"Hosting a LooksLikeLarry photo shoot was out of this world. He brought the shoot to me with his models."</p>
         <div class="testimonial-author">— Joe T.</div>
       </div>
       <div class="testimonial">
-        <div class="testimonial-stars">★★★★★</div>
+        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
         <p class="testimonial-text">"Todd is one of the most professional photographers I have worked with. Kind, respectful, creative, and mindful of your time."</p>
         <div class="testimonial-author">— Vivian R.</div>
       </div>
     </div>
   </section>
 
+  <div class="divider"></div>
+
   <!-- About -->
   <div class="about-strip" id="about">
-    <div class="about-visual">📷</div>
+    <div class="about-visual">
+      <img src="./toddsvan2.png" alt="Looks Like Larry — The Van">
+      <div class="about-portrait">
+        <img src="./toddfather3.png" alt="Todd">
+        <div>
+          <div class="about-portrait-name">Looks Like Larry</div>
+          <div class="about-portrait-title">Photographer · Minneapolis, MN</div>
+        </div>
+      </div>
+    </div>
     <div class="about-content">
-      <div class="section-eyebrow">About</div>
-      <h2 class="section-title">Ten Years.<br><em>One Vision.</em></h2>
-      <p>LooksLikeLarry Productions is a Minnesota-based photography studio dedicated to reviving the art of the pin-up poster — combining vintage aesthetics with modern photography to create images that are bold, timeless, and built to be displayed.</p>
-      <p>Whether it's your prized vehicle, your business, or your own story — we bring the vision, the talent, and the craft to make it unforgettable.</p>
+      <div class="section-eyebrow">Who We Are</div>
+      <div class="section-title" style="font-size:2.8rem;">Looks<br><span class="accent">Like Larry</span></div>
+      <p>Looks Like Larry Productions is a Minneapolis-based photography studio dedicated to the art of the pin-up poster — combining vintage aesthetics with modern photography to create images that are bold, timeless, and built to be displayed.</p>
+      <p>Over a decade of shoots, hundreds of vehicles, and walls all over Minnesota covered in proof.</p>
       <div class="about-stat">
         <div>
           <div class="stat-num">10+</div>
-          <div class="stat-label">Years Experience</div>
+          <div class="stat-label">Years in Business</div>
         </div>
         <div>
-          <div class="stat-num">∞</div>
-          <div class="stat-label">Wall-Worthy Shots</div>
+          <div class="stat-num">MN</div>
+          <div class="stat-label">Minneapolis, MN</div>
         </div>
       </div>
     </div>
@@ -830,41 +722,37 @@
   <footer id="contact">
     <div class="footer-inner">
       <div>
-        <div class="footer-brand">LooksLike<span>Larry</span> Productions</div>
-        <p class="footer-desc">Bringing back the pin-up poster. Providing stock and customizable media for personal and business use. Lino Lakes, Minnesota.</p>
+        <div class="footer-brand">Looks<span class="accent">Like</span>Larry</div>
+        <p class="footer-desc">Custom pin-up photography for your vehicle, your brand, and your walls. Minneapolis, MN. Est. 10+ Years.</p>
       </div>
       <div class="footer-col">
-        <h4>Shop</h4>
+        <h4>Services</h4>
         <ul>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Book a Shoot</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Custom Car Posters</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Photo Sessions</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Custom Posters</a></li>
           <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Photo Prints</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Stickers</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Business Advertising</a></li>
         </ul>
       </div>
       <div class="footer-col">
-        <h4>Contact</h4>
+        <h4>Book</h4>
         <ul>
-          <li><a href="https://lookslikelarry.com/pages/contact-us" target="_blank" rel="noopener">Get in Touch</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Business Inquiries</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Full Site →</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Reserve a Shoot</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Shop Online</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Contact Todd</a></li>
+          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">lookslikelarry.com</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <p class="footer-copy">© LooksLikeLarry Productions. All rights reserved. <a href="https://lookslikelarry.com" target="_blank" rel="noopener">lookslikelarry.com</a></p>
-      <p class="footer-copy" style="color:rgba(154,140,126,0.4);font-size:0.68rem;">Design concept — Honest Tom's Dashboard</p>
+      <div class="footer-copy">&copy; 2026 <a href="https://lookslikelarry.com" target="_blank" rel="noopener">LooksLikeLarry Productions</a>. Minneapolis, MN.</div>
+      <div class="footer-copy">Design concept &mdash; <a href="./dashboard.html">Honest Tom's Dashboard</a></div>
     </div>
   </footer>
 
-  <!-- Back to Dashboard pill -->
+  <!-- Back to Dashboard -->
   <div class="dashboard-bar">
-    <a class="back-dash" href="./dashboard.html">
-      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-        <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Dashboard
-    </a>
+    <a href="./dashboard.html" class="back-dash">&#8592; Dashboard</a>
   </div>
 
 </body>
