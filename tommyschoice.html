@@ -4,6 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tommy's Choice</title>
+  <script>
+    var VER = 'v=20260325a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -179,33 +185,44 @@
   var YF_TICK = 'ICLN';
   var FALLBACK_PRICE = 12.34; // last known — updated by fetchPickPrice
 
-  // Fetch live price for the current pick
+  // Fetch live price for the current pick — tries all proxies in order
   (function fetchPickPrice() {
     var priceEl  = document.getElementById('pick-price');
     var changeEl = document.getElementById('pick-change');
-    var url   = 'https://query2.finance.yahoo.com/v8/finance/chart/ICLN?interval=1d&range=2d';
-    var proxy = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-    fetch(proxy)
-      .then(function(r) { return r.json(); })
-      .then(function(data) {
-        var res = data && data.chart && data.chart.result && data.chart.result[0];
-        if (!res || !res.meta) throw new Error('no data');
-        var price  = res.meta.regularMarketPrice;
-        var prev   = res.meta.previousClose || res.meta.chartPreviousClose;
-        if (!price) throw new Error('no price');
-        var chg    = prev ? price - prev : null;
-        var pct    = prev ? (chg / prev) * 100 : null;
-        priceEl.textContent = '$' + price.toFixed(2);
-        if (chg !== null) {
-          var pos = chg >= 0;
-          changeEl.textContent = (pos ? '+' : '') + chg.toFixed(2) + ' (' + (pos ? '+' : '') + pct.toFixed(2) + '%)';
-          changeEl.className = 'pick-change ' + (pos ? 'pos' : 'neg');
-        }
-      })
-      .catch(function() {
+    var url = 'https://query2.finance.yahoo.com/v8/finance/chart/ICLN?interval=1d&range=2d';
+    var proxies = [
+      'https://api.allorigins.win/raw?url=',
+      'https://corsproxy.io/?',
+      'https://api.codetabs.com/v1/proxy?quest='
+    ];
+    var pi = 0;
+    function tryNext() {
+      if (pi >= proxies.length) {
         priceEl.textContent = '$' + FALLBACK_PRICE.toFixed(2);
         changeEl.textContent = '';
-      });
+        return;
+      }
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 7000);
+      fetch(proxies[pi++] + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.json(); })
+        .then(function(data) {
+          var res = data && data.chart && data.chart.result && data.chart.result[0];
+          if (!res || !res.meta || !res.meta.regularMarketPrice) { tryNext(); return; }
+          var price = res.meta.regularMarketPrice;
+          var prev  = res.meta.previousClose || res.meta.chartPreviousClose;
+          var chg   = prev ? price - prev : null;
+          var pct   = prev ? (chg / prev) * 100 : null;
+          priceEl.textContent = '$' + price.toFixed(2);
+          if (chg !== null) {
+            var pos = chg >= 0;
+            changeEl.textContent = (pos ? '+' : '') + chg.toFixed(2) + ' (' + (pos ? '+' : '') + pct.toFixed(2) + '%)';
+            changeEl.className = 'pick-change ' + (pos ? 'pos' : 'neg');
+          }
+        })
+        .catch(function() { clearTimeout(tid); tryNext(); });
+    }
+    tryNext();
   })();
   var QUERIES = ['ICLN clean energy ETF', 'iShares clean energy solar wind'];
 
