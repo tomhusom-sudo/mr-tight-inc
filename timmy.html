@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Timmy's Corner</title>
   <script>
-    var VER = 'v=20260323a';
+    var VER = 'v=20260325e';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -371,6 +371,151 @@
       .add-form { padding: 14px 18px; }
       .item-list li { padding: 12px 18px; }
     }
+
+    /* ── REDBIRD MUSIC ── */
+    .redbird-panel {
+      margin-top: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .redbird-header {
+      padding: 22px 28px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .redbird-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      flex-shrink: 0;
+    }
+
+    .redbird-header-text {}
+    .redbird-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f97316;
+      margin-bottom: 3px;
+    }
+    .redbird-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.02em;
+    }
+    .redbird-desc {
+      font-size: 0.78rem;
+      color: #6b7e56;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .redbird-link {
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #f97316;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+      transition: opacity 0.18s;
+    }
+    .redbird-link:hover { opacity: 1; }
+
+    /* Artist grid */
+    .artist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .artist-card {
+      display: block;
+      text-decoration: none;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.18s, transform 0.18s;
+    }
+    .artist-card:hover {
+      border-color: rgba(249,115,22,0.45);
+      transform: translateY(-2px);
+    }
+    .artist-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+    .artist-card-body {
+      padding: 9px 11px 11px;
+    }
+    .artist-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e2eed8;
+      line-height: 1.25;
+      margin-bottom: 3px;
+    }
+    .artist-role {
+      font-size: 0.66rem;
+      color: #f97316;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Redbird news */
+    .rb-news-section {
+      padding: 18px 24px 22px;
+    }
+    .rb-news-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f97316;
+      margin-bottom: 14px;
+    }
+    .rb-news-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .rb-news-list li a {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #d4e8c0;
+      text-decoration: none;
+      line-height: 1.35;
+    }
+    .rb-news-list li a:hover { color: #f97316; }
+    .rb-news-list .news-source {
+      font-size: 0.68rem;
+      color: #4a6838;
+      margin-top: 3px;
+    }
+    .rb-news-loading {
+      font-size: 0.8rem;
+      color: #3a5028;
+      font-style: italic;
+    }
   </style>
 </head>
 <body>
@@ -480,6 +625,91 @@
       </div>
     </div>
 
+  </div>
+
+  <!-- ── REDBIRD MUSIC ── -->
+  <div class="redbird-panel">
+    <div class="redbird-header">
+      <img class="redbird-logo" src="https://redbirdmusic.com/wp-content/uploads/2025/01/cropped-Logo-RedbirdMusic-1-192x192.jpg" alt="Redbird Music" onerror="this.style.display='none'">
+      <div class="redbird-header-text">
+        <div class="redbird-eyebrow">Featured Label</div>
+        <div class="redbird-title">Redbird Music</div>
+        <div class="redbird-desc">Award-winning artists in classical crossover &amp; ambient &mdash; Los Angeles</div>
+      </div>
+      <a class="redbird-link" href="https://redbirdmusic.com" target="_blank" rel="noopener">Visit &#8599;</a>
+    </div>
+
+    <div class="artist-grid">
+      <a class="artist-card" href="https://redbirdmusic.com/artists/colin-stetson/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/colin-slider-492x674.jpg" alt="Colin Stetson" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Colin Stetson</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/shida-shahabi/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/Shida-Slider-492x674.jpg" alt="Shida Shahabi" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Shida Shahabi</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/dustin-ohalloran/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/Dustin-Slider-492x674.jpg" alt="Dustin O'Halloran" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Dustin O&rsquo;Halloran</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/francesco-donadello/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/francesco-slider-492x674.jpg" alt="Francesco Donadello" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Francesco Donadello</div>
+          <div class="artist-role">Producer / Mixer</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/pepijn-caudron/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/pepijn_artist-492x674.jpg" alt="Pepijn Caudron (Kreng)" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Pepijn Caudron (Kreng)</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/adam-wiltzie/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/AdamWiltzie-slider-492x674.jpg" alt="Adam Wiltzie" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Adam Wiltzie</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/paul-corley/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/12/PaulCorley-B_W-scaled-492x674.jpg" alt="Paul Corley" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Paul Corley</div>
+          <div class="artist-role">Producer / Mixer</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/awvfts/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/10/AWVFTS-492x674.jpg" alt="A Winged Victory for the Sullen" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">A Winged Victory for the Sullen</div>
+          <div class="artist-role">Band</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/johann-johannson/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/johann-slider-492x674.jpg" alt="Estate of Johann Johannsson" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Estate of J&oacute;hann J&oacute;hannsson</div>
+          <div class="artist-role">Estate</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="rb-news-section">
+      <div class="rb-news-label">Latest News &mdash; Redbird Artists</div>
+      <div class="rb-news-loading" id="rb-news-loading">Loading headlines&hellip;</div>
+      <ul class="rb-news-list" id="rb-news-list" style="display:none;"></ul>
+    </div>
   </div>
 
   <footer class="footer">
@@ -694,6 +924,61 @@
 
   document.getElementById('footer-time').textContent =
     'Loaded ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  // ── Redbird Music News ──
+  (function() {
+    var queries = ['Redbird Music Los Angeles', 'Colin Stetson', 'Dustin O\'Halloran composer', 'A Winged Victory for the Sullen', 'Johann Johannsson'];
+    var query = queries[Math.floor(Math.random() * queries.length)];
+    var rssUrl = 'https://news.google.com/rss/search?q=' + encodeURIComponent(query) + '&hl=en-US&gl=US&ceid=US:en';
+    var proxies = [
+      'https://api.allorigins.win/raw?url=',
+      'https://corsproxy.io/?',
+      'https://api.codetabs.com/v1/proxy?quest='
+    ];
+    var pi = 0;
+
+    function tryNext() {
+      if (pi >= proxies.length) {
+        document.getElementById('rb-news-loading').textContent = 'Headlines unavailable right now.';
+        return;
+      }
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 7000);
+      fetch(proxies[pi++] + encodeURIComponent(rssUrl), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.text(); })
+        .then(function(xml) {
+          var parser = new DOMParser();
+          var doc = parser.parseFromString(xml, 'text/xml');
+          var items = doc.querySelectorAll('item');
+          if (!items.length) { tryNext(); return; }
+          var html = '';
+          var count = 0;
+          items.forEach(function(item) {
+            if (count >= 6) return;
+            var title = (item.querySelector('title') || {}).textContent || '';
+            var link  = (item.querySelector('link') ? item.querySelector('link').nextSibling : null);
+            var linkHref = link ? (link.textContent || '').trim() : '';
+            if (!linkHref) {
+              var linkEl = item.querySelector('link');
+              linkHref = linkEl ? (linkEl.textContent || '').trim() : '';
+            }
+            var source = (item.querySelector('source') || {}).textContent || '';
+            if (!title) return;
+            html += '<li><a href="' + (linkHref || '#') + '" target="_blank" rel="noopener">' + title.replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' &#8599;</a>'
+              + (source ? '<div class="news-source">' + source.replace(/</g,'&lt;') + '</div>' : '')
+              + '</li>';
+            count++;
+          });
+          if (!html) { tryNext(); return; }
+          document.getElementById('rb-news-loading').style.display = 'none';
+          var list = document.getElementById('rb-news-list');
+          list.innerHTML = html;
+          list.style.display = 'flex';
+        })
+        .catch(function() { clearTimeout(tid); tryNext(); });
+    }
+    tryNext();
+  })();
 </script>
 </body>
 </html>
