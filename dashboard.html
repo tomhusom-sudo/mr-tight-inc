@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260328a';
+    var VER = 'v=20260328b';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -390,6 +390,9 @@
     .card.active.journ-bg,.card.active.journ-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./journ.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
     .card.active.journ-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
     .card.active.journ-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.ave-bg,.card.active.ave-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./1ave.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.ave-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.ave-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
   </style>
 </head>
 <body>
@@ -699,7 +702,7 @@
     </a>
 
     <!-- Rip's Dip -->
-    <a class="card active" href="./rips_dip.html">
+    <a class="card active ave-bg" href="./rips_dip.html">
       <div class="card-icon">
         <img
           src="./rips_dip.png"
