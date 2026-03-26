@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260326y';
+    var VER = 'v=20260326z';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -95,49 +95,44 @@
     }
 
     @keyframes starSpin {
-      0%   { transform: rotate(0deg) scale(1);   filter: drop-shadow(0 0 3px #4ade80) drop-shadow(0 0 6px #4ade80); }
-      25%  { transform: rotate(20deg) scale(1.3); filter: drop-shadow(0 0 8px #a7f3d0) drop-shadow(0 0 16px #4ade80); }
-      50%  { transform: rotate(0deg) scale(0.85); filter: drop-shadow(0 0 2px #4ade80); }
-      75%  { transform: rotate(-18deg) scale(1.25); filter: drop-shadow(0 0 10px #6ee7b7) drop-shadow(0 0 20px #22c55e); }
-      100% { transform: rotate(0deg) scale(1);   filter: drop-shadow(0 0 3px #4ade80) drop-shadow(0 0 6px #4ade80); }
+      0%   { transform: rotate(0deg) scale(1);    filter: drop-shadow(0 0 3px #4ade80) drop-shadow(0 0 6px #4ade80); }
+      25%  { transform: rotate(20deg) scale(1.35); filter: drop-shadow(0 0 8px #a7f3d0) drop-shadow(0 0 18px #4ade80); }
+      50%  { transform: rotate(0deg) scale(0.82);  filter: drop-shadow(0 0 2px #4ade80); }
+      75%  { transform: rotate(-18deg) scale(1.28);filter: drop-shadow(0 0 10px #6ee7b7) drop-shadow(0 0 22px #22c55e); }
+      100% { transform: rotate(0deg) scale(1);    filter: drop-shadow(0 0 3px #4ade80) drop-shadow(0 0 6px #4ade80); }
     }
-    @keyframes sparkleFloat {
-      0%, 100% { transform: translateY(0px) translateX(-50%); }
-      50%       { transform: translateY(-4px) translateX(-50%); }
+    @keyframes nudgeFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-3px); }
     }
     @keyframes labelPulse {
-      0%, 100% { opacity: 0.85; }
-      50%       { opacity: 1; box-shadow: 0 0 8px rgba(74,222,128,0.4); }
+      0%, 100% { opacity: 0.82; }
+      50%       { opacity: 1; box-shadow: 0 0 8px rgba(74,222,128,0.35); }
+    }
+    .resume-nudge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      animation: nudgeFloat 2.4s ease-in-out infinite;
     }
     .sparkle-star {
       display: inline-block;
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       line-height: 1;
+      color: #4ade80;
       animation: starSpin 2.4s ease-in-out infinite;
       transform-origin: center;
     }
-    .sparkle-wrap {
-      position: absolute;
-      top: -2.3em;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 3px;
-      pointer-events: none;
-      white-space: nowrap;
-      animation: sparkleFloat 2.4s ease-in-out infinite;
-    }
     .sparkle-label {
-      font-size: 0.46rem;
+      font-size: 0.62rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
       color: #4ade80;
       font-family: 'Inter', sans-serif;
-      background: rgba(0,0,0,0.6);
-      padding: 2px 7px;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 8px;
       border-radius: 999px;
       border: 1px solid rgba(74,222,128,0.4);
       animation: labelPulse 2.4s ease-in-out infinite;
@@ -360,10 +355,13 @@
   <header class="header">
     <div class="header-text">
       <div class="eyebrow">Personal Command Center</div>
-      <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;position:relative;" title="Thomas Husom — Resume"><h1 class="title">Honest <em>Tom'<span style="position:relative;display:inline-block;">s<span class="sparkle-wrap">
-        <span class="sparkle-star">&#10022;</span>
-        <span class="sparkle-label">Click for Resume!</span>
-      </span></span></em><br>Dashboard</h1></a>
+      <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;" title="Thomas Husom — Resume">
+        <div class="resume-nudge">
+          <span class="sparkle-star">&#10022;</span>
+          <span class="sparkle-label">Click for Resume!</span>
+        </div>
+        <h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1>
+      </a>
       <div class="date-line" id="date-line"></div>
     </div>
 
