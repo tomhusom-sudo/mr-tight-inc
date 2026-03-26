@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Wayne's Corner</title>
+  <script>
+    var VER = 'v=20260328a';
+    if (location.search.indexOf(VER) === -1) location.replace(location.pathname + '?' + VER);
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(10,28,10,0.93) 0%, rgba(5,18,5,0.96) 50%, rgba(20,14,5,0.97) 100%),
+        url('./lincoln.jpg') center 20% / cover no-repeat fixed;
+      color: #d4ead0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(100,200,80,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 28px 72px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-bottom: 48px;
+    }
+
+    .header-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 2px solid rgba(100,200,80,0.3);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      background: rgba(100,200,80,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+      overflow: hidden;
+    }
+
+    .header-logo img {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .header-logo img:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(0,0,0,0.6); }
+
+    /* Lightbox */
+    #logo-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    #logo-lightbox.open { display: flex; }
+    #logo-lightbox img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 18px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.8);
+      animation: lbIn 0.18s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform:scale(0.9); } to { opacity:1; transform:scale(1); } }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #86efac;
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.06;
+      color: #f0faf0;
+      letter-spacing: -0.03em;
+    }
+
+    .title em {
+      font-style: normal;
+      color: #86efac;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      font-size: 0.88rem;
+      color: #4a7a4a;
+    }
+
+    a.back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #4a7a4a;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      margin-bottom: 32px;
+    }
+
+    a.back:hover { color: #86efac; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 42px; }
+
+    .section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #86efac;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(100,200,80,0.12);
+    }
+
+    /* ── SPORTS GRID ── */
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .team-card {
+      background: rgba(100,200,80,0.05);
+      border: 1px solid rgba(100,200,80,0.12);
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .team-card:hover {
+      background: rgba(100,200,80,0.10);
+      border-color: rgba(100,200,80,0.3);
+      transform: translateY(-3px);
+    }
+
+    .team-logo { font-size: 1.8rem; line-height: 1; }
+    .team-name { font-size: 0.88rem; font-weight: 700; color: #f0faf0; }
+    .team-sport {
+      font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #4a7a4a;
+    }
+    .team-record { font-size: 0.78rem; color: #86efac; font-weight: 500; }
+
+    /* ── FISHING CARDS ── */
+    .fishing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .fish-card {
+      background: rgba(100,200,80,0.05);
+      border: 1px solid rgba(100,200,80,0.12);
+      border-radius: 14px;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .fish-card:hover {
+      background: rgba(100,200,80,0.10);
+      border-color: rgba(100,200,80,0.3);
+      transform: translateY(-3px);
+    }
+
+    .fish-icon { font-size: 2rem; margin-bottom: 8px; }
+    .fish-title { font-size: 0.9rem; font-weight: 700; color: #f0faf0; margin-bottom: 4px; }
+    .fish-desc { font-size: 0.72rem; color: #4a7a4a; line-height: 1.5; }
+    .fish-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 10px; font-size: 0.7rem; font-weight: 600;
+      color: #86efac; text-decoration: none;
+    }
+
+    /* ── GOLF CARDS ── */
+    .golf-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .golf-card {
+      background: rgba(100,200,80,0.05);
+      border: 1px solid rgba(100,200,80,0.12);
+      border-radius: 14px;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .golf-card:hover {
+      background: rgba(100,200,80,0.10);
+      border-color: rgba(100,200,80,0.3);
+      transform: translateY(-3px);
+    }
+
+    .golf-icon { font-size: 2rem; margin-bottom: 8px; }
+    .golf-title { font-size: 0.9rem; font-weight: 700; color: #f0faf0; margin-bottom: 4px; }
+    .golf-desc { font-size: 0.72rem; color: #4a7a4a; line-height: 1.5; }
+    .golf-link {
+      display: inline-flex; align-items: center; gap: 4px;
+      margin-top: 10px; font-size: 0.7rem; font-weight: 600;
+      color: #86efac; text-decoration: none;
+    }
+
+    /* ── TIPS LIST ── */
+    .tips-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .tip-row {
+      background: rgba(100,200,80,0.05);
+      border: 1px solid rgba(100,200,80,0.11);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .tip-badge {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #86efac;
+      background: rgba(100,200,80,0.1);
+      border-radius: 6px;
+      padding: 2px 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .tip-title { font-size: 0.9rem; font-weight: 700; color: #f0faf0; margin-bottom: 2px; }
+    .tip-desc { font-size: 0.72rem; color: #4a7a4a; line-height: 1.45; }
+
+    /* ── NEWS FEED ── */
+    .news-feed { display: flex; flex-direction: column; gap: 8px; }
+
+    .news-item {
+      background: rgba(100,200,80,0.04);
+      border: 1px solid rgba(100,200,80,0.10);
+      border-radius: 11px;
+      padding: 13px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .news-item:hover {
+      background: rgba(100,200,80,0.09);
+      border-color: rgba(100,200,80,0.25);
+    }
+
+    .news-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #86efac; flex-shrink: 0;
+    }
+
+    .news-title { font-size: 0.82rem; color: #d4ead0; line-height: 1.4; }
+    .news-source { font-size: 0.66rem; color: #4a7a4a; margin-top: 2px; }
+
+    .loading { color: #4a7a4a; font-size: 0.85rem; }
+
+    @media (max-width: 600px) {
+      .sports-grid { grid-template-columns: 1fr 1fr; }
+      .fishing-cards { grid-template-columns: 1fr 1fr; }
+      .golf-grid { grid-template-columns: 1fr 1fr; }
+      .tips-list { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .fishing-cards { grid-template-columns: 1fr; }
+      .golf-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back" href="./dashboard.html">← Dashboard</a>
+
+  <header class="header">
+    <div class="header-logo">
+      <img src="./wayne.png" alt="Wayne's Corner" onclick="document.getElementById('logo-lightbox').classList.add('open')" onerror="this.parentElement.textContent='🎣'">
+    </div>
+    <div>
+      <div class="eyebrow">Wayne's Corner · South Dakota</div>
+      <h1 class="title">Wayne's <em>Corner</em></h1>
+      <div class="subtitle">MN Sports · SD Walleye · Golf</div>
+    </div>
+  </header>
+
+  <!-- Lightbox -->
+  <div id="logo-lightbox" onclick="this.classList.remove('open')">
+    <img src="./wayne.png" alt="Wayne">
+  </div>
+
+  <!-- ── MN PRO SPORTS ── -->
+  <div class="section">
+    <div class="section-title">Minnesota Pro Sports</div>
+    <div class="sports-grid">
+      <a class="team-card" href="https://www.vikings.com" target="_blank" rel="noopener">
+        <div class="team-logo">🏈</div>
+        <div class="team-name">Vikings</div>
+        <div class="team-sport">NFL · Football</div>
+        <div class="team-record">vikings.com</div>
+      </a>
+      <a class="team-card" href="https://www.nba.com/timberwolves" target="_blank" rel="noopener">
+        <div class="team-logo">🏀</div>
+        <div class="team-name">Timberwolves</div>
+        <div class="team-sport">NBA · Basketball</div>
+        <div class="team-record">nba.com/timberwolves</div>
+      </a>
+      <a class="team-card" href="https://www.nhl.com/wild" target="_blank" rel="noopener">
+        <div class="team-logo">🏒</div>
+        <div class="team-name">Wild</div>
+        <div class="team-sport">NHL · Hockey</div>
+        <div class="team-record">nhl.com/wild</div>
+      </a>
+      <a class="team-card" href="https://www.mlb.com/twins" target="_blank" rel="noopener">
+        <div class="team-logo">⚾</div>
+        <div class="team-name">Twins</div>
+        <div class="team-sport">MLB · Baseball</div>
+        <div class="team-record">mlb.com/twins</div>
+      </a>
+      <a class="team-card" href="https://www.mnufc.com" target="_blank" rel="noopener">
+        <div class="team-logo">⚽</div>
+        <div class="team-name">MN United</div>
+        <div class="team-sport">MLS · Soccer</div>
+        <div class="team-record">mnufc.com</div>
+      </a>
+      <a class="team-card" href="https://lynx.wnba.com" target="_blank" rel="noopener">
+        <div class="team-logo">🏀</div>
+        <div class="team-name">Lynx</div>
+        <div class="team-sport">WNBA · Basketball</div>
+        <div class="team-record">lynx.wnba.com</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MN SPORTS HEADLINES ── -->
+  <div class="section">
+    <div class="section-title">MN Sports Headlines</div>
+    <div class="news-feed" id="mn-news">
+      <div class="loading">Loading headlines…</div>
+    </div>
+  </div>
+
+  <!-- ── SD WALLEYE FISHING ── -->
+  <div class="section">
+    <div class="section-title">South Dakota Walleye Fishing</div>
+    <div class="fishing-cards">
+      <a class="fish-card" href="https://gfp.sd.gov/fishing/" target="_blank" rel="noopener">
+        <div class="fish-icon">🎣</div>
+        <div class="fish-title">SD Game, Fish &amp; Parks</div>
+        <div class="fish-desc">Licenses, regulations, stocking reports, and lake access for South Dakota fishing.</div>
+        <div class="fish-link">gfp.sd.gov →</div>
+      </a>
+      <a class="fish-card" href="https://gfp.sd.gov/lake-finder/" target="_blank" rel="noopener">
+        <div class="fish-icon">🗺️</div>
+        <div class="fish-title">SD Lake Finder</div>
+        <div class="fish-desc">Find walleye lakes, access points, depth maps, and survey data across South Dakota.</div>
+        <div class="fish-link">SD Lake Finder →</div>
+      </a>
+      <a class="fish-card" href="https://gfp.sd.gov/fish-stocking-reports/" target="_blank" rel="noopener">
+        <div class="fish-icon">📋</div>
+        <div class="fish-title">Stocking Reports</div>
+        <div class="fish-desc">Official SD walleye stocking reports — know what's been stocked and where.</div>
+        <div class="fish-link">View Reports →</div>
+      </a>
+      <div class="fish-card">
+        <div class="fish-icon">🌊</div>
+        <div class="fish-title">Lake Oahe</div>
+        <div class="fish-desc">One of the top walleye fisheries in the nation — massive Missouri River reservoir. Spring &amp; fall trolling with crawler harnesses and jigs.</div>
+      </div>
+      <div class="fish-card">
+        <div class="fish-icon">🐟</div>
+        <div class="fish-title">Lake Sharp</div>
+        <div class="fish-desc">Excellent walleye action on the Missouri River system. Try jig &amp; minnow combos along rock points and current breaks.</div>
+      </div>
+      <div class="fish-card">
+        <div class="fish-icon">💡</div>
+        <div class="fish-title">Walleye Tips</div>
+        <div class="fish-desc">Dawn &amp; dusk are prime. Use 1/4–3/8 oz jigs with leeches in summer. Troll crankbaits at 1.5–2.5 mph along drop-offs in 10–20 ft.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FISHING HEADLINES ── -->
+  <div class="section">
+    <div class="section-title">SD Walleye &amp; Fishing News</div>
+    <div class="news-feed" id="fish-news">
+      <div class="loading">Loading headlines…</div>
+    </div>
+  </div>
+
+  <!-- ── GOLF ── -->
+  <div class="section">
+    <div class="section-title">Golf</div>
+    <div class="golf-grid">
+      <a class="golf-card" href="https://www.pgatour.com" target="_blank" rel="noopener">
+        <div class="golf-icon">⛳</div>
+        <div class="golf-title">PGA Tour</div>
+        <div class="golf-desc">Leaderboards, tee times, player stats, and tournament schedules.</div>
+        <div class="golf-link">pgatour.com →</div>
+      </a>
+      <a class="golf-card" href="https://www.golfchannel.com" target="_blank" rel="noopener">
+        <div class="golf-icon">📺</div>
+        <div class="golf-title">Golf Channel</div>
+        <div class="golf-desc">Live coverage, instruction, equipment reviews, and golf news.</div>
+        <div class="golf-link">golfchannel.com →</div>
+      </a>
+      <a class="golf-card" href="https://www.golfdigest.com" target="_blank" rel="noopener">
+        <div class="golf-icon">📰</div>
+        <div class="golf-title">Golf Digest</div>
+        <div class="golf-desc">Course rankings, tips from the pros, gear guides, and hot list picks.</div>
+        <div class="golf-link">golfdigest.com →</div>
+      </a>
+      <div class="golf-card">
+        <div class="golf-icon">🏌️</div>
+        <div class="golf-title">Short Game Tips</div>
+        <div class="golf-desc">Keep your wedge face open through impact. Practice 3 chip distances — 10, 30, 50 yards — to build repeatable feel.</div>
+      </div>
+      <div class="golf-card">
+        <div class="golf-icon">📐</div>
+        <div class="golf-title">Driving Tips</div>
+        <div class="golf-desc">Tee it high, let it fly. Widen your stance slightly, tilt away from target, and sweep up through the ball for max carry.</div>
+      </div>
+      <div class="golf-card">
+        <div class="golf-icon">🎯</div>
+        <div class="golf-title">Course Management</div>
+        <div class="golf-desc">Play to your fat part of the green. Take one extra club into the wind. Bogey is never as bad as a double.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── GOLF HEADLINES ── -->
+  <div class="section">
+    <div class="section-title">Golf News</div>
+    <div class="news-feed" id="golf-news">
+      <div class="loading">Loading headlines…</div>
+    </div>
+  </div>
+
+</div><!-- /page -->
+
+<script>
+const PROXIES = [
+  u => `https://api.allorigins.win/raw?url=${encodeURIComponent(u)}`,
+  u => `https://corsproxy.io/?${encodeURIComponent(u)}`,
+  u => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(u)}`
+];
+
+async function fetchRSS(url) {
+  for (const proxy of PROXIES) {
+    try {
+      const r = await fetch(proxy(url), { signal: AbortSignal.timeout(7000) });
+      if (r.ok) return await r.text();
+    } catch(e) {}
+  }
+  return null;
+}
+
+function parseItems(xml, max = 6) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xml, 'text/xml');
+  const items = Array.from(doc.querySelectorAll('item')).slice(0, max);
+  return items.map(item => ({
+    title: item.querySelector('title')?.textContent?.trim() || '',
+    link:  item.querySelector('link')?.textContent?.trim() || '#',
+    source: item.querySelector('source')?.textContent?.trim() ||
+            item.querySelector('creator')?.textContent?.trim() || ''
+  }));
+}
+
+function renderNews(containerId, items, fallback) {
+  const el = document.getElementById(containerId);
+  if (!items || !items.length) {
+    el.innerHTML = `<div class="loading">${fallback}</div>`;
+    return;
+  }
+  el.innerHTML = items.map(i => `
+    <a class="news-item" href="${i.link}" target="_blank" rel="noopener">
+      <div class="news-dot"></div>
+      <div>
+        <div class="news-title">${i.title}</div>
+        ${i.source ? `<div class="news-source">${i.source}</div>` : ''}
+      </div>
+    </a>`).join('');
+}
+
+async function loadMNSports() {
+  const xml = await fetchRSS('https://www.espn.com/espn/rss/nfl/news');
+  if (xml) renderNews('mn-news', parseItems(xml, 6), 'Could not load headlines.');
+  else renderNews('mn-news', null, 'Could not load headlines.');
+}
+
+async function loadFishNews() {
+  const xml = await fetchRSS('https://news.google.com/rss/search?q=walleye+fishing+South+Dakota&hl=en-US&gl=US&ceid=US:en');
+  if (xml) renderNews('fish-news', parseItems(xml, 5), 'Could not load fishing news.');
+  else renderNews('fish-news', null, 'Could not load fishing news.');
+}
+
+async function loadGolfNews() {
+  const xml = await fetchRSS('https://news.google.com/rss/search?q=PGA+Tour+golf&hl=en-US&gl=US&ceid=US:en');
+  if (xml) renderNews('golf-news', parseItems(xml, 5), 'Could not load golf news.');
+  else renderNews('golf-news', null, 'Could not load golf news.');
+}
+
+loadMNSports();
+loadFishNews();
+loadGolfNews();
+</script>
+</body>
+</html>
