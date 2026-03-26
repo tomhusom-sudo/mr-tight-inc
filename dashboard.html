@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327b';
+    var VER = 'v=20260327c';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -354,9 +354,12 @@
 
   <header class="header">
     <div class="header-text">
-      <div class="eyebrow">Personal Command Center</div>
+      <div class="eyebrow" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+        Personal Command Center
+        <a href="./resume.html" style="text-decoration:none;" title="Thomas Husom — Resume"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">Click for Resume!</span></span></a>
+      </div>
       <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;" title="Thomas Husom — Resume">
-        <h1 class="title">Honest <em>Tom<span style="display:inline-flex;flex-direction:column;align-items:center;vertical-align:bottom;"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">Click for Resume!</span></span>'s</span></em><br>Dashboard</h1>
+        <h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1>
       </a>
       <div class="date-line" id="date-line"></div>
     </div>
