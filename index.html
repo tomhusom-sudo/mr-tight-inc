@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260325d';
+    var VER = 'v=20260325e';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -717,6 +717,11 @@
   <!-- MOBILE NEWS LINK -->
   <div class="news-link-mobile">
     <a href="news.html">&#9656; Portfolio News</a>
+  </div>
+
+  <!-- Disclaimer -->
+  <div style="margin-bottom:18px;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:0.72rem;color:#6b7280;line-height:1.5;">
+    <strong style="color:#9ca3af;">Note:</strong> Holdings quantities and average costs shown below are sample data for demonstration purposes only and do not represent actual positions.
   </div>
 
   <!-- HOLDINGS -->
