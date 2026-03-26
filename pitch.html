@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Why We're Better — The Pitch</title>
   <script>
-    var VER = 'v=20260326f';
+    var VER = 'v=20260326g';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap" rel="stylesheet">
@@ -123,9 +123,9 @@
       background: var(--card); border: 1px solid var(--border);
       border-radius: 16px; padding: 24px 20px;
       transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none; color: inherit; display: block; cursor: pointer;
     }
     .built-card:hover { border-color: rgba(74,222,128,0.4); transform: translateY(-2px); }
-    .built-card a { text-decoration: none; color: inherit; display: block; }
 
     .built-dot {
       width: 10px; height: 10px; border-radius: 50%; margin-bottom: 14px;
@@ -362,36 +362,31 @@
     <p class="section-sub">Each concept targets a different client segment and search intent. Together they cover the full market.</p>
   </div>
   <div class="built-grid" style="margin-bottom:72px;">
-    <div class="built-card">
+    <a class="built-card" href="./toddfather.html">
       <div class="built-dot" style="background:#c4602a;"></div>
       <div class="built-name">Todd Father</div>
       <div class="built-desc">The flagship — classic pin-up photography. Rust & cream palette. Bebas Neue muscle. Direct bookings front and center.</div>
-      <a class="built-link" href="./toddfather.html">View →</a>
-    </div>
-    <div class="built-card">
+    </a>
+    <a class="built-card" href="./futurefather.html">
       <div class="built-dot" style="background:#00d4ff;"></div>
       <div class="built-name">Future Father</div>
       <div class="built-desc">Futuristic full-spectrum photography. Orbitron fonts, cyan/purple, drone division, AI generation hooks. Premium positioning.</div>
-      <a class="built-link" href="./futurefather.html">View →</a>
-    </div>
-    <div class="built-card">
+    </a>
+    <a class="built-card" href="./expeditionfather.html">
       <div class="built-dot" style="background:#c41810;"></div>
       <div class="built-name">Retro Father</div>
       <div class="built-desc">Vintage oil/gas garage aesthetic. Alfa Slab One, racing stripes, halftone texture. Reaches the classic car + nostalgia crowd.</div>
-      <a class="built-link" href="./expeditionfather.html">View →</a>
-    </div>
-    <div class="built-card">
+    </a>
+    <a class="built-card" href="./aifather.html">
       <div class="built-dot" style="background:#d4a017;"></div>
       <div class="built-name">AI Father</div>
       <div class="built-desc">Galactic intelligence division aesthetic. Gold/amber palette, animated starfield, future patina van, neural engine specs. The lens that thinks.</div>
-      <a class="built-link" href="./aifather.html">View →</a>
-    </div>
-    <div class="built-card">
+    </a>
+    <a class="built-card" href="./monsterfather.html">
       <div class="built-dot" style="background:#39e640;"></div>
       <div class="built-name">Monster Father</div>
       <div class="built-desc">Horror pin-up for every holiday. Creepster font, custom SVG monster, 8 seasonal shoots. Viral social potential is enormous.</div>
-      <a class="built-link" href="./monsterfather.html">View →</a>
-    </div>
+    </a>
   </div>
 
   <!-- What AI Adds -->
