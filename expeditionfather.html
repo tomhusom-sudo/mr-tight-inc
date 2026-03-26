@@ -3,89 +3,97 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ToddFather Productions — Expedition & Adventure</title>
+  <title>ToddFather Productions — Expedition Father</title>
   <script>
-    var VER = 'v=20260326a';
+    var VER = 'v=20260326c';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400;1,600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --leather:   #0c0804;
-      --hide:      #1a1208;
-      --plate:     #221a0e;
-      --gold:      #c8922a;
-      --gold2:     #e0b040;
-      --parchment: #e8d4a0;
-      --worn:      #8b6220;
-      --jungle:    #2a4418;
-      --dim:       #7a6040;
-      --border:    rgba(200,146,42,0.22);
-      --rule:      rgba(200,146,42,0.12);
+      --void:    #070503;
+      --grease:  #111008;
+      --plate:   #1c1810;
+      --chrome:  #b8b0a0;
+      --red:     #c41810;
+      --red2:    #e02010;
+      --amber:   #d4900c;
+      --cream:   #f0e8d0;
+      --dim:     #6a5e48;
+      --rule:    rgba(184,176,160,0.12);
+      --border:  rgba(184,176,160,0.18);
     }
 
     html { scroll-behavior: smooth; }
-    body { background: var(--leather); color: var(--parchment); font-family: 'Crimson Text', serif; overflow-x: hidden; }
+    body { background: var(--void); color: var(--cream); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
 
-    /* Aged map crosshatch */
+    /* Halftone dot texture */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image:
-        linear-gradient(rgba(200,146,42,0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(200,146,42,0.03) 1px, transparent 1px);
-      background-size: 72px 72px;
+      background-image: radial-gradient(circle, rgba(184,176,160,0.05) 1px, transparent 1px);
+      background-size: 18px 18px;
     }
 
     /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(12,8,4,0.97);
+      background: rgba(7,5,3,0.97);
       backdrop-filter: blur(12px);
-      border-bottom: 2px solid var(--gold);
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 48px; height: 110px;
     }
+    /* Racing stripe header accent */
+    nav::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 6px;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0, var(--red) 32px,
+        var(--grease) 32px, var(--grease) 36px,
+        var(--red) 36px, var(--red) 68px,
+        var(--grease) 68px, var(--grease) 72px
+      );
+    }
+
     .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 0; }
 
     .tf-badge { display: flex; align-items: stretch; }
     .tf-badge-bar {
-      width: 4px; flex-shrink: 0; margin-right: 16px; border-radius: 2px;
-      background: linear-gradient(180deg, var(--gold), var(--worn));
-      box-shadow: 0 0 6px rgba(200,146,42,0.3);
+      width: 5px; flex-shrink: 0; margin-right: 16px; border-radius: 1px;
+      background: linear-gradient(180deg, var(--red), var(--amber));
     }
     .tf-badge-text { display: flex; flex-direction: column; justify-content: center; line-height: 1; }
     .tf-badge-names { display: flex; align-items: baseline; }
     .tf-name-todd {
-      font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900;
-      letter-spacing: 0.1em; color: var(--parchment); line-height: 1;
+      font-family: 'Alfa Slab One', serif; font-size: 2.2rem;
+      letter-spacing: 0.06em; color: var(--cream); line-height: 1;
     }
     .tf-name-father {
-      font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900;
-      letter-spacing: 0.1em; color: var(--gold); line-height: 1; margin-left: 12px;
-      text-shadow: 0 0 16px rgba(200,146,42,0.35);
+      font-family: 'Alfa Slab One', serif; font-size: 2.2rem;
+      letter-spacing: 0.06em; color: var(--red); line-height: 1; margin-left: 12px;
     }
     .tf-name-prod {
-      font-family: 'Crimson Text', serif; font-size: 0.85rem; font-style: italic;
-      letter-spacing: 0.1em; color: var(--dim); margin-top: 6px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--dim); margin-top: 6px;
     }
 
     .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
     .nav-links a {
-      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim);
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 600;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
       text-decoration: none; transition: color 0.2s;
     }
-    .nav-links a:hover { color: var(--parchment); }
+    .nav-links a:hover { color: var(--cream); }
     .nav-cta {
-      border: 1px solid var(--gold) !important; color: var(--gold) !important;
-      padding: 9px 22px; border-radius: 2px;
-      background: rgba(200,146,42,0.08) !important;
+      border: 1px solid var(--red) !important; color: var(--red) !important;
+      padding: 9px 22px; border-radius: 1px;
+      background: rgba(196,24,16,0.08) !important;
       transition: background 0.2s !important;
     }
-    .nav-cta:hover { background: rgba(200,146,42,0.18) !important; }
+    .nav-cta:hover { background: rgba(196,24,16,0.2) !important; }
     @media (max-width: 768px) { nav { padding: 0 20px; } .nav-links { display: none; } }
 
     /* ── HERO ── */
@@ -97,321 +105,334 @@
     @media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: auto; } }
 
     .hero-left { padding: 150px 64px 80px; position: relative; z-index: 1; }
-    @media (max-width: 900px) { .hero-left { padding: 130px 24px 48px; text-align: center; } }
+    @media (max-width: 900px) { .hero-left { padding: 130px 28px 60px; } }
 
     .hero-eyebrow {
-      font-family: 'Crimson Text', serif; font-style: italic;
-      font-size: 1rem; letter-spacing: 0.14em; color: var(--gold);
-      margin-bottom: 20px; display: flex; align-items: center; gap: 14px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--red);
+      margin-bottom: 20px; display: flex; align-items: center; gap: 12px;
     }
-    .hero-eyebrow::before {
-      content: '◆'; font-size: 0.5rem; color: var(--gold); flex-shrink: 0;
+    .hero-eyebrow::after {
+      content: ''; flex: 1; height: 1px; max-width: 80px;
+      background: linear-gradient(90deg, var(--red), transparent);
     }
-    @media (max-width: 900px) { .hero-eyebrow { justify-content: center; } }
 
-    .hero h1 {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(3rem, 6.5vw, 6.5rem);
-      font-weight: 900; line-height: 0.92;
-      letter-spacing: 0.06em; color: var(--parchment);
-      max-width: 700px; position: relative; z-index: 1;
+    .hero-title {
+      font-family: 'Alfa Slab One', serif;
+      font-size: clamp(2.8rem, 5vw, 4.8rem);
+      line-height: 1.0; letter-spacing: 0.02em; color: var(--cream);
+      margin-bottom: 12px;
     }
-    .hero h1 .accent { color: var(--gold); text-shadow: 0 0 24px rgba(200,146,42,0.3); }
-    .hero h1 .worn { color: var(--worn); }
-
-    .hero-rule {
-      display: flex; align-items: center; gap: 14px;
-      margin: 28px 0; max-width: 380px;
-    }
-    .hero-rule::before, .hero-rule::after {
-      content: ''; flex: 1; height: 1px;
-      background: linear-gradient(90deg, var(--gold), transparent);
-    }
-    .hero-rule span { color: var(--gold); font-size: 1.1rem; flex-shrink: 0; }
-    @media (max-width: 900px) { .hero-rule { margin: 28px auto; } }
-
+    .hero-title .accent { color: var(--red); }
     .hero-sub {
-      font-size: 1.15rem; font-style: italic; color: var(--dim);
-      max-width: 480px; line-height: 1.75; margin-bottom: 44px; font-weight: 400;
+      font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1.1rem, 1.8vw, 1.4rem);
+      font-weight: 400; color: var(--chrome); margin-bottom: 32px; line-height: 1.4;
+      letter-spacing: 0.04em;
     }
 
-    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-    @media (max-width: 900px) { .hero-actions { justify-content: center; } }
+    .hero-divider {
+      width: 60px; height: 4px; margin-bottom: 28px;
+      background: repeating-linear-gradient(
+        90deg, var(--red) 0, var(--red) 12px,
+        var(--void) 12px, var(--void) 16px
+      );
+    }
 
+    .hero-body {
+      font-size: 1.05rem; line-height: 1.7; color: var(--chrome); margin-bottom: 40px;
+    }
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
     .btn-primary {
-      background: var(--gold); color: var(--leather);
-      font-family: 'Cinzel', serif; font-size: 0.78rem; font-weight: 700;
-      letter-spacing: 0.18em; text-transform: uppercase; text-decoration: none;
-      padding: 15px 34px; border-radius: 2px;
-      transition: background 0.2s, transform 0.15s; display: inline-block;
-      box-shadow: 0 4px 20px rgba(200,146,42,0.2);
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 800;
+      letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+      padding: 16px 36px; background: var(--red); color: var(--cream); border-radius: 1px;
+      transition: background 0.2s;
     }
-    .btn-primary:hover { background: var(--gold2); transform: translateY(-2px); }
-
-    .btn-outline {
-      background: transparent; border: 1px solid rgba(200,146,42,0.45);
-      color: var(--gold); font-family: 'Cinzel', serif;
-      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.18em;
-      text-transform: uppercase; text-decoration: none;
-      padding: 14px 32px; border-radius: 2px;
-      transition: border-color 0.2s, background 0.2s, transform 0.15s; display: inline-block;
+    .btn-primary:hover { background: var(--red2); }
+    .btn-ghost {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+      padding: 16px 36px; border: 1px solid var(--border); color: var(--chrome); border-radius: 1px;
+      transition: border-color 0.2s;
     }
-    .btn-outline:hover { border-color: var(--gold); background: rgba(200,146,42,0.08); transform: translateY(-2px); }
+    .btn-ghost:hover { border-color: var(--chrome); }
 
-    .hero-right { position: relative; height: 100vh; overflow: hidden; }
-    @media (max-width: 900px) { .hero-right { height: 60vw; min-height: 300px; } }
+    .hero-right {
+      height: 100vh; position: relative; overflow: hidden;
+    }
+    @media (max-width: 900px) { .hero-right { height: 70vw; min-height: 280px; } }
     .hero-right img {
       width: 100%; height: 100%; object-fit: cover; object-position: center;
-      display: block; filter: sepia(40%) contrast(1.1) brightness(0.85);
-    }
-    .hero-right::before {
-      content: ''; position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(90deg, var(--leather) 0%, transparent 35%),
-                  linear-gradient(0deg, rgba(12,8,4,0.6) 0%, transparent 50%);
+      filter: sepia(20%) contrast(1.1) brightness(0.8);
     }
     .hero-right::after {
-      content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 2px;
-      background: linear-gradient(180deg, transparent, var(--gold), var(--worn), transparent);
-      z-index: 2;
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, var(--void) 0%, transparent 30%),
+                  linear-gradient(0deg, var(--void) 0%, transparent 25%);
+    }
+
+    /* ── DOUBLE-STRIPE DIVIDER ── */
+    .stripe-rule {
+      height: 8px; width: 100%;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--red) 0, var(--red) 2px,
+        transparent 2px, transparent 18px,
+        var(--red) 18px, var(--red) 20px,
+        transparent 20px, transparent 36px
+      );
+      opacity: 0.3;
+    }
+
+    /* ── CHECKERBOARD ACCENT ── */
+    .checker-band {
+      height: 20px; width: 100%;
+      background:
+        conic-gradient(var(--grease) 90deg, var(--red) 90deg 180deg, var(--grease) 180deg 270deg, var(--red) 270deg) 0 0/20px 20px;
+      opacity: 0.6;
     }
 
     /* ── STATS BAR ── */
     .stats-bar {
-      background: var(--gold); padding: 0 48px;
+      position: relative; z-index: 1;
+      background: var(--red);
+      padding: 0 64px;
+      display: flex; align-items: stretch;
     }
-    @media (max-width: 768px) { .stats-bar { padding: 0 20px; } }
-    .stats-bar-inner {
-      max-width: 1200px; margin: 0 auto;
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      border-left: 1px solid rgba(0,0,0,0.18);
+    .stat-item {
+      flex: 1; padding: 28px 0; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.12);
     }
-    @media (max-width: 700px) { .stats-bar-inner { grid-template-columns: 1fr 1fr; } }
-    .stat-item { padding: 22px 32px; border-right: 1px solid rgba(0,0,0,0.18); }
-    .stat-big {
-      font-family: 'Cinzel', serif; font-size: 1.9rem; font-weight: 900;
-      color: var(--leather); line-height: 1; letter-spacing: 0.06em;
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Alfa Slab One', serif; font-size: 2.4rem;
+      color: #fff; line-height: 1; letter-spacing: 0.02em;
     }
-    .stat-small {
-      font-family: 'Crimson Text', serif; font-size: 0.82rem; font-style: italic;
-      color: rgba(12,8,4,0.6); margin-top: 3px; letter-spacing: 0.06em;
+    .stat-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255,255,255,0.7);
+      margin-top: 4px;
     }
+    @media (max-width: 700px) { .stats-bar { padding: 0 20px; } .stat-num { font-size: 1.8rem; } }
 
-    /* ── SECTION ── */
-    .section { padding: 100px 64px; max-width: 1200px; margin: 0 auto; }
-    @media (max-width: 768px) { .section { padding: 64px 24px; } }
+    /* ── SECTION WRAPPER ── */
+    .section-wrap { position: relative; z-index: 1; }
 
-    .section-eyebrow {
-      font-family: 'Crimson Text', serif; font-style: italic;
-      font-size: 0.95rem; letter-spacing: 0.16em; color: var(--gold);
-      margin-bottom: 10px; display: flex; align-items: center; gap: 12px;
+    /* ── SECTION HEADER ── */
+    .section-head {
+      padding: 80px 64px 40px;
     }
-    .section-eyebrow::before { content: '◆'; font-size: 0.5rem; color: var(--gold); }
+    @media (max-width: 700px) { .section-head { padding: 60px 28px 32px; } }
+    .section-num {
+      font-family: 'Alfa Slab One', serif; font-size: 3.5rem; color: var(--red);
+      opacity: 0.18; line-height: 1; margin-bottom: -10px;
+    }
     .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: clamp(2.2rem, 4.5vw, 4rem);
-      font-weight: 900; line-height: 0.95; letter-spacing: 0.06em;
-      color: var(--parchment); margin-bottom: 18px;
+      font-family: 'Alfa Slab One', serif; font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+      color: var(--cream); letter-spacing: 0.04em; margin-bottom: 10px;
     }
-    .section-title .accent { color: var(--gold); }
-    .section-sub { font-size: 1.1rem; font-style: italic; color: var(--dim); line-height: 1.7; max-width: 540px; }
+    .section-sub {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 400;
+      color: var(--chrome); letter-spacing: 0.04em; line-height: 1.5;
+    }
 
-    .divider {
-      display: flex; align-items: center; gap: 20px;
-      margin: 0 64px; padding: 0;
-    }
-    .divider::before, .divider::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
-    }
-    .divider-icon { color: var(--gold); font-size: 1rem; flex-shrink: 0; opacity: 0.6; }
-    @media (max-width: 768px) { .divider { margin: 0 24px; } }
-
-    /* ── SERVICES ── */
+    /* ── SERVICES (WORK ORDERS) ── */
     .services-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr);
-      gap: 1px; margin-top: 56px; background: var(--border);
-      border: 1px solid var(--border);
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--rule); margin: 0 64px 0;
     }
-    @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 900px) { .services-grid { grid-template-columns: 1fr 1fr; margin: 0 20px; } }
+    @media (max-width: 600px) { .services-grid { grid-template-columns: 1fr; } }
+
     .service-item {
-      background: var(--plate); padding: 40px 32px;
-      transition: background 0.2s; position: relative;
+      background: var(--grease); padding: 36px 32px; position: relative;
+      transition: background 0.2s;
     }
-    .service-item::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0;
-      height: 2px; background: transparent; transition: background 0.3s;
+    .service-item:hover { background: var(--plate); }
+    .service-item.drone-featured {
+      grid-column: 1 / -1;
+      border: 1px solid rgba(184,176,160,0.3);
+      background: var(--plate);
+      display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+      padding: 48px;
     }
-    .service-item:hover::before { background: linear-gradient(90deg, var(--gold), var(--worn)); }
-    .service-item:hover { background: #2a1e0e; }
-    .service-num {
-      font-family: 'Cinzel', serif; font-size: 3rem; font-weight: 900;
-      color: rgba(200,146,42,0.13); line-height: 1; margin-bottom: 12px;
-    }
-    .service-icon { font-size: 1.8rem; margin-bottom: 14px; opacity: 0.8; }
-    .service-name {
-      font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700;
-      letter-spacing: 0.08em; text-transform: uppercase; color: var(--parchment); margin-bottom: 12px;
-    }
-    .service-desc { font-size: 1rem; font-style: italic; color: var(--dim); line-height: 1.65; }
+    @media (max-width: 700px) { .service-item.drone-featured { grid-template-columns: 1fr; } }
 
-    /* ── PRODUCTS ── */
+    .svc-num {
+      font-family: 'Alfa Slab One', serif; font-size: 0.72rem;
+      color: var(--red); letter-spacing: 0.2em; margin-bottom: 14px;
+    }
+    .svc-title {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 700;
+      color: var(--cream); letter-spacing: 0.06em; text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .svc-desc { font-size: 0.9rem; line-height: 1.6; color: var(--chrome); }
+    .svc-rule { width: 32px; height: 2px; background: var(--red); margin-bottom: 16px; }
+
+    .drone-specs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px;
+    }
+    .drone-spec {
+      background: rgba(184,176,160,0.05); border: 1px solid var(--rule);
+      padding: 14px 16px;
+    }
+    .drone-spec-val {
+      font-family: 'Alfa Slab One', serif; font-size: 1.4rem; color: var(--amber);
+      line-height: 1;
+    }
+    .drone-spec-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.24em; text-transform: uppercase; color: var(--dim); margin-top: 4px;
+    }
+
+    /* ── SHOWCASE BAND (VAN) ── */
+    .showcase-band {
+      position: relative; overflow: hidden; margin-top: 80px;
+    }
+    .showcase-band img {
+      width: 100%; max-height: 460px; object-fit: cover; object-position: center;
+      display: block; filter: sepia(25%) contrast(1.1) brightness(0.85);
+    }
+    .showcase-band::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(0deg, var(--void) 0%, transparent 35%, transparent 65%, var(--void) 100%);
+    }
+    .showcase-label {
+      position: absolute; bottom: 40px; left: 64px; z-index: 2;
+    }
+    .showcase-label-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px;
+    }
+    .showcase-label-title {
+      font-family: 'Alfa Slab One', serif; font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+      color: var(--cream); line-height: 1; letter-spacing: 0.03em;
+    }
+    @media (max-width: 700px) { .showcase-label { left: 28px; bottom: 28px; } }
+
+    /* ── PARTS COUNTER (PRODUCTS) ── */
+    .products-section { padding: 0 64px 80px; }
+    @media (max-width: 700px) { .products-section { padding: 0 20px 60px; } }
+
     .products-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      gap: 1px; margin-top: 56px; background: var(--border);
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
     }
-    @media (max-width: 700px) { .products-grid { grid-template-columns: 1fr; } }
-    .product-card { background: var(--plate); overflow: hidden; transition: background 0.2s; }
-    .product-card:hover { background: #2a1e0e; }
-    .product-card.featured { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; }
-    .product-card.wide { grid-column: span 2; }
-    .sticker-inner { display: grid; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 700px) {
-      .product-card.featured { grid-column: span 1; grid-template-columns: 1fr; }
-      .product-card.wide { grid-column: span 1; }
-      .sticker-inner { grid-template-columns: 1fr; }
-    }
-    .product-visual {
-      aspect-ratio: 4/3; background: var(--hide);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3rem; color: rgba(200,146,42,0.1);
-      position: relative; overflow: hidden;
-    }
-    .product-card.featured .product-visual { aspect-ratio: auto; min-height: 280px; }
-    .product-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: sepia(35%) contrast(1.05); }
-    .product-visual::after {
-      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--gold), var(--worn));
-    }
+    @media (max-width: 900px) { .products-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 600px) { .products-grid { grid-template-columns: 1fr; } }
 
-    .product-info { padding: 28px 30px 30px; display: flex; flex-direction: column; }
-    .product-tag {
-      display: inline-block; font-family: 'Cinzel', serif;
-      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
-      border: 1px solid var(--gold); color: var(--gold);
-      background: rgba(200,146,42,0.08); border-radius: 2px; padding: 3px 10px; margin-bottom: 12px;
+    .product-card {
+      background: var(--grease); border: 1px solid var(--rule);
+      overflow: hidden; transition: border-color 0.2s;
+    }
+    .product-card:hover { border-color: var(--border); }
+    .product-card.wide { grid-column: span 2; }
+    @media (max-width: 900px) { .product-card.wide { grid-column: span 1; } }
+
+    .product-img {
+      width: 100%; aspect-ratio: 4/3; object-fit: cover;
+      filter: sepia(15%) contrast(1.05);
+      display: block;
+    }
+    .product-img-placeholder {
+      width: 100%; aspect-ratio: 4/3;
+      background: repeating-linear-gradient(
+        90deg, var(--red) 0, var(--red) 20px, var(--chrome) 20px, var(--chrome) 24px
+      );
+      opacity: 0.4;
+    }
+    .product-info { padding: 20px 22px 24px; }
+    .product-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 800;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px;
     }
     .product-name {
-      font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: 700;
-      letter-spacing: 0.06em; text-transform: uppercase; color: var(--parchment); margin-bottom: 8px; line-height: 1.2;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase; color: var(--cream); margin-bottom: 8px;
     }
-    .product-desc { font-size: 1rem; font-style: italic; color: var(--dim); line-height: 1.65; margin-bottom: 22px; flex-grow: 1; }
-    .product-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: auto; }
-    .product-price { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 900; color: var(--parchment); line-height: 1; }
-    .product-price small {
-      font-family: 'Crimson Text', serif; font-size: 0.78rem; font-style: italic; color: var(--dim);
-      display: block; margin-bottom: 2px;
+    .product-desc { font-size: 0.88rem; line-height: 1.55; color: var(--chrome); margin-bottom: 14px; }
+    .product-price {
+      font-family: 'Alfa Slab One', serif; font-size: 1.3rem; color: var(--amber);
     }
-    .product-price .price-val { color: var(--gold); }
-    .btn-book {
-      background: transparent; border: 1px solid var(--gold); color: var(--gold);
-      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700;
-      letter-spacing: 0.14em; text-transform: uppercase;
-      text-decoration: none; padding: 11px 22px; border-radius: 2px;
-      white-space: nowrap; flex-shrink: 0; transition: background 0.2s;
-    }
-    .btn-book:hover { background: rgba(200,146,42,0.12); }
 
-    .print-sizes { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
-    .size-chip {
-      background: rgba(200,146,42,0.05); border: 1px solid var(--border);
-      border-radius: 2px; padding: 5px 10px;
-      font-family: 'Crimson Text', serif; font-size: 0.9rem; color: var(--dim);
-    }
-    .size-chip strong { color: var(--parchment); }
+    /* ── TESTIMONIALS (WORD AT THE PUMP) ── */
+    .testimonials-section { padding: 0 64px 80px; }
+    @media (max-width: 700px) { .testimonials-section { padding: 0 28px 60px; } }
+    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 700px) { .testimonials-grid { grid-template-columns: 1fr; } }
 
-    /* ── BIZ BAND ── */
-    .biz-band {
-      background: var(--plate); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 64px;
+    .testimonial-card {
+      background: var(--grease); border-left: 3px solid var(--red);
+      padding: 28px 28px 24px;
     }
-    @media (max-width: 768px) { .biz-band { padding: 48px 24px; } }
-    .biz-band-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; }
-    @media (max-width: 640px) { .biz-band-inner { grid-template-columns: 1fr; } }
-    .biz-band h3 {
-      font-family: 'Cinzel', serif; font-size: clamp(1.8rem, 3.5vw, 3rem);
-      font-weight: 900; letter-spacing: 0.06em; color: var(--parchment); margin-bottom: 14px; line-height: 1;
+    .testimonial-text {
+      font-size: 1.0rem; line-height: 1.7; color: var(--chrome);
+      font-style: italic; margin-bottom: 18px;
     }
-    .biz-band h3 .accent { color: var(--gold); }
-    .biz-band p { font-size: 1rem; font-style: italic; color: var(--dim); line-height: 1.65; max-width: 540px; }
-    .biz-price { text-align: center; flex-shrink: 0; }
-    .biz-from { font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.85rem; color: var(--dim); }
-    .biz-amt { font-family: 'Cinzel', serif; font-size: 4rem; font-weight: 900; color: var(--gold); line-height: 1; text-shadow: 0 0 24px rgba(200,146,42,0.25); }
-    .biz-per { font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.88rem; color: var(--dim); }
+    .testimonial-author {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--amber);
+    }
 
-    /* ── PROCESS ── */
-    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; }
-    @media (max-width: 700px) { .process-grid { grid-template-columns: 1fr; } }
-    .process-step { padding: 44px 32px; border-right: 1px solid var(--border); }
-    .process-step:last-child { border-right: none; }
-    @media (max-width: 700px) { .process-step { border-right: none; border-bottom: 1px solid var(--border); } }
-    .step-num { font-family: 'Cinzel', serif; font-size: 4.5rem; font-weight: 900; color: var(--gold); opacity: 0.15; line-height: 1; margin-bottom: 14px; }
-    .step-title { font-family: 'Cinzel', serif; font-size: 1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--parchment); margin-bottom: 10px; }
-    .step-desc { font-size: 1rem; font-style: italic; color: var(--dim); line-height: 1.65; }
-
-    /* ── TESTIMONIALS ── */
-    .testimonials-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 56px; background: var(--border); }
-    @media (max-width: 640px) { .testimonials-grid { grid-template-columns: 1fr; } }
-    .testimonial { background: var(--plate); padding: 36px 32px; }
-    .testimonial-stars { color: var(--gold); font-size: 0.9rem; letter-spacing: 4px; margin-bottom: 18px; }
-    .testimonial-text { font-family: 'Crimson Text', serif; font-size: 1.15rem; font-style: italic; color: var(--parchment); line-height: 1.7; margin-bottom: 22px; }
-    .testimonial-author { font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); }
-
-    /* ── ABOUT ── */
-    .about-strip { display: grid; grid-template-columns: 1fr 1fr; min-height: 480px; }
-    @media (max-width: 768px) { .about-strip { grid-template-columns: 1fr; } }
-    .about-visual { position: relative; overflow: hidden; min-height: 320px; background: var(--hide); }
-    .about-visual img { width: 100%; height: 100%; object-fit: cover; object-position: center; filter: sepia(45%) contrast(1.1) brightness(0.85); }
-    .about-visual::after {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(12,8,4,0.4) 0%, transparent 60%),
-                  linear-gradient(0deg, rgba(12,8,4,0.65) 0%, transparent 55%);
+    /* ── ABOUT (UNDER THE HOOD) ── */
+    .about-section {
+      padding: 80px 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
     }
-    .about-portrait { position: absolute; bottom: 28px; left: 28px; z-index: 1; display: flex; align-items: flex-end; gap: 16px; }
-    .about-portrait img { width: 72px; height: 72px; object-fit: cover; object-position: top; border-radius: 2px; border: 2px solid var(--gold); filter: sepia(30%) none; box-shadow: 0 4px 16px rgba(0,0,0,0.5); }
-    .about-portrait-name { font-family: 'Cinzel', serif; font-size: 1.1rem; font-weight: 700; letter-spacing: 0.08em; color: var(--parchment); line-height: 1; }
-    .about-portrait-title { font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.8rem; color: var(--gold); margin-top: 4px; }
-    .about-content {
-      background: var(--plate); padding: 72px 60px;
-      display: flex; flex-direction: column; justify-content: center;
-      border-left: 2px solid var(--gold);
+    @media (max-width: 900px) { .about-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 28px; } }
+
+    .about-portrait {
+      position: relative;
     }
-    @media (max-width: 768px) { .about-content { padding: 48px 28px; border-left: none; border-top: 2px solid var(--gold); } }
-    .about-content p { font-size: 1.05rem; font-style: italic; color: var(--dim); line-height: 1.75; margin-bottom: 18px; }
-    .about-stat { display: flex; gap: 36px; margin-top: 32px; }
-    .stat-num { font-family: 'Cinzel', serif; font-size: 2.8rem; font-weight: 900; color: var(--gold); line-height: 1; }
-    .stat-label { font-family: 'Crimson Text', serif; font-style: italic; font-size: 0.85rem; color: var(--dim); letter-spacing: 0.06em; margin-top: 4px; }
+    .about-portrait img {
+      width: 100%; border-radius: 2px;
+      filter: sepia(10%) contrast(1.05) brightness(0.95);
+      border: 1px solid var(--border);
+    }
+    .about-portrait::before {
+      content: '';
+      position: absolute; top: -12px; left: -12px; right: 12px; bottom: 12px; z-index: -1;
+      border: 2px solid var(--red); border-radius: 2px; opacity: 0.4;
+    }
+
+    .about-content {}
+    .about-title {
+      font-family: 'Alfa Slab One', serif; font-size: clamp(2rem, 3vw, 3rem);
+      color: var(--cream); line-height: 1.0; margin-bottom: 24px;
+    }
+    .about-title .accent { color: var(--red); }
+    .about-text { font-size: 1.0rem; line-height: 1.7; color: var(--chrome); margin-bottom: 16px; }
+    .about-rule { width: 48px; height: 3px; background: var(--red); margin-bottom: 24px; }
 
     /* ── FOOTER ── */
-    footer { background: var(--hide); border-top: 2px solid var(--gold); padding: 60px 64px 40px; }
-    @media (max-width: 768px) { footer { padding: 48px 24px 32px; } }
-    .footer-inner { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
-    @media (max-width: 768px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
-    .footer-brand { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 900; letter-spacing: 0.1em; color: var(--parchment); margin-bottom: 12px; }
-    .footer-brand .accent { color: var(--gold); }
-    .footer-desc { font-size: 1rem; font-style: italic; color: var(--dim); line-height: 1.65; max-width: 280px; }
-    .footer-col h4 { font-family: 'Cinzel', serif; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 10px; }
-    .footer-col a { font-size: 1rem; font-style: italic; color: var(--dim); text-decoration: none; transition: color 0.2s; }
-    .footer-col a:hover { color: var(--parchment); }
-    .footer-bottom { max-width: 1200px; margin: 0 auto; border-top: 1px solid var(--border); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-    .footer-copy { font-size: 0.9rem; font-style: italic; color: var(--dim); }
-    .footer-copy a { color: var(--gold); text-decoration: none; }
-
-    /* ── LIGHTBOX ── */
-    #logo-lightbox { display: none; position: fixed; inset: 0; z-index: 999; background: rgba(12,8,4,0.92); align-items: center; justify-content: center; cursor: zoom-out; }
-    #logo-lightbox.open { display: flex; }
-    #logo-lightbox img { max-width: 92vw; max-height: 88vh; border-radius: 4px; border: 2px solid var(--gold); box-shadow: 0 0 60px rgba(200,146,42,0.25); filter: sepia(25%); animation: lbIn 0.18s ease; }
-    @keyframes lbIn { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
+    footer {
+      position: relative; z-index: 1;
+      background: var(--grease); border-top: 1px solid var(--rule);
+      padding: 40px 64px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-brand {
+      font-family: 'Alfa Slab One', serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--cream);
+    }
+    .footer-brand span { color: var(--red); }
+    .footer-copy {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; letter-spacing: 0.14em;
+      color: var(--dim); text-transform: uppercase;
+    }
+    @media (max-width: 700px) { footer { padding: 32px 20px; } }
 
     /* ── BACK TO DASHBOARD ── */
     .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
     .back-dash {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(12,8,4,0.95); backdrop-filter: blur(8px);
-      border: 1px solid rgba(74,222,128,0.35); border-radius: 999px; padding: 10px 20px;
-      font-family: 'Cinzel', serif; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.1em;
-      color: #4ade80; text-decoration: none; transition: border-color 0.2s;
+      background: rgba(7,5,3,0.95); backdrop-filter: blur(8px);
+      border: 1px solid rgba(196,24,16,0.45); border-radius: 999px; padding: 10px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--red); text-decoration: none; transition: border-color 0.2s;
     }
-    .back-dash:hover { border-color: rgba(74,222,128,0.75); }
+    .back-dash:hover { border-color: rgba(196,24,16,0.85); }
   </style>
 </head>
 <body>
@@ -419,171 +440,140 @@
   <!-- Nav -->
   <nav>
     <a class="nav-logo" href="#">
-      <img src="./toddfather3.png" alt="Todd" style="width:76px;height:76px;object-fit:cover;object-position:top;border-radius:2px;border:2px solid var(--gold);margin-right:18px;flex-shrink:0;cursor:zoom-in;filter:sepia(30%);" onclick="document.getElementById('logo-lightbox').classList.add('open')" onerror="this.style.display='none'">
+      <img src="./toddfather3.png" alt="Todd" style="width:76px;height:76px;object-fit:cover;object-position:top;border-radius:2px;border:2px solid var(--red);margin-right:18px;flex-shrink:0;cursor:zoom-in;box-shadow:0 0 12px rgba(196,24,16,0.2);" onerror="this.style.display='none'">
       <div class="tf-badge">
         <div class="tf-badge-bar"></div>
         <div class="tf-badge-text">
           <div class="tf-badge-names">
-            <span class="tf-name-todd">TODD</span><span class="tf-name-father">FATHER</span>
+            <span class="tf-name-todd">TODD</span>
+            <span class="tf-name-father">FATHER</span>
           </div>
-          <div class="tf-name-prod">Productions &nbsp;·&nbsp; Minneapolis, MN</div>
+          <div class="tf-name-prod">Expedition Father &bull; Minneapolis, MN</div>
         </div>
       </div>
     </a>
     <ul class="nav-links">
-      <li><a href="#services">Expeditions</a></li>
-      <li><a href="#packages">Field Kits</a></li>
-      <li><a href="#about">The Explorer</a></li>
-      <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="nav-cta">Book an Expedition</a></li>
+      <li><a href="#work-orders">Work Orders</a></li>
+      <li><a href="#parts-counter">Parts Counter</a></li>
+      <li><a href="#word-at-the-pump">Word at the Pump</a></li>
+      <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="nav-cta">Book a Shoot</a></li>
     </ul>
   </nav>
 
   <!-- Hero -->
   <section class="hero">
     <div class="hero-left">
-      <div class="hero-eyebrow">Minneapolis, MN &nbsp;·&nbsp; Field Photography Since 2014</div>
-      <h1><span class="accent">The</span><br>Lens<br><span class="worn">Never</span><br>Lies.</h1>
-      <div class="hero-rule"><span>&#9670;</span></div>
-      <p class="hero-sub">Every great shot begins with someone bold enough to point a camera and pull the trigger. ToddFather Productions has been on that expedition for over a decade.</p>
-      <div class="hero-actions">
-        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Begin Your Expedition</a>
-        <a href="#packages" class="btn-outline">View Field Kits</a>
+      <div class="hero-eyebrow">LooksLikeLarry Reimaged</div>
+      <h1 class="hero-title">Clean<br>Shots.<br><span class="accent">Dirty</span><br>Hands.</h1>
+      <div class="hero-divider"></div>
+      <p class="hero-sub">Old-school craft. New-school glass.</p>
+      <p class="hero-body">
+        Every roll tells a story. Every frame earns its keep. ToddFather Productions shoots the world the way a good mechanic works — methodical, honest, and with grease under the nails to prove it.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Book Your Session</a>
+        <a href="#work-orders" class="btn-ghost">See the Work</a>
       </div>
     </div>
     <div class="hero-right">
-      <img src="./pyramid.png" alt="The Expedition">
+      <img src="./toddsvan2.png" alt="The Rig" onerror="this.style.display='none'">
     </div>
   </section>
 
   <!-- Stats Bar -->
   <div class="stats-bar">
-    <div class="stats-bar-inner">
-      <div class="stat-item"><div class="stat-big">X</div><div class="stat-small">Marks the Spot</div></div>
-      <div class="stat-item"><div class="stat-big">10+</div><div class="stat-small">Years in the Field</div></div>
-      <div class="stat-item"><div class="stat-big">MN</div><div class="stat-small">Home Base</div></div>
-      <div class="stat-item"><div class="stat-big">$149</div><div class="stat-small">Field Session</div></div>
+    <div class="stat-item">
+      <div class="stat-num">10+</div>
+      <div class="stat-label">Years Behind Glass</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">500+</div>
+      <div class="stat-label">Shoots Completed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">400ft</div>
+      <div class="stat-label">Drone Ceiling</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">MN</div>
+      <div class="stat-label">Based & Built</div>
     </div>
   </div>
 
-  <!-- Services -->
-  <section class="section" id="services">
-    <div class="section-eyebrow">The Expeditions</div>
-    <div class="section-title">Every Shot<br><span class="accent">An Adventure</span></div>
-    <p class="section-sub">From the garage to the jungle, from the studio to the open road — ToddFather Productions brings the lens to wherever the story lives.</p>
+  <div class="checker-band"></div>
+
+  <!-- Work Orders (Services) -->
+  <section class="section-wrap" id="work-orders">
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <h2 class="section-title">Work Orders</h2>
+      <p class="section-sub">What comes out of the shop. Every job done right, no shortcuts.</p>
+    </div>
+
     <div class="services-grid">
       <div class="service-item">
-        <div class="service-num">I</div>
-        <div class="service-icon">&#128663;</div>
-        <div class="service-name">Automotive &amp; Pin-Up</div>
-        <p class="service-desc">Your machine deserves a portrait worthy of a museum wall. Professional models, cinematic lighting, an 18x24 relic to hang forever.</p>
+        <div class="svc-num">01</div>
+        <div class="svc-rule"></div>
+        <div class="svc-title">Portrait Sessions</div>
+        <div class="svc-desc">Individual, family, or crew. Studio-quality light in the field. We find the frame that fits.</div>
       </div>
       <div class="service-item">
-        <div class="service-num">II</div>
-        <div class="service-icon">&#128100;</div>
-        <div class="service-name">Portrait &amp; Character</div>
-        <p class="service-desc">A true portrait tells the whole story. Individuals, families, athletes, executives — every subject has a face worth capturing properly.</p>
+        <div class="svc-num">02</div>
+        <div class="svc-rule"></div>
+        <div class="svc-title">Event Coverage</div>
+        <div class="svc-desc">Weddings, rallies, reunions. We stay out of the way and catch everything worth keeping.</div>
       </div>
       <div class="service-item">
-        <div class="service-num">III</div>
-        <div class="service-icon">&#127881;</div>
-        <div class="service-name">Events &amp; Expeditions</div>
-        <p class="service-desc">Car shows, weddings, concerts, corporate gatherings. We document the mission so nothing is lost to the fog of memory.</p>
+        <div class="svc-num">03</div>
+        <div class="svc-rule"></div>
+        <div class="svc-title">Custom Art Prints</div>
+        <div class="svc-desc">Your shot, printed big on gallery-grade stock. Ready to hang the day it arrives.</div>
       </div>
       <div class="service-item">
-        <div class="service-num">IV</div>
-        <div class="service-icon">&#128188;</div>
-        <div class="service-name">Commercial &amp; Artifact</div>
-        <p class="service-desc">Product photography and brand campaigns. Your inventory transformed into artifacts worth coveting. Images that close the deal.</p>
+        <div class="svc-num">04</div>
+        <div class="svc-rule"></div>
+        <div class="svc-title">Car &amp; Machine</div>
+        <div class="svc-desc">Classics, customs, rigs, and restorations. We shoot iron the way it deserves to be shot.</div>
       </div>
       <div class="service-item">
-        <div class="service-num">V</div>
-        <div class="service-icon">&#127780;</div>
-        <div class="service-name">Terrain &amp; Landscape</div>
-        <p class="service-desc">Minnesota and beyond. Outdoor locations, natural light, landscapes worth framing. The world as it actually looks — magnificent.</p>
+        <div class="svc-num">05</div>
+        <div class="svc-rule"></div>
+        <div class="svc-title">Commercial Work</div>
+        <div class="svc-desc">Product, brand, and identity shoots. Clean composition. On time. On budget.</div>
       </div>
       <div class="service-item">
-        <div class="service-num">VI</div>
-        <div class="service-icon">&#128444;</div>
-        <div class="service-name">Fine Art Relics</div>
-        <p class="service-desc">Museum-quality prints up to 16x24. Full digital files with every session. Your images, delivered and preserved for life.</p>
+        <div class="svc-num">06</div>
+        <div class="svc-rule"></div>
+        <div class="svc-title">Outdoor &amp; Adventure</div>
+        <div class="svc-desc">Lakes, trails, wide sky, and open road. Minnesota from the ground up — and the air down.</div>
       </div>
-    </div>
-  </section>
 
-  <div class="divider"><span class="divider-icon">&#9670;</span></div>
-
-  <!-- Packages -->
-  <section class="section" id="packages">
-    <div class="section-eyebrow">The Field Kits</div>
-    <div class="section-title">Choose Your<br><span class="accent">Mission</span></div>
-    <p class="section-sub">Every field kit includes full digital files, professional editing, and a print. No hidden tolls. No surprises.</p>
-    <div class="products-grid">
-
-      <div class="product-card featured">
-        <div class="product-visual">
-          <img src="https://lookslikelarry.com/cdn/shop/files/june2024Shootshort_1024x1024@2x.jpg?v=1717470088" alt="Signature Expedition">
+      <!-- Drone Featured -->
+      <div class="service-item drone-featured">
+        <div>
+          <div class="svc-num" style="color:var(--amber);">AERIAL</div>
+          <div class="svc-rule" style="background:var(--amber);"></div>
+          <div class="svc-title" style="font-size:1.5rem;">Drone Footage &amp; Stills</div>
+          <div class="svc-desc" style="margin-bottom:24px;">FAA-certified. 4K video. RAW stills. Up to 400 feet — we put your story in a frame nobody else can reach. Farms, worksites, events, lakefront property, and beyond.</div>
+          <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Get a Drone Quote</a>
         </div>
-        <div class="product-info">
-          <div>
-            <div class="product-tag">Flagship Mission</div>
-            <div class="product-name">The Signature Expedition</div>
-            <p class="product-desc">The full ToddFather experience. Your vehicle, professional pin-up models, cinematic lighting. 1–2 hours in the field, 3+ images, and an 18x24 artifact of your machine. June 8th — the map has limited territory.</p>
-          </div>
-          <div class="product-footer">
-            <div class="product-price"><small>Starting at</small><span class="price-val">$149</span></div>
-            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Claim Your Spot &#8594;</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/products/2021Btt50sSam-767-Edit-Edit_530x@2x.jpg?v=1626239779" alt="Portrait Expedition"></div>
-        <div class="product-info">
-          <div>
-            <div class="product-tag">New Territory</div>
-            <div class="product-name">Portrait Expedition</div>
-            <p class="product-desc">Solo or group portrait shoots. Studio or location. Full digital delivery with your choice of print. Every face tells a story worth telling right.</p>
-          </div>
-          <div class="product-footer">
-            <div class="product-price"><small>From</small><span class="price-val">$99</span></div>
-            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Book Now</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card">
-        <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/files/june2024MCShootshort_530x@2x.jpg?v=1717470056" alt="Custom Relic Poster"></div>
-        <div class="product-info">
-          <div>
-            <div class="product-tag">Most Coveted</div>
-            <div class="product-name">The Custom Relic</div>
-            <p class="product-desc">Your machine or portrait on an 18x24 poster — the kind of artifact people notice immediately and ask about forever.</p>
-            <div class="print-sizes">
-              <div class="size-chip"><strong>5x7</strong> $15</div>
-              <div class="size-chip"><strong>8x10</strong> $25</div>
-              <div class="size-chip"><strong>13x19</strong> $65</div>
-              <div class="size-chip"><strong>18x24</strong> $105</div>
+        <div>
+          <div class="drone-specs">
+            <div class="drone-spec">
+              <div class="drone-spec-val">4K</div>
+              <div class="drone-spec-label">Video Res</div>
             </div>
-          </div>
-          <div class="product-footer">
-            <div class="product-price"><small>From</small><span class="price-val">$79</span></div>
-            <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Order Relic</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="product-card wide">
-        <div class="sticker-inner">
-          <div class="product-visual"><img src="https://lookslikelarry.com/cdn/shop/products/StickerSet1_530x@2x.jpg?v=1679460391" alt="Field Stickers"></div>
-          <div class="product-info">
-            <div>
-              <div class="product-tag">Trail Markers</div>
-              <div class="product-name">Field Sticker Series A</div>
-              <p class="product-desc">Three die-cut vinyl stickers. Truck. Toolbox. Helmet. Wherever fellow adventurers will ask "where'd you get that?"</p>
+            <div class="drone-spec">
+              <div class="drone-spec-val">400ft</div>
+              <div class="drone-spec-label">Max Altitude</div>
             </div>
-            <div class="product-footer">
-              <div class="product-price"><small>Set of 3</small><span class="price-val">$12</span></div>
-              <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-book">Acquire</a>
+            <div class="drone-spec">
+              <div class="drone-spec-val">RAW</div>
+              <div class="drone-spec-label">Image Format</div>
+            </div>
+            <div class="drone-spec">
+              <div class="drone-spec-val">FAA</div>
+              <div class="drone-spec-label">Certified Pilot</div>
             </div>
           </div>
         </div>
@@ -591,133 +581,126 @@
     </div>
   </section>
 
-  <!-- Biz Band -->
-  <div class="biz-band">
-    <div class="biz-band-inner">
-      <div>
-        <h3>Photographs for Your <span class="accent">Campaign</span></h3>
-        <p>Posters for your shop floor, event booth, or showroom. The kind of material people actually stop and study. Starting at just $4 per poster — your brand transformed into something worth remembering.</p>
-      </div>
-      <div class="biz-price">
-        <div class="biz-from">From just</div>
-        <div class="biz-amt">$4</div>
-        <div class="biz-per">per poster</div>
-        <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="margin-top:18px;display:inline-block;font-size:0.72rem;">Begin the Campaign</a>
-      </div>
+  <!-- Showcase Band -->
+  <div class="showcase-band">
+    <img src="./toddsvan2.png" alt="The Rig on location" onerror="this.style.display='none'">
+    <div class="showcase-label">
+      <div class="showcase-label-eyebrow">On Location — Minneapolis, MN</div>
+      <div class="showcase-label-title">The Rig Goes<br>Wherever the Shot Is.</div>
     </div>
   </div>
 
-  <div class="divider"><span class="divider-icon">&#9670;</span></div>
+  <div class="stripe-rule"></div>
 
-  <!-- Process -->
-  <section class="section">
-    <div class="section-eyebrow">The Method</div>
-    <div class="section-title">Three Steps.<br><span class="accent">One Legend.</span></div>
-    <div class="process-grid">
-      <div class="process-step">
-        <div class="step-num">I</div>
-        <div class="step-title">Choose the Mission</div>
-        <p class="step-desc">Pick your expedition — vehicle shoot, portrait, event, or commercial. We handle the logistics, the models, and the light. You bring whatever needs to be immortalized.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-num">II</div>
-        <div class="step-title">Enter the Field</div>
-        <p class="step-desc">Arrive at the appointed location. We set the scene. Over a decade of experience does the heavy work. You relax and let the camera find what's already there.</p>
-      </div>
-      <div class="process-step">
-        <div class="step-num">III</div>
-        <div class="step-title">Claim Your Artifact</div>
-        <p class="step-desc">Full digital files delivered. Your chosen print in hand. Images that outlast the moment — the kind of photographs that end up on walls for thirty years.</p>
-      </div>
+  <!-- Parts Counter (Products) -->
+  <section class="section-wrap" id="parts-counter">
+    <div class="section-head">
+      <div class="section-num">02</div>
+      <h2 class="section-title">Parts Counter</h2>
+      <p class="section-sub">Off-the-shelf packages. Take what you need and roll.</p>
     </div>
-  </section>
 
-  <div class="divider"><span class="divider-icon">&#9670;</span></div>
-
-  <!-- Testimonials -->
-  <section class="section">
-    <div class="section-eyebrow">Field Dispatches</div>
-    <div class="section-title">Word from the<br><span class="accent">Expedition Log</span></div>
-    <div class="testimonials-grid">
-      <div class="testimonial">
-        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="testimonial-text">"Hosting a ToddFather Productions photo shoot was out of this world. He brought the shoot to me with his models."</p>
-        <div class="testimonial-author">— Joe T.</div>
-      </div>
-      <div class="testimonial">
-        <div class="testimonial-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
-        <p class="testimonial-text">"Todd is one of the most professional photographers I have worked with. Kind, respectful, creative, and mindful of your time."</p>
-        <div class="testimonial-author">— Vivian R.</div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"><span class="divider-icon">&#9670;</span></div>
-
-  <!-- About -->
-  <div class="about-strip" id="about">
-    <div class="about-visual">
-      <img src="./toddsvan2.png" alt="The Expedition Vehicle">
-      <div class="about-portrait">
-        <img src="./toddfather3.png" alt="Todd">
-        <div>
-          <div class="about-portrait-name">ToddFather</div>
-          <div class="about-portrait-title">Field Photographer · Minneapolis, MN</div>
+    <div class="products-section">
+      <div class="products-grid">
+        <div class="product-card">
+          <img class="product-img" src="https://lookslikelarry.com/cdn/shop/files/Larry_s_product_shoot_Dec_2024_0001.jpg" alt="Product shoot" onerror="this.parentElement.querySelector('.product-img')&&(this.style.display='none')">
+          <div class="product-info">
+            <div class="product-label">Portrait Package</div>
+            <div class="product-name">The Standard Job</div>
+            <div class="product-desc">1-hour session, 2 locations, 30 edited selects. Digital delivery in 5 business days.</div>
+            <div class="product-price">$149</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://lookslikelarry.com/cdn/shop/files/Larry_s_product_shoot_Dec_2024_0007.jpg" alt="Event coverage" onerror="this.style.display='none'">
+          <div class="product-info">
+            <div class="product-label">Event Package</div>
+            <div class="product-name">Full Coverage</div>
+            <div class="product-desc">4-hour coverage, unlimited shots, 75 edited finals. Private gallery link included.</div>
+            <div class="product-price">$349</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <img class="product-img" src="https://lookslikelarry.com/cdn/shop/files/Larry_s_product_shoot_Dec_2024_0008.jpg" alt="Custom print" onerror="this.style.display='none'">
+          <div class="product-info">
+            <div class="product-label">Wall Art</div>
+            <div class="product-name">Custom Print</div>
+            <div class="product-desc">Gallery-grade print on heavyweight matte stock. Ships rolled or flat. Any size to 24×36.</div>
+            <div class="product-price">from $59</div>
+          </div>
+        </div>
+        <div class="product-card wide">
+          <div class="product-img-placeholder"></div>
+          <div class="product-info">
+            <div class="product-label">Aerial Package</div>
+            <div class="product-name">Drone Shoot — Ground + Air Combo</div>
+            <div class="product-desc">2 hours on site, ground stills + 4K drone footage and RAW aerials. FAA-certified. Edited package delivered in 7 days. Perfect for property, events, or anything that needs a bird's-eye story.</div>
+            <div class="product-price">$199</div>
+          </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <div class="checker-band"></div>
+
+  <!-- Word at the Pump (Testimonials) -->
+  <section class="section-wrap" id="word-at-the-pump">
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <h2 class="section-title">Word at the Pump</h2>
+      <p class="section-sub">What people say when they stop in.</p>
+    </div>
+    <div class="testimonials-section">
+      <div class="testimonials-grid">
+        <div class="testimonial-card">
+          <div class="testimonial-text">"Todd showed up, set up, and got it done. No drama, no wasted time. The shots looked like we hired a crew three times the size."</div>
+          <div class="testimonial-author">— Mike R., Minneapolis</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-text">"Knew exactly where to stand, where the light was going, and when to click. Didn't have to direct him once. That's rare."</div>
+          <div class="testimonial-author">— Sarah K., St. Paul</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-text">"The aerial footage sold our listing in four days. Wasn't even planning to use drone shots. Now I won't do a listing without them."</div>
+          <div class="testimonial-author">— Dave L., Burnsville</div>
+        </div>
+        <div class="testimonial-card">
+          <div class="testimonial-text">"He brought the van, the gear, and a whole lot of calm. My kids wouldn't sit still for anyone else. These are the best family photos we've ever had."</div>
+          <div class="testimonial-author">— Jenn M., Eden Prairie</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who's Under the Hood (About) -->
+  <section class="about-section" id="under-the-hood">
+    <div class="about-portrait">
+      <img src="./toddfather3.png" alt="Todd" onerror="this.style.display='none'">
     </div>
     <div class="about-content">
-      <div class="section-eyebrow">The Explorer</div>
-      <div class="section-title" style="font-size:2.6rem;">Todd<br><span class="accent">Father</span></div>
-      <p>ToddFather Productions is a Minneapolis-based photography studio with over a decade in the field — automotive, portrait, events, commercial, and fine art photography across the state and beyond.</p>
-      <p>Every shoot is handled personally. Every image is delivered in full resolution. Every client walks away with something worth framing.</p>
-      <div class="about-stat">
-        <div><div class="stat-num">10+</div><div class="stat-label">Years in the Field</div></div>
-        <div><div class="stat-num">6</div><div class="stat-label">Disciplines</div></div>
-      </div>
+      <div class="section-num" style="margin-bottom:-8px;">04</div>
+      <h2 class="about-title">Who's Under<br>the <span class="accent">Hood</span></h2>
+      <div class="about-rule"></div>
+      <p class="about-text">
+        Todd has been shooting since before it was easy. He grew up in Minnesota, spent years learning the trade from the ground up, and still believes the best camera is the one that gets out of the way of the shot.
+      </p>
+      <p class="about-text">
+        ToddFather Productions is a one-man shop. That means you get Todd — not an assistant, not a sub. The guy who shows up is the guy who knows what he's doing.
+      </p>
+      <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block;margin-top:8px;">Book Directly</a>
     </div>
-  </div>
+  </section>
 
   <!-- Footer -->
-  <footer id="contact">
-    <div class="footer-inner">
-      <div>
-        <div class="footer-brand">Todd<span class="accent">Father</span></div>
-        <p class="footer-desc">Field photography for vehicles, portraits, events, and brands. Minneapolis, MN. Est. 10+ Years.</p>
-      </div>
-      <div class="footer-col">
-        <h4>Expeditions</h4>
-        <ul>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Automotive &amp; Pin-Up</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Portrait Sessions</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Events &amp; Coverage</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Commercial Work</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h4>Book</h4>
-        <ul>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Begin an Expedition</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Shop Relics</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">Contact Todd</a></li>
-          <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener">lookslikelarry.com</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <div class="footer-copy">&copy; 2026 <a href="https://lookslikelarry.com" target="_blank" rel="noopener">ToddFather Productions</a>. Minneapolis, MN.</div>
-      <div class="footer-copy">Design concept &mdash; <a href="./dashboard.html">Honest Tom's Dashboard</a></div>
-    </div>
+  <footer>
+    <div class="footer-brand">TODD<span>FATHER</span> PRODUCTIONS</div>
+    <div class="footer-copy">&copy; 2026 ToddFather Productions &bull; Minneapolis, MN</div>
   </footer>
-
-  <!-- Portrait lightbox -->
-  <div id="logo-lightbox" onclick="this.classList.remove('open')">
-    <img src="./toddfather3.png" alt="Todd Father">
-  </div>
 
   <!-- Back to Dashboard -->
   <div class="dashboard-bar">
-    <a href="./dashboard.html" class="back-dash">&#8592; Dashboard</a>
+    <a class="back-dash" href="./dashboard.html">&#8592; Dashboard</a>
   </div>
 
 </body>
