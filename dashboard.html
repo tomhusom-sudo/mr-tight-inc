@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327y';
+    var VER = 'v=20260327z';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -387,6 +387,9 @@
     .card.active.la-bg,.card.active.la-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./la.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
     .card.active.la-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
     .card.active.la-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.journ-bg,.card.active.journ-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./journ.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.journ-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.journ-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
   </style>
 </head>
 <body>
@@ -671,7 +674,7 @@
     </a>
 
     <!-- Daily Journal -->
-    <a class="card active" href="./journal.html">
+    <a class="card active journ-bg" href="./journal.html">
       <div class="card-icon">
         <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="8" y="5" width="26" height="34" rx="3" stroke="#4ade80" stroke-width="1.8" fill="none"/>
