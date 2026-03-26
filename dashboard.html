@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260326i';
+    var VER = 'v=20260326j';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -126,6 +126,19 @@
 
     /* Featured card spans 2 cols */
     .card.featured { grid-column: span 2; min-height: 230px; }
+
+    /* Mr. Tight godfather background */
+    .card.godfather-bg {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.82) 0%, rgba(10,14,23,0.55) 50%, rgba(10,14,23,0.25) 100%),
+        url('./god_father.JPEG') center top / cover no-repeat;
+      border-color: rgba(74,222,128,0.3);
+    }
+    .card.godfather-bg:hover {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.75) 0%, rgba(10,14,23,0.45) 50%, rgba(10,14,23,0.18) 100%),
+        url('./god_father.JPEG') center top / cover no-repeat;
+    }
 
     /* Active / clickable */
     .card.active {
@@ -316,7 +329,7 @@
   <div class="grid">
 
     <!-- Mr. Tight — featured -->
-    <a class="card active featured" href="./">
+    <a class="card active featured godfather-bg" href="./">
       <div class="card-icon">
         <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -371,9 +384,6 @@
           <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
-      <img src="./god_father.JPEG" alt="" aria-hidden="true"
-        style="position:absolute;bottom:14px;right:14px;width:52px;height:52px;object-fit:cover;object-position:center top;border-radius:50%;border:2px solid rgba(74,222,128,0.35);opacity:0.82;pointer-events:none;"
-        onerror="this.style.display='none'">
     </a>
 
     <!-- Tommy's Choice -->
