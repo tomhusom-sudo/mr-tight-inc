@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327x';
+    var VER = 'v=20260327y';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -384,6 +384,9 @@
     .card.active.helms-bg,.card.active.helms-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./helms.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
     .card.active.helms-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
     .card.active.helms-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.la-bg,.card.active.la-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./la.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.la-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.la-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
   </style>
 </head>
 <body>
@@ -648,7 +651,7 @@
     </a>
 
     <!-- Timmy's Corner -->
-    <a class="card active" href="./timmy.html">
+    <a class="card active la-bg" href="./timmy.html">
       <div class="card-icon">
         <img
           src="https://i.dailymail.co.uk/1s/2025/05/28/15/98825521-14757659-image-a-25_1748442787630.jpg"
