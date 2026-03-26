@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thomas Husom — Resume</title>
   <script>
-    var VER = 'v=20260325c';
+    var VER = 'v=20260325d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -578,7 +578,7 @@
         <div class="hero-title">Oracle DBA &nbsp;&bull;&nbsp; Agentic AI Developer &nbsp;&bull;&nbsp; Data Architect</div>
         <div class="hero-contact">
           <span>Aberdeen, South Dakota</span>
-          <a href="mailto:tomhusom@gmail.com">tomhusom@gmail.com</a>
+          <span onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(function(){var s=document.getElementById('email-inline');s.textContent='Copied!';setTimeout(function(){s.textContent='tomhusom@gmail.com';},2000);})" id="email-inline" style="cursor:pointer;color:var(--cyan2);transition:color 0.2s;" title="Click to copy">tomhusom@gmail.com</span>
           <a href="https://linkedin.com/in/thomashusom-0418314" target="_blank">LinkedIn</a>
         </div>
       </div>
@@ -856,7 +856,7 @@
     <!-- CTA -->
     <div class="cta-strip">
       <div class="cta-text">25 years of database architecture. Now building the future with AI.<br>Let's talk data, dashboards, and what agentic workflows can do for your organization.</div>
-      <a href="mailto:tomhusom@gmail.com" class="cta-btn">Get in Touch</a>
+      <button onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(function(){var b=document.getElementById('copy-btn');b.textContent='Copied!';setTimeout(function(){b.textContent='tomhusom@gmail.com';},2000);})" id="copy-btn" class="cta-btn" style="cursor:pointer;border:none;font-family:inherit;font-size:inherit;letter-spacing:inherit;">tomhusom@gmail.com</button>
     </div>
 
   </div>
