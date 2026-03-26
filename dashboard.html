@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327h';
+    var VER = 'v=20260327i';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -182,6 +182,19 @@
       background:
         linear-gradient(135deg, rgba(10,14,23,0.62) 0%, rgba(10,14,23,0.28) 45%, rgba(10,14,23,0.04) 100%),
         url('./god_father.JPEG') 50% 25% / cover no-repeat !important;
+    }
+
+    /* AI Father logo background */
+    .card.active.aifather-bg {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.72) 0%, rgba(10,14,23,0.38) 45%, rgba(10,14,23,0.08) 100%),
+        url('./ai_logo.png') 50% 25% / cover no-repeat !important;
+      border-color: rgba(34,197,94,0.35);
+    }
+    .card.active.aifather-bg:hover {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.62) 0%, rgba(10,14,23,0.28) 45%, rgba(10,14,23,0.04) 100%),
+        url('./ai_logo.png') 50% 25% / cover no-repeat !important;
     }
 
     /* Active / clickable */
@@ -722,7 +735,7 @@
     </a>
 
     <!-- AI Father -->
-    <a class="card active" href="./aifather.html">
+    <a class="card active aifather-bg" href="./aifather.html">
       <div class="card-icon">
         <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
           <circle cx="28" cy="28" r="22" stroke="#22c55e" stroke-width="1.2" opacity="0.3"/>
