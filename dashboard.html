@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327c';
+    var VER = 'v=20260327d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -703,7 +703,10 @@
     </a>
 
     <!-- Future Father -->
-    <a class="card active" href="./futurefather.html">
+    <a class="card active" href="./futurefather.html" style="position:relative;">
+      <div style="position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(0,212,255,0.1);border:1px solid rgba(0,212,255,0.25);border-radius:20px;padding:3px 8px 3px 6px;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;color:#00d4ff;text-transform:uppercase;white-space:nowrap;">
+        <span style="font-size:0.85rem;">&#128072;</span> Tommy's Pick
+      </div>
       <div class="card-icon">
         <img src="./future_todd.png" alt="Future Father" style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(0,212,255,0.4);box-shadow:0 0 16px rgba(0,212,255,0.2);" onerror="this.outerHTML='<span style=&quot;font-size:2.2rem&quot;>&#128247;</span>'">
       </div>
