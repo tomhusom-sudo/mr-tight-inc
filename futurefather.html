@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions — Future Vision</title>
   <script>
-    var VER = 'v=20260326o';
+    var VER = 'v=20260326p';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -1046,7 +1046,33 @@
   <div class="divider"></div>
 
   <!-- Testimonials -->
-  <section class="section">
+  <section class="section" style="position:relative;overflow:hidden;">
+    <!-- Saturn -->
+    <svg style="position:absolute;top:-40px;right:-60px;width:320px;opacity:0.07;pointer-events:none;" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- rings (behind planet) -->
+      <ellipse cx="150" cy="162" rx="138" ry="28" fill="none" stroke="#8b5cf6" stroke-width="10" opacity="0.6"/>
+      <ellipse cx="150" cy="162" rx="116" ry="22" fill="none" stroke="#00d4ff" stroke-width="6" opacity="0.5"/>
+      <ellipse cx="150" cy="162" rx="96" ry="17" fill="none" stroke="#8b5cf6" stroke-width="4" opacity="0.4"/>
+      <!-- planet body -->
+      <circle cx="150" cy="150" r="80" fill="#00d4ff"/>
+      <!-- atmosphere bands -->
+      <ellipse cx="150" cy="136" rx="80" ry="12" fill="#8b5cf6" opacity="0.4"/>
+      <ellipse cx="150" cy="155" rx="80" ry="10" fill="#00d4ff" opacity="0.3"/>
+      <ellipse cx="150" cy="172" rx="78" ry="9" fill="#8b5cf6" opacity="0.3"/>
+      <!-- shadow on planet -->
+      <circle cx="150" cy="150" r="80" fill="url(#satShadow)"/>
+      <!-- rings (front, over planet) — clipped to lower half -->
+      <clipPath id="ringFront"><rect x="0" y="150" width="300" height="150"/></clipPath>
+      <ellipse cx="150" cy="162" rx="138" ry="28" fill="none" stroke="#8b5cf6" stroke-width="10" opacity="0.9" clip-path="url(#ringFront)"/>
+      <ellipse cx="150" cy="162" rx="116" ry="22" fill="none" stroke="#00d4ff" stroke-width="6" opacity="0.8" clip-path="url(#ringFront)"/>
+      <ellipse cx="150" cy="162" rx="96" ry="17" fill="none" stroke="#8b5cf6" stroke-width="4" opacity="0.7" clip-path="url(#ringFront)"/>
+      <defs>
+        <radialGradient id="satShadow" cx="60%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="transparent"/>
+          <stop offset="100%" stop-color="#020817" stop-opacity="0.55"/>
+        </radialGradient>
+      </defs>
+    </svg>
     <div class="section-eyebrow">Client Words</div>
     <div class="section-title">They Said It.<br><span class="accent">We Delivered It.</span></div>
     <div class="testimonials-grid">
