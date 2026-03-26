@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ToddFather Productions — AI Father</title>
+  <script>
+    var VER = 'v=20260326a';
+    if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:    #000008;
+      --deep:    #04040f;
+      --surface: #080818;
+      --card:    #0d0d20;
+      --gold:    #d4a017;
+      --gold2:   #f0c040;
+      --amber:   #ff8c00;
+      --crimson: #a01020;
+      --silver:  #a0b0c8;
+      --cream:   #eeeeff;
+      --dim:     #505870;
+      --border:  rgba(212,160,23,0.22);
+      --glow:    rgba(212,160,23,0.14);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--void);
+      color: var(--cream);
+      font-family: 'Rajdhani', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Hex grid overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(rgba(212,160,23,0.05) 1px, transparent 1px);
+      background-size: 32px 32px;
+      opacity: 0.6;
+    }
+
+    /* Starfield canvas */
+    #stars {
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: rgba(0,0,8,0.96);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 110px;
+    }
+    nav::after {
+      content: '';
+      position: absolute; bottom: -1px; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent);
+      box-shadow: 0 0 12px var(--gold);
+    }
+
+    .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 0; }
+
+    .tf-badge { display: flex; align-items: stretch; }
+    .tf-badge-bar {
+      width: 3px;
+      background: linear-gradient(180deg, var(--gold), var(--crimson));
+      margin-right: 14px; flex-shrink: 0; border-radius: 2px;
+      box-shadow: 0 0 8px var(--gold);
+    }
+    .tf-badge-text { display: flex; flex-direction: column; justify-content: center; }
+    .tf-badge-names { display: flex; align-items: baseline; gap: 0; }
+    .tf-name-ai {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.9rem; font-weight: 900; letter-spacing: 0.06em;
+      color: var(--gold); line-height: 1;
+      text-shadow: 0 0 24px rgba(212,160,23,0.6);
+    }
+    .tf-name-father {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.9rem; font-weight: 800; letter-spacing: 0.06em;
+      color: var(--cream); line-height: 1; margin-left: 10px;
+    }
+    .tf-name-prod {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.32em; text-transform: uppercase;
+      color: var(--dim); margin-top: 7px;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--dim);
+      text-decoration: none; transition: color 0.2s, text-shadow 0.2s;
+    }
+    .nav-links a:hover { color: var(--gold); text-shadow: 0 0 12px rgba(212,160,23,0.5); }
+    .nav-cta {
+      border: 1px solid var(--gold) !important;
+      color: var(--gold) !important;
+      padding: 9px 22px;
+      background: rgba(212,160,23,0.06) !important;
+      transition: background 0.2s !important, box-shadow 0.2s !important;
+    }
+    .nav-cta:hover {
+      background: rgba(212,160,23,0.14) !important;
+      box-shadow: 0 0 20px rgba(212,160,23,0.2) !important;
+    }
+
+    /* back pill */
+    .back-pill {
+      position: fixed; top: 126px; left: 48px; z-index: 99;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold);
+      border: 1px solid rgba(212,160,23,0.35);
+      border-radius: 2px; padding: 6px 14px; text-decoration: none;
+      background: rgba(0,0,8,0.8); backdrop-filter: blur(8px);
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .back-pill:hover { background: rgba(212,160,23,0.08); border-color: rgba(212,160,23,0.6); }
+
+    @media (max-width: 768px) { nav { padding: 0 20px; } .nav-links { display: none; } .back-pill { left: 20px; } }
+
+    /* ── TRANSMISSION OPENER ── */
+    .transmission-bar {
+      position: fixed; top: 110px; left: 0; right: 0; z-index: 90;
+      background: rgba(212,160,23,0.08);
+      border-bottom: 1px solid rgba(212,160,23,0.2);
+      padding: 7px 48px;
+      display: flex; align-items: center; gap: 16px;
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--gold); font-weight: 600;
+      animation: fadeBarOut 1s ease 4s forwards;
+    }
+    @keyframes fadeBarOut { to { opacity: 0; pointer-events: none; } }
+    .t-blink { animation: blink 0.9s step-end infinite; }
+    @keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; position: relative; overflow: hidden;
+    }
+    @media (max-width: 900px) { .hero { grid-template-columns: 1fr; min-height: auto; } }
+
+    .hero-left {
+      padding: 160px 64px 80px;
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+    }
+    @media (max-width: 900px) { .hero-left { padding: 160px 24px 48px; text-align: center; align-items: center; } }
+
+    .hero-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.38em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 20px;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .hero-eyebrow::before {
+      content: ''; display: inline-block; width: 28px; height: 1px;
+      background: var(--gold); flex-shrink: 0; box-shadow: 0 0 6px var(--gold);
+    }
+    @media (max-width: 900px) { .hero-eyebrow { justify-content: center; } }
+
+    /* Crawl text - slides up slowly like a transmission */
+    .crawl-wrapper {
+      overflow: hidden; height: 3.2em; margin-bottom: 20px; position: relative;
+    }
+    .crawl-text {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.6rem, 5.5vw, 5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: 0.06em; color: var(--cream);
+      animation: crawlUp 0.8s cubic-bezier(0.16,1,0.3,1) 0.4s both;
+    }
+    @keyframes crawlUp { from { transform: translateY(110%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .crawl-text .gold {
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(212,160,23,0.5);
+    }
+    .crawl-text .line2 {
+      animation-delay: 0.55s;
+    }
+    .crawl-text .line3 {
+      animation-delay: 0.7s;
+    }
+
+    .hero h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.6rem, 5.5vw, 5rem);
+      font-weight: 900; line-height: 1.05;
+      letter-spacing: 0.06em; color: var(--cream);
+      position: relative; z-index: 1;
+    }
+    .hero h1 .gold {
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(212,160,23,0.5);
+    }
+    .hero h1 .outline {
+      -webkit-text-stroke: 1px var(--gold);
+      color: transparent;
+    }
+
+    .hero-rule {
+      width: 72px; height: 2px; margin: 28px 0;
+      background: linear-gradient(90deg, var(--gold), var(--crimson));
+      box-shadow: 0 0 14px rgba(212,160,23,0.5);
+    }
+    @media (max-width: 900px) { .hero-rule { margin: 28px auto; } }
+
+    .hero-sub {
+      font-size: 1.1rem; font-weight: 400; color: var(--silver);
+      max-width: 480px; line-height: 1.7; margin-bottom: 44px;
+    }
+
+    .hero-actions { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+    @media (max-width: 900px) { .hero-actions { justify-content: center; } }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      color: var(--void);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 15px 34px;
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+      display: inline-block;
+      box-shadow: 0 0 28px rgba(212,160,23,0.3);
+    }
+    .btn-primary:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 0 40px rgba(212,160,23,0.5); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid rgba(212,160,23,0.45);
+      color: var(--gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.88rem; font-weight: 600; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      padding: 14px 32px;
+      transition: border-color 0.2s, background 0.2s, transform 0.15s;
+      display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); background: rgba(212,160,23,0.07); transform: translateY(-2px); }
+
+    /* Hero right — image panel */
+    .hero-right {
+      position: relative; height: 100vh; overflow: hidden;
+    }
+    @media (max-width: 900px) { .hero-right { height: 55vw; min-height: 280px; } }
+    .hero-right img {
+      width: 100%; height: 520px; object-fit: cover; object-position: center 20%;
+      display: block; filter: sepia(30%) saturate(0.6) brightness(0.8);
+    }
+    .hero-right::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      background: linear-gradient(90deg, var(--void) 0%, transparent 35%),
+                  linear-gradient(0deg, rgba(0,0,8,0.5) 0%, transparent 50%);
+    }
+    .hero-right::after {
+      content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 1px;
+      background: linear-gradient(180deg, transparent, var(--gold), var(--crimson), transparent);
+      z-index: 2; box-shadow: 0 0 10px var(--gold);
+    }
+
+    /* Hex decorators on hero image */
+    .hex-overlay {
+      position: absolute; inset: 0; z-index: 2; pointer-events: none;
+      display: flex; align-items: flex-end; justify-content: flex-end;
+      padding: 40px;
+    }
+    .hex-badge {
+      border: 1px solid rgba(212,160,23,0.4);
+      padding: 14px 20px;
+      background: rgba(0,0,8,0.7);
+      backdrop-filter: blur(6px);
+    }
+    .hex-badge-label {
+      font-size: 0.6rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); font-weight: 700; margin-bottom: 4px;
+    }
+    .hex-badge-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.1rem; font-weight: 700; color: var(--cream);
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px; position: relative; overflow: hidden;
+    }
+    .stats-bar::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--amber), transparent);
+      box-shadow: 0 0 12px var(--gold);
+    }
+    /* Slow scan line */
+    .stats-bar::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212,160,23,0.04), transparent);
+      animation: statScan 6s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes statScan { to { left: 140%; } }
+    @media (max-width: 768px) { .stats-bar { padding: 0 20px; } }
+
+    .stats-bar-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      border-left: 1px solid var(--border);
+    }
+    @media (max-width: 700px) { .stats-bar-inner { grid-template-columns: 1fr 1fr; } }
+
+    .stat-item { padding: 24px 32px; border-right: 1px solid var(--border); }
+    .stat-big {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.8rem; font-weight: 700; color: var(--gold); line-height: 1;
+      text-shadow: 0 0 16px rgba(212,160,23,0.4);
+    }
+    .stat-small {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--dim); margin-top: 4px;
+    }
+
+    /* ── SECTIONS ── */
+    .section { padding: 100px 64px; max-width: 1200px; margin: 0 auto; }
+    @media (max-width: 768px) { .section { padding: 64px 24px; } }
+
+    .section-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-eyebrow::before {
+      content: ''; display: inline-block;
+      width: 28px; height: 1px;
+      background: var(--gold); flex-shrink: 0;
+    }
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 800; line-height: 1.08;
+      letter-spacing: 0.04em; color: var(--cream); margin-bottom: 18px;
+    }
+    .section-title .gold { color: var(--gold); text-shadow: 0 0 20px rgba(212,160,23,0.35); }
+    .section-sub { font-size: 1rem; color: var(--silver); line-height: 1.7; max-width: 540px; }
+
+    .divider { height: 1px; background: var(--border); margin: 0 64px; }
+    @media (max-width: 768px) { .divider { margin: 0 24px; } }
+
+    /* ── AI CORE BAND ── */
+    .ai-band {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 80px 64px;
+      position: relative; overflow: hidden;
+    }
+    .ai-band::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), var(--amber), var(--gold), transparent);
+      box-shadow: 0 0 24px rgba(212,160,23,0.5);
+    }
+    .ai-band::after {
+      content: '';
+      position: absolute; top: 0; left: -100%; width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(212,160,23,0.04), transparent);
+      animation: aiScan 5s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes aiScan { to { left: 140%; } }
+
+    .ai-band-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: center; position: relative; z-index: 1;
+    }
+    @media (max-width: 900px) { .ai-band-inner { grid-template-columns: 1fr; gap: 48px; } }
+    @media (max-width: 768px) { .ai-band { padding: 56px 24px; } }
+
+    .ai-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .ai-eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--amber); flex-shrink: 0; }
+
+    .ai-band h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2.2rem, 4.5vw, 3.8rem);
+      font-weight: 900; line-height: 0.95; letter-spacing: 0.04em;
+      color: var(--cream); margin-bottom: 22px;
+    }
+    .ai-band h2 .gold { color: var(--gold); text-shadow: 0 0 24px rgba(212,160,23,0.5); }
+    .ai-band p { font-size: 1rem; color: var(--silver); line-height: 1.7; margin-bottom: 32px; }
+
+    .ai-specs {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+    .ai-spec { background: var(--card); padding: 24px 28px; transition: background 0.2s; }
+    .ai-spec:hover { background: #121228; }
+    .ai-spec-val {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.9rem; font-weight: 700; line-height: 1; margin-bottom: 6px;
+      color: var(--gold); text-shadow: 0 0 16px rgba(212,160,23,0.4);
+    }
+    .ai-spec-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--dim);
+    }
+
+    /* ── MISSION TYPES (services) ── */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; margin-top: 56px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 768px) { .services-grid { grid-template-columns: 1fr; } }
+    .service-item {
+      background: var(--card); padding: 40px 32px;
+      transition: background 0.2s; position: relative; overflow: hidden;
+    }
+    .service-item::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: transparent; transition: background 0.3s;
+    }
+    .service-item:hover::before { background: linear-gradient(90deg, var(--gold), var(--crimson)); }
+    .service-item:hover { background: #10101f; }
+
+    .service-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 3rem; font-weight: 900;
+      color: rgba(212,160,23,0.08); line-height: 1; margin-bottom: 14px;
+    }
+    .service-icon-wrap {
+      width: 44px; height: 44px; margin-bottom: 14px;
+    }
+    .service-name {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--cream); margin-bottom: 12px;
+    }
+    .service-desc { font-size: 0.9rem; color: var(--silver); line-height: 1.65; }
+
+    /* ── PACKAGES ── */
+    .packages-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; margin-top: 56px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 768px) { .packages-grid { grid-template-columns: 1fr; } }
+
+    .pkg { background: var(--card); padding: 40px 32px; position: relative; overflow: hidden; }
+    .pkg.featured {
+      background: linear-gradient(180deg, #12120e 0%, var(--card) 100%);
+      border-top: 2px solid var(--gold);
+    }
+    .pkg.featured::before {
+      content: 'COMMAND LEVEL';
+      position: absolute; top: 12px; right: 16px;
+      font-size: 0.55rem; font-weight: 700; letter-spacing: 0.22em;
+      color: var(--gold); opacity: 0.7;
+    }
+    .pkg-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 10px;
+    }
+    .pkg-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.4rem; font-weight: 800; letter-spacing: 0.06em;
+      color: var(--cream); margin-bottom: 6px;
+    }
+    .pkg-price {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2.4rem; font-weight: 900; color: var(--gold);
+      text-shadow: 0 0 20px rgba(212,160,23,0.35); margin-bottom: 20px; line-height: 1;
+    }
+    .pkg-price sup { font-size: 1.2rem; vertical-align: super; }
+    .pkg-rule { height: 1px; background: var(--border); margin-bottom: 20px; }
+    .pkg-features { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+    .pkg-features li {
+      font-size: 0.88rem; color: var(--silver); padding-left: 16px; position: relative;
+    }
+    .pkg-features li::before {
+      content: '▸';
+      position: absolute; left: 0; color: var(--gold); font-size: 0.7rem; top: 2px;
+    }
+    .pkg-btn {
+      display: block; text-align: center; margin-top: 28px;
+      border: 1px solid rgba(212,160,23,0.4); color: var(--gold);
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 0.82rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 12px 24px; text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .pkg-btn:hover { background: rgba(212,160,23,0.1); border-color: var(--gold); }
+    .pkg-btn.featured-btn {
+      background: linear-gradient(135deg, var(--gold), var(--amber));
+      color: var(--void); border: none;
+      box-shadow: 0 0 24px rgba(212,160,23,0.3);
+    }
+    .pkg-btn.featured-btn:hover { opacity: 0.88; }
+
+    /* ── TRANSMISSIONS (testimonials) ── */
+    .transmissions-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; margin-top: 56px; background: var(--border);
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 900px) { .transmissions-grid { grid-template-columns: 1fr; } }
+    .transmission {
+      background: var(--card); padding: 40px 32px; position: relative;
+    }
+    .transmission::before {
+      content: '"';
+      position: absolute; top: 16px; left: 24px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 5rem; line-height: 1;
+      color: rgba(212,160,23,0.08); pointer-events: none;
+    }
+    .transmission-text { font-size: 0.95rem; color: var(--silver); line-height: 1.7; margin-bottom: 24px; }
+    .transmission-from { display: flex; align-items: center; gap: 12px; }
+    .transmission-dot { width: 8px; height: 8px; background: var(--gold); flex-shrink: 0; }
+    .transmission-name { font-weight: 700; color: var(--cream); font-size: 0.9rem; }
+    .transmission-rank { font-size: 0.72rem; color: var(--gold); letter-spacing: 0.1em; }
+
+    /* ── COMMANDER (about) ── */
+    .commander-section {
+      padding: 100px 64px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      position: relative; overflow: hidden;
+    }
+    .commander-section::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    @media (max-width: 768px) { .commander-section { padding: 64px 24px; } }
+    .commander-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 380px 1fr;
+      gap: 80px; align-items: center;
+    }
+    @media (max-width: 900px) { .commander-inner { grid-template-columns: 1fr; gap: 48px; } }
+
+    .commander-portrait {
+      position: relative;
+    }
+    .commander-portrait img {
+      width: 100%; display: block;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 40px rgba(212,160,23,0.1), 0 20px 60px rgba(0,0,0,0.6);
+      filter: sepia(20%) saturate(0.7);
+    }
+    .commander-portrait::before {
+      content: '';
+      position: absolute; top: 14px; left: 14px; right: -14px; bottom: -14px;
+      border: 1px solid rgba(212,160,23,0.2);
+      z-index: -1;
+    }
+
+    .commander-num { font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: rgba(212,160,23,0.1); line-height: 1; margin-bottom: 14px; }
+    .commander-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 900; line-height: 1.05; letter-spacing: 0.04em;
+      color: var(--cream); margin-bottom: 20px;
+    }
+    .commander-title .gold { color: var(--gold); }
+    .commander-rule { width: 56px; height: 2px; background: linear-gradient(90deg, var(--gold), var(--crimson)); margin-bottom: 24px; box-shadow: 0 0 12px rgba(212,160,23,0.4); }
+    .commander-text { font-size: 1rem; color: var(--silver); line-height: 1.75; margin-bottom: 18px; }
+
+    /* ── CLASSIFIED FOOTER STRIP ── */
+    .classified-strip {
+      background: linear-gradient(135deg, var(--surface) 0%, rgba(160,16,32,0.08) 100%);
+      border-top: 1px solid var(--border);
+      padding: 56px 64px;
+      text-align: center;
+      position: relative;
+    }
+    .classified-strip::before {
+      content: '— CLASSIFIED INTELLIGENCE — CLEARANCE REQUIRED —';
+      position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+      font-size: 0.58rem; letter-spacing: 0.28em; color: rgba(212,160,23,0.3); white-space: nowrap;
+    }
+    @media (max-width: 768px) { .classified-strip { padding: 48px 24px; } }
+    .classified-strip h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 900; letter-spacing: 0.06em; color: var(--cream);
+      margin-bottom: 16px;
+    }
+    .classified-strip h2 .gold { color: var(--gold); }
+    .classified-strip p { font-size: 1rem; color: var(--silver); max-width: 480px; margin: 0 auto 32px; line-height: 1.7; }
+    .classified-strip-btns { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 64px;
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; flex-wrap: wrap;
+    }
+    .footer-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem; font-weight: 700;
+      letter-spacing: 0.1em; color: var(--gold);
+    }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a {
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--dim); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--gold); }
+    @media (max-width: 600px) { footer { padding: 32px 24px; flex-direction: column; align-items: flex-start; } }
+  </style>
+</head>
+<body>
+
+<!-- Starfield canvas -->
+<canvas id="stars"></canvas>
+
+<!-- Transmission bar -->
+<div class="transmission-bar">
+  <span class="t-blink">&#9646;</span>
+  Incoming Transmission &nbsp;&bull;&nbsp; Intelligence Division Alpha &nbsp;&bull;&nbsp; AI Father Online
+  <span class="t-blink">&#9646;</span>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">
+    <div class="tf-badge">
+      <div class="tf-badge-bar"></div>
+      <div class="tf-badge-text">
+        <div class="tf-badge-names">
+          <span class="tf-name-ai">AI</span>
+          <span class="tf-name-father">FATHER</span>
+        </div>
+        <div class="tf-name-prod">ToddFather Productions &nbsp;&bull;&nbsp; Intelligence Division</div>
+      </div>
+    </div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#missions">Missions</a></li>
+    <li><a href="#neural">Neural Engine</a></li>
+    <li><a href="#packages">Packages</a></li>
+    <li><a href="#commander">Commander</a></li>
+    <li><a href="https://lookslikelarry.com" target="_blank" class="nav-cta">Deploy Now</a></li>
+  </ul>
+</nav>
+
+<a class="back-pill" href="./dashboard.html">
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M7 2L3 5L7 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  Dashboard
+</a>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Intelligence Division &nbsp;&#8212;&nbsp; Unit Alpha</div>
+    <h1>
+      THE LENS<br>
+      THAT <span class="gold">THINKS</span>
+    </h1>
+    <div class="hero-rule"></div>
+    <p class="hero-sub">
+      AI Father doesn't just capture moments — it calculates them. Every composition is data. Every session a precision operation. Machine intelligence meets artistic command.
+    </p>
+    <div class="hero-actions">
+      <a href="https://lookslikelarry.com" target="_blank" class="btn-primary">Deploy a Session</a>
+      <a href="#missions" class="btn-outline">View Missions</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="./future_todd.png" alt="AI Father — Intelligence Division" onerror="this.style.display='none'">
+    <div class="hex-overlay">
+      <div class="hex-badge">
+        <div class="hex-badge-label">Status</div>
+        <div class="hex-badge-val">ONLINE</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-bar-inner">
+    <div class="stat-item">
+      <div class="stat-big">4K+</div>
+      <div class="stat-small">Frames Analyzed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-big">0.001s</div>
+      <div class="stat-small">Processing Speed</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-big">100%</div>
+      <div class="stat-small">Mission Success</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-big">&#8734;</div>
+      <div class="stat-small">Creative Iterations</div>
+    </div>
+  </div>
+</div>
+
+<!-- THE MACHINE BAND -->
+<div class="ai-band" style="padding:0;">
+  <div style="display:grid;grid-template-columns:1fr 1fr;max-width:1200px;margin:0 auto;position:relative;z-index:1;" class="van-band-inner">
+    <div style="position:relative;overflow:hidden;min-height:380px;">
+      <img src="./toddsvan2.png" alt="The Machine" style="width:100%;height:100%;object-fit:cover;object-position:center;filter:sepia(45%) saturate(0.6) brightness(0.72) contrast(1.1);display:block;">
+      <div style="position:absolute;inset:0;background:linear-gradient(90deg,transparent 50%,var(--void) 100%),linear-gradient(0deg,rgba(0,0,8,0.6) 0%,transparent 50%);"></div>
+      <div style="position:absolute;top:0;right:0;bottom:0;width:2px;background:linear-gradient(180deg,transparent,var(--gold),var(--amber),transparent);box-shadow:0 0 10px var(--gold);"></div>
+      <!-- Patina texture label -->
+      <div style="position:absolute;bottom:24px;left:24px;font-size:0.6rem;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);font-weight:700;border:1px solid rgba(212,160,23,0.35);padding:5px 12px;background:rgba(0,0,8,0.7);">FIELD UNIT &mdash; ACTIVE</div>
+    </div>
+    <div style="padding:64px 48px;display:flex;flex-direction:column;justify-content:center;">
+      <div class="ai-eyebrow">The Machine</div>
+      <h2 style="font-family:'Orbitron',sans-serif;font-size:clamp(2rem,4vw,3.4rem);font-weight:900;line-height:0.95;letter-spacing:0.04em;color:var(--cream);margin-bottom:20px;">FUTURE<br><span class="gold">PATINA</span></h2>
+      <p style="font-size:1rem;color:var(--silver);line-height:1.75;margin-bottom:24px;">The van doesn't look new. That's the point. Every dent tells a session. Every scratch is a location scouted. The AI Father field unit has been places — and the intelligence it carries is built from every mile.</p>
+      <p style="font-size:1rem;color:var(--silver);line-height:1.75;margin-bottom:32px;">Weathered on the outside. The most advanced imaging operation on the inside. Future patina isn't rust — it's a record.</p>
+      <div style="display:flex;gap:1px;background:var(--border);border:1px solid var(--border);max-width:320px;">
+        <div style="background:var(--card);padding:18px 22px;flex:1;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:700;color:var(--gold);text-shadow:0 0 12px rgba(212,160,23,0.4);">25yr</div>
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-top:4px;">In the Field</div>
+        </div>
+        <div style="background:var(--card);padding:18px 22px;flex:1;">
+          <div style="font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:700;color:var(--amber);text-shadow:0 0 12px rgba(255,140,0,0.4);">MN</div>
+          <div style="font-size:0.65rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-top:4px;">Home Base</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<style>
+@media (max-width:900px) {
+  .van-band-inner { grid-template-columns:1fr !important; }
+}
+</style>
+
+<!-- MISSION TYPES -->
+<section class="section" id="missions">
+  <div class="section-eyebrow">Deployment Options</div>
+  <h2 class="section-title">Mission <span class="gold">Types</span></h2>
+  <p class="section-sub">Each engagement is a precision operation. Select your mission profile and let the intelligence go to work.</p>
+
+  <div class="services-grid">
+
+    <div class="service-item">
+      <div class="service-num">01</div>
+      <div class="service-icon-wrap">
+        <!-- Portrait targeting reticle -->
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="20" stroke="#d4a017" stroke-width="1.2" opacity="0.4"/>
+          <circle cx="22" cy="22" r="12" stroke="#d4a017" stroke-width="1.2"/>
+          <circle cx="22" cy="18" r="5" stroke="#f0c040" stroke-width="1.4"/>
+          <path d="M14 36c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="#f0c040" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22" y1="2" x2="22" y2="8" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <line x1="22" y1="36" x2="22" y2="42" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <line x1="2" y1="22" x2="8" y2="22" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <line x1="36" y1="22" x2="42" y2="22" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="service-name">Intelligence Portraits</div>
+      <div class="service-desc">AI-assisted face mapping, lighting computation, and real-time composition scoring. Every portrait is a mission brief executed flawlessly.</div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">02</div>
+      <div class="service-icon-wrap">
+        <!-- Corporate ops briefcase + signal -->
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="6" y="16" width="32" height="22" rx="2" stroke="#d4a017" stroke-width="1.4"/>
+          <path d="M16 16v-4a6 6 0 0112 0v4" stroke="#f0c040" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="6" y1="26" x2="38" y2="26" stroke="#d4a017" stroke-width="1" opacity="0.4"/>
+          <rect x="18" y="22" width="8" height="8" rx="1" stroke="#f0c040" stroke-width="1.2"/>
+          <circle cx="34" cy="8" r="4" stroke="#d4a017" stroke-width="1.2" opacity="0.6"/>
+          <line x1="34" y1="4" x2="34" y2="2" stroke="#d4a017" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="service-name">Corporate Operations</div>
+      <div class="service-desc">Command-level headshots, team deployments, and executive imaging. Leave the conference room knowing your visual brand is mission-ready.</div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">03</div>
+      <div class="service-icon-wrap">
+        <!-- Vehicle recon -->
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 28h36M8 28l6-10h16l6 10" stroke="#d4a017" stroke-width="1.4" stroke-linejoin="round"/>
+          <rect x="4" y="28" width="36" height="8" rx="2" stroke="#d4a017" stroke-width="1.4"/>
+          <circle cx="13" cy="38" r="4" stroke="#f0c040" stroke-width="1.4"/>
+          <circle cx="31" cy="38" r="4" stroke="#f0c040" stroke-width="1.4"/>
+          <path d="M16 18h12" stroke="#f0c040" stroke-width="1.2" stroke-linecap="round" opacity="0.6"/>
+          <!-- Scan line -->
+          <line x1="22" y1="6" x2="22" y2="14" stroke="#d4a017" stroke-width="1" opacity="0.5" stroke-dasharray="2 2"/>
+          <polygon points="22,4 20,8 24,8" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="service-name">Vehicle Reconnaissance</div>
+      <div class="service-desc">Every curve, every reflection, every angle — documented with precision optics and AI-enhanced post-processing. Your machine, immortalized.</div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">04</div>
+      <div class="service-icon-wrap">
+        <!-- Matrimonial ring + orbit -->
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="12" stroke="#d4a017" stroke-width="1.4"/>
+          <circle cx="22" cy="22" r="6" stroke="#f0c040" stroke-width="1.4"/>
+          <ellipse cx="22" cy="22" rx="20" ry="8" stroke="#d4a017" stroke-width="1" opacity="0.3"/>
+          <circle cx="42" cy="22" r="2" fill="#d4a017" opacity="0.6"/>
+          <circle cx="2" cy="22" r="2" fill="#d4a017" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="service-name">Matrimonial Operations</div>
+      <div class="service-desc">The most important mission of a lifetime — executed with the full power of AI-enhanced timing, golden-hour calculation, and emotional intelligence.</div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">05</div>
+      <div class="service-icon-wrap">
+        <!-- Commercial product box + beam -->
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="16" width="24" height="22" rx="1" stroke="#d4a017" stroke-width="1.4"/>
+          <path d="M10 22h24" stroke="#d4a017" stroke-width="1" opacity="0.4"/>
+          <path d="M22 4l12 8H10L22 4z" stroke="#f0c040" stroke-width="1.4" stroke-linejoin="round"/>
+          <line x1="22" y1="22" x2="22" y2="38" stroke="#f0c040" stroke-width="1" stroke-linecap="round" opacity="0.5"/>
+          <!-- Signal dots -->
+          <circle cx="34" cy="8" r="1.5" fill="#d4a017" opacity="0.7"/>
+          <circle cx="38" cy="5" r="1.5" fill="#d4a017" opacity="0.5"/>
+          <circle cx="42" cy="2" r="1.5" fill="#d4a017" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="service-name">Commercial Strike</div>
+      <div class="service-desc">Products photographed for maximum visual impact. AI-calibrated lighting ratios, background intelligence, and conversion-optimized framing.</div>
+    </div>
+
+    <div class="service-item">
+      <div class="service-num">06</div>
+      <div class="service-icon-wrap">
+        <!-- AI generation brain + lens -->
+        <svg viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="22" cy="22" r="10" stroke="#f0c040" stroke-width="1.4"/>
+          <circle cx="22" cy="22" r="5" fill="rgba(212,160,23,0.15)" stroke="#d4a017" stroke-width="1.2"/>
+          <path d="M12 22c0-5.5 4.5-10 10-10" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <path d="M32 22c0 5.5-4.5 10-10 10" stroke="#d4a017" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+          <!-- Neural connections -->
+          <line x1="4" y1="12" x2="12" y2="18" stroke="#d4a017" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+          <line x1="4" y1="32" x2="12" y2="26" stroke="#d4a017" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+          <line x1="40" y1="12" x2="32" y2="18" stroke="#d4a017" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+          <line x1="40" y1="32" x2="32" y2="26" stroke="#d4a017" stroke-width="1" opacity="0.4" stroke-linecap="round"/>
+          <circle cx="4" cy="12" r="2" fill="#d4a017" opacity="0.5"/>
+          <circle cx="4" cy="32" r="2" fill="#d4a017" opacity="0.5"/>
+          <circle cx="40" cy="12" r="2" fill="#d4a017" opacity="0.5"/>
+          <circle cx="40" cy="32" r="2" fill="#d4a017" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="service-name">AI Generation Studio</div>
+      <div class="service-desc">Where machine vision meets creative direction. Concept generation, style transfer, and AI-enhanced compositing — born from code and light.</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- AI CORE BAND -->
+<div class="ai-band" id="neural">
+  <div class="ai-band-inner">
+    <div>
+      <div class="ai-eyebrow">Intelligence Core</div>
+      <h2>THE<br><span class="gold">NEURAL</span><br>ENGINE</h2>
+      <p>Every frame runs through a multi-layer intelligence pipeline — composition scoring, lighting analysis, subject mapping, and post-processing automation. Not a filter. A co-pilot.</p>
+      <a href="https://lookslikelarry.com" target="_blank" class="btn-primary">Activate Protocol</a>
+    </div>
+    <div class="ai-specs">
+      <div class="ai-spec">
+        <div class="ai-spec-val">12ms</div>
+        <div class="ai-spec-label">Composition Analysis</div>
+      </div>
+      <div class="ai-spec">
+        <div class="ai-spec-val">32-pt</div>
+        <div class="ai-spec-label">Lighting Grid</div>
+      </div>
+      <div class="ai-spec">
+        <div class="ai-spec-val">4096</div>
+        <div class="ai-spec-label">Color Nodes</div>
+      </div>
+      <div class="ai-spec">
+        <div class="ai-spec-val">&#8734;</div>
+        <div class="ai-spec-label">Output Iterations</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PACKAGES -->
+<section class="section" id="packages">
+  <div class="section-eyebrow">Deployment Packages</div>
+  <h2 class="section-title">Choose Your <span class="gold">Protocol</span></h2>
+  <p class="section-sub">All packages include AI-enhanced post-processing, digital delivery, and direct booking through the command portal.</p>
+
+  <div class="packages-grid">
+
+    <div class="pkg">
+      <div class="pkg-label">Protocol Alpha</div>
+      <div class="pkg-name">Recon</div>
+      <div class="pkg-price"><sup>$</sup>99</div>
+      <div class="pkg-rule"></div>
+      <ul class="pkg-features">
+        <li>1-hour session</li>
+        <li>25 AI-processed images</li>
+        <li>Online gallery delivery</li>
+        <li>1 location</li>
+        <li>Basic retouching suite</li>
+      </ul>
+      <a href="https://lookslikelarry.com" target="_blank" class="pkg-btn">Begin Recon</a>
+    </div>
+
+    <div class="pkg featured">
+      <div class="pkg-label">Protocol Delta</div>
+      <div class="pkg-name">Strike Force</div>
+      <div class="pkg-price"><sup>$</sup>249</div>
+      <div class="pkg-rule"></div>
+      <ul class="pkg-features">
+        <li>3-hour deployment</li>
+        <li>75 AI-enhanced images</li>
+        <li>2 locations + wardrobe changes</li>
+        <li>Neural post-processing</li>
+        <li>Print-ready exports</li>
+        <li>Priority delivery</li>
+      </ul>
+      <a href="https://lookslikelarry.com" target="_blank" class="pkg-btn featured-btn">Deploy Strike Force</a>
+    </div>
+
+    <div class="pkg">
+      <div class="pkg-label">Protocol Omega</div>
+      <div class="pkg-name">Command Level</div>
+      <div class="pkg-price"><sup>$</sup>499</div>
+      <div class="pkg-rule"></div>
+      <ul class="pkg-features">
+        <li>Full-day operation</li>
+        <li>Unlimited AI-enhanced frames</li>
+        <li>Multi-location tactical plan</li>
+        <li>Full retouching command suite</li>
+        <li>AI generation add-ons</li>
+        <li>Dedicated intelligence report</li>
+      </ul>
+      <a href="https://lookslikelarry.com" target="_blank" class="pkg-btn">Activate Command</a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FLEET TRANSMISSIONS -->
+<section class="section">
+  <div class="section-eyebrow">Incoming Signals</div>
+  <h2 class="section-title">Fleet <span class="gold">Transmissions</span></h2>
+  <p class="section-sub">Dispatches from the field. Every client a completed mission.</p>
+
+  <div class="transmissions-grid">
+
+    <div class="transmission">
+      <p class="transmission-text">"Walking into the session I thought it was just going to be standard photography. What came back looked like it was shot on a Hollywood set. The lighting alone was something else — precise, calculated, perfect."</p>
+      <div class="transmission-from">
+        <div class="transmission-dot"></div>
+        <div>
+          <div class="transmission-name">Marcus V.</div>
+          <div class="transmission-rank">Corporate Portrait — Minneapolis</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transmission">
+      <p class="transmission-text">"I had no idea a photographer could use AI this way. Every frame was composed like he knew exactly what I needed before I did. The vehicle shots looked like they belonged in a magazine. Not even close to what I expected."</p>
+      <div class="transmission-from">
+        <div class="transmission-dot"></div>
+        <div>
+          <div class="transmission-name">Dana R.</div>
+          <div class="transmission-rank">Vehicle Recon Session</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="transmission">
+      <p class="transmission-text">"Booked the Strike Force package for our wedding. Every shot looks like a scene from a film — dramatic, emotional, technically flawless. The AI post-processing made colors we didn't even see with our eyes that day."</p>
+      <div class="transmission-from">
+        <div class="transmission-dot"></div>
+        <div>
+          <div class="transmission-name">Taylor &amp; Jordan M.</div>
+          <div class="transmission-rank">Matrimonial Operation</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMMANDER SECTION -->
+<div class="commander-section" id="commander">
+  <div class="commander-inner">
+    <div class="commander-portrait">
+      <img src="./toddfather3.png" alt="The Commander" onerror="this.style.display='none'">
+    </div>
+    <div>
+      <div class="commander-num">07</div>
+      <h2 class="commander-title">The <span class="gold">Commander</span><br>Unit</h2>
+      <div class="commander-rule"></div>
+      <p class="commander-text">Todd has been operating behind the lens since before AI was a tool anyone thought to hand a photographer. Twenty-five years of technical discipline, artistic instinct, and a refusal to settle for good-enough have shaped an eye that can't be replicated by software alone.</p>
+      <p class="commander-text">AI Father is what happens when that experience gets a co-pilot. Every session is mission-planned, data-informed, and executed with the kind of creative command that no algorithm generates on its own. The machine provides intelligence. Todd provides the vision.</p>
+      <a href="https://lookslikelarry.com" target="_blank" class="btn-primary">Deploy a Mission</a>
+    </div>
+  </div>
+</div>
+
+<!-- CLASSIFIED CTA STRIP -->
+<div class="classified-strip">
+  <h2>Ready to <span class="gold">Activate?</span></h2>
+  <p>The Intelligence Division is accepting new mission briefs. Select your protocol and deploy.</p>
+  <div class="classified-strip-btns">
+    <a href="https://lookslikelarry.com" target="_blank" class="btn-primary">Begin Mission Briefing</a>
+    <a href="./dashboard.html" class="btn-outline">Return to Base</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">AI FATHER — ToddFather Productions</div>
+  <div class="footer-links">
+    <a href="./toddfather.html">Todd Father</a>
+    <a href="./futurefather.html">Future Father</a>
+    <a href="./expeditionfather.html">Retro Father</a>
+    <a href="./monsterfather.html">Monster Father</a>
+    <a href="./dashboard.html">Dashboard</a>
+  </div>
+</footer>
+
+<script>
+// Animated starfield
+(function() {
+  const canvas = document.getElementById('stars');
+  const ctx = canvas.getContext('2d');
+  let W, H, stars = [];
+
+  function resize() {
+    W = canvas.width = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function initStars() {
+    stars = [];
+    const count = Math.floor((W * H) / 4000);
+    for (let i = 0; i < count; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * H,
+        r: Math.random() * 1.2 + 0.2,
+        a: Math.random(),
+        speed: Math.random() * 0.004 + 0.001,
+        phase: Math.random() * Math.PI * 2,
+        // occasional gold tint
+        gold: Math.random() < 0.12
+      });
+    }
+  }
+
+  let t = 0;
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.008;
+    for (const s of stars) {
+      const pulse = 0.4 + 0.6 * Math.abs(Math.sin(t * s.speed * 40 + s.phase));
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+      if (s.gold) {
+        ctx.fillStyle = `rgba(212,160,23,${s.a * pulse * 0.9})`;
+      } else {
+        ctx.fillStyle = `rgba(200,210,255,${s.a * pulse * 0.7})`;
+      }
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => { resize(); initStars(); });
+  resize();
+  initStars();
+  draw();
+})();
+</script>
+
+</body>
+</html>
