@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327n';
+    var VER = 'v=20260327o';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -347,6 +347,11 @@
       .grid { grid-template-columns: 1fr; gap: 10px; }
       .card.featured { grid-column: span 1; }
     }
+    /* Father card text — brighter on photo backgrounds */
+    .card.active.metro-bg .card-title,.card.active.aitruck-bg .card-title,.card.active.futurebike-bg .card-title,.card.active.aifather-bg .card-title,.card.active.devil-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.metro-bg .card-eyebrow,.card.active.aitruck-bg .card-eyebrow,.card.active.futurebike-bg .card-eyebrow,.card.active.aifather-bg .card-eyebrow,.card.active.devil-bg .card-eyebrow{color:#6ef59a;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.metro-bg .card-desc,.card.active.aitruck-bg .card-desc,.card.active.futurebike-bg .card-desc,.card.active.aifather-bg .card-desc,.card.active.devil-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+
     /* Card photo backgrounds — last wins cascade */
     .card.active.devil-bg,.card.active.devil-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./devil.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
     .card.active.metro-bg,.card.active.metro-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./metro.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
