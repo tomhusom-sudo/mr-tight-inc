@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327j';
+    var VER = 'v=20260327k';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -182,6 +182,19 @@
       background:
         linear-gradient(135deg, rgba(10,14,23,0.62) 0%, rgba(10,14,23,0.28) 45%, rgba(10,14,23,0.04) 100%),
         url('./god_father.JPEG') 50% 25% / cover no-repeat !important;
+    }
+
+    /* Retro Father truck background */
+    .card.active.aitruck-bg {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.72) 0%, rgba(10,14,23,0.38) 45%, rgba(10,14,23,0.08) 100%),
+        url('./ai_truck.png') 50% 25% / cover no-repeat !important;
+      border-color: rgba(34,197,94,0.35);
+    }
+    .card.active.aitruck-bg:hover {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.62) 0%, rgba(10,14,23,0.28) 45%, rgba(10,14,23,0.04) 100%),
+        url('./ai_truck.png') 50% 25% / cover no-repeat !important;
     }
 
     /* Future Father bike background */
@@ -713,7 +726,7 @@
     </a>
 
     <!-- Retro Father -->
-    <a class="card active" href="./expeditionfather.html">
+    <a class="card active aitruck-bg" href="./expeditionfather.html">
       <div class="card-icon">
         <img src="./retro_father.jpg" alt="Retro Father" style="width:56px;height:56px;object-fit:cover;object-position:center;border-radius:10px;border:1px solid rgba(196,24,16,0.4);box-shadow:0 0 16px rgba(196,24,16,0.25);filter:sepia(15%);" onerror="this.outerHTML='<span style=&quot;font-size:2.2rem&quot;>📷</span>'">
       </div>
