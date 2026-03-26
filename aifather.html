@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions — AI Father</title>
   <script>
-    var VER = 'v=20260326d';
+    var VER = 'v=20260326e';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,13 +36,14 @@
       overflow-x: hidden;
     }
 
-    /* Hex grid overlay */
+    /* Scanline overlay — matches Future Father layout, gold-tinted */
     body::before {
       content: '';
       position: fixed; inset: 0; z-index: 0; pointer-events: none;
-      background-image: radial-gradient(rgba(212,160,23,0.05) 1px, transparent 1px);
-      background-size: 32px 32px;
-      opacity: 0.6;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(212,160,23,0.018) 2px, rgba(212,160,23,0.018) 4px
+      );
     }
 
     /* Starfield canvas */
