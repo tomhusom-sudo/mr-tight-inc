@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327q';
+    var VER = 'v=20260327r';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -359,6 +359,10 @@
     .card.active.server-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
     .card.active.server-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
 
+    .card.active.market-bg,.card.active.market-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./market.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.market-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.market-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+
     /* Card photo backgrounds — last wins cascade */
     .card.active.devil-bg,.card.active.devil-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./devil.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
     .card.active.metro-bg,.card.active.metro-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./metro.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
@@ -454,7 +458,7 @@
     </a>
 
     <!-- Tommy's Choice -->
-    <a class="card active" href="./tommyschoice.html">
+    <a class="card active market-bg" href="./tommyschoice.html">
       <div class="card-icon" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
         <div style="font-family:'Bangers','Impact',sans-serif;font-size:1.1rem;letter-spacing:0.12em;background:linear-gradient(160deg,#ffe033 0%,#ff9d00 40%,#ff4800 70%,#ffe033 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 5px rgba(255,180,0,0.5));">Shazbot!</div>
         <img src="./mork.jpg" alt="Mork"
