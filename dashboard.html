@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260326n';
+    var VER = 'v=20260326o';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -130,14 +130,14 @@
     /* Mr. Tight godfather background */
     .card.active.godfather-bg {
       background:
-        linear-gradient(135deg, rgba(10,14,23,0.88) 0%, rgba(10,14,23,0.6) 45%, rgba(10,14,23,0.2) 100%),
-        url('./god_father.JPEG') center center / 100% 100% no-repeat !important;
+        linear-gradient(135deg, rgba(10,14,23,0.72) 0%, rgba(10,14,23,0.38) 45%, rgba(10,14,23,0.08) 100%),
+        url('./god_father.JPEG') center 25% / cover no-repeat !important;
       border-color: rgba(74,222,128,0.35);
     }
     .card.active.godfather-bg:hover {
       background:
-        linear-gradient(135deg, rgba(10,14,23,0.78) 0%, rgba(10,14,23,0.48) 45%, rgba(10,14,23,0.12) 100%),
-        url('./god_father.JPEG') center center / 100% 100% no-repeat !important;
+        linear-gradient(135deg, rgba(10,14,23,0.62) 0%, rgba(10,14,23,0.28) 45%, rgba(10,14,23,0.04) 100%),
+        url('./god_father.JPEG') center 25% / cover no-repeat !important;
     }
 
     /* Active / clickable */
@@ -665,6 +665,39 @@
         Enter the Garage
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
           <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Monster Father -->
+    <a class="card active" href="./monsterfather.html" style="background:linear-gradient(135deg,rgba(5,2,8,0.95) 0%,rgba(20,5,30,0.92) 60%,rgba(5,30,8,0.88) 100%);border-color:rgba(57,230,64,0.35);">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 8px rgba(57,230,64,0.5));">
+          <!-- Monster head -->
+          <ellipse cx="28" cy="26" rx="16" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+          <!-- Eyes glow -->
+          <ellipse cx="21" cy="23" rx="4" ry="3.5" fill="#39e640" opacity="0.9"/>
+          <ellipse cx="35" cy="23" rx="4" ry="3.5" fill="#cc0a1a" opacity="0.9"/>
+          <circle cx="21" cy="23" r="2" fill="#050208"/>
+          <circle cx="35" cy="23" r="2" fill="#050208"/>
+          <!-- Fangs -->
+          <polygon points="23,34 21,40 25,34" fill="#f5e6d0" opacity="0.9"/>
+          <polygon points="31,34 29,40 33,34" fill="#f5e6d0" opacity="0.9"/>
+          <!-- Horns -->
+          <polygon points="16,14 12,4 20,12" fill="#39e640" opacity="0.7"/>
+          <polygon points="40,14 44,4 36,12" fill="#39e640" opacity="0.7"/>
+          <!-- Camera lens eye -->
+          <circle cx="28" cy="44" r="5" fill="none" stroke="#ff2d78" stroke-width="1.5"/>
+          <circle cx="28" cy="44" r="2.5" fill="#ff2d78" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow" style="color:#39e640;">LooksLikeLarry Reimaged</div>
+      <div class="card-title" style="color:#f5e6d0;">Monster Father</div>
+      <div class="card-desc" style="color:#6a8a6a;">Pin-ups, holiday shoots &amp; themed terror. Todd has transformed. The monster behind the lens is ready.</div>
+      <div class="card-cta" style="color:#39e640;border-color:rgba(57,230,64,0.2);">
+        Enter if You Dare
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#39e640" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </div>
     </a>
