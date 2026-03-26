@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260325e';
+    var VER = 'v=20260326a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -822,10 +822,12 @@
       { ticker:'MSFT', name:'Microsoft Corporation',              type:'stock',  domain:'microsoft.com',    logoUrl:'',                                                  qty:50,     avgCost:310.00,  price:372.74 },
       { ticker:'AMZN', name:'Amazon.com, Inc.',                   type:'stock',  domain:'amazon.com',       logoUrl:'',                                                  qty:75,     avgCost:165.00,  price:208.00 },
       { ticker:'BTC',  name:'Bitcoin',                            type:'crypto', domain:'',                 logoUrl:'https://cryptologos.cc/logos/bitcoin-btc-logo.png', qty:0.5,    avgCost:54846.21,price:70602  },
+      { ticker:'ETH',  name:'Ethereum',                           type:'crypto', domain:'',                 logoUrl:'https://cryptologos.cc/logos/ethereum-eth-logo.png', qty:2,      avgCost:2500.00, price:0      },
       { ticker:'NVDA', name:'NVIDIA Corporation',                 type:'stock',  domain:'nvidia.com',       logoUrl:'',                                                  qty:100,    avgCost:120.00,  price:175.21 },
       { ticker:'VOO',  name:'Vanguard S&P 500 ETF',              type:'etf',    domain:'vanguard.com',     logoUrl:'',                                                  qty:30,     avgCost:450.00,  price:602.45 },
       { ticker:'VONG', name:'Vanguard Russell 1000 Growth ETF',  type:'etf',    domain:'vanguard.com',     logoUrl:'',                                                  qty:40,     avgCost:95.00,   price:121.99 },
       { ticker:'EXE',  name:'Expand Energy Corporation',          type:'stock',  domain:'expandenergy.com', logoUrl:'',                                                  qty:60,     avgCost:85.00,   price:108.58 },
+      { ticker:'ARKK', name:'ARK Innovation ETF',                 type:'etf',    domain:'ark-funds.com',    logoUrl:'',                                                  qty:50,     avgCost:50.00,   price:0      },
     ];
 
     var editingIndex = null;
@@ -833,7 +835,7 @@
     var lastCol = -1, sortAsc = true;
 
     // ── STORAGE ──
-    var DATA_VER = '4'; // bump this to wipe stale localStorage on all devices
+    var DATA_VER = '5'; // bump this to wipe stale localStorage on all devices
     var _cache = null;
 
     // Clear stale localStorage if data version changed
