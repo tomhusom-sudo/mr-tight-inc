@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Research — Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260325i';
+    var VER = 'v=20260326a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -664,14 +664,14 @@
   showKeyStatus();
 
   var CRYPTO    = ['BTC','ETH','SOL','DOGE','XRP','ADA','AVAX','MATIC'];
-  var FALLBACK  = ['AA','MSFT','AMZN','NVDA','VOO','VONG','EXE','ICLN'];
+  var FALLBACK  = ['AA','MSFT','AMZN','NVDA','VOO','VONG','EXE'];
 
   fetch('prices.json?t=' + Date.now())
     .then(function(r) { return r.json(); })
     .then(function(data) {
       if (data && data.prices) {
         PORTFOLIO_TICKERS = Object.keys(data.prices).filter(function(t) {
-          return CRYPTO.indexOf(t) === -1;
+          return CRYPTO.indexOf(t) === -1 && data.prices[t] > 0;
         });
       } else {
         PORTFOLIO_TICKERS = FALLBACK;
