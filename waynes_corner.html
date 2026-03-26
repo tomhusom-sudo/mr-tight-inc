@@ -330,6 +330,95 @@
       .fishing-cards { grid-template-columns: 1fr; }
       .golf-grid { grid-template-columns: 1fr; }
     }
+
+    /* ── TIPS PANEL ── */
+    .panel {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+      margin-bottom: 42px;
+    }
+    .panel-header {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .panel-icon { font-size: 1.6rem; line-height: 1; }
+    .panel-label {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: #86efac; margin-bottom: 3px;
+    }
+    .panel-title { font-size: 1.15rem; font-weight: 700; color: #f0faf0; letter-spacing: -0.02em; }
+    .add-form {
+      padding: 18px 24px; border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .form-row { display: flex; gap: 8px; }
+    .form-row input, .add-form input, .add-form textarea {
+      flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px; padding: 10px 14px; font-size: 0.875rem;
+      color: #d4ead0; font-family: inherit; outline: none; transition: border-color 0.18s;
+    }
+    .form-row input:focus, .add-form input:focus, .add-form textarea:focus { border-color: rgba(100,200,80,0.45); }
+    .add-form input::placeholder, .add-form textarea::placeholder { color: #4a7a4a; }
+    .add-form textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+    .btn-add {
+      align-self: flex-end; background: rgba(100,200,80,0.15); border: 1px solid rgba(100,200,80,0.3);
+      border-radius: 10px; padding: 9px 18px; font-size: 0.8rem; font-weight: 700;
+      color: #86efac; cursor: pointer; font-family: inherit; letter-spacing: 0.04em;
+      transition: background 0.18s, border-color 0.18s; white-space: nowrap;
+    }
+    .btn-add:hover { background: rgba(100,200,80,0.25); border-color: rgba(100,200,80,0.55); }
+    .item-list { list-style: none; padding: 12px 0; min-height: 60px; }
+    .item-list li {
+      padding: 12px 24px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex; gap: 12px; align-items: flex-start;
+    }
+    .item-list li:last-child { border-bottom: none; }
+    .item-body { flex: 1; min-width: 0; }
+    .item-primary { font-size: 0.92rem; font-weight: 600; color: #d4ead0; word-break: break-word; }
+    .item-primary a { color: #86efac; text-decoration: none; }
+    .item-primary a:hover { text-decoration: underline; }
+    .item-secondary { margin-top: 4px; font-size: 0.8rem; color: #6aaa6a; line-height: 1.45; word-break: break-word; }
+    .item-date { margin-top: 5px; font-size: 0.68rem; color: #4a7a4a; letter-spacing: 0.04em; }
+    .ticker-badge {
+      flex-shrink: 0; margin-top: 2px; background: rgba(100,200,80,0.12);
+      border: 1px solid rgba(100,200,80,0.2); border-radius: 7px; padding: 3px 9px;
+      font-size: 0.72rem; font-weight: 700; color: #86efac; letter-spacing: 0.06em;
+      text-transform: uppercase; text-decoration: none; transition: background 0.18s; cursor: pointer;
+    }
+    .ticker-badge:hover { background: rgba(100,200,80,0.25); border-color: rgba(100,200,80,0.5); }
+    .btn-del {
+      flex-shrink: 0; background: none; border: none; cursor: pointer; color: #4a7a4a;
+      font-size: 1rem; padding: 2px 4px; border-radius: 6px; transition: color 0.15s, background 0.15s; line-height: 1;
+    }
+    .btn-del:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+    .btn-edit-tip {
+      flex-shrink: 0; background: none; border: none; cursor: pointer; color: #6aaa6a;
+      font-size: 0.8rem; padding: 2px 6px; border-radius: 6px; transition: color 0.15s, background 0.15s; font-family: inherit;
+    }
+    .btn-edit-tip:hover { color: #86efac; background: rgba(100,200,80,0.1); }
+    .edit-tip-wrap { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .edit-tip-wrap input, .edit-tip-wrap textarea {
+      width: 100%; background: rgba(255,255,255,0.06); border: 1px solid rgba(100,200,80,0.35);
+      border-radius: 8px; padding: 8px 12px; font-size: 0.875rem; color: #d4ead0; font-family: inherit; outline: none;
+    }
+    .edit-tip-wrap textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+    .edit-tip-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-save-tip {
+      background: rgba(100,200,80,0.2); border: 1px solid rgba(100,200,80,0.4);
+      border-radius: 7px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+      color: #86efac; cursor: pointer; font-family: inherit;
+    }
+    .btn-cancel-tip {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px; padding: 6px 12px; font-size: 0.78rem;
+      color: #6aaa6a; cursor: pointer; font-family: inherit;
+    }
+    .empty-state { padding: 28px 24px; font-size: 0.82rem; color: #4a7a4a; text-align: center; font-style: italic; }
   </style>
 </head>
 <body>
@@ -500,6 +589,57 @@
     </div>
   </div>
 
+  <!-- ── TOM'S WINK WINK TIPS ── -->
+  <div class="panel">
+    <div class="panel-header">
+      <div class="panel-icon">
+        <svg width="40" height="34" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="wcChartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#86efac" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#86efac" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="4" y1="10" x2="48" y2="10" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4" y1="20" x2="48" y2="20" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4" y1="30" x2="48" y2="30" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4"  y1="6" x2="4"  y2="38" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="16" y1="6" x2="16" y2="38" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="28" y1="6" x2="28" y2="38" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="40" y1="6" x2="40" y2="38" stroke="#86efac" stroke-opacity="0.12" stroke-width="0.7"/>
+          <path d="M4 34 L10 28 L18 30 L24 22 L32 18 L38 12 L46 6 L46 38 L4 38 Z" fill="url(#wcChartFill)"/>
+          <polyline points="4,34 10,28 18,30 24,22 32,18 38,12 46,6"
+            stroke="#86efac" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="10" cy="28" r="1.8" fill="#86efac" opacity="0.7"/>
+          <circle cx="18" cy="30" r="1.8" fill="#86efac" opacity="0.7"/>
+          <circle cx="24" cy="22" r="1.8" fill="#86efac" opacity="0.7"/>
+          <circle cx="32" cy="18" r="1.8" fill="#86efac" opacity="0.7"/>
+          <circle cx="38" cy="12" r="1.8" fill="#86efac" opacity="0.7"/>
+          <circle cx="46" cy="6" r="3" fill="#86efac"/>
+          <circle cx="46" cy="6" r="1.6" fill="#f0faf0"/>
+          <line x1="4" y1="6" x2="4" y2="38" stroke="#86efac" stroke-opacity="0.4" stroke-width="1"/>
+          <line x1="4" y1="38" x2="48" y2="38" stroke="#86efac" stroke-opacity="0.4" stroke-width="1"/>
+        </svg>
+      </div>
+      <div>
+        <div class="panel-label">Stock &amp; Asset Ideas</div>
+        <div class="panel-title">Tom's Wink Wink Tips</div>
+      </div>
+    </div>
+
+    <ul class="item-list" id="tips-list"></ul>
+    <div class="empty-state" id="tips-empty" style="display:none;">No tips yet — Tom's keeping his cards close.</div>
+
+    <div class="add-form" id="tip-form">
+      <div class="form-row">
+        <input type="text" id="tip-ticker" placeholder="Ticker (e.g. NVDA)" maxlength="12" style="max-width:130px;flex:none;" oninput="this.value=this.value.toUpperCase()" onblur="lookupName()">
+        <input type="text" id="tip-title" placeholder="Asset name (auto-fills)">
+      </div>
+      <textarea id="tip-note" placeholder="Why Tom thinks you should look at this…"></textarea>
+      <button class="btn-add" onclick="addTip()">+ Add Tip</button>
+    </div>
+  </div>
+
 </div><!-- /page -->
 
 <script>
@@ -568,6 +708,86 @@ async function loadGolfNews() {
 loadMNSports();
 loadFishNews();
 loadGolfNews();
+
+// ── Tom's Wink Wink Tips (shared with Timmy's Corner) ──
+var TIPS_KEY = 'timmy_tips';
+function loadTips() { try { return JSON.parse(localStorage.getItem(TIPS_KEY)) || []; } catch(e) { return []; } }
+function saveTips(arr) { localStorage.setItem(TIPS_KEY, JSON.stringify(arr)); }
+function fmtDate(iso) {
+  try { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+  catch(e) { return ''; }
+}
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function renderTips() {
+  var tips = loadTips();
+  var list  = document.getElementById('tips-list');
+  var empty = document.getElementById('tips-empty');
+  if (!tips.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  list.innerHTML = tips.map(function(t, i) {
+    return '<li data-tip-idx="' + i + '">'
+      + (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener">' + esc(t.ticker) + ' ↗</a>' : '')
+      + '<div class="item-body">'
+      +   '<div class="item-primary">' + esc(t.title || t.ticker || 'Untitled') + '</div>'
+      +   (t.note ? '<div class="item-secondary">' + esc(t.note) + '</div>' : '')
+      +   '<div class="item-date">Added ' + fmtDate(t.date) + '</div>'
+      + '</div>'
+      + '<button class="btn-edit-tip" title="Edit" onclick="editTip(' + i + ')">✎</button>'
+      + '<button class="btn-del" title="Remove" onclick="deleteTip(' + i + ')">✕</button>'
+      + '</li>';
+  }).join('');
+}
+function addTip() {
+  var ticker = document.getElementById('tip-ticker').value.trim().toUpperCase();
+  var title  = document.getElementById('tip-title').value.trim();
+  var note   = document.getElementById('tip-note').value.trim();
+  if (!ticker && !title) { document.getElementById('tip-ticker').focus(); return; }
+  var tips = loadTips();
+  tips.unshift({ ticker: ticker, title: title, note: note, date: new Date().toISOString() });
+  saveTips(tips);
+  document.getElementById('tip-ticker').value = '';
+  document.getElementById('tip-title').value  = '';
+  document.getElementById('tip-note').value   = '';
+  renderTips();
+}
+function deleteTip(i) { var tips = loadTips(); tips.splice(i, 1); saveTips(tips); renderTips(); }
+function editTip(i) {
+  var tips = loadTips(); var t = tips[i]; if (!t) return;
+  var li = document.querySelector('[data-tip-idx="' + i + '"]'); if (!li) return;
+  li.innerHTML = (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener">' + esc(t.ticker) + ' ↗</a>' : '')
+    + '<div class="edit-tip-wrap">'
+    + '<input id="et-title-' + i + '" value="' + esc(t.title || '') + '" placeholder="Asset name">'
+    + '<textarea id="et-note-' + i + '" placeholder="Why Tom thinks you should look at this…">' + esc(t.note || '') + '</textarea>'
+    + '<div class="edit-tip-actions">'
+    + '<button class="btn-cancel-tip" onclick="renderTips()">Cancel</button>'
+    + '<button class="btn-save-tip" onclick="saveTip(' + i + ')">Save</button>'
+    + '</div></div>';
+}
+function saveTip(i) {
+  var tips = loadTips(); if (!tips[i]) return;
+  tips[i].title = document.getElementById('et-title-' + i).value.trim();
+  tips[i].note  = document.getElementById('et-note-'  + i).value.trim();
+  saveTips(tips); renderTips();
+}
+function lookupName() {
+  var ticker = document.getElementById('tip-ticker').value.trim().toUpperCase();
+  var titleEl = document.getElementById('tip-title');
+  if (!ticker || titleEl.value.trim()) return;
+  titleEl.placeholder = 'Looking up…';
+  fetch('https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var meta = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
+      var name = (meta && (meta.longName || meta.shortName)) || '';
+      titleEl.placeholder = 'Asset name (auto-fills)';
+      if (name) titleEl.value = name;
+    })
+    .catch(function() { titleEl.placeholder = 'Asset name (auto-fills)'; });
+}
+document.getElementById('tip-title').addEventListener('keydown', function(e) { if (e.key === 'Enter') addTip(); });
+renderTips();
 </script>
 </body>
 </html>
