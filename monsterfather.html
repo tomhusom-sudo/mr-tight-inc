@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Monster Father — ToddFather Productions</title>
   <script>
-    var VER = 'v=20260326i';
+    var VER = 'v=20260326j';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
@@ -221,7 +221,7 @@
       background: var(--deep); padding: 36px 28px;
       position: relative; overflow: hidden; transition: background 0.2s;
     }
-    .session-card:hover { background: var(--plate); }
+    .session-card:not([style]):hover { background: var(--plate); }
     .session-card.featured {
       grid-column: 1 / -1;
       display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
