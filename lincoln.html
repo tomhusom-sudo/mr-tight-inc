@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abraham Lincoln — Quotes, History & Timeline</title>
+  <script>
+    var VER = 'v=20260326a';
+    if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #0e0c08;
+      --parchment:#f5f0e8;
+      --aged:     #e8e0cc;
+      --sepia:    #8b6914;
+      --sepia2:   #b8960c;
+      --rust:     #7a3410;
+      --dim:      #6a5e40;
+      --rule:     rgba(139,105,20,0.2);
+      --border:   rgba(139,105,20,0.3);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--ink);
+      color: var(--parchment);
+      font-family: 'Source Serif 4', serif;
+      overflow-x: hidden;
+    }
+
+    /* Aged paper texture overlay */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(139,105,20,0.06) 0%, transparent 70%),
+        repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(139,105,20,0.015) 3px, rgba(139,105,20,0.015) 4px);
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative; z-index: 1;
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr;
+      align-items: center; overflow: hidden;
+    }
+    @media (max-width: 860px) { .hero { grid-template-columns: 1fr; min-height: auto; } }
+
+    .hero-img {
+      height: 100vh; position: relative; overflow: hidden;
+    }
+    @media (max-width: 860px) { .hero-img { height: 70vw; min-height: 320px; } }
+    .hero-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top;
+      filter: sepia(40%) contrast(1.1) brightness(0.75);
+    }
+    .hero-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, var(--ink) 0%, transparent 40%),
+                  linear-gradient(0deg, var(--ink) 0%, transparent 20%);
+    }
+
+    .hero-text {
+      padding: 80px 64px 80px 72px;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 860px) { .hero-text { padding: 48px 28px; } }
+
+    .hero-eyebrow {
+      font-family: 'Source Serif 4', serif; font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--sepia2);
+      margin-bottom: 20px;
+    }
+    .hero-name {
+      font-family: 'Playfair Display', serif; font-size: clamp(2.8rem, 5vw, 5rem);
+      font-weight: 900; line-height: 1.0; color: var(--parchment);
+      margin-bottom: 8px; letter-spacing: -0.01em;
+    }
+    .hero-dates {
+      font-family: 'Source Serif 4', serif; font-size: 1rem; font-style: italic;
+      color: var(--dim); margin-bottom: 28px; letter-spacing: 0.04em;
+    }
+    .hero-rule { width: 60px; height: 2px; background: var(--sepia); margin-bottom: 28px; }
+    .hero-desc {
+      font-size: 1.05rem; line-height: 1.8; color: var(--aged);
+      max-width: 520px; margin-bottom: 32px;
+    }
+    .hero-facts {
+      display: flex; gap: 32px; flex-wrap: wrap;
+    }
+    .hero-fact-num {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+      color: var(--sepia2); line-height: 1;
+    }
+    .hero-fact-label {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim); margin-top: 2px;
+    }
+
+    /* ── SECTION WRAPPER ── */
+    .section { position: relative; z-index: 1; padding: 80px 64px; }
+    @media (max-width: 700px) { .section { padding: 60px 28px; } }
+
+    .section-rule {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+      margin: 0;
+    }
+
+    .section-head { margin-bottom: 48px; }
+    .section-label {
+      font-size: 0.68rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--sepia2); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif; font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 700; color: var(--parchment); line-height: 1.1;
+    }
+
+    /* ── QUOTES ── */
+    .quotes-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+    }
+    @media (max-width: 800px) { .quotes-grid { grid-template-columns: 1fr; } }
+
+    .quote-card {
+      background: rgba(139,105,20,0.06);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--sepia);
+      padding: 28px 28px 24px;
+    }
+    .quote-mark {
+      font-family: 'Playfair Display', serif; font-size: 4rem; line-height: 0.6;
+      color: var(--sepia); opacity: 0.4; float: left; margin-right: 10px; margin-top: 8px;
+    }
+    .quote-text {
+      font-family: 'Playfair Display', serif; font-size: 1.05rem; font-style: italic;
+      line-height: 1.75; color: var(--aged); margin-bottom: 16px;
+    }
+    .quote-source {
+      font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim);
+    }
+    .quote-card.featured {
+      grid-column: 1 / -1;
+      background: rgba(139,105,20,0.1);
+      border-left-width: 4px; border-color: var(--sepia2);
+    }
+    .quote-card.featured .quote-text { font-size: 1.25rem; }
+
+    /* ── TIMELINE ── */
+    .timeline { position: relative; padding-left: 32px; }
+    .timeline::before {
+      content: ''; position: absolute; left: 8px; top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(180deg, var(--sepia), transparent);
+    }
+    .timeline-item {
+      position: relative; margin-bottom: 48px;
+    }
+    .timeline-item::before {
+      content: ''; position: absolute; left: -28px; top: 6px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--sepia); border: 2px solid var(--ink);
+      box-shadow: 0 0 0 2px var(--sepia);
+    }
+    .timeline-item.major::before {
+      width: 16px; height: 16px; left: -30px; top: 4px;
+      background: var(--sepia2); box-shadow: 0 0 0 2px var(--sepia2), 0 0 12px rgba(184,150,12,0.3);
+    }
+    .timeline-year {
+      font-family: 'Playfair Display', serif; font-size: 0.85rem; font-weight: 700;
+      color: var(--sepia2); letter-spacing: 0.12em; margin-bottom: 6px;
+    }
+    .timeline-event {
+      font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 600;
+      color: var(--parchment); margin-bottom: 8px; line-height: 1.3;
+    }
+    .timeline-detail {
+      font-size: 0.92rem; line-height: 1.7; color: var(--dim);
+    }
+    .timeline-tag {
+      display: inline-block; margin-top: 8px;
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 2px;
+      background: rgba(139,105,20,0.15); border: 1px solid var(--rule); color: var(--sepia2);
+    }
+    .timeline-tag.freedom { background: rgba(122,52,16,0.2); border-color: rgba(122,52,16,0.4); color: #d4804a; }
+
+    /* ── PHOTO GALLERY ── */
+    .gallery-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+    }
+    @media (max-width: 700px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
+
+    .gallery-item { position: relative; overflow: hidden; }
+    .gallery-item img {
+      width: 100%; display: block;
+      filter: sepia(35%) contrast(1.05) brightness(0.85);
+      transition: filter 0.3s;
+    }
+    .gallery-item:hover img { filter: sepia(15%) contrast(1.1) brightness(0.9); }
+    .gallery-caption {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      background: linear-gradient(0deg, rgba(14,12,8,0.92) 0%, transparent 100%);
+      padding: 20px 12px 10px;
+      font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--aged);
+    }
+    .gallery-item.wide { grid-column: span 2; }
+
+    /* ── FACTS BAR ── */
+    .facts-bar {
+      position: relative; z-index: 1;
+      background: rgba(139,105,20,0.08); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+      display: flex; flex-wrap: wrap;
+    }
+    .fact-item {
+      flex: 1; min-width: 160px; padding: 28px 40px; text-align: center;
+      border-right: 1px solid var(--rule);
+    }
+    .fact-item:last-child { border-right: none; }
+    .fact-num {
+      font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 700;
+      color: var(--sepia2); line-height: 1;
+    }
+    .fact-label {
+      font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--dim); margin-top: 4px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      background: rgba(0,0,0,0.4); border-top: 1px solid var(--rule);
+      padding: 32px 64px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-brand {
+      font-family: 'Playfair Display', serif; font-size: 1rem; font-style: italic; color: var(--sepia2);
+    }
+    .footer-copy {
+      font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim);
+    }
+    @media (max-width: 700px) { footer { padding: 28px 20px; } }
+
+    /* ── BACK PILL ── */
+    .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
+    .back-dash {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(14,12,8,0.95); backdrop-filter: blur(8px);
+      border: 1px solid rgba(139,105,20,0.45); border-radius: 999px; padding: 10px 20px;
+      font-family: 'Source Serif 4', serif;
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em;
+      color: var(--sepia2); text-decoration: none; transition: border-color 0.2s;
+    }
+    .back-dash:hover { border-color: rgba(139,105,20,0.85); }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-img">
+      <img src="./lincoln.jpg" alt="Abraham Lincoln — Healy portrait, 1887">
+    </div>
+    <div class="hero-text">
+      <div class="hero-eyebrow">16th President of the United States</div>
+      <h1 class="hero-name">Abraham<br>Lincoln</h1>
+      <div class="hero-dates">February 12, 1809 &ndash; April 15, 1865</div>
+      <div class="hero-rule"></div>
+      <p class="hero-desc">
+        Lawyer, statesman, and the president who held the Union together through its bloodiest hour. Lincoln guided the nation through the Civil War, abolished slavery, and redefined what America promised to be — before being taken from it too soon.
+      </p>
+      <div class="hero-facts">
+        <div>
+          <div class="hero-fact-num">16th</div>
+          <div class="hero-fact-label">President</div>
+        </div>
+        <div>
+          <div class="hero-fact-num">4M+</div>
+          <div class="hero-fact-label">People Freed</div>
+        </div>
+        <div>
+          <div class="hero-fact-num">56</div>
+          <div class="hero-fact-label">Years Lived</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Facts Bar -->
+  <div class="facts-bar">
+    <div class="fact-item">
+      <div class="fact-num">1861–65</div>
+      <div class="fact-label">Years in Office</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">272</div>
+      <div class="fact-label">Words — Gettysburg Address</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">13th</div>
+      <div class="fact-label">Amendment — Slavery Abolished</div>
+    </div>
+    <div class="fact-item">
+      <div class="fact-num">1863</div>
+      <div class="fact-label">Emancipation Proclamation</div>
+    </div>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <!-- Quotes -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-label">In His Own Words</div>
+      <h2 class="section-title">Quotes</h2>
+    </div>
+    <div class="quotes-grid">
+      <div class="quote-card featured">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">Four score and seven years ago our fathers brought forth on this continent, a new nation, conceived in Liberty, and dedicated to the proposition that all men are created equal.</div>
+        <div class="quote-source">Gettysburg Address &mdash; November 19, 1863</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">Give me six hours to chop down a tree and I will spend the first four sharpening the axe.</div>
+        <div class="quote-source">Abraham Lincoln</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">Nearly all men can stand adversity, but if you want to test a man's character, give him power.</div>
+        <div class="quote-source">Abraham Lincoln</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">No man has a good enough memory to be a successful liar.</div>
+        <div class="quote-source">Abraham Lincoln</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">Those who deny freedom to others deserve it not for themselves.</div>
+        <div class="quote-source">Letter to Henry L. Pierce &mdash; April 6, 1859</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">A house divided against itself cannot stand. I believe this government cannot endure, permanently, half slave and half free.</div>
+        <div class="quote-source">House Divided Speech &mdash; June 16, 1858</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">You can fool all the people some of the time, and some of the people all the time, but you cannot fool all the people all the time.</div>
+        <div class="quote-source">Abraham Lincoln</div>
+      </div>
+      <div class="quote-card">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">With malice toward none, with charity for all, with firmness in the right as God gives us to see the right, let us strive on to finish the work we are in.</div>
+        <div class="quote-source">Second Inaugural Address &mdash; March 4, 1865</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- Timeline -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-label">A Life & A Nation Changed</div>
+      <h2 class="section-title">Timeline</h2>
+    </div>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-year">February 12, 1809</div>
+        <div class="timeline-event">Born in a Log Cabin — Hardin County, Kentucky</div>
+        <div class="timeline-detail">Lincoln was born into poverty on the frontier. His family moved to Indiana when he was seven, and he largely educated himself through borrowed books. His mother, Nancy Hanks Lincoln, died when he was nine.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1831</div>
+        <div class="timeline-event">Moves to New Salem, Illinois</div>
+        <div class="timeline-detail">At 22, Lincoln struck out on his own, working as a store clerk, postmaster, and land surveyor while voraciously reading law books. He became known locally for honesty and storytelling.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1836</div>
+        <div class="timeline-event">Admitted to the Illinois Bar</div>
+        <div class="timeline-detail">Self-taught, Lincoln passed the bar and began a law practice in Springfield. He became one of Illinois' most respected lawyers, riding the judicial circuit across the state.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1842</div>
+        <div class="timeline-event">Marries Mary Todd</div>
+        <div class="timeline-detail">After a famously turbulent courtship, Abraham married Mary Todd, a well-educated woman from a prominent Kentucky family. They had four sons together.</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">1847–1849</div>
+        <div class="timeline-event">U.S. Congressman — Illinois</div>
+        <div class="timeline-detail">Lincoln served one term in the House of Representatives. He vocally opposed the Mexican-American War, which made him unpopular at home, and he did not seek re-election.</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">June 16, 1858</div>
+        <div class="timeline-event">"A House Divided" Speech</div>
+        <div class="timeline-detail">Accepting the Republican nomination for Senate, Lincoln delivered his most famous pre-presidential speech, warning that the nation could not survive permanently half slave and half free. Though he lost the Senate race to Stephen Douglas, the Lincoln-Douglas debates made him a national figure.</div>
+        <div class="timeline-tag">Historic Speech</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">November 6, 1860</div>
+        <div class="timeline-event">Elected 16th President of the United States</div>
+        <div class="timeline-detail">Lincoln won the presidency without carrying a single Southern state. Within weeks, South Carolina seceded. By February 1861, six more states had followed, forming the Confederate States of America.</div>
+        <div class="timeline-tag">President</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">April 12, 1861</div>
+        <div class="timeline-event">Civil War Begins — Fort Sumter Attacked</div>
+        <div class="timeline-detail">Confederate forces opened fire on Union-held Fort Sumter in South Carolina, beginning the bloodiest war in American history. Lincoln called for 75,000 volunteers to suppress the rebellion. Over 620,000 soldiers would die before it ended.</div>
+        <div class="timeline-tag freedom">Civil War</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">January 1, 1863</div>
+        <div class="timeline-event">Emancipation Proclamation Takes Effect</div>
+        <div class="timeline-detail">Lincoln's executive order declared that all enslaved people in Confederate states "shall be then, thenceforward, and forever free." While it did not immediately free all slaves, it transformed the war's moral purpose and allowed Black men to enlist in the Union Army. Over 180,000 Black soldiers served.</div>
+        <div class="timeline-tag freedom">Freedom</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">November 19, 1863</div>
+        <div class="timeline-event">The Gettysburg Address</div>
+        <div class="timeline-detail">At the dedication of the Soldiers' National Cemetery in Gettysburg, Pennsylvania, Lincoln delivered a 272-word speech that reframed the Civil War as a fight not just for Union, but for the principle that all men are created equal. It is considered the greatest speech in American history.</div>
+        <div class="timeline-tag">Gettysburg</div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-year">November 8, 1864</div>
+        <div class="timeline-event">Re-elected President</div>
+        <div class="timeline-detail">Despite widespread war weariness, Lincoln won re-election over Democrat George McClellan. His victory ensured the war would continue until the Confederacy was defeated and slavery abolished — not negotiated away.</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">January 31, 1865</div>
+        <div class="timeline-event">13th Amendment Passes Congress — Slavery Abolished</div>
+        <div class="timeline-detail">The House of Representatives passed the 13th Amendment to the Constitution, abolishing slavery throughout the United States. Lincoln had lobbied fiercely for its passage. It was ratified by the states on December 6, 1865 — months after his death. More than 4 million enslaved people were freed.</div>
+        <div class="timeline-tag freedom">Slavery Abolished</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">April 9, 1865</div>
+        <div class="timeline-event">Confederate General Lee Surrenders — Civil War Ends</div>
+        <div class="timeline-detail">General Robert E. Lee surrendered to Ulysses S. Grant at Appomattox Court House, Virginia. The war that had consumed four years and more than 620,000 lives was finally over. Lincoln was said to be visibly relieved and at peace.</div>
+        <div class="timeline-tag freedom">Victory</div>
+      </div>
+
+      <div class="timeline-item major">
+        <div class="timeline-year">April 14–15, 1865</div>
+        <div class="timeline-event">Assassination at Ford's Theatre</div>
+        <div class="timeline-detail">Five days after Lee's surrender, Lincoln attended a performance of "Our American Cousin" at Ford's Theatre in Washington, D.C. Confederate sympathizer John Wilkes Booth shot him in the back of the head. Lincoln was carried to a boarding house across the street and died the following morning at 7:22 a.m. Secretary of War Edwin Stanton said: "Now he belongs to the ages."</div>
+        <div class="timeline-tag" style="background:rgba(122,52,16,0.25);border-color:rgba(122,52,16,0.5);color:#c47050;">Assassination</div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- Gallery -->
+  <section class="section">
+    <div class="section-head">
+      <div class="section-label">Photographs & Portraits</div>
+      <h2 class="section-title">Images</h2>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item wide">
+        <img src="./lincoln.jpg" alt="Abraham Lincoln — Healy oil portrait, 1887">
+        <div class="gallery-caption">Healy Portrait — Oil on canvas, 1887</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./lincoln_drawing.jpg" alt="Lincoln drawing" onerror="this.parentElement.style.display='none'">
+        <div class="gallery-caption">Portrait Study</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./lincoln_white.jpg" alt="Lincoln" onerror="this.parentElement.style.display='none'">
+        <div class="gallery-caption">Lincoln, c. 1863</div>
+      </div>
+      <div class="gallery-item">
+        <img src="./lincoln_background.png" alt="Lincoln background" onerror="this.parentElement.style.display='none'">
+        <div class="gallery-caption">Historical Image</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- Why Honest Tom -->
+  <section class="section" style="background:rgba(139,105,20,0.05);">
+    <div class="section-head">
+      <div class="section-label">Why Honest Tom Aspires to Be Like Abe</div>
+      <h2 class="section-title">The Standard</h2>
+    </div>
+    <div style="max-width:780px;">
+      <div class="quote-card featured" style="margin-bottom:36px;">
+        <span class="quote-mark">&ldquo;</span>
+        <div class="quote-text">I am not bound to win, but I am bound to be true. I am not bound to succeed, but I am bound to live up to what light I have.</div>
+        <div class="quote-source">Abraham Lincoln</div>
+      </div>
+      <p style="font-size:1.05rem;line-height:1.85;color:var(--aged);margin-bottom:20px;">
+        Honest Tom doesn't trade in half-truths. He doesn't dress up bad news. He calls the market like he sees it — when it's time to buy, he says so; when it's ugly, he says that too. Lincoln built a career on the same premise: that a man who tells the truth never has to remember what he said.
+      </p>
+      <p style="font-size:1.05rem;line-height:1.85;color:var(--aged);margin-bottom:20px;">
+        Lincoln came from nothing. No family money, no formal schooling, no connections. He read by firelight, taught himself law, and outworked everyone in the room. Tom sees that same work ethic as the only real edge in markets: preparation, discipline, and showing up every day when it would be easier not to.
+      </p>
+      <p style="font-size:1.05rem;line-height:1.85;color:var(--aged);margin-bottom:20px;">
+        And Lincoln understood something about the long game. He played it when everyone wanted a short one. He held the line on abolition when political advisors urged compromise. Honest Tom holds the line on conviction too — he doesn't panic-sell, doesn't chase noise, and doesn't let the crowd tell him what something is worth.
+      </p>
+      <p style="font-size:1.05rem;line-height:1.85;color:var(--sepia2);font-style:italic;">
+        The portrait hangs as a reminder: be honest, be patient, do the work, and hold the line.
+      </p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand">Abraham Lincoln &mdash; 1809&ndash;1865</div>
+    <div class="footer-copy">Now he belongs to the ages.</div>
+  </footer>
+
+  <!-- Back to Dashboard -->
+  <div class="dashboard-bar">
+    <a class="back-dash" href="./dashboard.html">&#8592; Dashboard</a>
+  </div>
+
+</body>
+</html>
