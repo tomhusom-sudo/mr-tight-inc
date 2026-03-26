@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260328c';
+    var VER = 'v=20260328d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -57,19 +57,53 @@
     .lincoln-wrap {
       flex-shrink: 0;
       width: 160px;
+      height: 200px;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(180deg, rgba(10,14,23,0.18) 0%, rgba(10,14,23,0.72) 100%), url('./lincoln.jpg') center 10% / cover no-repeat;
+      border: 1px solid rgba(74,222,128,0.28);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(74,222,128,0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
     }
-
-    .lincoln-wrap img {
-      width: 100%;
-      display: block;
+    .lincoln-wrap:hover {
+      border-color: rgba(74,222,128,0.6);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 18px rgba(74,222,128,0.15);
+      transform: translateY(-2px);
+    }
+    .lincoln-wrap .lc-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 2px;
+    }
+    .lincoln-wrap .lc-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+      line-height: 1.2;
+    }
+    .lincoln-wrap .lc-sub {
+      font-size: 0.62rem;
+      color: #a3c4a3;
+      margin-top: 3px;
     }
 
     @media (max-width: 720px) {
-      .lincoln-wrap { width: 100px; }
+      .lincoln-wrap { width: 120px; height: 155px; }
     }
 
     @media (max-width: 460px) {
-      .lincoln-wrap { width: 80px; }
+      .lincoln-wrap { width: 96px; height: 124px; }
     }
 
     .eyebrow {
@@ -413,13 +447,11 @@
       <div class="date-line" id="date-line"></div>
     </div>
 
-    <!-- Abraham Lincoln — Healy oil portrait, 1887, public domain -->
-    <a class="lincoln-wrap" href="./lincoln.html" title="Abraham Lincoln — quotes, history & timeline" style="display:block;cursor:pointer;opacity:0.92;transition:opacity 0.2s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.92'">
-      <img
-        src="./lincoln.jpg"
-        alt="Abraham Lincoln — Healy portrait"
-        loading="lazy"
-      >
+    <!-- Lincoln Card -->
+    <a class="lincoln-wrap" href="./lincoln.html" title="Abraham Lincoln — quotes, history & timeline">
+      <div class="lc-eyebrow">16th President</div>
+      <div class="lc-title">Abraham Lincoln</div>
+      <div class="lc-sub">Bio &amp; Timeline →</div>
     </a>
 
   </header>
