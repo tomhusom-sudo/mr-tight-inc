@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260326u';
+    var VER = 'v=20260326v';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -311,7 +311,10 @@
   <header class="header">
     <div class="header-text">
       <div class="eyebrow">Personal Command Center</div>
-      <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;" title="Thomas Husom — Resume"><h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1></a>
+      <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;position:relative;" title="Thomas Husom — Resume"><h1 class="title">Honest <em>Tom'<span style="position:relative;display:inline-block;">s<span style="position:absolute;top:-2.1em;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:2px;pointer-events:none;white-space:nowrap;">
+        <span style="font-size:1.1rem;line-height:1;filter:drop-shadow(0 0 4px #4ade80);">&#9733;</span>
+        <span style="font-size:0.48rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#4ade80;font-family:'Inter',sans-serif;background:rgba(0,0,0,0.55);padding:2px 6px;border-radius:999px;border:1px solid rgba(74,222,128,0.35);">click for resume!</span>
+      </span></span></em><br>Dashboard</h1></a>
       <div class="date-line" id="date-line"></div>
     </div>
 
