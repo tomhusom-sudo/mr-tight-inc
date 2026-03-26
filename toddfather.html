@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions</title>
   <script>
-    var VER = 'v=20260326c';
+    var VER = 'v=20260326d';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;500;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -498,6 +498,36 @@
     }
     @keyframes lbIn { from { opacity:0; transform:scale(0.88); } to { opacity:1; transform:scale(1); } }
 
+    /* ── WHO'S UNDER THE HOOD ── */
+    .hood-section {
+      padding: 80px 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+      position: relative; z-index: 1;
+    }
+    @media (max-width: 900px) { .hood-section { grid-template-columns: 1fr; gap: 40px; padding: 60px 28px; } }
+    .hood-portrait { position: relative; }
+    .hood-portrait img {
+      width: 100%; border-radius: 2px;
+      border: 1px solid var(--rule);
+      filter: sepia(8%) contrast(1.05) brightness(0.95);
+    }
+    .hood-portrait::before {
+      content: '';
+      position: absolute; top: -12px; left: -12px; right: 12px; bottom: 12px; z-index: -1;
+      border: 2px solid var(--rust); border-radius: 2px; opacity: 0.4;
+    }
+    .hood-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 3.5rem; color: var(--rust);
+      opacity: 0.18; line-height: 1; margin-bottom: -10px;
+    }
+    .hood-title {
+      font-family: 'Bebas Neue', sans-serif; font-size: clamp(2rem, 3vw, 3rem);
+      color: var(--cream); line-height: 1.0; margin-bottom: 20px; letter-spacing: 0.04em;
+    }
+    .hood-title .accent { color: var(--rust); }
+    .hood-rule { width: 48px; height: 3px; background: var(--rust); margin-bottom: 24px; }
+    .hood-text { font-size: 1.0rem; line-height: 1.7; color: var(--dim); margin-bottom: 16px; }
+
     /* ── BACK TO DASHBOARD ── */
     .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
     .back-dash {
@@ -749,6 +779,21 @@
   </section>
 
   <div class="divider"></div>
+
+  <!-- Who's Under the Hood -->
+  <section class="hood-section" id="under-the-hood">
+    <div class="hood-portrait">
+      <img src="./toddfather3.png" alt="Todd" onerror="this.style.display='none'">
+    </div>
+    <div>
+      <div class="hood-num">04</div>
+      <h2 class="hood-title">Who's Under<br>the <span class="accent">Hood</span></h2>
+      <div class="hood-rule"></div>
+      <p class="hood-text">Todd has been shooting since before it was easy. He grew up in Minnesota, spent years learning the trade from the ground up, and still believes the best camera is the one that gets out of the way of the shot.</p>
+      <p class="hood-text">ToddFather Productions is a one-man shop. That means you get Todd — not an assistant, not a sub. The guy who shows up is the guy who knows what he's doing.</p>
+      <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="cta-btn" style="display:inline-block;margin-top:8px;">Book Directly</a>
+    </div>
+  </section>
 
   <!-- About -->
   <div class="about-strip" id="about">
