@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions — AI Father</title>
   <script>
-    var VER = 'v=20260326e';
+    var VER = 'v=20260326f';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -763,6 +763,50 @@
 <section class="section" id="missions">
   <div class="section-eyebrow">Deployment Options</div>
   <h2 class="section-title">Mission <span class="gold">Types</span></h2>
+  <!-- Dyson Swarm -->
+  <svg style="display:block;margin:24px 0 0 auto;width:240px;opacity:0.45;" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- star corona -->
+    <circle cx="150" cy="150" r="54" fill="#d4a017" opacity="0.05"/>
+    <circle cx="150" cy="150" r="36" fill="#d4a017" opacity="0.10"/>
+    <circle cx="150" cy="150" r="20" fill="#f0c040" opacity="0.55"/>
+    <circle cx="150" cy="150" r="11" fill="#fff8e0" opacity="0.92"/>
+    <!-- corona rays -->
+    <line x1="150" y1="124" x2="150" y2="110" stroke="#f0c040" stroke-width="1.5" opacity="0.4"/>
+    <line x1="150" y1="176" x2="150" y2="190" stroke="#f0c040" stroke-width="1.5" opacity="0.4"/>
+    <line x1="124" y1="150" x2="110" y2="150" stroke="#f0c040" stroke-width="1.5" opacity="0.4"/>
+    <line x1="176" y1="150" x2="190" y2="150" stroke="#f0c040" stroke-width="1.5" opacity="0.4"/>
+    <line x1="130" y1="130" x2="119" y2="119" stroke="#f0c040" stroke-width="1" opacity="0.3"/>
+    <line x1="170" y1="130" x2="181" y2="119" stroke="#f0c040" stroke-width="1" opacity="0.3"/>
+    <line x1="130" y1="170" x2="119" y2="181" stroke="#f0c040" stroke-width="1" opacity="0.3"/>
+    <line x1="170" y1="170" x2="181" y2="181" stroke="#f0c040" stroke-width="1" opacity="0.3"/>
+    <!-- Orbit ring 1 — equatorial -->
+    <ellipse cx="150" cy="150" rx="113" ry="20" stroke="#d4a017" stroke-width="1.3" opacity="0.5"/>
+    <!-- collectors ring 1 -->
+    <rect x="261" y="146" width="9" height="5" rx="1" fill="#ff8c00" opacity="0.85"/>
+    <rect x="30" y="149" width="9" height="5" rx="1" fill="#ff8c00" opacity="0.85"/>
+    <circle cx="209" cy="139" r="3.5" fill="#ff8c00" opacity="0.75"/>
+    <circle cx="91" cy="161" r="3.5" fill="#ff8c00" opacity="0.75"/>
+    <circle cx="189" cy="134" r="2.5" fill="#d4a017" opacity="0.6"/>
+    <circle cx="111" cy="166" r="2.5" fill="#d4a017" opacity="0.6"/>
+    <!-- Orbit ring 2 — tilted 38deg -->
+    <ellipse cx="150" cy="150" rx="88" ry="17" stroke="#ff8c00" stroke-width="1" opacity="0.4" transform="rotate(38,150,150)"/>
+    <!-- collectors ring 2 -->
+    <circle r="3.5" fill="#d4a017" opacity="0.8" transform="rotate(38,150,150) translate(237,150)"/>
+    <circle r="3.5" fill="#d4a017" opacity="0.8" transform="rotate(218,150,150) translate(237,150)"/>
+    <circle r="3" fill="#d4a017" opacity="0.65" transform="rotate(128,150,150) translate(237,150)"/>
+    <circle r="3" fill="#d4a017" opacity="0.65" transform="rotate(308,150,150) translate(237,150)"/>
+    <!-- Orbit ring 3 — tilted -28deg, wide -->
+    <ellipse cx="150" cy="150" rx="129" ry="25" stroke="#d4a017" stroke-width="0.8" opacity="0.22" transform="rotate(-28,150,150)"/>
+    <!-- collectors ring 3 -->
+    <circle r="2.5" fill="#a0b0c8" opacity="0.6" transform="rotate(-28,150,150) translate(278,150)"/>
+    <circle r="2.5" fill="#a0b0c8" opacity="0.6" transform="rotate(152,150,150) translate(278,150)"/>
+    <circle r="2" fill="#a0b0c8" opacity="0.5" transform="rotate(62,150,150) translate(278,150)"/>
+    <!-- bg stars -->
+    <circle cx="55" cy="50" r="1.5" fill="#fff" opacity="0.6"/>
+    <circle cx="245" cy="65" r="1" fill="#fff" opacity="0.5"/>
+    <circle cx="275" cy="200" r="1.5" fill="#d4a017" opacity="0.6"/>
+    <circle cx="28" cy="245" r="1" fill="#fff" opacity="0.5"/>
+  </svg>
   <p class="section-sub">Each engagement is a precision operation. Select your mission profile and let the intelligence go to work.</p>
 
   <div class="services-grid">
@@ -920,6 +964,59 @@
 <section class="section" id="packages">
   <div class="section-eyebrow">Deployment Packages</div>
   <h2 class="section-title">Choose Your <span class="gold">Protocol</span></h2>
+  <!-- Moon Station -->
+  <svg style="display:block;margin:24px auto 0 0;width:200px;opacity:0.45;" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="moonShadeAI" cx="35%" cy="30%" r="70%">
+        <stop offset="0%" stop-color="transparent"/>
+        <stop offset="100%" stop-color="#000008" stop-opacity="0.55"/>
+      </radialGradient>
+    </defs>
+    <!-- moon body -->
+    <circle cx="150" cy="145" r="90" fill="#14172a" stroke="#a0b0c8" stroke-width="1.5" opacity="0.75"/>
+    <circle cx="150" cy="145" r="90" fill="url(#moonShadeAI)"/>
+    <!-- craters -->
+    <circle cx="113" cy="104" r="20" fill="none" stroke="#a0b0c8" stroke-width="1.5" opacity="0.35"/>
+    <circle cx="113" cy="104" r="9"  fill="#0a0c18" opacity="0.55"/>
+    <circle cx="178" cy="116" r="13" fill="none" stroke="#a0b0c8" stroke-width="1"   opacity="0.3"/>
+    <circle cx="178" cy="116" r="6"  fill="#0a0c18" opacity="0.45"/>
+    <circle cx="136" cy="162" r="8"  fill="none" stroke="#a0b0c8" stroke-width="1"   opacity="0.25"/>
+    <circle cx="192" cy="163" r="5"  fill="none" stroke="#a0b0c8" stroke-width="0.8" opacity="0.2"/>
+    <circle cx="97"  cy="152" r="5"  fill="none" stroke="#a0b0c8" stroke-width="0.8" opacity="0.2"/>
+    <!-- at y=220, moon surface spans x≈100-200 -->
+    <!-- left habitat module -->
+    <rect x="102" y="217" width="36" height="13" rx="6" fill="#0f1122" stroke="#a0b0c8" stroke-width="1.3" opacity="0.8"/>
+    <!-- connector tube left to dome -->
+    <rect x="136" y="221" width="14" height="7" fill="#0f1122" stroke="#a0b0c8" stroke-width="0.8" opacity="0.55"/>
+    <!-- central dome -->
+    <path d="M133,222 A18,18 0 0,1 167,222" fill="#0f1122" stroke="#d4a017" stroke-width="2.2" opacity="0.9"/>
+    <line x1="133" y1="222" x2="167" y2="222" stroke="#d4a017" stroke-width="1.5" opacity="0.6"/>
+    <!-- dome window arc -->
+    <path d="M141,218 A11,11 0 0,1 159,218" fill="none" stroke="#ff8c00" stroke-width="1.8" opacity="0.8"/>
+    <!-- connector tube dome to right -->
+    <rect x="150" y="221" width="14" height="7" fill="#0f1122" stroke="#d4a017" stroke-width="0.8" opacity="0.55"/>
+    <!-- right habitat module -->
+    <rect x="162" y="217" width="36" height="13" rx="6" fill="#0f1122" stroke="#d4a017" stroke-width="1.3" opacity="0.8"/>
+    <!-- main antenna mast -->
+    <line x1="150" y1="204" x2="150" y2="184" stroke="#d4a017" stroke-width="1.8" opacity="0.85"/>
+    <!-- antenna dish -->
+    <path d="M142,190 Q150,183 158,190" fill="none" stroke="#d4a017" stroke-width="2" opacity="0.85"/>
+    <!-- signal beacon -->
+    <circle cx="150" cy="183" r="2.8" fill="#ff8c00" opacity="0.95"/>
+    <circle cx="150" cy="183" r="6"   fill="none" stroke="#ff8c00" stroke-width="0.8" opacity="0.5"/>
+    <circle cx="150" cy="183" r="10"  fill="none" stroke="#ff8c00" stroke-width="0.5" opacity="0.3"/>
+    <!-- side antennae -->
+    <line x1="120" y1="217" x2="110" y2="204" stroke="#a0b0c8" stroke-width="1.2" opacity="0.6"/>
+    <circle cx="110" cy="203" r="2" fill="#a0b0c8" opacity="0.7"/>
+    <line x1="180" y1="217" x2="190" y2="204" stroke="#a0b0c8" stroke-width="1.2" opacity="0.6"/>
+    <circle cx="190" cy="203" r="2" fill="#a0b0c8" opacity="0.7"/>
+    <!-- stars -->
+    <circle cx="28"  cy="38"  r="1.5" fill="#fff" opacity="0.7"/>
+    <circle cx="258" cy="26"  r="1"   fill="#fff" opacity="0.6"/>
+    <circle cx="274" cy="188" r="1.5" fill="#d4a017" opacity="0.65"/>
+    <circle cx="26"  cy="218" r="1"   fill="#fff" opacity="0.5"/>
+    <circle cx="242" cy="272" r="1"   fill="#fff" opacity="0.4"/>
+  </svg>
   <p class="section-sub">All packages include AI-enhanced post-processing, digital delivery, and direct booking through the command portal.</p>
 
   <div class="packages-grid">
@@ -980,6 +1077,58 @@
 <section class="section">
   <div class="section-eyebrow">Incoming Signals</div>
   <h2 class="section-title">Fleet <span class="gold">Transmissions</span></h2>
+  <!-- Space Man -->
+  <svg style="display:block;margin:24px 0 0 auto;width:160px;opacity:0.45;" viewBox="0 0 200 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- tether line -->
+    <path d="M168,82 Q182,135 175,185" stroke="#a0b0c8" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.4"/>
+    <!-- helmet -->
+    <circle cx="100" cy="80" r="38" fill="#0d1020" stroke="#d4a017" stroke-width="2.5" opacity="0.9"/>
+    <!-- visor -->
+    <path d="M72,76 Q100,55 128,76 Q128,100 100,107 Q72,100 72,76Z" fill="#ff8c00" opacity="0.2"/>
+    <path d="M72,76 Q100,55 128,76 Q128,100 100,107 Q72,100 72,76Z" fill="none" stroke="#ff8c00" stroke-width="1.8" opacity="0.65"/>
+    <!-- visor reflection -->
+    <path d="M80,68 Q92,61 106,65" fill="none" stroke="#fff" stroke-width="1.5" opacity="0.4"/>
+    <!-- helmet outer ring -->
+    <circle cx="100" cy="80" r="38" fill="none" stroke="#a0b0c8" stroke-width="0.8" opacity="0.4"/>
+    <!-- neck seal -->
+    <rect x="86" y="115" width="28" height="8" rx="4" fill="#0d1020" stroke="#d4a017" stroke-width="1.5" opacity="0.8"/>
+    <!-- torso -->
+    <rect x="66" y="122" width="68" height="72" rx="12" fill="#0d1020" stroke="#d4a017" stroke-width="2" opacity="0.85"/>
+    <!-- chest control panel -->
+    <rect x="82" y="135" width="36" height="24" rx="4" fill="#1a1a30" stroke="#a0b0c8" stroke-width="1" opacity="0.7"/>
+    <circle cx="93"  cy="146" r="4.5" fill="#ff8c00" opacity="0.85"/>
+    <circle cx="107" cy="146" r="4.5" fill="#d4a017" opacity="0.85"/>
+    <rect x="86" y="153" width="28" height="3" rx="1" fill="#a0b0c8" opacity="0.4"/>
+    <!-- life-support backpack -->
+    <rect x="52" y="127" width="16" height="56" rx="5" fill="#0a0e1a" stroke="#a0b0c8" stroke-width="1.2" opacity="0.7"/>
+    <circle cx="60" cy="140" r="3" fill="#ff8c00" opacity="0.55"/>
+    <circle cx="60" cy="153" r="3" fill="#d4a017" opacity="0.45"/>
+    <!-- left arm — raised -->
+    <line x1="66" y1="136" x2="32" y2="114" stroke="#d4a017" stroke-width="9" stroke-linecap="round" opacity="0.7"/>
+    <!-- left glove -->
+    <circle cx="27" cy="111" r="9" fill="#0d1020" stroke="#d4a017" stroke-width="2" opacity="0.85"/>
+    <!-- right arm — extended -->
+    <line x1="134" y1="136" x2="168" y2="122" stroke="#d4a017" stroke-width="9" stroke-linecap="round" opacity="0.7"/>
+    <!-- right glove -->
+    <circle cx="173" cy="119" r="9" fill="#0d1020" stroke="#d4a017" stroke-width="2" opacity="0.85"/>
+    <!-- legs -->
+    <line x1="88"  y1="194" x2="80"  y2="248" stroke="#d4a017" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+    <line x1="112" y1="194" x2="120" y2="248" stroke="#d4a017" stroke-width="10" stroke-linecap="round" opacity="0.7"/>
+    <!-- boots -->
+    <ellipse cx="78"  cy="253" rx="13" ry="7" fill="#0d1020" stroke="#a0b0c8" stroke-width="1.5" opacity="0.85"/>
+    <ellipse cx="122" cy="253" rx="13" ry="7" fill="#0d1020" stroke="#a0b0c8" stroke-width="1.5" opacity="0.85"/>
+    <!-- jetpack nozzles -->
+    <rect x="73"  y="186" width="8" height="13" rx="2" fill="#0a0e1a" stroke="#ff8c00" stroke-width="1" opacity="0.65"/>
+    <rect x="119" y="186" width="8" height="13" rx="2" fill="#0a0e1a" stroke="#ff8c00" stroke-width="1" opacity="0.65"/>
+    <!-- thruster glow -->
+    <ellipse cx="77"  cy="202" rx="3" ry="6" fill="#ff8c00" opacity="0.3"/>
+    <ellipse cx="123" cy="202" rx="3" ry="6" fill="#ff8c00" opacity="0.3"/>
+    <!-- nearby stars -->
+    <circle cx="18"  cy="28"  r="1.5" fill="#fff" opacity="0.7"/>
+    <circle cx="178" cy="42"  r="1"   fill="#fff" opacity="0.6"/>
+    <circle cx="14"  cy="272" r="1"   fill="#d4a017" opacity="0.6"/>
+    <circle cx="184" cy="258" r="1.5" fill="#fff" opacity="0.5"/>
+  </svg>
   <p class="section-sub">Dispatches from the field. Every client a completed mission.</p>
 
   <div class="transmissions-grid">
