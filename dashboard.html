@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260327u';
+    var VER = 'v=20260327v';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -550,7 +550,33 @@
 
     <!-- Research -->
     <a class="card active mad-bg" href="./research.html">
-      <div class="card-icon"><img src="./nerd.png" alt="Research" style="width:56px;height:56px;object-fit:cover;object-position:center;border-radius:10px;" onerror="this.outerHTML='🔬'"></div>
+      <div class="card-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 8px rgba(74,222,128,0.45));">
+          <!-- Base platform -->
+          <rect x="10" y="44" width="32" height="4" rx="2" fill="#4ade80" opacity="0.7"/>
+          <!-- Stand arm -->
+          <rect x="23" y="22" width="6" height="22" rx="3" fill="#22c55e"/>
+          <!-- Horizontal arm -->
+          <rect x="23" y="20" width="18" height="5" rx="2.5" fill="#4ade80"/>
+          <!-- Objective barrel -->
+          <rect x="35" y="8" width="7" height="20" rx="3.5" fill="#16a34a"/>
+          <!-- Lens ring top -->
+          <ellipse cx="38.5" cy="8" rx="4" ry="2" fill="#4ade80" opacity="0.9"/>
+          <!-- Lens glass -->
+          <ellipse cx="38.5" cy="8" rx="2.5" ry="1.3" fill="#86efac" opacity="0.6"/>
+          <!-- Lens ring bottom -->
+          <ellipse cx="38.5" cy="28" rx="3.5" ry="1.8" fill="#4ade80" opacity="0.7"/>
+          <!-- Coarse focus knob -->
+          <ellipse cx="23" cy="30" rx="4" ry="2.5" fill="#15803d" transform="rotate(-15 23 30)"/>
+          <ellipse cx="23" cy="30" rx="2.5" ry="1.5" fill="#4ade80" opacity="0.5" transform="rotate(-15 23 30)"/>
+          <!-- Stage -->
+          <rect x="14" y="33" width="18" height="3" rx="1.5" fill="#22c55e" opacity="0.8"/>
+          <!-- Slide on stage -->
+          <rect x="17" y="31" width="10" height="2" rx="1" fill="#86efac" opacity="0.5"/>
+          <!-- Glow dot at lens -->
+          <circle cx="38.5" cy="8" r="3" fill="#4ade80" opacity="0.15"/>
+        </svg>
+      </div>
       <div class="card-eyebrow">Analysis</div>
       <div class="card-title">Research</div>
       <div class="card-desc">Upcoming earnings dates &amp; analyst buy/hold/sell consensus for your holdings and watchlist.</div>
