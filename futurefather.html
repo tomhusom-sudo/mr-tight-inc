@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToddFather Productions — Future Vision</title>
   <script>
-    var VER = 'v=20260326s';
+    var VER = 'v=20260326t';
     if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
   </script>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Exo+2:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
@@ -28,12 +28,7 @@
     }
 
     html { scroll-behavior: smooth; }
-    body {
-      background:
-        linear-gradient(160deg, rgba(2,9,18,0.92) 0%, rgba(6,15,30,0.88) 40%, rgba(2,9,18,0.95) 100%),
-        url('./father_emoji.png') center 20% / cover no-repeat fixed;
-      color: var(--cream); font-family: 'Exo 2', sans-serif; overflow-x: hidden;
-    }
+    body { background: var(--void); color: var(--cream); font-family: 'Exo 2', sans-serif; overflow-x: hidden; }
 
     /* Animated scanline overlay */
     body::before {
