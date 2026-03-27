@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSV Analyzer — Honest Tom's Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(20,50,20,0.92) 0%, rgba(10,14,23,0.96) 50%, rgba(8,16,10,0.97) 100%),
+        url('./lincoln.jpg') center 20% / cover no-repeat fixed;
+      color: #e2e8f0;
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(34,197,94,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; background: transparent;
+      border: 1px solid #22c55e; border-radius: 8px;
+      color: #4ade80; font-size: 0.78rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background 0.15s; margin-bottom: 36px;
+    }
+    .back-btn:hover { background: rgba(34,197,94,0.08); }
+
+    .hero { margin-bottom: 36px; }
+    .hero-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #22c55e; margin-bottom: 10px; }
+    .hero h1 { font-size: 2.2rem; font-weight: 800; color: #f8fafc; letter-spacing: -0.02em; margin-bottom: 8px; }
+    .hero p { font-size: 0.95rem; color: #64748b; line-height: 1.6; }
+
+    /* DROP ZONE */
+    .drop-zone {
+      border: 2px dashed rgba(34,197,94,0.4);
+      border-radius: 20px;
+      padding: 56px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      background: rgba(34,197,94,0.02);
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: #22c55e;
+      background: rgba(34,197,94,0.06);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-icon { font-size: 3rem; margin-bottom: 16px; }
+    .drop-zone h2 { font-size: 1.1rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+    .drop-zone p { font-size: 0.85rem; color: #64748b; }
+    .drop-zone .browse-link { color: #22c55e; text-decoration: underline; cursor: pointer; }
+
+    /* RESULTS */
+    #results { display: none; }
+
+    .file-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      padding: 16px 20px;
+      background: rgba(34,197,94,0.06);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .file-name { font-size: 1rem; font-weight: 700; color: #4ade80; }
+    .file-meta { font-size: 0.8rem; color: #64748b; }
+    .reset-btn {
+      padding: 6px 14px; background: transparent;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+      color: #64748b; font-size: 0.78rem; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .reset-btn:hover { border-color: #ef4444; color: #ef4444; }
+
+    /* STATS GRID */
+    .section-title {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #22c55e;
+      margin-bottom: 14px; margin-top: 32px;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .stat-card .stat-label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .stat-card .stat-value { font-size: 1.6rem; font-weight: 800; color: #4ade80; font-variant-numeric: tabular-nums; }
+    .stat-card .stat-sub { font-size: 0.75rem; color: #475569; margin-top: 4px; }
+
+    /* QUALITY */
+    .quality-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    @media (max-width: 600px) { .quality-grid { grid-template-columns: 1fr; } }
+
+    .quality-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 16px;
+    }
+    .quality-card .q-label { font-size: 0.72rem; color: #64748b; margin-bottom: 6px; }
+    .quality-card .q-value { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .q-good { color: #4ade80; }
+    .q-warn { color: #fbbf24; }
+    .q-bad  { color: #f87171; }
+
+    /* COLUMN TABLE */
+    .col-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .col-table th {
+      text-align: left; padding: 10px 12px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #475569;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .col-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #cbd5e1;
+      font-variant-numeric: tabular-nums;
+    }
+    .col-table tr:last-child td { border-bottom: none; }
+    .col-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .type-badge {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .type-number { background: rgba(34,197,94,0.1); color: #22c55e; }
+    .type-text   { background: rgba(99,102,241,0.1); color: #818cf8; }
+    .type-date   { background: rgba(245,158,11,0.1); color: #fbbf24; }
+
+    .missing-pill {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 20px;
+      font-size: 0.68rem; font-weight: 600;
+    }
+    .missing-none { background: rgba(34,197,94,0.1); color: #4ade80; }
+    .missing-some { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .missing-lots { background: rgba(239,68,68,0.12); color: #f87171; }
+
+    /* CHARTS */
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    @media (max-width: 640px) { .charts-grid { grid-template-columns: 1fr; } }
+
+    .chart-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .chart-card h3 { font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-bottom: 16px; }
+    .chart-card canvas { max-height: 220px; }
+
+    /* PREVIEW TABLE */
+    .preview-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06); }
+    .preview-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
+    .preview-table th {
+      padding: 10px 14px; text-align: left;
+      background: rgba(255,255,255,0.03);
+      color: #22c55e; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .preview-table td {
+      padding: 8px 14px; color: #94a3b8;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      max-width: 200px; overflow: hidden; text-overflow: ellipsis;
+    }
+    .preview-table tr:last-child td { border-bottom: none; }
+
+    .table-wrap {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a href="dashboard.html" class="back-btn">← Dashboard</a>
+
+  <div class="hero">
+    <div class="hero-label">Data Tools · ETL & Analysis</div>
+    <h1>CSV Analyzer</h1>
+    <p>Drop any CSV file — get instant stats, data quality report, and charts. No upload, no server. Everything runs in your browser.</p>
+  </div>
+
+  <!-- DROP ZONE -->
+  <div class="drop-zone" id="dropZone">
+    <input type="file" accept=".csv" id="fileInput">
+    <div class="drop-icon">📊</div>
+    <h2>Drop your CSV file here</h2>
+    <p>or <span class="browse-link">browse to upload</span> &nbsp;·&nbsp; Stays in your browser, never uploaded</p>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="results">
+
+    <div class="file-header">
+      <div>
+        <div class="file-name" id="fileName"></div>
+        <div class="file-meta" id="fileMeta"></div>
+      </div>
+      <button class="reset-btn" onclick="resetAnalyzer()">✕ Clear</button>
+    </div>
+
+    <!-- SUMMARY STATS -->
+    <div class="section-title">Summary</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Rows</div>
+        <div class="stat-value" id="statRows">—</div>
+        <div class="stat-sub">data records</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Columns</div>
+        <div class="stat-value" id="statCols">—</div>
+        <div class="stat-sub">fields detected</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Numeric</div>
+        <div class="stat-value" id="statNumeric">—</div>
+        <div class="stat-sub">number columns</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Text</div>
+        <div class="stat-value" id="statText">—</div>
+        <div class="stat-sub">text columns</div>
+      </div>
+    </div>
+
+    <!-- DATA QUALITY -->
+    <div class="section-title">Data Quality</div>
+    <div class="quality-grid">
+      <div class="quality-card">
+        <div class="q-label">Missing Values</div>
+        <div class="q-value" id="qMissing">—</div>
+        <div style="font-size:0.72rem; color:#475569; margin-top:4px;" id="qMissingDesc"></div>
+      </div>
+      <div class="quality-card">
+        <div class="q-label">Duplicate Rows</div>
+        <div class="q-value" id="qDupes">—</div>
+        <div style="font-size:0.72rem; color:#475569; margin-top:4px;" id="qDupesDesc"></div>
+      </div>
+      <div class="quality-card">
+        <div class="q-label">Completeness</div>
+        <div class="q-value" id="qComplete">—</div>
+        <div style="font-size:0.72rem; color:#475569; margin-top:4px;">of all cells filled</div>
+      </div>
+    </div>
+
+    <!-- CHARTS -->
+    <div class="section-title">Charts</div>
+    <div class="charts-grid" id="chartsGrid"></div>
+
+    <!-- COLUMN BREAKDOWN -->
+    <div class="section-title">Column Breakdown</div>
+    <div class="table-wrap">
+      <table class="col-table">
+        <thead>
+          <tr>
+            <th>Column</th>
+            <th>Type</th>
+            <th>Missing</th>
+            <th>Unique</th>
+            <th>Min</th>
+            <th>Max</th>
+            <th>Average</th>
+          </tr>
+        </thead>
+        <tbody id="colTableBody"></tbody>
+      </table>
+    </div>
+
+    <!-- DATA PREVIEW -->
+    <div class="section-title">Preview <span style="font-size:0.65rem; color:#475569; font-weight:400; text-transform:none; letter-spacing:0;">— first 10 rows</span></div>
+    <div class="preview-wrap">
+      <table class="preview-table" id="previewTable"></table>
+    </div>
+
+  </div><!-- /results -->
+
+</div>
+
+<script>
+// ── CSV PARSER ──
+function parseCSV(text) {
+  var lines = text.split(/\r?\n/).filter(l => l.trim());
+  if (!lines.length) return { headers: [], rows: [] };
+
+  function splitLine(line) {
+    var result = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+      else { cur += c; }
+    }
+    result.push(cur.trim());
+    return result;
+  }
+
+  var headers = splitLine(lines[0]);
+  var rows = [];
+  for (var i = 1; i < lines.length; i++) {
+    var vals = splitLine(lines[i]);
+    if (vals.length === headers.length) {
+      var row = {};
+      headers.forEach((h, j) => row[h] = vals[j]);
+      rows.push(row);
+    }
+  }
+  return { headers, rows };
+}
+
+// ── TYPE DETECTION ──
+function detectType(values) {
+  var filled = values.filter(v => v !== '' && v !== null && v !== undefined);
+  if (!filled.length) return 'text';
+  var numCount = filled.filter(v => !isNaN(parseFloat(v)) && isFinite(v)).length;
+  if (numCount / filled.length > 0.8) return 'number';
+  var dateCount = filled.filter(v => !isNaN(Date.parse(v)) && v.length > 4).length;
+  if (dateCount / filled.length > 0.7) return 'date';
+  return 'text';
+}
+
+// ── STATS ──
+function colStats(values, type) {
+  var filled = values.filter(v => v !== '' && v !== null);
+  if (type !== 'number') return { min: '—', max: '—', avg: '—' };
+  var nums = filled.map(v => parseFloat(v)).filter(n => !isNaN(n));
+  if (!nums.length) return { min: '—', max: '—', avg: '—' };
+  var min = Math.min(...nums), max = Math.max(...nums);
+  var avg = nums.reduce((a, b) => a + b, 0) / nums.length;
+  var fmt = n => Math.abs(n) >= 1000 ? n.toLocaleString('en-US', {maximumFractionDigits: 1}) : n.toLocaleString('en-US', {maximumFractionDigits: 2});
+  return { min: fmt(min), max: fmt(max), avg: fmt(avg) };
+}
+
+// ── CHARTS ──
+var chartInstances = [];
+function clearCharts() {
+  chartInstances.forEach(c => c.destroy());
+  chartInstances = [];
+  document.getElementById('chartsGrid').innerHTML = '';
+}
+
+function makeChart(col, values, type) {
+  var grid = document.getElementById('chartsGrid');
+  var card = document.createElement('div');
+  card.className = 'chart-card';
+  var title = document.createElement('h3');
+  title.textContent = col;
+  card.appendChild(title);
+  var canvas = document.createElement('canvas');
+  card.appendChild(canvas);
+  grid.appendChild(card);
+
+  var GREEN = 'rgba(34,197,94,0.7)', GREEN_BORDER = '#22c55e';
+  var opts = { responsive: true, plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y?.toLocaleString() || ctx.parsed } } }, scales: { x: { ticks: { color: '#475569', maxTicksLimit: 8 }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.06)' } } } };
+
+  if (type === 'number') {
+    var nums = values.filter(v => v !== '' && !isNaN(parseFloat(v))).map(Number);
+    // histogram
+    var min = Math.min(...nums), max = Math.max(...nums);
+    var bins = 10, step = (max - min) / bins || 1;
+    var counts = Array(bins).fill(0);
+    nums.forEach(n => { var i = Math.min(Math.floor((n - min) / step), bins - 1); counts[i]++; });
+    var labels = counts.map((_, i) => (min + i * step).toLocaleString('en-US', {maximumFractionDigits: 1}));
+    var c = new Chart(canvas, { type: 'bar', data: { labels, datasets: [{ data: counts, backgroundColor: GREEN, borderColor: GREEN_BORDER, borderWidth: 1, borderRadius: 4 }] }, options: { ...opts, plugins: { ...opts.plugins, tooltip: { callbacks: { label: ctx => ' ' + ctx.parsed.y + ' rows' } } } } });
+    chartInstances.push(c);
+  } else {
+    // value frequency bar chart (top 10)
+    var freq = {};
+    values.forEach(v => { if (v) freq[v] = (freq[v] || 0) + 1; });
+    var sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    var c = new Chart(canvas, { type: 'bar', data: { labels: sorted.map(e => e[0].length > 14 ? e[0].slice(0, 12) + '…' : e[0]), datasets: [{ data: sorted.map(e => e[1]), backgroundColor: GREEN, borderColor: GREEN_BORDER, borderWidth: 1, borderRadius: 4 }] }, options: opts });
+    chartInstances.push(c);
+  }
+}
+
+// ── DUPLICATE CHECK ──
+function countDupes(rows) {
+  var seen = new Set(), dupes = 0;
+  rows.forEach(row => {
+    var key = JSON.stringify(row);
+    if (seen.has(key)) dupes++;
+    else seen.add(key);
+  });
+  return dupes;
+}
+
+// ── ANALYZE ──
+function analyze(file, text) {
+  var parsed = parseCSV(text);
+  var { headers, rows } = parsed;
+  if (!rows.length) { alert('No data rows found.'); return; }
+
+  // File header
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileMeta').textContent = rows.length.toLocaleString() + ' rows · ' + headers.length + ' columns · ' + (file.size / 1024).toFixed(1) + ' KB';
+
+  // Column analysis
+  var colInfo = headers.map(h => {
+    var values = rows.map(r => r[h] || '');
+    var type = detectType(values);
+    var missing = values.filter(v => v === '' || v === null).length;
+    var unique = new Set(values.filter(v => v !== '')).size;
+    var stats = colStats(values, type);
+    return { name: h, type, values, missing, unique, ...stats };
+  });
+
+  // Summary stats
+  var numericCols = colInfo.filter(c => c.type === 'number');
+  var textCols = colInfo.filter(c => c.type !== 'number');
+  document.getElementById('statRows').textContent = rows.length.toLocaleString();
+  document.getElementById('statCols').textContent = headers.length;
+  document.getElementById('statNumeric').textContent = numericCols.length;
+  document.getElementById('statText').textContent = textCols.length;
+
+  // Quality
+  var totalCells = rows.length * headers.length;
+  var totalMissing = colInfo.reduce((s, c) => s + c.missing, 0);
+  var dupes = countDupes(rows);
+  var completeness = ((totalCells - totalMissing) / totalCells * 100).toFixed(1);
+
+  var qM = document.getElementById('qMissing');
+  qM.textContent = totalMissing.toLocaleString();
+  qM.className = 'q-value ' + (totalMissing === 0 ? 'q-good' : totalMissing < totalCells * 0.05 ? 'q-warn' : 'q-bad');
+  document.getElementById('qMissingDesc').textContent = totalMissing === 0 ? 'No empty cells — clean!' : 'across ' + colInfo.filter(c => c.missing > 0).length + ' columns';
+
+  var qD = document.getElementById('qDupes');
+  qD.textContent = dupes.toLocaleString();
+  qD.className = 'q-value ' + (dupes === 0 ? 'q-good' : dupes < rows.length * 0.05 ? 'q-warn' : 'q-bad');
+  document.getElementById('qDupesDesc').textContent = dupes === 0 ? 'All rows unique' : ((dupes / rows.length * 100).toFixed(1) + '% of rows');
+
+  var qC = document.getElementById('qComplete');
+  qC.textContent = completeness + '%';
+  qC.className = 'q-value ' + (completeness >= 99 ? 'q-good' : completeness >= 90 ? 'q-warn' : 'q-bad');
+
+  // Charts — up to 4: first 2 numeric + first 2 text
+  clearCharts();
+  var chartCols = [...numericCols.slice(0, 2), ...textCols.slice(0, 2)].slice(0, 4);
+  chartCols.forEach(c => makeChart(c.name, c.values, c.type));
+
+  // Column table
+  var tbody = document.getElementById('colTableBody');
+  tbody.innerHTML = '';
+  colInfo.forEach(c => {
+    var tr = document.createElement('tr');
+    var missingPct = (c.missing / rows.length * 100).toFixed(0);
+    var missingClass = c.missing === 0 ? 'missing-none' : c.missing < rows.length * 0.1 ? 'missing-some' : 'missing-lots';
+    tr.innerHTML = '<td style="font-weight:600;color:#f1f5f9;">' + c.name + '</td>' +
+      '<td><span class="type-badge type-' + c.type + '">' + c.type + '</span></td>' +
+      '<td><span class="missing-pill ' + missingClass + '">' + (c.missing === 0 ? 'None' : c.missing + ' (' + missingPct + '%)') + '</span></td>' +
+      '<td>' + c.unique.toLocaleString() + '</td>' +
+      '<td>' + c.min + '</td>' +
+      '<td>' + c.max + '</td>' +
+      '<td>' + c.avg + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  // Preview table
+  var preview = document.getElementById('previewTable');
+  preview.innerHTML = '';
+  var thead = '<thead><tr>' + headers.map(h => '<th>' + h + '</th>').join('') + '</tr></thead>';
+  var tbody2 = '<tbody>' + rows.slice(0, 10).map(row =>
+    '<tr>' + headers.map(h => '<td>' + (row[h] || '') + '</td>').join('') + '</tr>'
+  ).join('') + '</tbody>';
+  preview.innerHTML = thead + tbody2;
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('dropZone').style.display = 'none';
+}
+
+// ── RESET ──
+function resetAnalyzer() {
+  clearCharts();
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('dropZone').style.display = 'block';
+  document.getElementById('fileInput').value = '';
+}
+
+// ── FILE INPUT ──
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = ev => analyze(file, ev.target.result);
+  reader.readAsText(file);
+});
+
+// ── DRAG AND DROP ──
+var dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('drag-over');
+  var file = e.dataTransfer.files[0];
+  if (!file || !file.name.endsWith('.csv')) { alert('Please drop a CSV file.'); return; }
+  var reader = new FileReader();
+  reader.onload = ev => analyze(file, ev.target.result);
+  reader.readAsText(file);
+});
+</script>
+</body>
+</html>
