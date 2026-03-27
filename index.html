@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260327b';
+    var VER = 'v=20260327c';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -770,7 +770,7 @@
 
   <!-- Disclaimer (hidden after CSV import) -->
   <div id="disclaimer" style="margin-bottom:18px;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:0.72rem;color:#6b7280;line-height:1.5;">
-    <strong style="color:#9ca3af;">Note:</strong> Holdings shown are sample data. Use <strong style="color:#9ca3af;">Import CSV</strong> below to load your real Fidelity or Robinhood positions.
+    <strong style="color:#9ca3af;">Note:</strong> Holdings shown are sample data. Use <strong style="color:#9ca3af;">Import CSV</strong> below to load your real Fidelity, Schwab, or Robinhood positions.
   </div>
 
   <!-- HOLDINGS -->
@@ -784,7 +784,7 @@
   </div>
 
   <!-- CSV IMPORT ZONE -->
-  <div id="import-zone" class="import-zone">
+  <div id="import-zone" class="import-zone collapsed">
     <div class="import-zone-icon">&#8679;</div>
     <div class="import-zone-label">Drop Fidelity, Schwab, or Robinhood CSV here, or click to browse</div>
     <div class="import-zone-sub">Replaces current holdings &middot; .csv files only &middot; nothing leaves your browser</div>
@@ -1703,12 +1703,12 @@
       reader.onload = function(e) {
         var parsed = parseCSVText(e.target.result);
         if (!parsed.headers.length) {
-          showImportToast('Could not read file — is this a Fidelity or Robinhood CSV?', 'error');
+          showImportToast('Could not read file — is this a Fidelity, Schwab, or Robinhood CSV?', 'error');
           return;
         }
         var broker = detectBroker(parsed.headers);
         if (!broker) {
-          showImportToast('Format not recognized. Use File > Export from Fidelity or Account > Download from Robinhood.', 'error');
+          showImportToast('Format not recognized. Use File > Export from Fidelity, Schwab, or Account > Download from Robinhood.', 'error');
           return;
         }
         var imported = normalizeRows(parsed.headers, parsed.rows, broker);
