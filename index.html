@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260327a';
+    var VER = 'v=20260327b';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -868,6 +868,33 @@
     </div>
   </div>
 
+  <!-- CSV IMPORT PREVIEW MODAL -->
+  <div class="modal-overlay" id="import-preview-overlay">
+    <div class="modal" style="width:min(640px,100%);">
+      <div class="modal-title">Confirm Import</div>
+      <div id="import-preview-meta" style="font-size:0.75rem;color:#64748b;margin-bottom:12px;"></div>
+      <div style="overflow-x:auto;border-radius:8px;border:1px solid #1e2e12;max-height:340px;overflow-y:auto;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr style="background:#111a09;">
+              <th style="padding:8px 12px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#475569;text-align:left;">Ticker</th>
+              <th style="padding:8px 12px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#475569;text-align:left;">Name</th>
+              <th style="padding:8px 12px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#475569;text-align:right;">Qty</th>
+              <th style="padding:8px 12px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#475569;text-align:right;">Avg Cost</th>
+              <th style="padding:8px 12px;font-size:0.65rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:#475569;text-align:center;">Type</th>
+            </tr>
+          </thead>
+          <tbody id="import-preview-tbody"></tbody>
+        </table>
+      </div>
+      <div style="font-size:0.68rem;color:#475569;margin-top:10px;">This will replace your current holdings. You can re-import anytime.</div>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" onclick="cancelImportPreview()">Cancel</button>
+        <button class="btn-modal-save"   onclick="confirmImport()">Import</button>
+      </div>
+    </div>
+  </div>
+
   <script>
   (function () {
 
@@ -1585,6 +1612,59 @@
       return Object.keys(map).map(function(k){ return map[k]; });
     }
 
+    var _pendingImport = null; // holds { assets, brokerLabel } until user confirms
+
+    function showImportPreview(assets, brokerLabel) {
+      _pendingImport = { assets: assets, brokerLabel: brokerLabel };
+      var meta = document.getElementById('import-preview-meta');
+      if (meta) meta.textContent = brokerLabel + ' — ' + assets.length + ' position' + (assets.length !== 1 ? 's' : '') + ' found';
+      var tbody = document.getElementById('import-preview-tbody');
+      if (tbody) {
+        tbody.innerHTML = assets.map(function(a) {
+          var typeLabel = { stock:'Stock', etf:'ETF', crypto:'Crypto' }[a.type] || a.type;
+          var typeCls   = 'type-' + a.type;
+          return '<tr style="border-top:1px solid #1a2810;">'
+            + '<td style="padding:9px 12px;font-size:0.82rem;font-weight:700;color:#f1f5f9;">' + esc(a.ticker) + '</td>'
+            + '<td style="padding:9px 12px;font-size:0.75rem;color:#64748b;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + esc(a.name) + '</td>'
+            + '<td style="padding:9px 12px;font-size:0.82rem;text-align:right;font-variant-numeric:tabular-nums;">' + (a.qty % 1 === 0 ? a.qty.toLocaleString() : a.qty.toFixed(4)) + '</td>'
+            + '<td style="padding:9px 12px;font-size:0.82rem;text-align:right;font-variant-numeric:tabular-nums;">' + (a.avgCost > 0 ? '$' + a.avgCost.toFixed(2) : '—') + '</td>'
+            + '<td style="padding:9px 12px;text-align:center;"><span class="type-badge ' + typeCls + '">' + typeLabel + '</span></td>'
+            + '</tr>';
+        }).join('');
+      }
+      var overlay = document.getElementById('import-preview-overlay');
+      if (overlay) overlay.classList.add('open');
+    }
+
+    window.confirmImport = function() {
+      if (!_pendingImport) return;
+      var assets = _pendingImport.assets, brokerLabel = _pendingImport.brokerLabel;
+      _pendingImport = null;
+      var overlay = document.getElementById('import-preview-overlay');
+      if (overlay) overlay.classList.remove('open');
+      _cache = null;
+      saveAssets(assets);
+      render();
+      var zone = document.getElementById('import-zone');
+      if (zone) zone.classList.add('collapsed');
+      var disc = document.getElementById('disclaimer');
+      if (disc) disc.style.display = 'none';
+      var btn = document.getElementById('btn-import');
+      if (btn) btn.innerHTML = '&#8679; Re-import';
+      showImportToast('Imported ' + assets.length + ' positions from ' + brokerLabel + '.', 'success');
+      var upd = document.getElementById('last-updated');
+      if (upd) {
+        var now = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+        upd.textContent = 'Imported from ' + brokerLabel + ' on ' + now + ' \u00b7 prices refreshed separately';
+      }
+    };
+
+    window.cancelImportPreview = function() {
+      _pendingImport = null;
+      var overlay = document.getElementById('import-preview-overlay');
+      if (overlay) overlay.classList.remove('open');
+    };
+
     function showImportToast(msg, type) {
       var t = document.getElementById('import-toast');
       if (!t) return;
@@ -1617,22 +1697,8 @@
           showImportToast('No positions found — check that you exported from the right account.', 'error');
           return;
         }
-        _cache = null;
-        saveAssets(imported);
-        render();
-        var zone = document.getElementById('import-zone');
-        if (zone) zone.classList.add('collapsed');
-        var disc = document.getElementById('disclaimer');
-        if (disc) disc.style.display = 'none';
-        var btn = document.getElementById('btn-import');
-        if (btn) btn.innerHTML = '&#8679; Re-import';
         var brokerLabel = broker === 'fidelity' ? 'Fidelity' : 'Robinhood';
-        showImportToast('Imported ' + imported.length + ' positions from ' + brokerLabel + '.', 'success');
-        var upd = document.getElementById('last-updated');
-        if (upd) {
-          var now = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-          upd.textContent = 'Imported from ' + brokerLabel + ' on ' + now + ' \u00b7 prices refreshed separately';
-        }
+        showImportPreview(imported, brokerLabel);
       };
       reader.onerror = function(){ showImportToast('Failed to read file.', 'error'); };
       reader.readAsText(file);
