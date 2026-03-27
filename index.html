@@ -786,7 +786,7 @@
   <!-- CSV IMPORT ZONE -->
   <div id="import-zone" class="import-zone">
     <div class="import-zone-icon">&#8679;</div>
-    <div class="import-zone-label">Drop Fidelity or Robinhood CSV here, or click to browse</div>
+    <div class="import-zone-label">Drop Fidelity, Schwab, or Robinhood CSV here, or click to browse</div>
     <div class="import-zone-sub">Replaces current holdings &middot; .csv files only &middot; nothing leaves your browser</div>
     <input type="file" accept=".csv" id="csv-file-input" class="import-zone-input">
   </div>
@@ -1529,6 +1529,7 @@
     // Named column constants — update here if broker format changes
     var FIDELITY_COLS  = { ticker:'Symbol', name:'Description', qty:'Quantity',    avgCost:'Average Cost Basis' };
     var ROBINHOOD_COLS = { ticker:'symbol',  name:'name',        qty:'quantity',    avgCost:'average_buy_price'  };
+    var SCHWAB_COLS    = { ticker:'Symbol', name:'Description', qty:'Quantity',    costBasis:'Cost Basis',       secType:'Security Type' };
 
     function parseCSVLine(line) {
       var res = [], cur = '', inQ = false;
@@ -1566,6 +1567,7 @@
       var h = headers.join(',');
       if (h.indexOf('Average Cost Basis') !== -1) return 'fidelity';
       if (h.indexOf('average_buy_price')  !== -1) return 'robinhood';
+      if (h.indexOf('Security Type')      !== -1) return 'schwab';
       return null;
     }
 
@@ -1574,11 +1576,13 @@
     }
 
     function normalizeRows(headers, rows, broker) {
-      var cols = broker === 'fidelity' ? FIDELITY_COLS : ROBINHOOD_COLS;
-      var ti = headers.indexOf(cols.ticker);
-      var ni = headers.indexOf(cols.name);
-      var qi = headers.indexOf(cols.qty);
-      var ai = headers.indexOf(cols.avgCost);
+      var cols = broker === 'schwab' ? SCHWAB_COLS : (broker === 'fidelity' ? FIDELITY_COLS : ROBINHOOD_COLS);
+      var ti   = headers.indexOf(cols.ticker);
+      var ni   = headers.indexOf(cols.name);
+      var qi   = headers.indexOf(cols.qty);
+      var ai   = broker === 'schwab' ? -1 : headers.indexOf(cols.avgCost);
+      var cbi  = broker === 'schwab' ? headers.indexOf(SCHWAB_COLS.costBasis) : -1;
+      var sti  = broker === 'schwab' ? headers.indexOf(SCHWAB_COLS.secType)   : -1;
       if (ti === -1 || qi === -1) return null;
 
       var assets = [];
@@ -1587,14 +1591,29 @@
         if (!ticker) return;
         if (ticker.indexOf('>>') === 0) return; // Fidelity footer rows
         if (!/^[A-Z0-9.\-]{1,10}$/.test(ticker)) return; // skip non-ticker rows
+        // Schwab: skip cash/sweep rows via Security Type
+        if (broker === 'schwab' && sti !== -1) {
+          var secType = (row[sti] || '').trim();
+          if (secType === 'Cash Equivalents' || secType === 'Money Market') return;
+        }
         var qty = parseNum(row[qi]);
         if (qty <= 0) return;
-        var avgCost = ai !== -1 ? parseNum(row[ai]) : 0;
+        // Schwab exports total Cost Basis, not per-share avg cost — divide to get avgCost
+        var avgCost = broker === 'schwab'
+          ? (cbi !== -1 && qty > 0 ? Math.round(parseNum(row[cbi]) / qty * 100) / 100 : 0)
+          : (ai !== -1 ? parseNum(row[ai]) : 0);
         var rawName = (ni !== -1 ? row[ni] : '') || ticker;
         var db = TICKER_DB && TICKER_DB[ticker];
         var name = (db && db.name) ? db.name : rawName;
         var domain = db ? (db.domain || '') : '';
-        var type = KNOWN_CRYPTO[ticker] ? 'crypto' : (ETF_TICKERS[ticker] ? 'etf' : 'stock');
+        // Schwab provides Security Type — use it when available
+        var type;
+        if (broker === 'schwab' && sti !== -1) {
+          var st = (row[sti] || '').trim();
+          type = st === 'ETF' ? 'etf' : (st === 'Equity' ? 'stock' : (KNOWN_CRYPTO[ticker] ? 'crypto' : 'stock'));
+        } else {
+          type = KNOWN_CRYPTO[ticker] ? 'crypto' : (ETF_TICKERS[ticker] ? 'etf' : 'stock');
+        }
         assets.push({ ticker:ticker, name:name, type:type, domain:domain, logoUrl:'', qty:qty, avgCost:avgCost, price:0 });
       });
 
@@ -1697,7 +1716,7 @@
           showImportToast('No positions found — check that you exported from the right account.', 'error');
           return;
         }
-        var brokerLabel = broker === 'fidelity' ? 'Fidelity' : 'Robinhood';
+        var brokerLabel = broker === 'fidelity' ? 'Fidelity' : (broker === 'schwab' ? 'Schwab' : 'Robinhood');
         showImportPreview(imported, brokerLabel);
       };
       reader.onerror = function(){ showImportToast('Failed to read file.', 'error'); };
