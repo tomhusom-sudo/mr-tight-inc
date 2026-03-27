@@ -186,6 +186,19 @@
       gap: 14px;
     }
 
+    /* ── SECTION LABELS ── */
+    .section-label {
+      grid-column: 1 / -1;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #2a3e1a;
+      padding: 6px 0 2px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 6px;
+    }
+
     /* ── CARD BASE ── */
     .card {
       background: rgba(255,255,255,0.04);
@@ -434,6 +447,8 @@
     .card.active.wayne-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
     .card.active.wayne-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
   </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 <div class="page">
@@ -444,8 +459,11 @@
         Personal Command Center
         <span style="margin-left:auto;display:flex;align-items:center;gap:12px;">
           <a href="./resume.html" style="text-decoration:none;" title="Thomas Husom — Resume"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">Click for Resume!</span></span></a>
-          <a href="https://tomhusom-sudo.github.io" target="_blank" style="text-decoration:none;" title="How I Work — Portfolio"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">How I Work</span></span></a>
+          <a href="./howIwork.html" style="text-decoration:none;" title="How I Work — Portfolio"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">How I Work</span></span></a>
         </span>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+        <a href="./simpledash.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border:1px solid rgba(255,255,255,0.3);border-radius:20px;color:#ffffff;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;transition:border-color 0.15s,background 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.6)';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)';this.style.background='transparent'">Link to Simple Honest Dashboard</a>
       </div>
       <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;" title="Thomas Husom — Resume">
         <h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1>
@@ -463,6 +481,8 @@
   </header>
 
   <div class="grid">
+
+    <div class="section-label">Finance &amp; Markets</div>
 
     <!-- Mr. Tight — featured -->
     <a class="card active featured godfather-bg" href="./">
@@ -663,6 +683,8 @@
       </div>
     </a>
 
+    <div class="section-label">Friends &amp; Family</div>
+
     <!-- AI News -->
     <a class="card active swarm-bg" href="./ainews.html">
       <div class="card-icon">🤖</div>
@@ -799,6 +821,8 @@
       </div>
     </a>
 
+    <div class="section-label">Todd Father Productions · LooksLikeLarry</div>
+
     <!-- The Todd Father -->
     <a class="card active metro-bg" href="./toddfather.html">
       <div class="card-icon">
@@ -912,6 +936,8 @@
       </div>
     </a>
 
+    <div class="section-label">Business</div>
+
     <!-- The Pitch -->
     <a class="card active deal-bg" href="./pitch.html">
       <div class="card-icon">
@@ -1004,6 +1030,8 @@
         </svg>
       </div>
     </a>
+
+    <div class="section-label">Portfolio &amp; Tools</div>
 
     <!-- How I Work — Portfolio -->
     <a class="card active" href="./howIwork.html" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(10,14,23,0.6) 100%); border-color: rgba(34,197,94,0.35);">
