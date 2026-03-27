@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260328h';
+    var VER = 'v=20260328i';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -966,9 +966,36 @@
     </a>
 
     <!-- V2Amcom -->
-    <a class="card active" href="./v2amcom.html" style="background: linear-gradient(135deg, rgba(22,163,74,0.07) 0%, rgba(249,115,22,0.05) 100%); border-color: rgba(22,163,74,0.25);">
+    <a class="card active" href="./v2amcom.html" style="background: linear-gradient(135deg, rgba(5,13,7,0.70) 0%, rgba(5,13,7,0.82) 100%), url('./amcom.png') center/cover no-repeat; border-color: rgba(22,163,74,0.35);">
       <div class="card-icon">
-        <img src="./amcom.png" alt="V2Amcom" style="width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(249,115,22,0.3));" onerror="this.outerHTML='<span style=&quot;font-size:2.4rem&quot;>🌐</span>'">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:58px;height:58px;">
+          <defs>
+            <radialGradient id="dc-sphere" cx="38%" cy="32%" r="65%"><stop offset="0%" stop-color="#fde68a"/><stop offset="40%" stop-color="#f97316"/><stop offset="100%" stop-color="#7c2d12"/></radialGradient>
+            <radialGradient id="dc-glow" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f97316" stop-opacity="0.4"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></radialGradient>
+            <filter id="dc-bloom"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="dc-rg"><feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <clipPath id="dc-top"><rect x="0" y="0" width="200" height="100"/></clipPath>
+            <clipPath id="dc-bot"><rect x="0" y="100" width="200" height="100"/></clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="62" fill="url(#dc-glow)"/>
+          <g filter="url(#dc-rg)" clip-path="url(#dc-top)">
+            <ellipse cx="100" cy="100" rx="92" ry="24" fill="none" stroke="#16a34a" stroke-width="5" opacity="0.35"/>
+            <ellipse cx="100" cy="100" rx="70" ry="16" fill="none" stroke="#dc2626" stroke-width="3" opacity="0.4"/>
+          </g>
+          <circle cx="100" cy="100" r="44" fill="url(#dc-sphere)" filter="url(#dc-bloom)"/>
+          <ellipse cx="100" cy="100" rx="44" ry="13" fill="none" stroke="rgba(253,230,138,0.18)" stroke-width="0.8"/>
+          <ellipse cx="100" cy="100" rx="44" ry="26" fill="none" stroke="rgba(253,230,138,0.12)" stroke-width="0.8"/>
+          <line x1="100" y1="56" x2="100" y2="144" stroke="rgba(253,230,138,0.15)" stroke-width="0.8"/>
+          <g filter="url(#dc-rg)" clip-path="url(#dc-bot)">
+            <ellipse cx="100" cy="100" rx="92" ry="24" fill="none" stroke="#16a34a" stroke-width="5" opacity="0.95"/>
+            <ellipse cx="100" cy="100" rx="70" ry="16" fill="none" stroke="#dc2626" stroke-width="3" opacity="0.9"/>
+          </g>
+          <circle cx="192" cy="100" r="4" fill="#4ade80" filter="url(#dc-bloom)"/>
+          <circle cx="8" cy="100" r="4" fill="#4ade80" filter="url(#dc-bloom)"/>
+          <polyline points="192,100 197,90 197,80" fill="none" stroke="#4ade80" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="197" cy="80" r="2" fill="#4ade80" opacity="0.6"/>
+          <polyline points="8,100 3,110 3,120" fill="none" stroke="#4ade80" stroke-width="1.2" opacity="0.7"/>
+        </svg>
       </div>
       <div class="card-eyebrow">AI · ETL · Data Integration</div>
       <div class="card-title">V2Amcom</div>
