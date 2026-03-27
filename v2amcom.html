@@ -519,7 +519,40 @@
       <span class="service-tag tag-green">Extract · Transform · Load</span>
     </div>
     <div class="service-card">
-      <div class="service-icon">🔗</div>
+      <div class="service-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="filter:drop-shadow(0 0 10px rgba(249,115,22,0.3));">
+          <!-- DNA left strand (S-curve) -->
+          <path d="M20 4 C20 14, 44 18, 44 28 C44 38, 20 42, 20 52 C20 56, 20 60, 20 62"
+                stroke="#f97316" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.9"/>
+          <!-- DNA right strand (opposing S-curve) -->
+          <path d="M44 4 C44 14, 20 18, 20 28 C20 38, 44 42, 44 52 C44 56, 44 60, 44 62"
+                stroke="#dc2626" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.9"/>
+          <!-- Rungs — color alternates green / orange / red -->
+          <line x1="20" y1="10" x2="44" y2="10" stroke="#4ade80"  stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+          <line x1="22" y1="17" x2="42" y2="17" stroke="#f97316"  stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <line x1="30" y1="23" x2="34" y2="23" stroke="#dc2626"  stroke-width="1.6" stroke-linecap="round" opacity="0.75"/>
+          <line x1="32" y1="28" x2="32" y2="28" stroke="#4ade80"  stroke-width="2"   stroke-linecap="round" opacity="0.6"/>
+          <line x1="30" y1="33" x2="34" y2="33" stroke="#f97316"  stroke-width="1.6" stroke-linecap="round" opacity="0.75"/>
+          <line x1="22" y1="39" x2="42" y2="39" stroke="#dc2626"  stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <line x1="20" y1="46" x2="44" y2="46" stroke="#4ade80"  stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+          <line x1="22" y1="53" x2="42" y2="53" stroke="#f97316"  stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <!-- Node dots on strands -->
+          <circle cx="20" cy="10" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="44" cy="10" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="22" cy="17" r="2"   fill="#f97316" opacity="0.85"/>
+          <circle cx="42" cy="17" r="2"   fill="#f97316" opacity="0.85"/>
+          <circle cx="30" cy="23" r="1.8" fill="#dc2626" opacity="0.8"/>
+          <circle cx="34" cy="23" r="1.8" fill="#dc2626" opacity="0.8"/>
+          <circle cx="30" cy="33" r="1.8" fill="#f97316" opacity="0.8"/>
+          <circle cx="34" cy="33" r="1.8" fill="#f97316" opacity="0.8"/>
+          <circle cx="22" cy="39" r="2"   fill="#dc2626" opacity="0.85"/>
+          <circle cx="42" cy="39" r="2"   fill="#dc2626" opacity="0.85"/>
+          <circle cx="20" cy="46" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="44" cy="46" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="22" cy="53" r="2"   fill="#f97316" opacity="0.85"/>
+          <circle cx="42" cy="53" r="2"   fill="#f97316" opacity="0.85"/>
+        </svg>
+      </div>
       <div class="service-name">Data Integration</div>
       <div class="service-desc">Connect disparate systems — databases, flat files, APIs, cloud platforms. One pipeline that speaks every dialect your business runs on.</div>
       <span class="service-tag tag-orange">System Connectivity</span>
