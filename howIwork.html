@@ -231,6 +231,16 @@
       align-self: flex-start;
     }
 
+    /* ── WHY WE'RE BETTER — MOBILE ── */
+    @media (max-width: 640px) {
+      .why-better-body { flex-direction: column !important; }
+      .why-better-before { width: 100% !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .why-better-tiles { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+    @media (max-width: 400px) {
+      .why-better-tiles { grid-template-columns: 1fr !important; }
+    }
+
     /* ── DIVIDER ── */
     .divider {
       border: none;
@@ -486,10 +496,10 @@
             <span style="font-size: 0.78rem; color: #475569; margin-left: auto;">lookslikelarry.com — 5 directions, built with AI</span>
           </div>
 
-          <div style="display: flex; align-items: stretch; gap: 0;">
+          <div class="why-better-body" style="display: flex; align-items: stretch; gap: 0;">
 
             <!-- BEFORE column -->
-            <div style="width: 200px; flex-shrink: 0; padding: 20px 18px; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.15);">
+            <div class="why-better-before" style="width: 200px; flex-shrink: 0; padding: 20px 18px; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.15);">
               <div style="font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #475569;">Before</div>
               <div style="font-size: 0.85rem; font-weight: 700; color: #64748b; text-decoration: line-through; line-height: 1.3;">lookslikelarry.com</div>
               <img src="./larryshoot.webp" alt="Old site" style="width: 100%; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); opacity: 0.45;" onerror="this.style.display='none'">
@@ -497,7 +507,7 @@
             </div>
 
             <!-- AFTER — 5 tiles -->
-            <div style="flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;">
+            <div class="why-better-tiles" style="flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;">
 
               <a href="toddfather.html" style="text-decoration: none; padding: 18px 14px; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 8px; background: rgba(196,96,42,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(196,96,42,0.1)'" onmouseout="this.style.background='rgba(196,96,42,0.04)'">
                 <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #c4602a;">Cinematic</div>
