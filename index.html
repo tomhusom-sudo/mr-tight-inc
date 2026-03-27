@@ -6,7 +6,7 @@
   <title>Mr. Tight</title>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260326a';
+    var VER = 'v=20260327a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -555,6 +555,55 @@
     .btn-modal-save:hover  { background: #15803d; }
     .btn-modal-cancel:hover { background: #273548; }
 
+    /* ── CSV IMPORT ZONE ── */
+    .btn-import {
+      background: transparent;
+      color: #4ade80;
+      border: 1px solid #22c55e;
+    }
+    .btn-import:hover { background: #14532d; color: #86efac; }
+
+    .import-zone {
+      max-width: 960px;
+      margin: 0 auto 16px;
+      border: 1.5px dashed #2a3d1a;
+      border-radius: 12px;
+      padding: 18px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      background: rgba(20,28,11,0.5);
+      position: relative;
+    }
+    .import-zone:hover, .import-zone.drag-over {
+      border-color: #4ade80;
+      background: rgba(74,222,128,0.04);
+    }
+    .import-zone.collapsed { display: none; }
+    .import-zone-icon { font-size: 1.3rem; color: #4ade80; opacity: 0.7; margin-bottom: 4px; }
+    .import-zone-label { font-size: 0.8rem; color: #4b6938; font-weight: 500; }
+    .import-zone-sub { font-size: 0.68rem; color: #334155; margin-top: 3px; }
+    .import-zone-input {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .import-toast {
+      max-width: 960px; margin: 0 auto 12px;
+      padding: 9px 14px; border-radius: 8px;
+      font-size: 0.78rem; font-weight: 500; display: none;
+    }
+    .import-toast.success {
+      background: rgba(74,222,128,0.08); border: 1px solid rgba(74,222,128,0.25);
+      color: #4ade80; display: block;
+    }
+    .import-toast.error {
+      background: rgba(248,113,113,0.08); border: 1px solid rgba(248,113,113,0.25);
+      color: #f87171; display: block;
+    }
+    @media (max-width: 640px) {
+      .import-zone { padding: 12px 14px; }
+      .import-zone-icon { font-size: 1rem; }
+    }
+
     /* Mobile-only news link — hidden on desktop, shown via media query */
     .news-link-mobile {
       display: none;
@@ -638,8 +687,6 @@
       .modal             { padding: 20px 16px 18px; }
     }
   </style>
-<!-- Plausible Analytics -->
-<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
 
@@ -721,19 +768,29 @@
     <a href="news.html">&#9656; Portfolio News</a>
   </div>
 
-  <!-- Disclaimer -->
-  <div style="margin-bottom:18px;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:0.72rem;color:#6b7280;line-height:1.5;">
-    <strong style="color:#9ca3af;">Note:</strong> Holdings quantities and average costs shown below are sample data for demonstration purposes only and do not represent actual positions.
+  <!-- Disclaimer (hidden after CSV import) -->
+  <div id="disclaimer" style="margin-bottom:18px;padding:10px 16px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:8px;font-size:0.72rem;color:#6b7280;line-height:1.5;">
+    <strong style="color:#9ca3af;">Note:</strong> Holdings shown are sample data. Use <strong style="color:#9ca3af;">Import CSV</strong> below to load your real Fidelity or Robinhood positions.
   </div>
 
   <!-- HOLDINGS -->
   <div class="section-header">
     <div class="section-title">Holdings</div>
     <div class="section-actions">
+      <button class="btn btn-import" id="btn-import" onclick="toggleImportZone()">&#8679; Import CSV</button>
       <button class="btn btn-add" id="btn-add-asset" onclick="openModal(null)">+ Add Asset</button>
       <button class="btn btn-edit" id="btn-edit-toggle" onclick="toggleEditMode()">Edit Portfolio</button>
     </div>
   </div>
+
+  <!-- CSV IMPORT ZONE -->
+  <div id="import-zone" class="import-zone">
+    <div class="import-zone-icon">&#8679;</div>
+    <div class="import-zone-label">Drop Fidelity or Robinhood CSV here, or click to browse</div>
+    <div class="import-zone-sub">Replaces current holdings &middot; .csv files only &middot; nothing leaves your browser</div>
+    <input type="file" accept=".csv" id="csv-file-input" class="import-zone-input">
+  </div>
+  <div id="import-toast" class="import-toast"></div>
 
   <div class="table-wrapper">
     <table>
@@ -1436,6 +1493,176 @@
           + '</div>';
       }).join('');
     }
+
+    // ── CSV IMPORT ──
+
+    var KNOWN_CRYPTO = { BTC:1, ETH:1, DOGE:1, SHIB:1, SOL:1, LTC:1, BCH:1, XRP:1, ADA:1, DOT:1, MATIC:1, AVAX:1, LINK:1, UNI:1, AAVE:1, BNB:1, XLM:1, ALGO:1 };
+    var ETF_TICKERS  = { VOO:1, VTI:1, SPY:1, QQQ:1, IWM:1, GLD:1, SLV:1, IAU:1, ARKK:1, ARKG:1, ARKQ:1, ARKW:1, DIA:1, SMH:1, SOXL:1, SOXS:1, SCHD:1, VONG:1, ICLN:1, TLT:1, HYG:1, LQD:1, BND:1, AGG:1, VGT:1, XLK:1, XLE:1, SPYD:1, DGRO:1, VEA:1, VWO:1, EEM:1, IEMG:1, USIG:1, CIBR:1 };
+
+    // Named column constants — update here if broker format changes
+    var FIDELITY_COLS  = { ticker:'Symbol', name:'Description', qty:'Quantity',    avgCost:'Average Cost Basis' };
+    var ROBINHOOD_COLS = { ticker:'symbol',  name:'name',        qty:'quantity',    avgCost:'average_buy_price'  };
+
+    function parseCSVLine(line) {
+      var res = [], cur = '', inQ = false;
+      for (var i = 0; i < line.length; i++) {
+        var c = line[i];
+        if (c === '"') {
+          if (inQ && line[i+1] === '"') { cur += '"'; i++; }
+          else inQ = !inQ;
+        } else if (c === ',' && !inQ) { res.push(cur.trim()); cur = ''; }
+        else cur += c;
+      }
+      res.push(cur.trim());
+      return res;
+    }
+
+    function parseCSVText(text) {
+      var lines = text.split(/\r?\n/), headers = null, rows = [];
+      for (var i = 0; i < lines.length; i++) {
+        var cells = parseCSVLine(lines[i].trim());
+        if (!cells.length || !cells[0]) continue;
+        if (!headers) {
+          var joined = cells.join(',');
+          // Find headers row by detecting broker-specific column names
+          if (joined.indexOf('Symbol') !== -1 || joined.indexOf('symbol') !== -1) {
+            headers = cells;
+          }
+        } else {
+          rows.push(cells);
+        }
+      }
+      return { headers: headers || [], rows: rows };
+    }
+
+    function detectBroker(headers) {
+      var h = headers.join(',');
+      if (h.indexOf('Average Cost Basis') !== -1) return 'fidelity';
+      if (h.indexOf('average_buy_price')  !== -1) return 'robinhood';
+      return null;
+    }
+
+    function parseNum(s) {
+      return parseFloat(String(s || '0').replace(/[$,%\s]/g, '').replace(/,/g, '')) || 0;
+    }
+
+    function normalizeRows(headers, rows, broker) {
+      var cols = broker === 'fidelity' ? FIDELITY_COLS : ROBINHOOD_COLS;
+      var ti = headers.indexOf(cols.ticker);
+      var ni = headers.indexOf(cols.name);
+      var qi = headers.indexOf(cols.qty);
+      var ai = headers.indexOf(cols.avgCost);
+      if (ti === -1 || qi === -1) return null;
+
+      var assets = [];
+      rows.forEach(function(row) {
+        var ticker = (row[ti] || '').replace(/"/g,'').trim().toUpperCase();
+        if (!ticker) return;
+        if (ticker.indexOf('>>') === 0) return; // Fidelity footer rows
+        if (!/^[A-Z0-9.\-]{1,10}$/.test(ticker)) return; // skip non-ticker rows
+        var qty = parseNum(row[qi]);
+        if (qty <= 0) return;
+        var avgCost = ai !== -1 ? parseNum(row[ai]) : 0;
+        var rawName = (ni !== -1 ? row[ni] : '') || ticker;
+        var db = TICKER_DB && TICKER_DB[ticker];
+        var name = (db && db.name) ? db.name : rawName;
+        var domain = db ? (db.domain || '') : '';
+        var type = KNOWN_CRYPTO[ticker] ? 'crypto' : (ETF_TICKERS[ticker] ? 'etf' : 'stock');
+        assets.push({ ticker:ticker, name:name, type:type, domain:domain, logoUrl:'', qty:qty, avgCost:avgCost, price:0 });
+      });
+
+      // Merge duplicate tickers in same CSV (weighted avg cost)
+      var map = {};
+      assets.forEach(function(a) {
+        if (map[a.ticker]) {
+          var ex = map[a.ticker], total = ex.qty + a.qty;
+          ex.avgCost = total > 0 ? Math.round((ex.qty*ex.avgCost + a.qty*a.avgCost)/total * 100)/100 : 0;
+          ex.qty = total;
+        } else {
+          map[a.ticker] = Object.assign({}, a);
+        }
+      });
+      return Object.keys(map).map(function(k){ return map[k]; });
+    }
+
+    function showImportToast(msg, type) {
+      var t = document.getElementById('import-toast');
+      if (!t) return;
+      t.textContent = msg;
+      t.className = 'import-toast ' + type;
+      clearTimeout(t._tid);
+      t._tid = setTimeout(function(){ t.className = 'import-toast'; }, 7000);
+    }
+
+    function handleImport(file) {
+      if (!file) return;
+      if (!file.name.match(/\.csv$/i)) {
+        showImportToast('Not a CSV file — please export a .csv from Fidelity or Robinhood.', 'error');
+        return;
+      }
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var parsed = parseCSVText(e.target.result);
+        if (!parsed.headers.length) {
+          showImportToast('Could not read file — is this a Fidelity or Robinhood CSV?', 'error');
+          return;
+        }
+        var broker = detectBroker(parsed.headers);
+        if (!broker) {
+          showImportToast('Format not recognized. Use File > Export from Fidelity or Account > Download from Robinhood.', 'error');
+          return;
+        }
+        var imported = normalizeRows(parsed.headers, parsed.rows, broker);
+        if (!imported || !imported.length) {
+          showImportToast('No positions found — check that you exported from the right account.', 'error');
+          return;
+        }
+        _cache = null;
+        saveAssets(imported);
+        render();
+        var zone = document.getElementById('import-zone');
+        if (zone) zone.classList.add('collapsed');
+        var disc = document.getElementById('disclaimer');
+        if (disc) disc.style.display = 'none';
+        var btn = document.getElementById('btn-import');
+        if (btn) btn.innerHTML = '&#8679; Re-import';
+        var brokerLabel = broker === 'fidelity' ? 'Fidelity' : 'Robinhood';
+        showImportToast('Imported ' + imported.length + ' positions from ' + brokerLabel + '.', 'success');
+        var upd = document.getElementById('last-updated');
+        if (upd) {
+          var now = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
+          upd.textContent = 'Imported from ' + brokerLabel + ' on ' + now + ' \u00b7 prices refreshed separately';
+        }
+      };
+      reader.onerror = function(){ showImportToast('Failed to read file.', 'error'); };
+      reader.readAsText(file);
+    }
+
+    window.toggleImportZone = function() {
+      var zone = document.getElementById('import-zone');
+      if (zone) zone.classList.toggle('collapsed');
+    };
+
+    // Attach drag-drop + file input handlers
+    (function attachImportHandlers() {
+      var zone  = document.getElementById('import-zone');
+      var input = document.getElementById('csv-file-input');
+      if (zone) {
+        zone.addEventListener('dragover',  function(e){ e.preventDefault(); zone.classList.add('drag-over'); });
+        zone.addEventListener('dragleave', function(){  zone.classList.remove('drag-over'); });
+        zone.addEventListener('drop', function(e) {
+          e.preventDefault();
+          zone.classList.remove('drag-over');
+          handleImport(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]);
+        });
+      }
+      if (input) {
+        input.addEventListener('change', function(){
+          handleImport(this.files[0]);
+          this.value = '';
+        });
+      }
+    })();
 
     // ── INIT ──
     render();
