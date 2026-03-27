@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Thomas Husom — Resume</title>
   <script>
-    var VER = 'v=20260326c';
+    var VER = 'v=20260327a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -191,7 +191,7 @@
     }
 
     .badge-ring {
-      width: 100px; height: 100px;
+      width: 140px; height: 140px;
       border-radius: 50%;
       border: 2px solid var(--cyan);
       display: flex;
@@ -200,6 +200,7 @@
       position: relative;
       animation: ringPulse 3s ease-in-out infinite;
       background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      overflow: hidden;
     }
 
     @keyframes ringPulse {
@@ -208,6 +209,82 @@
     }
 
     .badge-ring svg { width: 52px; height: 52px; }
+
+    .hero-photo {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-section {
+      padding: 32px 40px;
+      background: rgba(0,212,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .contact-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .contact-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .form-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--cyan); }
+    textarea.form-input { resize: vertical; min-height: 90px; }
+    .form-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+    .form-btn {
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 28px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .form-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-btn:not(:disabled):hover { opacity: 0.85; }
+    .form-msg { font-size: 0.82rem; }
+    .form-msg.success { color: #4ade80; }
+    .form-msg.error { color: #f87171; }
+    @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
 
     .badge-label {
       font-family: 'Orbitron', sans-serif;
@@ -650,32 +727,40 @@
           <span>Aberdeen, South Dakota</span>
           <span onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(function(){var s=document.getElementById('email-inline');s.textContent='Copied!';setTimeout(function(){s.textContent='tomhusom@gmail.com';},2000);})" id="email-inline" style="cursor:pointer;color:var(--cyan2);transition:color 0.2s;" title="Click to copy">tomhusom@gmail.com</span>
           <a href="https://linkedin.com/in/thomashusom-0418314" target="_blank">LinkedIn</a>
+          <a href="https://tomhusom-sudo.github.io" target="_blank">Live Portfolio</a>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="Thomas_Husom_Resume.pdf" download class="back-pill" style="color:var(--cyan);border-color:rgba(0,212,255,0.3);margin-bottom:0;">&#8595; Download PDF</a>
         </div>
       </div>
       <div class="hero-badge">
         <div class="badge-ring">
-          <!-- CPU/AI chip icon -->
-          <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="14" y="14" width="24" height="24" rx="4" stroke="#00d4ff" stroke-width="1.8"/>
-            <rect x="18" y="18" width="16" height="16" rx="2" fill="rgba(0,212,255,0.1)" stroke="#8b5cf6" stroke-width="1.2"/>
-            <line x1="19" y1="26" x2="23" y2="26" stroke="#00d4ff" stroke-width="1.2"/>
-            <line x1="29" y1="26" x2="33" y2="26" stroke="#00d4ff" stroke-width="1.2"/>
-            <line x1="26" y1="19" x2="26" y2="23" stroke="#00d4ff" stroke-width="1.2"/>
-            <line x1="26" y1="29" x2="26" y2="33" stroke="#00d4ff" stroke-width="1.2"/>
-            <line x1="20" y1="8" x2="20" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="26" y1="8" x2="26" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="32" y1="8" x2="32" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="20" y1="38" x2="20" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="26" y1="38" x2="26" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="32" y1="38" x2="32" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="8" y1="20" x2="14" y2="20" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="8" y1="26" x2="14" y2="26" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="8" y1="32" x2="14" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="38" y1="20" x2="44" y2="20" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="38" y1="26" x2="44" y2="26" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-            <line x1="38" y1="32" x2="44" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="26" cy="26" r="3" fill="#8b5cf6" opacity="0.8"/>
-          </svg>
+          <img src="toms_resume.png" alt="Thomas Husom" class="hero-photo"
+               onerror="this.style.display='none';document.getElementById('hero-fallback-svg').style.display='flex'">
+          <!-- CPU/AI chip icon — fallback if photo fails to load -->
+          <div id="hero-fallback-svg" style="display:none;align-items:center;justify-content:center;width:100%;height:100%">
+            <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:52px;">
+              <rect x="14" y="14" width="24" height="24" rx="4" stroke="#00d4ff" stroke-width="1.8"/>
+              <rect x="18" y="18" width="16" height="16" rx="2" fill="rgba(0,212,255,0.1)" stroke="#8b5cf6" stroke-width="1.2"/>
+              <line x1="19" y1="26" x2="23" y2="26" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="29" y1="26" x2="33" y2="26" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="26" y1="19" x2="26" y2="23" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="26" y1="29" x2="26" y2="33" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="20" y1="8" x2="20" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="26" y1="8" x2="26" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="32" y1="8" x2="32" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="20" y1="38" x2="20" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="26" y1="38" x2="26" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="32" y1="38" x2="32" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="20" x2="14" y2="20" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="26" x2="14" y2="26" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="32" x2="14" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="44" y2="20" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="38" y1="26" x2="44" y2="26" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="38" y1="32" x2="44" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="26" cy="26" r="3" fill="#8b5cf6" opacity="0.8"/>
+            </svg>
+          </div>
         </div>
         <div class="badge-label">20+ Years<br>Database<br>+ AI</div>
       </div>
@@ -928,6 +1013,33 @@
       </div>
     </div>
 
+    <!-- CONTACT FORM -->
+    <div class="contact-section">
+      <div class="contact-title">Get In Touch</div>
+      <div class="contact-sub">Available for Oracle DBA, database architecture, and AI-assisted development roles.</div>
+      <form id="contact-form" action="https://formspree.io/f/mreobrvj" method="POST">
+        <input type="hidden" name="_gotcha" style="display:none">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Name</label>
+            <input class="form-input" type="text" id="cf-name" name="name" required placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">Email</label>
+            <input class="form-input" type="email" id="cf-email" name="email" required placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="cf-message">Message</label>
+          <textarea class="form-input" id="cf-message" name="message" required placeholder="Tell me about the role or project..."></textarea>
+        </div>
+        <div class="form-footer">
+          <button type="submit" id="cf-btn" class="form-btn">Send Message</button>
+          <span id="cf-msg" class="form-msg"></span>
+        </div>
+      </form>
+    </div>
+
     <!-- CTA -->
     <div class="cta-strip">
       <div class="cta-text">20+ years of database expertise. Now building the future with AI.<br>Let's talk data, dashboards, and what agentic workflows can do for your organization.</div>
@@ -935,5 +1047,44 @@
     </div>
 
   </div>
+
+  <script>
+    (function() {
+      var form = document.getElementById('contact-form');
+      var btn  = document.getElementById('cf-btn');
+      var msg  = document.getElementById('cf-msg');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        msg.textContent = '';
+        msg.className = 'form-msg';
+        try {
+          var res = await fetch('https://formspree.io/f/mreobrvj', {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            msg.textContent = 'Message sent! I\'ll be in touch soon.';
+            msg.className = 'form-msg success';
+            form.reset();
+          } else {
+            var data = await res.json().catch(function(){return {};});
+            msg.textContent = (data.errors && data.errors[0] && data.errors[0].message)
+              ? data.errors[0].message
+              : 'Something went wrong. Or email me directly: tomhusom@gmail.com';
+            msg.className = 'form-msg error';
+          }
+        } catch(err) {
+          msg.textContent = 'Could not send — try tomhusom@gmail.com directly.';
+          msg.className = 'form-msg error';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send Message';
+        }
+      });
+    })();
+  </script>
 </body>
 </html>
