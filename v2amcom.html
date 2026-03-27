@@ -149,6 +149,61 @@
     .tag-orange { background: var(--orange-dim); color: var(--orange); }
     .tag-red { background: var(--red-dim); color: var(--red); }
 
+    /* STORY */
+    .story-section {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 760px) {
+      .story-section { grid-template-columns: 1fr; }
+      .story-art { margin: 0 auto; }
+    }
+    .story-art {
+      width: 260px;
+      background: rgba(22,163,74,0.05);
+      border: 1px solid rgba(22,163,74,0.15);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      flex-shrink: 0;
+    }
+    .story-art-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--green); text-align: center;
+    }
+    .story-body {}
+    .story-title {
+      font-size: 1.5rem; font-weight: 800; color: #f8fafc;
+      letter-spacing: -0.02em; margin-bottom: 6px;
+    }
+    .story-eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+    }
+    .story-body p {
+      font-size: 0.88rem; line-height: 1.8; color: #94a3b8; margin-bottom: 16px;
+    }
+    .story-body p strong { color: #e2e8f0; font-weight: 600; }
+    .story-body p.story-lead {
+      font-size: 0.95rem; color: #cbd5e1; font-weight: 400;
+    }
+    .story-body p.story-kicker {
+      font-size: 0.92rem; color: #cbd5e1;
+      border-left: 3px solid var(--orange);
+      padding-left: 16px; margin-top: 20px;
+    }
+    .story-years {
+      display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .story-stat {
+      text-align: center;
+    }
+    .story-stat-num { font-size: 1.8rem; font-weight: 800; color: var(--green-light); line-height: 1; }
+    .story-stat-lbl { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
     /* DIVIDER */
     .divider {
       border: none; border-top: 1px solid rgba(255,255,255,0.06);
@@ -419,6 +474,118 @@
       <div class="service-desc">AI agents that don't just report on your data — they act on it. Automated pipelines that discover, clean, and route data with minimal human intervention.</div>
       <span class="service-tag tag-red">AI · Automation</span>
     </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- OUR STORY -->
+  <div class="section-label">Our Story</div>
+  <div class="story-section">
+
+    <!-- Handshake illustration -->
+    <div class="story-art">
+      <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:210px;">
+        <defs>
+          <radialGradient id="hs-glow" cx="50%" cy="60%" r="50%">
+            <stop offset="0%" stop-color="#f97316" stop-opacity="0.25"/>
+            <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="hs-bloom" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- Background glow at handshake point -->
+        <ellipse cx="110" cy="118" rx="40" ry="28" fill="url(#hs-glow)"/>
+
+        <!-- ── LEFT FIGURE (Tom) ── -->
+        <!-- Head -->
+        <circle cx="52" cy="34" r="16" fill="none" stroke="#16a34a" stroke-width="2"/>
+        <circle cx="52" cy="34" r="10" fill="rgba(22,163,74,0.15)"/>
+        <!-- Body / suit jacket -->
+        <path d="M36 56 Q52 50 68 56 L72 100 L32 100 Z" fill="rgba(22,163,74,0.12)" stroke="#16a34a" stroke-width="1.5"/>
+        <!-- Lapels -->
+        <path d="M52 56 L44 70 L52 78" fill="none" stroke="#4ade80" stroke-width="1.2"/>
+        <path d="M52 56 L60 70 L52 78" fill="none" stroke="#4ade80" stroke-width="1.2"/>
+        <!-- Left arm down -->
+        <line x1="36" y1="62" x2="28" y2="95" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
+        <!-- Right arm reaching out -->
+        <path d="M68 62 Q88 72 100 108" fill="none" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
+        <!-- Legs -->
+        <line x1="44" y1="100" x2="40" y2="140" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
+        <line x1="60" y1="100" x2="64" y2="140" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
+        <!-- Feet -->
+        <line x1="40" y1="140" x2="32" y2="144" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
+        <line x1="64" y1="140" x2="72" y2="144" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- ── RIGHT FIGURE (Carl) ── -->
+        <!-- Head -->
+        <circle cx="168" cy="34" r="16" fill="none" stroke="#f97316" stroke-width="2"/>
+        <circle cx="168" cy="34" r="10" fill="rgba(249,115,22,0.15)"/>
+        <!-- Body / suit jacket -->
+        <path d="M152 56 Q168 50 184 56 L188 100 L148 100 Z" fill="rgba(249,115,22,0.10)" stroke="#f97316" stroke-width="1.5"/>
+        <!-- Lapels -->
+        <path d="M168 56 L160 70 L168 78" fill="none" stroke="#fb923c" stroke-width="1.2"/>
+        <path d="M168 56 L176 70 L168 78" fill="none" stroke="#fb923c" stroke-width="1.2"/>
+        <!-- Right arm down -->
+        <line x1="184" y1="62" x2="192" y2="95" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
+        <!-- Left arm reaching out -->
+        <path d="M152 62 Q132 72 120 108" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
+        <!-- Legs -->
+        <line x1="160" y1="100" x2="156" y2="140" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
+        <line x1="176" y1="100" x2="180" y2="140" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
+        <!-- Feet -->
+        <line x1="156" y1="140" x2="148" y2="144" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+        <line x1="180" y1="140" x2="188" y2="144" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+
+        <!-- ── HANDSHAKE ── -->
+        <!-- Two hands clasped at center -->
+        <path d="M100 108 Q106 112 110 116 Q114 112 120 108" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round"/>
+        <ellipse cx="110" cy="119" rx="12" ry="8" fill="rgba(74,222,128,0.15)" stroke="#4ade80" stroke-width="2" filter="url(#hs-bloom)"/>
+
+        <!-- Circuit lines radiating from handshake -->
+        <polyline points="110,127 110,138 96,138 96,148" fill="none" stroke="#4ade80" stroke-width="1" opacity="0.6"/>
+        <circle cx="96" cy="148" r="2" fill="#4ade80" opacity="0.6"/>
+        <polyline points="110,127 110,138 124,138 124,152" fill="none" stroke="#f97316" stroke-width="1" opacity="0.5"/>
+        <circle cx="124" cy="152" r="2" fill="#f97316" opacity="0.5"/>
+
+        <!-- 22 years tag -->
+        <rect x="86" y="155" width="48" height="20" rx="10" fill="rgba(22,163,74,0.15)" stroke="rgba(22,163,74,0.4)" stroke-width="1"/>
+        <text x="110" y="169" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#4ade80" letter-spacing="0.05em">22 YEARS</text>
+
+        <!-- Tiny stars -->
+        <circle cx="18" cy="18" r="1.2" fill="#4ade80" opacity="0.4"/>
+        <circle cx="200" cy="24" r="1" fill="#f97316" opacity="0.4"/>
+        <circle cx="205" cy="155" r="1.2" fill="#4ade80" opacity="0.3"/>
+      </svg>
+      <div class="story-art-label">Tom &amp; Carl · V2Amcom</div>
+    </div>
+
+    <!-- Story text -->
+    <div class="story-body">
+      <div class="story-eyebrow">V2Amcom · Our Story</div>
+      <div class="story-title">We Didn't Build This in a Clean Room.</div>
+
+      <div class="story-years">
+        <div class="story-stat"><div class="story-stat-num">25</div><div class="story-stat-lbl">Years Ago</div></div>
+        <div class="story-stat"><div class="story-stat-num">22</div><div class="story-stat-lbl">Years Together</div></div>
+        <div class="story-stat"><div class="story-stat-num">100s</div><div class="story-stat-lbl">Hospital DBs</div></div>
+      </div>
+
+      <p class="story-lead">Twenty-five years ago I walked into a company called Amcom. Jack Collins ran the place. I found a guy named Carl Spackler, trained him on the database, and somewhere along the way we became great friends. He worked under me. Then he became my boss. Then he left. Then I became the boss and hired him back. <strong>We spent 22 years together building something — from Amcom to SPOK — and we weren't done yet.</strong></p>
+
+      <p>We're talking hundreds of crappy hospital databases. Government systems held together with duct tape and prayer. Ancient Word docs. Handwritten notes — yes, actual handwritten notes — that somehow needed to live in a database. HL7 patient data. HIPAA certifications. ETL pipelines pulling data from places that had no business being called a data source.</p>
+
+      <p>And when it broke — and it always broke — there was no hiding. <strong>Systems down. Customers screaming. CEO standing over your shoulder at 2am</strong> sweating bullets while you're on-call trying to hold the whole thing together with your bare hands.</p>
+
+      <p>We lived that. For 22 years.</p>
+
+      <p>Today we're starting V2 Amcom. This is a data and AI company built for what's coming, not what's already here. We've seen the worst data imaginable and we cleaned it up. We integrate data, deploy AI tools, and send agentic agents to work — helping companies around the world get their house in order before the AI future arrives and leaves them behind.</p>
+
+      <p class="story-kicker"><strong>AI is only as good as the data you feed it.</strong> Dirty data, scattered data, ignored data — it'll sink you. Clean data wins. Organized data wins. That's what we do. We get your data ready so you can compete in the world that's already here.</p>
+    </div>
+
   </div>
 
   <hr class="divider">
