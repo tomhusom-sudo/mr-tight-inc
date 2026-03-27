@@ -423,8 +423,12 @@
     }
   ];
 
-  function stripHtml(str) {
-    return str ? str.replace(/<[^>]*>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").trim() : '';
+  function escHtml(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function safeLink(raw) {
+    return (raw && raw.indexOf('http') === 0) ? raw : '#';
   }
 
   function parseDate(str) {
@@ -456,8 +460,8 @@
         var items = Array.from(xml.querySelectorAll('item'));
         return items.map(function(it) {
           return {
-            title: stripHtml(it.querySelector('title') ? it.querySelector('title').textContent : ''),
-            link:  it.querySelector('link') ? it.querySelector('link').textContent.trim() : '#',
+            title: escHtml(it.querySelector('title') ? it.querySelector('title').textContent.trim() : ''),
+            link:  safeLink(it.querySelector('link') ? it.querySelector('link').textContent.trim() : ''),
             date:  parseDate(it.querySelector('pubDate') ? it.querySelector('pubDate').textContent : ''),
             source: sourceName(it, feed.label)
           };
@@ -474,7 +478,7 @@
     }
     grid.innerHTML = articles.map(function(a) {
       return '<a class="news-item" href="' + a.link + '" target="_blank" rel="noopener">' +
-        '<div class="news-source">' + a.source + '</div>' +
+        '<div class="news-source">' + escHtml(a.source) + '</div>' +
         '<div class="news-headline">' + a.title + '</div>' +
         '<div class="news-date">' + relTime(a.date) + '</div>' +
         '</a>';
