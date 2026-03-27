@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Honest Tom's Dashboard</title>
   <script>
-    var VER = 'v=20260328k';
+    var VER = 'v=20260327a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER);
     }
@@ -193,7 +193,7 @@
       font-weight: 700;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #2a3e1a;
+      color: #4a6838;
       padding: 6px 0 2px;
       border-top: 1px solid rgba(255,255,255,0.05);
       margin-top: 6px;
@@ -361,9 +361,16 @@
       border-radius: 999px;
       font-size: 0.63rem;
       font-weight: 600;
-      color: #3a4e28;
+      color: #4a6838;
       letter-spacing: 0.12em;
       text-transform: uppercase;
+    }
+
+    /* ── ACCESSIBILITY ── */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid #4ade80;
+      outline-offset: 2px;
+      border-radius: 4px;
     }
 
     /* ── FOOTER ── */
@@ -373,7 +380,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 0.68rem;
-      color: #2e3e1e;
+      color: #4a6838;
       border-top: 1px solid rgba(255,255,255,0.05);
       padding-top: 20px;
     }
@@ -488,7 +495,7 @@
     <div class="section-label">Finance &amp; Markets</div>
 
     <!-- Mr. Tight — featured -->
-    <a class="card active featured godfather-bg" href="./">
+    <a class="card active featured godfather-bg" href="./stocks.html">
       <div class="card-icon">
         <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -683,6 +690,20 @@
         <div class="wx-icon" id="wx-icon"></div>
         <div class="wx-temp" id="wx-temp"></div>
         <div class="wx-cond" id="wx-cond"></div>
+      </div>
+    </a>
+
+    <!-- Contacts -->
+    <a class="card active" href="./contacts.html" style="background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08);">
+      <div class="card-icon">👤</div>
+      <div class="card-eyebrow">Google Contacts</div>
+      <div class="card-title">Contacts</div>
+      <div class="card-desc">View and search your Google Contacts via OAuth — name, email, phone, all in one place.</div>
+      <div class="card-cta">
+        Open Contacts
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
     </a>
 

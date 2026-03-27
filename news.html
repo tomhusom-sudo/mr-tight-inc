@@ -4,15 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Portfolio News — Mr. Tight INC</title>
+  <script>
+    var VER = 'v=20260327a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Inter:wght@400;500;600&display=swap');
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
       font-family: 'Inter', -apple-system, sans-serif;
-      background: #0e1209;
-      color: #e2e8f0;
+      background: #0c1808;
+      color: #e2eed8;
       min-height: 100vh;
       padding: 32px 16px 80px;
       overflow-x: hidden;
@@ -45,11 +51,11 @@
       -webkit-tap-highlight-color: transparent;
       flex-shrink: 0;
     }
-    .back-btn:hover { background: #14532d; }
+    .back-btn:hover { background: rgba(34,197,94,0.08); }
 
     .header-title { display: flex; flex-direction: column; }
     .header-brand {
-      font-family: 'Rajdhani', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 1.4rem;
       font-weight: 700;
       letter-spacing: 0.18em;
@@ -76,7 +82,7 @@
       background: #141c0b;
       border: 1px solid #1e2e12;
       border-radius: 8px;
-      color: #64748b;
+      color: #7a9070;
       font-size: 0.72rem;
       font-weight: 600;
       cursor: pointer;
@@ -85,7 +91,7 @@
       font-family: inherit;
       -webkit-tap-highlight-color: transparent;
     }
-    .refresh-btn:hover { border-color: #334155; color: #94a3b8; }
+    .refresh-btn:hover { border-color: #4a6838; color: #7a9070; }
     .refresh-btn.spinning .refresh-icon { animation: spin 0.7s linear infinite; }
 
     /* ── FILTER BAR ── */
@@ -115,12 +121,12 @@
       cursor: pointer;
       border: 1px solid #1e2e12;
       background: #141c0b;
-      color: #64748b;
+      color: #7a9070;
       transition: all 0.15s;
       -webkit-tap-highlight-color: transparent;
     }
-    .filter-pill.active { background: #14532d; color: #4ade80; border-color: #22c55e; }
-    .filter-pill:hover:not(.active) { border-color: #334155; color: #94a3b8; }
+    .filter-pill.active { background: rgba(34,197,94,0.1); color: #4ade80; border-color: #22c55e; }
+    .filter-pill:hover:not(.active) { border-color: rgba(74,222,128,0.3); color: #4a6838; }
 
     /* ── SOURCE LEGEND ── */
     .source-legend {
@@ -134,7 +140,7 @@
 
     .legend-label {
       font-size: 0.63rem;
-      color: #334155;
+      color: #4a6838;
       text-transform: uppercase;
       letter-spacing: 0.07em;
       font-weight: 600;
@@ -160,7 +166,7 @@
     .ticker-logo-fallback {
       width: 28px; height: 28px; border-radius: 50%; background: #1e2e12;
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; font-weight: 700; color: #94a3b8; flex-shrink: 0;
+      font-size: 0.6rem; font-weight: 700; color: #7a9070; flex-shrink: 0;
     }
 
     .ticker-name  { font-size: 0.95rem; font-weight: 700; color: #f1f5f9; letter-spacing: 0.04em; }
@@ -189,7 +195,7 @@
       position: relative;
       -webkit-tap-highlight-color: transparent;
     }
-    .news-card:hover { border-color: #334155; background: #17200e; }
+    .news-card:hover { border-color: rgba(74,222,128,0.2); background: #17200e; }
     .news-card.top-story { border-color: #1e3b24; }
     .news-card.top-story:hover { border-color: #22c55e44; }
 
@@ -208,7 +214,7 @@
 
     .news-summary {
       font-size: 0.75rem;
-      color: #64748b;
+      color: #7a9070;
       line-height: 1.5;
       margin-bottom: 7px;
       display: -webkit-box;
@@ -250,7 +256,7 @@
     .src-investopedia { background:#1a2a3a; color:#7dd3fc; }
     .src-fortune    { background:#2d2010; color:#fcd34d; }
     .src-ft         { background:#2d1c10; color:#f97316; }
-    .src-default    { background:#1e2e12; color:#94a3b8; }
+    .src-default    { background:#1e2e12; color:#7a9070; }
 
     /* ── SECTION DIVIDER ── */
     .section-divider {
@@ -275,11 +281,11 @@
       white-space: nowrap;
     }
 
-    .news-time { color: #334155; }
+    .news-time { color: #4a6838; }
     .news-dot  { color: #1e2e12; }
 
     .new-badge {
-      background: #14532d;
+      background: rgba(34,197,94,0.12);
       color: #4ade80;
       font-size: 0.58rem;
       font-weight: 700;
@@ -309,7 +315,7 @@
     .empty-row { color: #475569; font-size: 0.76rem; padding: 12px 0; }
 
     /* ── FOOTER ── */
-    .page-footer { max-width:860px; margin:32px auto 0; font-size:0.67rem; color:#334155; text-align:center; line-height:1.6; }
+    .page-footer { max-width:860px; margin:32px auto 0; font-size:0.67rem; color:#4a6838; text-align:center; line-height:1.6; }
 
     /* ── MOBILE ── */
     @media (max-width: 600px) {

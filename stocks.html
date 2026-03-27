@@ -677,9 +677,11 @@
 
   <!-- PRICE DATA — updated by cron job; do not rename this script tag -->
   <script id="price-data">
+    // Fallback prices — overwritten on load by fetchLivePrices() reading prices.json
     var LIVE_PRICES = {
       AA: 56.45, MSFT: 380.58, AMZN: 204.89, BTC: 68951.00,
-      NVDA: 172.76, VOO: 597.94, VONG: 121.99, EXE: 107.55
+      NVDA: 172.76, VOO: 597.94, VONG: 121.99, EXE: 107.55,
+      ETH: 0, ARKK: 0
     };
     var LAST_UPDATED = "March 23, 2026";
   </script>
@@ -721,16 +723,43 @@
       try { localStorage.setItem('mti_assets', JSON.stringify(assets)); } catch(e) {}
     }
 
-    // Fetch portfolio.json — used only when localStorage has no data (first visit or cleared).
-    // After that, localStorage is the source of truth so UI edits are preserved.
-    // To sync edits across devices, tell Claude to update portfolio.json and push.
+    // Fetch portfolio.json — always syncs; only overwrites localStorage if remote changed.
+    // Compares against last-fetched snapshot so local UI edits survive between pushes.
     function fetchRemotePortfolio() {
-      try { if (localStorage.getItem('mti_assets')) return; } catch(e) {}
       fetch('portfolio.json?v=' + Date.now())
         .then(function(r) { return r.json(); })
         .then(function(remote) {
           if (!Array.isArray(remote) || !remote.length) return;
+          var remoteStr = JSON.stringify(remote);
+          try {
+            if (localStorage.getItem('mti_last_remote') === remoteStr) return;
+            localStorage.setItem('mti_last_remote', remoteStr);
+          } catch(e) {}
           saveAssets(remote);
+          render();
+        })
+        .catch(function() {});
+    }
+
+    // Fetch prices.json and update LIVE_PRICES, then re-render with fresh prices.
+    function fetchLivePrices() {
+      fetch('prices.json?v=' + Date.now())
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (!data || !data.prices) return;
+          Object.assign(LIVE_PRICES, data.prices);
+          if (data.updated) {
+            LAST_UPDATED = data.updated;
+            // Staleness warning: flag prices older than 2 days
+            var updEl = document.getElementById('last-updated');
+            if (updEl) {
+              var d = new Date(data.updated);
+              var age = (Date.now() - d.getTime()) / 86400000;
+              var stale = age > 2 ? ' ⚠ stale' : '';
+              updEl.textContent = 'Last updated: ' + data.updated + stale;
+              updEl.style.color = age > 2 ? '#f87171' : '';
+            }
+          }
           render();
         })
         .catch(function() {});
@@ -968,7 +997,8 @@
 
     // ── INIT ──
     render();
-    fetchRemotePortfolio(); // sync from repo — updates all devices
+    fetchLivePrices();      // pull prices.json → updates LIVE_PRICES, re-renders
+    fetchRemotePortfolio(); // pull portfolio.json → syncs holdings across devices
 
   })();
   </script>

@@ -13,13 +13,14 @@
       location.replace(location.pathname + '?' + VER);
     }
   </script>
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: 'Inter', sans-serif; background: linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%), url('./angry_lincoln.png') center 20% / cover no-repeat fixed; color: #e2e8f0; min-height: 100vh; padding: 32px 16px 80px; }
+    body { font-family: 'Inter', sans-serif; background: linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%), url('./angry_lincoln.png') center 20% / cover no-repeat fixed; color: #e2eed8; min-height: 100vh; padding: 32px 16px 80px; }
     .header { max-width: 860px; margin: 0 auto 28px; }
     .back-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid #22c55e; border-radius: 8px; color: #4ade80; font-size: 0.78rem; font-weight: 600; text-decoration: none; transition: background 0.15s; }
-    .back-btn:hover { background: #14532d; }
+    .back-btn:hover { background: rgba(34,197,94,0.08); }
     .pick-banner { max-width: 860px; margin: 0 auto 24px; background: rgba(34,197,94,0.06); border: 1px solid rgba(34,197,94,0.25); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; }
     .pick-banner::before { content: ''; position: absolute; top: -60px; right: -60px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(74,222,128,0.1) 0%, transparent 70%); pointer-events: none; }
     .pick-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #4ade80; margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
@@ -79,9 +80,9 @@
     .news-card { background: #141c0b; border: 1px solid #1e2e12; border-radius: 10px; padding: 13px 15px; text-decoration: none; display: block; transition: border-color 0.15s; }
     .news-card:hover { border-color: #334155; background: #17200e; }
     .news-card.top-story { border-color: #1e3b24; }
-    .news-title { font-size: 0.87rem; font-weight: 600; color: #e2e8f0; line-height: 1.45; margin-bottom: 5px; }
+    .news-title { font-size: 0.87rem; font-weight: 600; color: #e2eed8; line-height: 1.45; margin-bottom: 5px; }
     .news-card.top-story .news-title { font-size: 0.92rem; color: #f1f5f9; }
-    .news-summary { font-size: 0.75rem; color: #64748b; line-height: 1.5; margin-bottom: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .news-summary { font-size: 0.75rem; color: #7a9070; line-height: 1.5; margin-bottom: 7px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
     .news-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 0.66rem; }
     .src-badge { display: inline-block; padding: 1px 7px; border-radius: 4px; font-size: 0.62rem; font-weight: 700; }
     .src-yahoo { background:#1e1e3f; color:#a78bfa; }
@@ -95,7 +96,6 @@
     .page-footer { max-width: 860px; margin: 32px auto 0; font-size: 0.67rem; color: #334155; text-align: center; }
 
     /* ── MORK CORNER ── */
-    @import url('https://fonts.googleapis.com/css2?family=Bangers&display=swap');
     .mork-corner {
       display: flex; flex-direction: column; align-items: center; gap: 4px;
     }
