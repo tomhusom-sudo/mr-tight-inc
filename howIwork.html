@@ -531,6 +531,36 @@
           <span class="case-tag">Agentic AI</span>
         </a>
 
+        <!-- Agentic AI Audit — full width showcase -->
+        <div class="case-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(34,197,94,0.07) 0%, rgba(139,92,246,0.07) 100%); border-color: rgba(34,197,94,0.25); cursor: default;">
+          <div class="case-card-top">
+            <h3 style="color:#4ade80;">Live Demo: Multi-Agent AI Audit</h3>
+            <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#a78bfa;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);padding:3px 10px;border-radius:20px;">Ran on this dashboard · March 2026</span>
+          </div>
+          <p style="margin-bottom:16px;">I ran a team of 3 specialized AI agents in parallel to audit this entire dashboard — one reviewed the portfolio data logic, one reviewed the UI and CSS, one reviewed the GitHub Pages config and deploy process. A 4th agent fetched live ETH and ARKK prices simultaneously. All agents coordinated through a shared task list. Every finding was fixed and deployed in a single session.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px;">
+            <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;">Portfolio Agent</div>
+              <div style="font-size:0.78rem;color:#e2eed8;line-height:1.5;">Found that <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">stocks.html</code> never read <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">prices.json</code> — the entire price-refresh cron was wasted. Fixed with dynamic fetch + re-render.</div>
+            </div>
+            <div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#a78bfa;margin-bottom:6px;">UI / CSS Agent</div>
+              <div style="font-size:0.78rem;color:#e2eed8;line-height:1.5;">Found section labels were near-invisible (#2a3e1a on near-black), no <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">:focus-visible</code> on any element, and color drift across 3 pages. All fixed.</div>
+            </div>
+            <div style="background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.15);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#22d3ee;margin-bottom:6px;">Deploy Agent</div>
+              <div style="font-size:0.78rem;color:#e2eed8;line-height:1.5;">Found the Mr. Tight card linked to a redirect loop to the resume page. Found <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">sync.js</code> existed in both repos but not in source — one push from deletion.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <span class="case-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:#4ade80;">3 Parallel Agents</span>
+            <span class="case-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa;">Shared Task List</span>
+            <span class="case-tag">20+ Fixes Deployed</span>
+            <span class="case-tag">Live Price Fetch</span>
+            <span class="case-tag">Agentic AI</span>
+          </div>
+        </div>
+
         <!-- Why We're Better — full width pitch -->
         <div class="case-card" style="grid-column: 1 / -1; flex-direction: column; gap: 0; padding: 0; overflow: hidden; cursor: default;">
 
