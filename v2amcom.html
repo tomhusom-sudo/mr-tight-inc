@@ -162,7 +162,7 @@
       .story-art { margin: 0 auto; }
     }
     .story-art {
-      width: 260px;
+      width: 280px;
       background: rgba(22,163,74,0.05);
       border: 1px solid rgba(22,163,74,0.15);
       border-radius: 20px;
@@ -482,84 +482,10 @@
   <div class="section-label">Our Story</div>
   <div class="story-section">
 
-    <!-- Handshake illustration -->
-    <div class="story-art">
-      <svg viewBox="0 0 220 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:210px;">
-        <defs>
-          <radialGradient id="hs-glow" cx="50%" cy="60%" r="50%">
-            <stop offset="0%" stop-color="#f97316" stop-opacity="0.25"/>
-            <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
-          </radialGradient>
-          <filter id="hs-bloom" x="-30%" y="-30%" width="160%" height="160%">
-            <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/>
-            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
-          </filter>
-        </defs>
-
-        <!-- Background glow at handshake point -->
-        <ellipse cx="110" cy="118" rx="40" ry="28" fill="url(#hs-glow)"/>
-
-        <!-- ── LEFT FIGURE (Tom) ── -->
-        <!-- Head -->
-        <circle cx="52" cy="34" r="16" fill="none" stroke="#16a34a" stroke-width="2"/>
-        <circle cx="52" cy="34" r="10" fill="rgba(22,163,74,0.15)"/>
-        <!-- Body / suit jacket -->
-        <path d="M36 56 Q52 50 68 56 L72 100 L32 100 Z" fill="rgba(22,163,74,0.12)" stroke="#16a34a" stroke-width="1.5"/>
-        <!-- Lapels -->
-        <path d="M52 56 L44 70 L52 78" fill="none" stroke="#4ade80" stroke-width="1.2"/>
-        <path d="M52 56 L60 70 L52 78" fill="none" stroke="#4ade80" stroke-width="1.2"/>
-        <!-- Left arm down -->
-        <line x1="36" y1="62" x2="28" y2="95" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
-        <!-- Right arm reaching out -->
-        <path d="M68 62 Q88 72 100 108" fill="none" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
-        <!-- Legs -->
-        <line x1="44" y1="100" x2="40" y2="140" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
-        <line x1="60" y1="100" x2="64" y2="140" stroke="#16a34a" stroke-width="5" stroke-linecap="round"/>
-        <!-- Feet -->
-        <line x1="40" y1="140" x2="32" y2="144" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
-        <line x1="64" y1="140" x2="72" y2="144" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
-
-        <!-- ── RIGHT FIGURE (Carl) ── -->
-        <!-- Head -->
-        <circle cx="168" cy="34" r="16" fill="none" stroke="#f97316" stroke-width="2"/>
-        <circle cx="168" cy="34" r="10" fill="rgba(249,115,22,0.15)"/>
-        <!-- Body / suit jacket -->
-        <path d="M152 56 Q168 50 184 56 L188 100 L148 100 Z" fill="rgba(249,115,22,0.10)" stroke="#f97316" stroke-width="1.5"/>
-        <!-- Lapels -->
-        <path d="M168 56 L160 70 L168 78" fill="none" stroke="#fb923c" stroke-width="1.2"/>
-        <path d="M168 56 L176 70 L168 78" fill="none" stroke="#fb923c" stroke-width="1.2"/>
-        <!-- Right arm down -->
-        <line x1="184" y1="62" x2="192" y2="95" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
-        <!-- Left arm reaching out -->
-        <path d="M152 62 Q132 72 120 108" fill="none" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
-        <!-- Legs -->
-        <line x1="160" y1="100" x2="156" y2="140" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
-        <line x1="176" y1="100" x2="180" y2="140" stroke="#f97316" stroke-width="5" stroke-linecap="round"/>
-        <!-- Feet -->
-        <line x1="156" y1="140" x2="148" y2="144" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
-        <line x1="180" y1="140" x2="188" y2="144" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
-
-        <!-- ── HANDSHAKE ── -->
-        <!-- Two hands clasped at center -->
-        <path d="M100 108 Q106 112 110 116 Q114 112 120 108" fill="none" stroke="#4ade80" stroke-width="4" stroke-linecap="round"/>
-        <ellipse cx="110" cy="119" rx="12" ry="8" fill="rgba(74,222,128,0.15)" stroke="#4ade80" stroke-width="2" filter="url(#hs-bloom)"/>
-
-        <!-- Circuit lines radiating from handshake -->
-        <polyline points="110,127 110,138 96,138 96,148" fill="none" stroke="#4ade80" stroke-width="1" opacity="0.6"/>
-        <circle cx="96" cy="148" r="2" fill="#4ade80" opacity="0.6"/>
-        <polyline points="110,127 110,138 124,138 124,152" fill="none" stroke="#f97316" stroke-width="1" opacity="0.5"/>
-        <circle cx="124" cy="152" r="2" fill="#f97316" opacity="0.5"/>
-
-        <!-- 23 years tag -->
-        <rect x="86" y="155" width="48" height="20" rx="10" fill="rgba(22,163,74,0.15)" stroke="rgba(22,163,74,0.4)" stroke-width="1"/>
-        <text x="110" y="169" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="#4ade80" letter-spacing="0.05em">23 YEARS</text>
-
-        <!-- Tiny stars -->
-        <circle cx="18" cy="18" r="1.2" fill="#4ade80" opacity="0.4"/>
-        <circle cx="200" cy="24" r="1" fill="#f97316" opacity="0.4"/>
-        <circle cx="205" cy="155" r="1.2" fill="#4ade80" opacity="0.3"/>
-      </svg>
-      <div class="story-art-label">Tom &amp; Carl · V2Amcom</div>
+    <!-- Handshake photo -->
+    <div class="story-art" style="padding:0;overflow:hidden;">
+      <img src="./tombrad.png" alt="Tom and Carl — V2Amcom founders" style="width:100%;border-radius:18px 18px 0 0;display:block;object-fit:cover;">
+      <div class="story-art-label" style="padding:12px 0 14px;">Tom &amp; Carl · V2Amcom</div>
     </div>
 
     <!-- Story text -->
