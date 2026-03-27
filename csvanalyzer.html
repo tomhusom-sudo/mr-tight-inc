@@ -328,7 +328,9 @@
 <script>
 // ── CSV PARSER ──
 function parseCSV(text) {
-  var lines = text.split(/\r?\n/).filter(l => l.trim());
+  // Strip BOM if present, handle all line ending variants (\r\n, \r, \n)
+  text = text.replace(/^\uFEFF/, '');
+  var lines = text.split(/\r\n|\r|\n/).filter(l => l.trim());
   if (!lines.length) return { headers: [], rows: [] };
 
   function splitLine(line) {
@@ -539,7 +541,7 @@ dz.addEventListener('drop', e => {
   e.preventDefault();
   dz.classList.remove('drag-over');
   var file = e.dataTransfer.files[0];
-  if (!file || !file.name.endsWith('.csv')) { alert('Please drop a CSV file.'); return; }
+  if (!file || !file.name.toLowerCase().endsWith('.csv')) { alert('Please drop a CSV file.'); return; }
   var reader = new FileReader();
   reader.onload = ev => analyze(file, ev.target.result);
   reader.readAsText(file);
