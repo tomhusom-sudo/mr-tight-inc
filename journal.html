@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Journal</title>
+  <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -68,6 +76,7 @@
 </style>
 <!-- Plausible Analytics -->
 <script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+<script src="./sync.js"></script>
 </head>
 <body>
 <div class="page-wrap">
@@ -211,6 +220,7 @@
     setTimeout(function() { btn.textContent = 'Save Entry'; btn.style.background = ''; }, 1800);
 
     render();
+    syncPush();
   });
 
   function load() { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch(e) { return []; } }
@@ -219,9 +229,25 @@
     catch(e) { return false; }
   }
 
+  // ── Gist Sync ──
+  function syncPush() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    GistSync.setSection('journal', load());
+  }
+  function syncInit() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    GistSync.getSection('journal', function(data, err) {
+      if (!err && Array.isArray(data) && data.length) {
+        save(data);
+        render();
+      }
+    });
+  }
+
   window._journalDel = function(id) {
     if (confirm('Delete this entry?')) {
       save(load().filter(function(e) { return e.id !== id; }));
+      syncPush();
       render();
     }
   };
@@ -248,6 +274,7 @@
   }
 
   render();
+  syncInit();
 })();
 </script>
 </body>
