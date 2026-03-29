@@ -1,12 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HonestTom">
+  <link rel="apple-touch-icon" href="/lincoln.jpg">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mr. Tight INC</title>
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260323c';
+    var VER = 'v=20260329d';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -41,18 +54,39 @@
     /* ── HEADER ── */
     .header {
       max-width: 960px;
-      margin: 0 auto 36px;
+      margin: 0 auto 22px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
+      position: relative;
     }
 
-    .logo-wrapper { margin-bottom: 28px; }
+    .news-corner {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: transparent;
+      border: 1px solid #22c55e;
+      color: #4ade80;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 5px 11px;
+      border-radius: 999px;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+    }
+    .news-corner:hover { background: #14532d; color: #86efac; }
+
+    .logo-wrapper { margin-bottom: 18px; }
 
     h1 {
       font-family: 'Rajdhani', sans-serif;
-      font-size: 3.4rem;
+      font-size: 2.8rem;
       font-weight: 700;
       letter-spacing: 0.22em;
       text-transform: uppercase;
@@ -81,26 +115,26 @@
     }
 
     /* ── PORTFOLIO SUMMARY ── */
-    .summary { max-width: 960px; margin: 0 auto 32px; }
+    .summary { max-width: 960px; margin: 0 auto 24px; }
 
     .summary-top {
       margin-bottom: 4px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       color: #64748b;
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
 
     .total-value {
-      font-size: 2.8rem;
+      font-size: 1.9rem;
       font-weight: 600;
       color: #f8fafc;
-      letter-spacing: -1px;
+      letter-spacing: -0.5px;
       line-height: 1;
       margin-bottom: 6px;
     }
 
-    .total-gain { font-size: 1rem; font-weight: 500; }
+    .total-gain { font-size: 0.9rem; font-weight: 500; }
 
     .gain  { color: #4ade80; }
     .loss  { color: #f87171; }
@@ -445,10 +479,11 @@
       /* Shrink header — logo SVG hidden, title compact */
       .logo-wrapper svg     { display: none; }
       .logo-wrapper         { margin-bottom: 6px; }
-      .header               { margin-bottom: 20px; }
+      .header               { margin-bottom: 16px; }
       h1                    { font-size: 1.6rem; letter-spacing: 0.1em; }
       .logo-bar             { margin-top: 4px; }
       .logo-tagline         { font-size: 0.58rem; letter-spacing: 0.3em; }
+      .news-corner          { font-size: 0.55rem; padding: 4px 8px; top: 2px; }
 
       /* Portfolio value — prominent, breathable */
       .summary              { margin-bottom: 24px; }
@@ -461,9 +496,6 @@
       .card                 { padding: 12px 14px; border-radius: 10px; }
       .card-label           { font-size: 0.65rem; margin-bottom: 4px; }
       .card-value           { font-size: 1rem; }
-
-      /* Hide illuminati eye on mobile — causes overlap in 2-col grid */
-      .summary-cards .card:last-child > svg { display: none !important; }
 
       /* Table */
       thead th  { padding: 9px 10px; font-size: 0.6rem; }
@@ -482,8 +514,14 @@
       .modal                { padding: 22px 18px 20px; }
     }
   </style>
-<!-- Plausible Analytics -->
-<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9KFJ9RZ2QS"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9KFJ9RZ2QS');
+</script>
 </head>
 <body>
 
@@ -491,6 +529,7 @@
 
   <!-- HEADER -->
   <div class="header">
+    <a class="news-corner" href="news.html">&#9656; Portfolio News</a>
     <div class="logo-wrapper">
       <svg width="460" height="115" viewBox="-5 -12 470 132" fill="none" xmlns="http://www.w3.org/2000/svg"
            style="max-width:100%; height:auto; display:block; margin:0 auto;">
@@ -547,44 +586,7 @@
         <div class="card-label">Total Gain / Loss</div>
         <div class="card-value" id="card-gain">—</div>
       </div>
-      <div class="card" style="position:relative; overflow:visible;">
-        <!-- News link above pyramid -->
-        <a href="news.html"
-           style="position:absolute; top:-118px; left:50%; transform:translateX(-50%);
-                  background:transparent; border:1px solid #22c55e; color:#4ade80;
-                  font-size:0.65rem; font-weight:700; letter-spacing:0.12em;
-                  text-transform:uppercase; text-decoration:none;
-                  padding:4px 10px; border-radius:999px; white-space:nowrap;
-                  font-family:'Inter',sans-serif;
-                  transition:background 0.15s, color 0.15s;">
-          &#9656; Portfolio News
-        </a>
-        <!-- Illuminati Eye -->
-        <svg width="48" height="46" viewBox="0 0 80 76"
-             style="position:absolute; top:-96px; left:50%; transform:translateX(-50%); filter:drop-shadow(0 0 8px rgba(34,197,94,0.6));"
-             fill="none" xmlns="http://www.w3.org/2000/svg">
-          <g stroke="#22c55e" stroke-width="1" opacity="0.5">
-            <line x1="40" y1="2"  x2="40" y2="8"/>
-            <line x1="55" y1="5"  x2="52" y2="10"/>
-            <line x1="67" y1="14" x2="63" y2="18"/>
-            <line x1="74" y1="27" x2="69" y2="29"/>
-            <line x1="25" y1="5"  x2="28" y2="10"/>
-            <line x1="13" y1="14" x2="17" y2="18"/>
-            <line x1="6"  y1="27" x2="11" y2="29"/>
-          </g>
-          <polygon points="40,10 74,68 6,68" stroke="#22c55e" stroke-width="2.2" stroke-linejoin="miter" fill="#0a1a10"/>
-          <polygon points="40,16 70,65 10,65" stroke="#22c55e" stroke-width="0.5" stroke-linejoin="miter" fill="none" opacity="0.25"/>
-          <path d="M40,34 Q52,26 58,40 Q52,54 40,46 Q28,54 22,40 Q28,26 40,34Z" fill="#d4f5d4"/>
-          <circle cx="40" cy="40" r="9" fill="#22c55e"/>
-          <circle cx="40" cy="40" r="9" stroke="#16a34a" stroke-width="1" fill="none"/>
-          <circle cx="40" cy="40" r="6" stroke="#15803d" stroke-width="0.6" fill="none" opacity="0.5"/>
-          <circle cx="40" cy="40" r="4.5" fill="#050e08"/>
-          <circle cx="37" cy="37" r="1.8" fill="rgba(255,255,255,0.55)"/>
-          <circle cx="43" cy="42" r="0.9" fill="rgba(255,255,255,0.25)"/>
-          <path d="M22,40 Q31,28 40,34 Q49,28 58,40" stroke="#1a3a20" stroke-width="1" fill="none"/>
-          <path d="M22,40 Q31,52 40,46 Q49,52 58,40" stroke="#1a3a20" stroke-width="1" fill="none"/>
-          <line x1="10" y1="68" x2="70" y2="68" stroke="#22c55e" stroke-width="0.6" opacity="0.4"/>
-        </svg>
+      <div class="card">
         <div class="card-label">Return</div>
         <div class="card-value" id="card-return">—</div>
       </div>
@@ -597,6 +599,11 @@
     <div class="section-actions">
       <button class="btn btn-add" id="btn-add-asset" onclick="openModal(null)">+ Add Asset</button>
       <button class="btn btn-edit" id="btn-edit-toggle" onclick="toggleEditMode()">Edit Portfolio</button>
+  </div></div>
+  <div style="font-size:0.7rem;color:#4b5563;margin:-8px 0 12px 0;padding:6px 10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:8px;">
+    ⚠️ Holdings quantities and costs shown are sample data for demonstration purposes only and do not represent real positions.
+  </div>
+  <div style="display:none">
     </div>
   </div>
 
@@ -691,14 +698,16 @@
 
     // ── DEFAULT PORTFOLIO DATA ──
     var DEFAULT_ASSETS = [
-      { ticker:'AA',   name:'Alcoa Corporation',                  type:'stock',  domain:'alcoa.com',        logoUrl:'',                                                  qty:555555, avgCost:7.00        },
-      { ticker:'MSFT', name:'Microsoft Corporation',              type:'stock',  domain:'microsoft.com',    logoUrl:'',                                                  qty:50,     avgCost:310.00       },
-      { ticker:'AMZN', name:'Amazon.com, Inc.',                   type:'stock',  domain:'amazon.com',       logoUrl:'',                                                  qty:75,     avgCost:165.00       },
-      { ticker:'BTC',  name:'Bitcoin',                            type:'crypto', domain:'',                 logoUrl:'https://cryptologos.cc/logos/bitcoin-btc-logo.png', qty:0.5,    avgCost:54846.21     },
-      { ticker:'NVDA', name:'NVIDIA Corporation',                 type:'stock',  domain:'nvidia.com',       logoUrl:'',                                                  qty:100,    avgCost:120.00       },
-      { ticker:'VOO',  name:'Vanguard S&P 500 ETF',              type:'etf',    domain:'vanguard.com',     logoUrl:'',                                                  qty:30,     avgCost:450.00       },
-      { ticker:'VONG', name:'Vanguard Russell 1000 Growth ETF',  type:'etf',    domain:'vanguard.com',     logoUrl:'',                                                  qty:40,     avgCost:95.00        },
-      { ticker:'EXE',  name:'Expand Energy Corporation',          type:'stock',  domain:'expandenergy.com', logoUrl:'',                                                  qty:60,     avgCost:85.00        },
+      { ticker:'AA',   name:'Alcoa Corporation',                  type:'stock',  domain:'alcoa.com',        logoUrl:'',                                                   qty:555555, avgCost:7.00        },
+      { ticker:'MSFT', name:'Microsoft Corporation',              type:'stock',  domain:'microsoft.com',    logoUrl:'',                                                   qty:50,     avgCost:310.00      },
+      { ticker:'AMZN', name:'Amazon.com, Inc.',                   type:'stock',  domain:'amazon.com',       logoUrl:'',                                                   qty:75,     avgCost:165.00      },
+      { ticker:'BTC',  name:'Bitcoin',                            type:'crypto', domain:'',                 logoUrl:'https://cryptologos.cc/logos/bitcoin-btc-logo.png',  qty:0.5,    avgCost:54846.21    },
+      { ticker:'ETH',  name:'Ethereum',                           type:'crypto', domain:'',                 logoUrl:'https://cryptologos.cc/logos/ethereum-eth-logo.png', qty:2,      avgCost:2500.00     },
+      { ticker:'NVDA', name:'NVIDIA Corporation',                 type:'stock',  domain:'nvidia.com',       logoUrl:'',                                                   qty:100,    avgCost:120.00      },
+      { ticker:'VOO',  name:'Vanguard S&P 500 ETF',              type:'etf',    domain:'vanguard.com',     logoUrl:'',                                                   qty:30,     avgCost:450.00      },
+      { ticker:'VONG', name:'Vanguard Russell 1000 Growth ETF',  type:'etf',    domain:'vanguard.com',     logoUrl:'',                                                   qty:40,     avgCost:95.00       },
+      { ticker:'EXE',  name:'Expand Energy Corporation',          type:'stock',  domain:'expandenergy.com', logoUrl:'',                                                   qty:60,     avgCost:85.00       },
+      { ticker:'ARKK', name:'ARK Innovation ETF',                 type:'etf',    domain:'ark-funds.com',    logoUrl:'',                                                   qty:50,     avgCost:50.00       },
     ];
 
     var editingIndex = null;
@@ -707,12 +716,14 @@
 
     // ── STORAGE ──
     var _cache = null;
+    var PORTFOLIO_VER = '20260329';  // bump this when DEFAULT_ASSETS changes
 
     function loadAssets() {
       if (_cache) return _cache;
       try {
-        var s = localStorage.getItem('mti_assets');
-        if (s) { _cache = JSON.parse(s); return _cache; }
+        var ver = localStorage.getItem('mti_assets_ver');
+        var s   = localStorage.getItem('mti_assets');
+        if (s && ver === PORTFOLIO_VER) { _cache = JSON.parse(s); return _cache; }
       } catch(e) {}
       _cache = DEFAULT_ASSETS.map(function(a){ return Object.assign({}, a); });
       return _cache;
@@ -720,20 +731,22 @@
 
     function saveAssets(assets) {
       _cache = assets;
-      try { localStorage.setItem('mti_assets', JSON.stringify(assets)); } catch(e) {}
+      try {
+        localStorage.setItem('mti_assets', JSON.stringify(assets));
+        localStorage.setItem('mti_assets_ver', PORTFOLIO_VER);
+      } catch(e) {}
     }
 
-    // Fetch portfolio.json — always syncs; only overwrites localStorage if remote changed.
-    // Compares against last-fetched snapshot so local UI edits survive between pushes.
+    // Fetch portfolio.json — seeds/reseeds when PORTFOLIO_VER has changed.
+    // User edits made after the last version bump are preserved.
     function fetchRemotePortfolio() {
       fetch('portfolio.json?v=' + Date.now())
         .then(function(r) { return r.json(); })
         .then(function(remote) {
           if (!Array.isArray(remote) || !remote.length) return;
-          var remoteStr = JSON.stringify(remote);
           try {
-            if (localStorage.getItem('mti_last_remote') === remoteStr) return;
-            localStorage.setItem('mti_last_remote', remoteStr);
+            var ver = localStorage.getItem('mti_assets_ver');
+            if (ver === PORTFOLIO_VER && localStorage.getItem('mti_assets')) return;
           } catch(e) {}
           saveAssets(remote);
           render();
@@ -826,10 +839,18 @@
     }
 
     // ── RENDER TABLE ──
+    var CRYPTO_LOGOS = {
+      'BTC':  'https://cryptologos.cc/logos/bitcoin-btc-logo.png',
+      'ETH':  'https://cryptologos.cc/logos/ethereum-eth-logo.png',
+      'SOL':  'https://cryptologos.cc/logos/solana-sol-logo.png',
+      'DOGE': 'https://cryptologos.cc/logos/dogecoin-doge-logo.png',
+      'XRP':  'https://cryptologos.cc/logos/xrp-xrp-logo.png',
+    };
     function logoHtml(a) {
       var fallback = '<div class="asset-logo-fallback" style="display:none">' + esc(a.ticker.substring(0,4)) + '</div>';
-      if (a.logoUrl) {
-        return '<img class="asset-logo" src="' + esc(a.logoUrl) + '" alt="' + esc(a.ticker) + '" '
+      var src = a.logoUrl || CRYPTO_LOGOS[a.ticker.toUpperCase()] || '';
+      if (src) {
+        return '<img class="asset-logo" src="' + esc(src) + '" alt="' + esc(a.ticker) + '" '
              + 'onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">'
              + fallback;
       }
@@ -892,6 +913,7 @@
       btn.classList.toggle('active', editMode);
       btn.textContent = editMode ? 'Done' : 'Edit Portfolio';
       addBtn.style.display = editMode ? 'inline-flex' : 'none';
+      if (!editMode) render();
     };
 
     // ── MODAL ──
@@ -1002,5 +1024,6 @@
 
   })();
   </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}</script>
 </body>
 </html>
