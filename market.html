@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honest Tom's Market — Aberdeen, SD</title>
+  <meta name="description" content="Fresh fruit, vegetables, and meats sourced honestly. Coffee, fresh-baked goods, and a community market in Aberdeen, SD.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --ht-bg:          #F5EDD6;
+      --ht-text:        #2C1810;
+      --ht-accent:      #5C7A3E;
+      --ht-accent-dark: #4a6630;
+      --ht-brown:       #8B5E3C;
+      --ht-cream:       #EDE0C4;
+      --ht-border:      #C4A882;
+      --ht-muted:       #7A6450;
+      --ht-white:       #FDFAF4;
+      --ht-green-light: #EBF2E4;
+      --ht-red:         #8B2500;
+      --font-display:   'Lora', Georgia, serif;
+      --font-body:      'Inter', system-ui, sans-serif;
+      --radius-card:    18px;
+      --shadow-card:    0 2px 16px rgba(44,24,16,0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ht-bg);
+      color: var(--ht-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── TOP NAV ── */
+    .nav {
+      background: var(--ht-text);
+      color: var(--ht-white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 52px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ht-white);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      color: rgba(253,250,244,0.78);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--ht-white); }
+
+    .nav-cta {
+      background: var(--ht-accent);
+      color: #fff !important;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-weight: 600 !important;
+      transition: background 0.15s !important;
+    }
+
+    .nav-cta:hover { background: var(--ht-accent-dark) !important; }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--ht-text);
+      color: var(--ht-white);
+      padding: 72px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(92,122,62,0.22) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 20%, rgba(139,94,60,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero-logo {
+      width: 220px;
+      height: auto;
+      margin: 0 auto 32px;
+      display: block;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+    }
+
+    .hero-tagline {
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(92,122,62,0.9);
+      margin-bottom: 16px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 20px;
+      color: var(--ht-white);
+    }
+
+    .hero-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: rgba(253,250,244,0.75);
+      margin-bottom: 36px;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+
+    .hero-pills {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+
+    .hero-pill {
+      background: rgba(253,250,244,0.08);
+      border: 1px solid rgba(253,250,244,0.2);
+      border-radius: 100px;
+      padding: 7px 18px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: rgba(253,250,244,0.85);
+      letter-spacing: 0.04em;
+    }
+
+    .hero-pill .pill-icon { margin-right: 6px; }
+
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-radius: 9px;
+      padding: 14px 28px;
+      min-height: 48px;
+      transition: background 0.15s, transform 0.1s, border-color 0.15s;
+    }
+
+    .btn-hero:active { transform: translateY(1px); }
+
+    .btn-hero-primary {
+      background: var(--ht-accent);
+      color: #fff;
+      border: 2px solid var(--ht-accent);
+    }
+
+    .btn-hero-primary:hover { background: var(--ht-accent-dark); border-color: var(--ht-accent-dark); transform: translateY(-2px); }
+
+    .btn-hero-outline {
+      background: transparent;
+      color: var(--ht-white);
+      border: 2px solid rgba(253,250,244,0.35);
+    }
+
+    .btn-hero-outline:hover { border-color: rgba(253,250,244,0.7); transform: translateY(-2px); }
+
+    /* ── SECTION SHELL ── */
+    .section {
+      padding: 72px 24px;
+    }
+
+    .section-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+    }
+
+    .section-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ht-accent);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      color: var(--ht-text);
+    }
+
+    .section-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--ht-muted);
+      max-width: 560px;
+      line-height: 1.7;
+      margin-bottom: 48px;
+    }
+
+    /* ── PILLARS ── */
+    .pillars {
+      background: var(--ht-text);
+      color: var(--ht-white);
+    }
+
+    .pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2px;
+    }
+
+    .pillar {
+      padding: 48px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pillar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .pillar:hover::before { opacity: 1; }
+
+    .pillar-1::before { background: radial-gradient(ellipse at 30% 70%, rgba(92,122,62,0.2) 0%, transparent 70%); }
+    .pillar-2::before { background: radial-gradient(ellipse at 70% 30%, rgba(139,94,60,0.2) 0%, transparent 70%); }
+    .pillar-3::before { background: radial-gradient(ellipse at 50% 50%, rgba(92,122,62,0.15) 0%, transparent 70%); }
+
+    .pillar-icon {
+      font-size: 2.4rem;
+      margin-bottom: 20px;
+      line-height: 1;
+    }
+
+    .pillar-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--ht-white);
+    }
+
+    .pillar-body {
+      font-size: 0.9rem;
+      color: rgba(253,250,244,0.72);
+      line-height: 1.65;
+    }
+
+    /* ── DEPARTMENTS ── */
+    .dept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .dept-card {
+      background: var(--ht-white);
+      border: 1.5px solid var(--ht-border);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      transition: box-shadow 0.2s, transform 0.2s;
+    }
+
+    .dept-card:hover {
+      box-shadow: 0 6px 28px rgba(44,24,16,0.13);
+      transform: translateY(-3px);
+    }
+
+    .dept-card-banner {
+      height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dept-banner-produce { background: linear-gradient(135deg, #d4edaa 0%, #a8d86e 100%); }
+    .dept-banner-meat    { background: linear-gradient(135deg, #f5cba7 0%, #e0895c 100%); }
+    .dept-banner-coffee  { background: linear-gradient(135deg, #d7c4a3 0%, #b08850 100%); }
+
+    .dept-card-body {
+      padding: 28px 28px 24px;
+    }
+
+    .dept-card-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ht-muted);
+      margin-bottom: 6px;
+    }
+
+    .dept-card-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--ht-text);
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .dept-card-desc {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--ht-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .dept-items {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 24px;
+    }
+
+    .dept-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--ht-text);
+    }
+
+    .dept-item::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--ht-accent);
+      flex-shrink: 0;
+    }
+
+    .dept-badge {
+      display: inline-block;
+      background: var(--ht-green-light);
+      color: var(--ht-accent);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      padding: 3px 9px;
+      border: 1px solid rgba(92,122,62,0.25);
+    }
+
+    .dept-badge-brown {
+      background: #f5ebe0;
+      color: var(--ht-brown);
+      border-color: rgba(139,94,60,0.25);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how-section {
+      background: var(--ht-cream);
+      border-top: 1px solid var(--ht-border);
+      border-bottom: 1px solid var(--ht-border);
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      counter-reset: steps;
+    }
+
+    .step {
+      text-align: center;
+    }
+
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--ht-text);
+      color: var(--ht-white);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+
+    .step-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ht-text);
+      margin-bottom: 8px;
+    }
+
+    .step-body {
+      font-size: 0.85rem;
+      color: var(--ht-muted);
+      line-height: 1.6;
+    }
+
+    .step-connector {
+      display: none;
+    }
+
+    /* ── SOURCING PROMISE ── */
+    .promise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .promise-card {
+      background: var(--ht-white);
+      border: 1.5px solid var(--ht-border);
+      border-radius: 14px;
+      padding: 28px 24px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .promise-icon {
+      font-size: 2rem;
+      margin-bottom: 14px;
+      line-height: 1;
+    }
+
+    .promise-title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--ht-text);
+    }
+
+    .promise-body {
+      font-size: 0.83rem;
+      color: var(--ht-muted);
+      line-height: 1.6;
+    }
+
+    /* ── COFFEE FEATURE ── */
+    .coffee-feature {
+      background: var(--ht-text);
+      color: var(--ht-white);
+      border-radius: var(--radius-card);
+      padding: 56px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coffee-feature::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 70% at 90% 50%, rgba(139,94,60,0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 50% at 10% 20%, rgba(92,122,62,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .coffee-text { position: relative; }
+
+    .coffee-eyebrow {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: rgba(92,122,62,0.9);
+      margin-bottom: 12px;
+    }
+
+    .coffee-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 14px;
+    }
+
+    .coffee-desc {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(253,250,244,0.75);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .coffee-menu {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .coffee-menu li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(196,168,130,0.2);
+      font-size: 0.88rem;
+    }
+
+    .coffee-menu li:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .coffee-item-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--ht-white);
+    }
+
+    .coffee-item-note {
+      font-family: var(--font-display);
+      font-style: italic;
+      color: rgba(253,250,244,0.55);
+      font-size: 0.8rem;
+    }
+
+    .coffee-visual {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7rem;
+      height: 220px;
+    }
+
+    .coffee-visual-glow {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(139,94,60,0.35) 0%, transparent 70%);
+    }
+
+    .coffee-visual-emoji { position: relative; z-index: 1; }
+
+    /* ── CTA BAND ── */
+    .cta-band {
+      background: var(--ht-accent);
+      color: #fff;
+      text-align: center;
+      padding: 64px 24px;
+    }
+
+    .cta-band-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .cta-band-sub {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.8);
+      margin-bottom: 32px;
+      max-width: 520px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--ht-accent);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      border-radius: 9px;
+      padding: 14px 32px;
+      min-height: 48px;
+      transition: background 0.15s, transform 0.1s;
+    }
+
+    .btn-white:hover { background: var(--ht-green-light); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--ht-text);
+      color: rgba(253,250,244,0.55);
+      padding: 40px 32px 32px;
+    }
+
+    .footer-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--ht-white);
+      margin-bottom: 6px;
+    }
+
+    .footer-loc {
+      font-size: 0.82rem;
+      line-height: 1.6;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .footer-links a {
+      font-size: 0.82rem;
+      color: rgba(253,250,244,0.55);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--ht-white); }
+
+    .footer-bottom {
+      max-width: 1040px;
+      margin: 32px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid rgba(196,168,130,0.15);
+      font-size: 0.75rem;
+      color: rgba(253,250,244,0.35);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: gap;
+      gap: 12px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .nav-links { display: none; }
+      .coffee-feature { grid-template-columns: 1fr; padding: 40px 28px; }
+      .coffee-visual { height: 140px; font-size: 5rem; }
+      .pillar { padding: 36px 28px; }
+      .section { padding: 52px 20px; }
+      .footer-inner { flex-direction: column; }
+    }
+
+    @media (max-width: 480px) {
+      .hero { padding: 52px 20px 60px; }
+      .hero-logo { width: 170px; }
+      .hero-actions { flex-direction: column; align-items: center; }
+      .btn-hero { width: 100%; max-width: 320px; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="nav">
+  <a class="nav-brand" href="market.html">Honest Tom's Market</a>
+  <ul class="nav-links">
+    <li><a href="#produce">Produce</a></li>
+    <li><a href="#meats">Meats</a></li>
+    <li><a href="#coffee">Coffee &amp; Bakery</a></li>
+    <li><a href="#sourcing">Our Promise</a></li>
+    <li><a href="preorder.html" class="nav-cta">Weekly Order →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <img class="hero-logo" src="./Honest_Toms_Market.png" alt="Honest Tom's Market"
+         onerror="this.style.display='none'">
+    <div class="hero-tagline">Aberdeen, SD · Coming Soon</div>
+    <h1 class="hero-title">Fresh. Local. Honest.</h1>
+    <p class="hero-sub">Real food from real farms — fruit, vegetables, and meat you can trust, with a cup of coffee and something warm from the oven waiting for you.</p>
+    <div class="hero-pills">
+      <span class="hero-pill"><span class="pill-icon">🌿</span>Honest Sourcing</span>
+      <span class="hero-pill"><span class="pill-icon">🥦</span>Healthy Foundations</span>
+      <span class="hero-pill"><span class="pill-icon">🤝</span>Fair Trade</span>
+    </div>
+    <div class="hero-actions">
+      <a href="preorder.html" class="btn-hero btn-hero-primary">
+        🛒 Place a Weekly Order
+      </a>
+      <a href="#produce" class="btn-hero btn-hero-outline">
+        See What's Fresh
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- THREE PILLARS -->
+<section class="pillars section" style="padding: 0;">
+  <div class="pillars-grid">
+    <div class="pillar pillar-1">
+      <div class="pillar-icon">🌱</div>
+      <div class="pillar-title">Honest Sourcing</div>
+      <p class="pillar-body">We only carry what we can trace. Every item on our list comes from a farm or supplier we've personally vetted. No mystery origins, no shrink-wrapped surprises. If we don't know where it came from, it doesn't come through our door.</p>
+    </div>
+    <div class="pillar pillar-2">
+      <div class="pillar-icon">💪</div>
+      <div class="pillar-title">Healthy Foundations</div>
+      <p class="pillar-body">Good food is the foundation of everything. We stock produce that's in-season, meats raised without unnecessary additives, and baked goods made from real ingredients you can read without a dictionary. Fuel your family right.</p>
+    </div>
+    <div class="pillar pillar-3">
+      <div class="pillar-icon">🤝</div>
+      <div class="pillar-title">Fair Trade</div>
+      <p class="pillar-body">We pay growers fairly and price honestly for our community. No shell games, no bait-and-switch markups. When farmers thrive, the food gets better for everyone. That's a deal we'll take every time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEPARTMENTS -->
+<section class="section" id="produce">
+  <div class="section-inner">
+    <div class="section-eyebrow">What We Carry</div>
+    <h2 class="section-title">Three Departments, One Honest Market</h2>
+    <p class="section-sub">Fresh rotates weekly based on what's in season and what's at peak quality. No filler, no fluff.</p>
+
+    <div class="dept-grid">
+
+      <!-- PRODUCE -->
+      <div class="dept-card">
+        <div class="dept-card-banner dept-banner-produce">🥦</div>
+        <div class="dept-card-body">
+          <div class="dept-card-label">Department 1</div>
+          <h3 class="dept-card-title">Fresh Fruit &amp; Vegetables</h3>
+          <p class="dept-card-desc">Seasonal, locally-sourced when possible, and picked for flavour — not shelf life.</p>
+          <ul class="dept-items">
+            <li>Seasonal produce rotated weekly</li>
+            <li>Locally sourced when available</li>
+            <li>Root vegetables, greens &amp; herbs</li>
+            <li>Fresh berries, stone fruit &amp; citrus</li>
+            <li>Bulk staples: onions, garlic, potatoes</li>
+          </ul>
+          <span class="dept-badge">In-Season Focus</span>
+        </div>
+      </div>
+
+      <!-- MEATS -->
+      <div class="dept-card" id="meats">
+        <div class="dept-card-banner dept-banner-meat">🥩</div>
+        <div class="dept-card-body">
+          <div class="dept-card-label">Department 2</div>
+          <h3 class="dept-card-title">Fresh Meats</h3>
+          <p class="dept-card-desc">Sourced from farms we trust. Cut to order where possible. Real butcher quality without the big-chain markup.</p>
+          <ul class="dept-items">
+            <li>Grass-fed &amp; pasture-raised beef</li>
+            <li>Free-range chicken &amp; poultry</li>
+            <li>Heritage pork cuts</li>
+            <li>Wild-caught fish &amp; seafood</li>
+            <li>House-made sausages &amp; ground blends</li>
+          </ul>
+          <span class="dept-badge dept-badge-brown">Traceable Sourcing</span>
+        </div>
+      </div>
+
+      <!-- COFFEE & BAKERY -->
+      <div class="dept-card" id="coffee-card">
+        <div class="dept-card-banner dept-banner-coffee">☕</div>
+        <div class="dept-card-body">
+          <div class="dept-card-label">Department 3</div>
+          <h3 class="dept-card-title">Coffee &amp; Fresh Bakery</h3>
+          <p class="dept-card-desc">A small corner with big heart — freshly brewed coffee, baked goods out of the oven, and a place to slow down for five minutes.</p>
+          <ul class="dept-items">
+            <li>Fair-trade, single-origin coffee</li>
+            <li>Fresh sourdough &amp; artisan loaves</li>
+            <li>Daily pastries &amp; scones</li>
+            <li>Seasonal muffins &amp; quick breads</li>
+            <li>Local honey, jams &amp; preserves</li>
+          </ul>
+          <span class="dept-badge">Baked Daily</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-section section">
+  <div class="section-inner">
+    <div class="section-eyebrow">Weekly Pre-Order</div>
+    <h2 class="section-title">Simple as Sunday Dinner</h2>
+    <p class="section-sub">Order by Wednesday, pick up Friday. No subscription, no commitment — just fresh food when you need it.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-title">Browse the Week's Menu</div>
+        <p class="step-body">Tom posts what's fresh and available each week — Tuesday morning, after sourcing is confirmed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-title">Place Your Order by Wednesday</div>
+        <p class="step-body">Pick your items online or by text. Quantities are limited — first come, first served, no wasted stock.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-title">Pick Up Friday</div>
+        <p class="step-body">Swing by, grab your order, have a coffee. Everything is packed and labelled — in and out in five minutes if you want.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-title">Eat Well</div>
+        <p class="step-body">That's it. No loyalty app, no delivery windows, no drama. Just honest food.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COFFEE FEATURE -->
+<section class="section" id="coffee">
+  <div class="section-inner">
+    <div class="coffee-feature">
+      <div class="coffee-text">
+        <div class="coffee-eyebrow">The Coffee Corner</div>
+        <h2 class="coffee-title">Slow Down for a Minute</h2>
+        <p class="coffee-desc">In the back corner of Honest Tom's Market there's a small coffee counter with a handful of stools, fresh-baked goods under a glass dome, and no rush. Come for the groceries, stay for the cup.</p>
+        <ul class="coffee-menu">
+          <li>
+            <span>
+              <span class="coffee-item-name">Drip Coffee</span><br>
+              <span class="coffee-item-note">Fair-trade single origin, rotates weekly</span>
+            </span>
+          </li>
+          <li>
+            <span>
+              <span class="coffee-item-name">Espresso &amp; Americano</span><br>
+              <span class="coffee-item-note">Pulled fresh to order</span>
+            </span>
+          </li>
+          <li>
+            <span>
+              <span class="coffee-item-name">Morning Pastry</span><br>
+              <span class="coffee-item-note">Baked in-house each morning</span>
+            </span>
+          </li>
+          <li>
+            <span>
+              <span class="coffee-item-name">Sourdough Toast</span><br>
+              <span class="coffee-item-note">House loaf, local butter &amp; jam</span>
+            </span>
+          </li>
+          <li>
+            <span>
+              <span class="coffee-item-name">Seasonal Muffin</span><br>
+              <span class="coffee-item-note">Ask what's fresh today</span>
+            </span>
+          </li>
+        </ul>
+      </div>
+      <div class="coffee-visual">
+        <div class="coffee-visual-glow"></div>
+        <span class="coffee-visual-emoji">☕</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOURCING PROMISE -->
+<section class="section" id="sourcing">
+  <div class="section-inner">
+    <div class="section-eyebrow">Our Promise</div>
+    <h2 class="section-title">What Honest Means to Us</h2>
+    <p class="section-sub">These aren't marketing words. They're how we make decisions every single week.</p>
+
+    <div class="promise-grid">
+      <div class="promise-card">
+        <div class="promise-icon">📋</div>
+        <div class="promise-title">Full Transparency</div>
+        <p class="promise-body">Ask us where anything came from and we'll tell you — farm name, state, method. If we can't answer, we don't carry it.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-icon">🚜</div>
+        <div class="promise-title">Local First</div>
+        <p class="promise-body">We prioritise South Dakota and regional farmers whenever season and quality allow. Shorter supply chain, fresher product.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-icon">⚖️</div>
+        <div class="promise-title">Fair Pricing</div>
+        <p class="promise-body">We price to cover costs and run a sustainable business — not to maximise margins. If the price goes up, we'll tell you exactly why.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-icon">🌍</div>
+        <div class="promise-title">Fair Trade Certified</div>
+        <p class="promise-body">All imported goods — coffee, chocolate, tropical fruit — carry verified Fair Trade certification. Workers and growers get paid properly.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-icon">🌾</div>
+        <div class="promise-title">No Unnecessary Additives</div>
+        <p class="promise-body">We read every label. Meat is meat, bread is bread. If there's a chemical in there that doesn't need to be, it stays off our shelves.</p>
+      </div>
+      <div class="promise-card">
+        <div class="promise-icon">♻️</div>
+        <div class="promise-title">Zero Waste Mindset</div>
+        <p class="promise-body">Pre-orders mean we source only what's needed. Surplus goes to local food pantries, not dumpsters.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section class="cta-band">
+  <h2 class="cta-band-title">Ready for Fresh?</h2>
+  <p class="cta-band-sub">Place a weekly pre-order and see the difference honest food makes.</p>
+  <a href="preorder.html" class="btn-white">🛒 Start Your Weekly Order</a>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Honest Tom's Market</div>
+      <div class="footer-loc">Aberdeen, SD<br>Pre-orders open Tuesday · Pickup Friday<br>Questions? Text Tom directly.</div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="preorder.html">Weekly Order</a></li>
+      <li><a href="#produce">Fresh Produce</a></li>
+      <li><a href="#meats">Fresh Meats</a></li>
+      <li><a href="#coffee">Coffee &amp; Bakery</a></li>
+      <li><a href="#sourcing">Our Promise</a></li>
+    </ul>
+    <ul class="footer-links">
+      <li><a href="dashboard.html">← Dashboard</a></li>
+      <li><a href="honesttom.html">HonestTom.ai</a></li>
+    </ul>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Honest Tom's Market · Aberdeen, SD</span>
+    <span>Honest Sourcing · Healthy Foundations · Fair Trade</span>
+  </div>
+</footer>
+
+</body>
+</html>
