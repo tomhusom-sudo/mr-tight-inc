@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Honest Tom's Market — Aberdeen, SD</title>
+  <meta name="description" content="Weekly fresh produce, meat, and bread in Aberdeen, SD. Order by Wednesday, pick up Friday.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --ht-bg:      #F5EDD6;
+      --ht-text:    #2C1810;
+      --ht-accent:  #5C7A3E;
+      --ht-brown:   #8B5E3C;
+      --ht-cream:   #EDE0C4;
+      --ht-border:  #C4A882;
+      --ht-error:   #8B2500;
+      --ht-muted:   #7A6450;
+      --ht-white:   #FDFAF4;
+      --ht-green-light: #EBF2E4;
+
+      --font-display: 'Lora', Georgia, serif;
+      --font-body:    'Inter', system-ui, sans-serif;
+
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 48px;
+      --space-xl: 80px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--ht-bg);
+      color: var(--ht-text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── LAYOUT ── */
+    .page {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+      padding-bottom: 32px;
+      border-bottom: 2px solid var(--ht-border);
+      margin-bottom: 40px;
+    }
+
+    .portrait {
+      flex-shrink: 0;
+      width: 211px;
+      height: 211px;
+      border-radius: 50%;
+      background: var(--ht-cream);
+      border: 2px solid var(--ht-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .portrait img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .portrait-placeholder {
+      font-size: 2.8rem;
+      line-height: 1;
+    }
+
+    .header-text { flex: 1; }
+
+    .header-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ht-accent);
+      margin-bottom: 4px;
+    }
+
+    .header-title {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--ht-text);
+      line-height: 1.15;
+      margin-bottom: 8px;
+    }
+
+    .header-meta {
+      font-size: 0.85rem;
+      color: var(--ht-muted);
+      line-height: 1.5;
+    }
+
+    .header-meta strong {
+      color: var(--ht-text);
+      font-weight: 600;
+    }
+
+    /* ── STATES ── */
+    #state-loading,
+    #state-error,
+    #state-closed,
+    #state-empty,
+    #state-topped-up {
+      display: none;
+    }
+
+    .state-box {
+      background: var(--ht-cream);
+      border: 1px solid var(--ht-border);
+      border-radius: 12px;
+      padding: 40px 32px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .state-box .state-icon {
+      font-size: 2.4rem;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .state-box .state-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--ht-text);
+    }
+
+    .state-box .state-body {
+      font-size: 0.9rem;
+      color: var(--ht-muted);
+      max-width: 400px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    .state-box .state-body a {
+      color: var(--ht-accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .state-dates {
+      display: flex;
+      gap: 24px;
+      justify-content: center;
+      margin: 20px 0 0;
+      flex-wrap: wrap;
+    }
+
+    .state-date-item {
+      background: var(--ht-white);
+      border: 1px solid var(--ht-border);
+      border-radius: 8px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+
+    .state-date-item .date-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ht-muted);
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .state-date-item .date-value {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--ht-text);
+    }
+
+    /* ── SPINNER ── */
+    .spinner {
+      width: 32px;
+      height: 32px;
+      border: 3px solid var(--ht-border);
+      border-top-color: var(--ht-accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── WEEKLY PICK ── */
+    #section-weekly-pick {
+      margin-bottom: 48px;
+    }
+
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ht-accent);
+      margin-bottom: 12px;
+    }
+
+    .weekly-pick-card {
+      background: var(--ht-text);
+      color: var(--ht-white);
+      border-radius: 14px;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .weekly-pick-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(92,122,62,0.25) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .weekly-pick-name {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .weekly-pick-price {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      background: rgba(92,122,62,0.35);
+      color: #c8e6b0;
+      border-radius: 4px;
+      padding: 3px 10px;
+      margin-bottom: 14px;
+    }
+
+    .weekly-pick-note {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1rem;
+      color: rgba(253,250,244,0.82);
+      line-height: 1.6;
+    }
+
+    .weekly-pick-tom {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: rgba(92,122,62,0.9);
+      letter-spacing: 0.06em;
+    }
+
+    /* ── MENU ── */
+    #section-menu {
+      margin-bottom: 48px;
+    }
+
+    .menu-list {
+      list-style: none;
+    }
+
+    .menu-item {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--ht-border);
+    }
+
+    .menu-item:first-child { border-top: 1px solid var(--ht-border); }
+
+    .menu-item-left { flex: 1; min-width: 0; }
+
+    .menu-item-name {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--ht-text);
+      margin-bottom: 3px;
+    }
+
+    .menu-item-note {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--ht-muted);
+      line-height: 1.4;
+    }
+
+    .menu-item-price {
+      flex-shrink: 0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--ht-brown);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    /* ── ORDER SECTION ── */
+    #section-order {
+      background: var(--ht-green-light);
+      border: 1px solid rgba(92,122,62,0.3);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 48px;
+      text-align: center;
+    }
+
+    .order-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--ht-text);
+    }
+
+    .order-desc {
+      font-size: 0.88rem;
+      color: var(--ht-muted);
+      margin-bottom: 24px;
+      max-width: 460px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ht-accent);
+      color: #fff;
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 28px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      min-height: 44px;
+    }
+
+    .btn-primary:hover { background: #4a6630; transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+
+    .order-note {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--ht-muted);
+    }
+
+    /* ── CREDIT SECTION ── */
+    #section-credit {
+      border-top: 2px solid var(--ht-border);
+      padding-top: 40px;
+      margin-bottom: 48px;
+    }
+
+    .credit-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .credit-desc {
+      font-size: 0.85rem;
+      color: var(--ht-muted);
+      margin-bottom: 24px;
+      max-width: 480px;
+    }
+
+    .credit-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .btn-credit {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--ht-white);
+      border: 1.5px solid var(--ht-border);
+      border-radius: 10px;
+      padding: 16px 24px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--ht-text);
+      transition: border-color 0.15s, box-shadow 0.15s;
+      min-width: 100px;
+      min-height: 44px;
+    }
+
+    .btn-credit:hover {
+      border-color: var(--ht-accent);
+      box-shadow: 0 0 0 3px rgba(92,122,62,0.12);
+    }
+
+    .btn-credit .credit-amount {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--ht-accent);
+    }
+
+    .btn-credit .credit-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ht-muted);
+      margin-top: 2px;
+    }
+
+    .credit-explainer {
+      margin-top: 16px;
+      font-size: 0.8rem;
+      color: var(--ht-muted);
+      line-height: 1.5;
+      max-width: 420px;
+    }
+
+    /* ── TOPPED UP BANNER ── */
+    #state-topped-up {
+      background: var(--ht-accent);
+      color: #fff;
+      border-radius: 10px;
+      padding: 16px 24px;
+      margin-bottom: 32px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      border-top: 1px solid var(--ht-border);
+      padding-top: 24px;
+      font-size: 0.78rem;
+      color: var(--ht-muted);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .site-footer a {
+      color: var(--ht-muted);
+      text-decoration: none;
+    }
+
+    .site-footer a:hover { color: var(--ht-accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .header-title { font-size: 1.5rem; }
+      .weekly-pick-name { font-size: 1.4rem; }
+      .weekly-pick-card { padding: 24px 20px; }
+      #section-order { padding: 24px 20px; }
+      .credit-buttons { flex-direction: column; }
+      .btn-credit { flex-direction: row; gap: 12px; justify-content: flex-start; }
+      .state-box { padding: 28px 20px; }
+      .site-footer { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- TOPPED UP SUCCESS BANNER -->
+  <div id="state-topped-up">
+    Balance loaded — you're all set for Friday. See you at pickup!
+  </div>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="portrait" aria-hidden="true">
+      <img src="./honest_tom_sketch.png" alt="Tom" onerror="this.parentElement.innerHTML='<span class=\'portrait-placeholder\'>🧑‍🌾</span>'">
+    </div>
+    <div class="header-text">
+      <div class="header-eyebrow">Aberdeen, SD · Fresh Weekly</div>
+      <h1 class="header-title">Honest Tom's Market</h1>
+      <div class="header-meta" id="header-meta">
+        Loading schedule...
+      </div>
+    </div>
+  </header>
+
+  <!-- LOADING STATE -->
+  <div id="state-loading" class="state-box">
+    <div class="spinner"></div>
+    <div class="state-title">Loading this week's menu...</div>
+  </div>
+
+  <!-- ERROR STATE -->
+  <div id="state-error" class="state-box">
+    <div class="state-icon">⚠️</div>
+    <div class="state-title">Couldn't load this week's menu</div>
+    <div class="state-body">
+      Try refreshing the page. Still not working?
+      Text Tom: <a id="error-phone-link" href="#">loading...</a>
+    </div>
+  </div>
+
+  <!-- CLOSED STATE -->
+  <div id="state-closed" class="state-box">
+    <div class="state-icon">🥬</div>
+    <div class="state-title" id="closed-title">Orders are closed for this week</div>
+    <div class="state-body" id="closed-body">
+      Tom is sourcing and packing orders. See you at pickup!
+    </div>
+    <div class="state-dates" id="closed-dates"></div>
+  </div>
+
+  <!-- EMPTY STATE -->
+  <div id="state-empty" class="state-box">
+    <div class="state-icon">🌱</div>
+    <div class="state-title">Tom's still sourcing this week</div>
+    <div class="state-body">
+      Check back Tuesday morning — the menu posts once Tom confirms what's in.
+    </div>
+  </div>
+
+  <!-- OPEN CONTENT -->
+  <main id="content-open" style="display:none;">
+
+    <!-- WEEKLY PICK -->
+    <section id="section-weekly-pick" aria-labelledby="weekly-pick-heading">
+      <div class="section-label" id="weekly-pick-heading">Tom's Weekly Pick</div>
+      <div class="weekly-pick-card" id="weekly-pick-card">
+        <div class="weekly-pick-name" id="pick-name">—</div>
+        <div class="weekly-pick-price" id="pick-price"></div>
+        <div class="weekly-pick-note" id="pick-note"></div>
+        <div class="weekly-pick-tom">— Tom</div>
+      </div>
+    </section>
+
+    <!-- MENU -->
+    <section id="section-menu" aria-labelledby="menu-heading">
+      <div class="section-label" id="menu-heading">This Week's Menu</div>
+      <ul class="menu-list" id="menu-list" aria-label="Available items this week">
+        <!-- JS populates this -->
+      </ul>
+    </section>
+
+    <!-- ORDER FORM -->
+    <section id="section-order" aria-labelledby="order-heading">
+      <h2 class="order-title" id="order-heading">Place Your Order</h2>
+      <p class="order-desc">
+        Tell Tom what you'd like. He'll confirm by Thursday and have it ready for Friday pickup.
+      </p>
+      <a id="order-form-link" href="#" target="_blank" rel="noopener" class="btn-primary">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M3 9h12M10 4l5 5-5 5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Open Order Form
+      </a>
+      <p class="order-note" id="order-deadline-note"></p>
+    </section>
+
+  </main>
+
+  <!-- MARKET CREDIT (always visible) -->
+  <section id="section-credit" aria-labelledby="credit-heading">
+    <h2 class="credit-title" id="credit-heading">Load Market Credit</h2>
+    <p class="credit-desc">
+      Pre-load a balance and skip the weekly checkout. Tom tracks your balance and deducts each Friday after pickup.
+    </p>
+    <div class="credit-buttons">
+      <a id="stripe-50"  href="#" target="_blank" rel="noopener" class="btn-credit">
+        <span class="credit-amount">$50</span>
+        <span class="credit-label">Market Credit</span>
+      </a>
+      <a id="stripe-100" href="#" target="_blank" rel="noopener" class="btn-credit">
+        <span class="credit-amount">$100</span>
+        <span class="credit-label">Market Credit</span>
+      </a>
+      <a id="stripe-150" href="#" target="_blank" rel="noopener" class="btn-credit">
+        <span class="credit-amount">$150</span>
+        <span class="credit-label">Market Credit</span>
+      </a>
+    </div>
+    <p class="credit-explainer">
+      Questions about your balance? Text Tom anytime at <a id="credit-phone-link" href="#" style="color:var(--ht-accent);font-weight:600;">loading...</a>.
+    </p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <span>&copy; 2026 Honest Tom's Market · Aberdeen, SD</span>
+    <a href="./dashboard.html">honesttom.ai</a>
+  </footer>
+
+</div>
+
+<script>
+  // ── CONFIG ──────────────────────────────────────────────────────────
+  // Tom: replace these with your real values
+
+  // 1. Publish your Google Sheet as CSV: File → Share → Publish to web → CSV
+  //    Paste the published CSV URL here
+  var SHEET_CSV_URL = 'YOUR_GOOGLE_SHEET_CSV_URL_HERE';
+
+  // 2. Create your Google Form, click the link icon to get the shareable URL
+  var GOOGLE_FORM_URL = 'YOUR_GOOGLE_FORM_URL_HERE';
+
+  // 3. Create three Stripe Payment Links in your Stripe dashboard
+  var STRIPE_50  = 'YOUR_STRIPE_50_LINK_HERE';
+  var STRIPE_100 = 'YOUR_STRIPE_100_LINK_HERE';
+  var STRIPE_150 = 'YOUR_STRIPE_150_LINK_HERE';
+
+  // 4. Your phone number (shown in error/credit states)
+  var TOM_PHONE = '605-XXX-XXXX';
+
+  // CORS proxy (same as the rest of honesttom.ai)
+  var PROXY = 'https://api.allorigins.win/raw?url=';
+
+  // ── SCHEDULE LOGIC ───────────────────────────────────────────────────
+  // Ordering open: Tuesday (2) and Wednesday (3)
+  // Pickup: Friday (5)
+
+  function getNextWeekday(targetDay) {
+    var now = new Date();
+    var day = now.getDay();
+    var diff = (targetDay - day + 7) % 7 || 7;
+    var d = new Date(now);
+    d.setDate(now.getDate() + diff);
+    return d;
+  }
+
+  function fmtDate(d) {
+    return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  }
+
+  function fmtShortDate(d) {
+    return d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  function isOrderingOpen() {
+    var day = new Date().getDay();
+    return day === 2 || day === 3; // Tuesday or Wednesday
+  }
+
+  function getScheduleState() {
+    var day = new Date().getDay();
+    // 0=Sun,1=Mon: not yet open this week
+    // 2=Tue,3=Wed: open
+    // 4=Thu,5=Fri,6=Sat: closed (sourcing/pickup)
+    if (day === 2 || day === 3) return 'open';
+    if (day === 4 || day === 5 || day === 6) return 'sourcing';
+    return 'preopen'; // Sun, Mon
+  }
+
+  // ── INIT ──────────────────────────────────────────────────────────────
+  function show(id) { var el = document.getElementById(id); if (el) el.style.display = ''; }
+  function hide(id) { var el = document.getElementById(id); if (el) el.style.display = 'none'; }
+
+  function setPhone(phone) {
+    var tel = 'tel:' + phone.replace(/\D/g,'');
+    ['error-phone-link','credit-phone-link'].forEach(function(id) {
+      var el = document.getElementById(id);
+      if (el) { el.href = tel; el.textContent = phone; }
+    });
+  }
+
+  function setStripeLinks() {
+    document.getElementById('stripe-50').href  = STRIPE_50;
+    document.getElementById('stripe-100').href = STRIPE_100;
+    document.getElementById('stripe-150').href = STRIPE_150;
+  }
+
+  function setOrderFormLink() {
+    document.getElementById('order-form-link').href = GOOGLE_FORM_URL;
+  }
+
+  function showClosedState() {
+    var state = getScheduleState();
+    var nextFriday   = getNextWeekday(5);
+    var nextTuesday  = getNextWeekday(2);
+    var title  = document.getElementById('closed-title');
+    var body   = document.getElementById('closed-body');
+    var dates  = document.getElementById('closed-dates');
+
+    if (state === 'sourcing') {
+      title.textContent = 'Orders are closed — Tom is sourcing';
+      body.textContent  = 'Tom is packing orders for Friday pickup. See you there!';
+    } else {
+      title.textContent = "Ordering isn't open yet this week";
+      body.textContent  = 'Orders open Tuesday morning. Check back then!';
+    }
+
+    dates.innerHTML =
+      '<div class="state-date-item">' +
+        '<span class="date-label">Next Pickup</span>' +
+        '<span class="date-value">' + fmtShortDate(nextFriday) + '</span>' +
+      '</div>' +
+      '<div class="state-date-item">' +
+        '<span class="date-label">Ordering Opens</span>' +
+        '<span class="date-value">Tue, ' + nextTuesday.toLocaleDateString('en-US', {month:'short',day:'numeric'}) + '</span>' +
+      '</div>';
+
+    show('state-closed');
+  }
+
+  function setHeaderMeta(open) {
+    var meta = document.getElementById('header-meta');
+    var nextFriday = getNextWeekday(5);
+    if (open) {
+      meta.innerHTML =
+        '<strong>Pickup:</strong> ' + fmtDate(nextFriday) + '<br>' +
+        '<strong>Order by:</strong> Wednesday night';
+    } else {
+      meta.innerHTML =
+        '<strong>Next pickup:</strong> ' + fmtDate(nextFriday);
+    }
+  }
+
+  // ── CSV PARSER ───────────────────────────────────────────────────────
+  function parseCSVLine(line) {
+    var result = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { result.push(cur); cur = ''; }
+      else { cur += c; }
+    }
+    result.push(cur);
+    return result;
+  }
+
+  function parseCSV(text) {
+    var lines = text.trim().split('\n');
+    if (lines.length < 2) return [];
+    var headers = parseCSVLine(lines[0]).map(function(h){ return h.trim().toLowerCase().replace(/"/g,''); });
+    return lines.slice(1).map(function(line) {
+      var vals = parseCSVLine(line);
+      var obj = {};
+      headers.forEach(function(h, i){ obj[h] = (vals[i] || '').trim().replace(/^"|"$/g,''); });
+      return obj;
+    }).filter(function(row){ return row.item && row.item !== ''; });
+  }
+
+  // ── RENDER ───────────────────────────────────────────────────────────
+  function renderMenu(items) {
+    var available = items.filter(function(i){ return i.available && i.available.toUpperCase() === 'Y'; });
+    var featured  = available.filter(function(i){ return i.featured && i.featured.toUpperCase() === 'Y'; })[0];
+    var rest      = available.filter(function(i){ return !(i.featured && i.featured.toUpperCase() === 'Y'); });
+
+    if (available.length === 0) {
+      show('state-empty');
+      hide('content-open');
+      return;
+    }
+
+    // Weekly Pick
+    if (featured) {
+      document.getElementById('pick-name').textContent  = featured.item;
+      document.getElementById('pick-price').textContent = featured.price || '';
+      document.getElementById('pick-note').textContent  = featured.description || '';
+      show('section-weekly-pick');
+    } else {
+      hide('section-weekly-pick');
+    }
+
+    // Menu list
+    var ul = document.getElementById('menu-list');
+    ul.innerHTML = '';
+    rest.forEach(function(item) {
+      var li = document.createElement('li');
+      li.className = 'menu-item';
+      li.innerHTML =
+        '<div class="menu-item-left">' +
+          '<div class="menu-item-name">' + esc(item.item) + '</div>' +
+          (item.description ? '<div class="menu-item-note">' + esc(item.description) + '</div>' : '') +
+        '</div>' +
+        '<div class="menu-item-price">' + esc(item.price || '') + '</div>';
+      ul.appendChild(li);
+    });
+
+    // Order deadline note
+    var nextFriday = getNextWeekday(5);
+    document.getElementById('order-deadline-note').textContent =
+      'Order by Wednesday night · Pickup ' + fmtDate(nextFriday);
+
+    show('content-open');
+    hide('state-loading');
+  }
+
+  function esc(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ── FETCH INVENTORY ───────────────────────────────────────────────────
+  function fetchInventory() {
+    show('state-loading');
+    hide('state-error');
+    hide('state-empty');
+    hide('content-open');
+
+    // If sheet URL not configured, show empty state gracefully
+    if (SHEET_CSV_URL === 'YOUR_GOOGLE_SHEET_CSV_URL_HERE') {
+      hide('state-loading');
+      show('state-empty');
+      return;
+    }
+
+    var url = PROXY + encodeURIComponent(SHEET_CSV_URL);
+
+    fetch(url, { signal: AbortSignal.timeout ? AbortSignal.timeout(7000) : undefined })
+      .then(function(r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function(text) {
+        hide('state-loading');
+        var items = parseCSV(text);
+        renderMenu(items);
+      })
+      .catch(function() {
+        hide('state-loading');
+        show('state-error');
+      });
+  }
+
+  // ── TOPPED UP PARAM ───────────────────────────────────────────────────
+  function checkToppedUp() {
+    if (window.location.search.indexOf('topped_up=true') !== -1) {
+      show('state-topped-up');
+      // Clean the URL without reload
+      if (history.replaceState) {
+        history.replaceState(null, '', window.location.pathname);
+      }
+    }
+  }
+
+  // ── MAIN ──────────────────────────────────────────────────────────────
+  document.addEventListener('DOMContentLoaded', function() {
+    setPhone(TOM_PHONE);
+    setStripeLinks();
+    setOrderFormLink();
+    checkToppedUp();
+
+    var open = isOrderingOpen();
+    setHeaderMeta(open);
+
+    if (open) {
+      fetchInventory();
+    } else {
+      showClosedState();
+    }
+  });
+</script>
+</body>
+</html>
