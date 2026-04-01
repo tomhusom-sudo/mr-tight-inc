@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HonestTom">
+  <link rel="apple-touch-icon" href="/lincoln.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(10,14,23,0.82) 0%, rgba(10,14,23,0.88) 50%, rgba(8,16,10,0.94) 100%),
+        url('./server_room.png') center 40% / cover no-repeat fixed;
+      color: #e2e8f0;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(34,197,94,0.05) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 24px 80px;
+    }
+
+    /* ── BACK BUTTON ── */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid #22c55e;
+      border-radius: 8px;
+      color: #4ade80;
+      font-size: 0.78rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background 0.15s;
+      margin-bottom: 40px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .back-btn:hover { background: rgba(34,197,94,0.08); }
+
+    /* ── HERO ── */
+    .hero {
+      margin-bottom: 56px;
+    }
+
+    .hero-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #22c55e;
+      margin-bottom: 12px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      font-weight: 800;
+      color: #f8fafc;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      font-weight: 500;
+      color: #4ade80;
+      margin-bottom: 20px;
+      letter-spacing: 0.01em;
+    }
+
+    .hero-bio {
+      font-size: 1rem;
+      color: #94a3b8;
+      line-height: 1.75;
+      max-width: 640px;
+    }
+
+    .hero-bio strong { color: #e2e8f0; font-weight: 600; }
+
+    /* ── SECTION TITLES ── */
+    .section { margin-bottom: 52px; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(34,197,94,0.2);
+    }
+
+    .section-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: -0.01em;
+    }
+
+    .section-header span {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #22c55e;
+    }
+
+    /* ── TOOLS GRID ── */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 640px) {
+      .tools-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .tools-grid { grid-template-columns: 1fr; }
+    }
+
+    .tool-chip {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(34,197,94,0.25);
+      border-radius: 12px;
+      padding: 16px;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .tool-chip:hover {
+      border-color: rgba(34,197,94,0.55);
+      background: rgba(34,197,94,0.05);
+    }
+
+    .tool-chip .tool-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #4ade80;
+      margin-bottom: 5px;
+    }
+
+    .tool-chip .tool-desc {
+      font-size: 0.78rem;
+      color: #94a3b8;
+      line-height: 1.5;
+    }
+
+    /* ── CASE STUDIES ── */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 580px) {
+      .cases-grid { grid-template-columns: 1fr; }
+    }
+
+    .case-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 16px;
+      padding: 20px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.15s, background 0.15s, transform 0.12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .case-card:hover {
+      border-color: rgba(34,197,94,0.35);
+      background: rgba(34,197,94,0.04);
+      transform: translateY(-2px);
+    }
+
+    .case-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .case-card h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.3;
+    }
+
+    .case-card .arrow {
+      color: #22c55e;
+      font-size: 1rem;
+      flex-shrink: 0;
+      opacity: 0.6;
+      transition: opacity 0.15s;
+    }
+    .case-card:hover .arrow { opacity: 1; }
+
+    .case-card p {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .case-tag {
+      display: inline-block;
+      background: rgba(34,197,94,0.1);
+      color: #22c55e;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-top: 4px;
+      align-self: flex-start;
+    }
+
+    /* ── WHY WE'RE BETTER — MOBILE ── */
+    @media (max-width: 640px) {
+      .why-better-body { flex-direction: column !important; }
+      .why-better-before { width: 100% !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.06); }
+      .why-better-tiles { grid-template-columns: repeat(2, 1fr) !important; }
+    }
+    @media (max-width: 400px) {
+      .why-better-tiles { grid-template-columns: 1fr !important; }
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 52px 0;
+    }
+
+    /* ── ABOUT ME ── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 580px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-item {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 18px;
+    }
+
+    .about-item .about-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #22c55e;
+      margin-bottom: 6px;
+    }
+
+    .about-item .about-value {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      text-align: center;
+      padding: 48px 24px;
+      background: rgba(34,197,94,0.04);
+      border: 1px solid rgba(34,197,94,0.2);
+      border-radius: 22px;
+    }
+
+    .cta h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #f8fafc;
+      margin-bottom: 10px;
+      letter-spacing: -0.02em;
+    }
+
+    .cta p {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 28px;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.6;
+    }
+
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .contact-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: 10px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      text-decoration: none;
+      letter-spacing: 0.02em;
+      transition: all 0.15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .contact-btn-primary {
+      background: #22c55e;
+      color: #0a0e17;
+    }
+    .contact-btn-primary:hover { background: #4ade80; }
+
+    .contact-btn-secondary {
+      background: transparent;
+      color: #4ade80;
+      border: 1px solid rgba(34,197,94,0.4);
+    }
+    .contact-btn-secondary:hover {
+      background: rgba(34,197,94,0.08);
+      border-color: #22c55e;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center;
+      margin-top: 48px;
+      font-size: 0.75rem;
+      color: #334155;
+    }
+  </style>
+  <script>
+    var VER = 'v=20260330a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9KFJ9RZ2QS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9KFJ9RZ2QS');
+  </script>
+</head>
+<body>
+  <div class="page">
+
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:40px;">
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <a href="dashboard.html" class="back-btn" style="margin-bottom:0;">← Dashboard</a>
+        <a href="resume.html" class="back-btn" style="margin-bottom:0;border-color:#8b5cf6;color:#a78bfa;" onmouseover="this.style.background='rgba(139,92,246,0.1)'" onmouseout="this.style.background='transparent'">Resume</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+        <span style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.12);border:1px solid rgba(34,197,94,0.35);color:#4ade80;font-size:0.75rem;font-weight:600;padding:5px 12px;border-radius:20px;letter-spacing:0.04em;">
+          <span style="width:7px;height:7px;background:#4ade80;border-radius:50%;display:inline-block;"></span> Available to Work
+        </span>
+        <a href="https://www.linkedin.com/in/thomas-husom-0418314/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:rgba(10,102,194,0.12);border:1px solid rgba(10,102,194,0.35);color:#60a5fa;font-size:0.75rem;font-weight:600;padding:5px 12px;border-radius:20px;text-decoration:none;letter-spacing:0.04em;transition:background 0.15s;" onmouseover="this.style.background='rgba(10,102,194,0.22)'" onmouseout="this.style.background='rgba(10,102,194,0.12)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          LinkedIn
+        </a>
+        <button onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(()=>{this.innerHTML='<svg width=13 height=13 viewBox=&quot;0 0 24 24&quot; fill=none stroke=currentColor stroke-width=2><polyline points=&quot;20,6 9,17 4,12&quot;/></svg> Copied!';setTimeout(()=>{this.innerHTML='<svg width=13 height=13 viewBox=&quot;0 0 24 24&quot; fill=none stroke=currentColor stroke-width=2><rect x=2 y=4 width=20 height=16 rx=2/><polyline points=&quot;2,4 12,13 22,4&quot;/></svg> tomhusom@gmail.com'},1500)})" style="display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.15);color:#94a3b8;font-size:0.75rem;font-weight:600;padding:5px 12px;border-radius:20px;cursor:pointer;letter-spacing:0.04em;transition:background 0.15s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          tomhusom@gmail.com
+        </button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-label">Portfolio · AI-Powered Development</div>
+      <h1>Thomas Husom</h1>
+      <div class="hero-tagline">Senior Developer &nbsp;·&nbsp; Building with AI</div>
+      <p class="hero-bio">
+        <strong>20+ years building software</strong>, with a core background in <strong>data — ETL pipelines, Oracle, and SQL Server</strong>.
+        Now building with <strong>Claude Code</strong>, <strong>Gemini CLI</strong>, gstack, and live APIs — including <strong>Gemini image generation</strong> for visual assets. <strong>Honest Tom's Dashboard</strong> is my proof of concept for what's possible when you pair real data experience with AI coding and AI imaging. Every page on this site is a live, working project I designed and deployed myself.
+      </p>
+    </div>
+
+<!-- TOOLS STACK -->
+    <div class="section">
+      <div class="section-header">
+        <span>Stack</span>
+        <h2>What I'm using right now</h2>
+      </div>
+      <div class="tools-grid">
+        <div class="tool-chip">
+          <div class="tool-name">Claude Code</div>
+          <div class="tool-desc">AI pair programmer — built this entire dashboard from scratch. Primary agentic CLI for code, deploy, and multi-file edits.</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">Gemini CLI</div>
+          <div class="tool-desc">Google's AI CLI — used alongside Claude Code for cross-model validation, research, and agentic workflows.</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">gstack</div>
+          <div class="tool-desc">YC's AI engineering framework — /qa, /ship, /browse, /office-hours</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">GitHub Pages</div>
+          <div class="tool-desc">Live deployment — every push ships to production instantly</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">Yahoo Finance API</div>
+          <div class="tool-desc">Live stock, ETF &amp; crypto prices via CORS proxy with fallback chain</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">Open-Meteo</div>
+          <div class="tool-desc">Live 7-day weather — no API key required, zero-cost</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">GitHub Gist Sync</div>
+          <div class="tool-desc">Cross-device data sync with no server, no database — just a PAT</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">Claude Code Agent Teams</div>
+          <div class="tool-desc">Experimental multi-agent feature — multiple Claude instances working in parallel on the same project. Spec review, adversarial testing, outside voice challenges. I direct the team.</div>
+        </div>
+        <div class="tool-chip">
+          <div class="tool-name">Image Generation</div>
+          <div class="tool-desc">AI-designed backgrounds, patterns, and visual assets. Gemini image generation for rich creative imagery. Claude for clean geometric and star patterns. No designer needed — just a vision and a prompt.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE STUDIES -->
+    <div class="section">
+      <div class="section-header">
+        <span>Built</span>
+        <h2>Every page is a live project</h2>
+      </div>
+      <div class="cases-grid">
+
+        <a href="dashboard.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Honest Tom's Dashboard</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Live stock, ETF &amp; crypto dashboard. Real-time prices, P&amp;L tracking, and index values. Pure vanilla JS, no framework.</p>
+          <span class="case-tag">Live Data</span>
+        </a>
+
+        <a href="pitch.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Why We're Better</h3>
+            <span class="arrow">↓</span>
+          </div>
+          <p>Client pitch — what sets this approach apart from a typical agency or freelancer. Real data experience, AI-assisted speed, zero bloat.</p>
+          <span class="case-tag">Client Pitch</span>
+        </a>
+
+        <a href="ainews.html" class="case-card">
+          <div class="case-card-top">
+            <h3>AI News</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Live AI headlines and videos. RSS feed aggregation with a 3-proxy fallback chain and 7-second timeout logic.</p>
+          <span class="case-tag">RSS + APIs</span>
+        </a>
+
+        <a href="research.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Research</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Earnings dates and analyst consensus data. A personal tool for tracking market events around holdings.</p>
+          <span class="case-tag">Finance Tools</span>
+        </a>
+
+        <a href="csvanalyzer.html" class="case-card">
+          <div class="case-card-top">
+            <h3>CSV Analyzer</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Client-side data profiling tool. Drop any CSV — gets parsed in the browser, never touches a server. Auto-detects column types, flags nulls and duplicates, scores completeness, and renders Chart.js histograms and frequency distributions on the fly. Zero infrastructure, instant feedback loop.</p>
+          <span class="case-tag">Client-Side ETL</span>
+          <span class="case-tag">Data Profiling</span>
+          <span class="case-tag">Chart.js</span>
+        </a>
+
+        <a href="v2amcom.html" class="case-card">
+          <div class="case-card-top">
+            <h3>V2Amcom</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>A startup idea built on 23 years of real data work. ETL pipelines, data integration, and agentic AI workflows — for clients whose data is a mess and know it. Rooted in the legacy of Amcom Software, reimagined for the AI era.</p>
+          <span class="case-tag">Startup</span>
+          <span class="case-tag">ETL</span>
+          <span class="case-tag">Agentic AI</span>
+        </a>
+
+        <a href="weather.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Weather</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>7-day forecast using the Open-Meteo API. Zero API key, zero cost. Location: Aberdeen, SD.</p>
+          <span class="case-tag">Zero-Cost API</span>
+        </a>
+
+        <a href="timmy.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Timmy's Corner</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Tips and suggested reading, synced across devices via GitHub Gist. Editable in the browser, no backend.</p>
+          <span class="case-tag">Serverless Sync</span>
+        </a>
+
+        <a href="music.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Music Picks</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Editable album picks with live iTunes album art fetched by search. Picks persist via cross-device Gist sync.</p>
+          <span class="case-tag">Spotify</span>
+          <span class="case-tag">iTunes Art</span>
+        </a>
+
+        <a href="friends.html" class="case-card">
+          <div class="case-card-top">
+            <h3>Friends &amp; Family</h3>
+            <span class="arrow">↗</span>
+          </div>
+          <p>Custom pages built for real people — Rip's Dip (MN sports, fishing, First Ave) and Helm's Deep (Brad's lair). Each one fully themed and personalized.</p>
+          <span class="case-tag">Custom Build</span>
+        </a>
+
+        <!-- Agentic AI Audit — full width showcase -->
+        <div class="case-card" style="grid-column: 1 / -1; background: linear-gradient(135deg, rgba(34,197,94,0.07) 0%, rgba(139,92,246,0.07) 100%); border-color: rgba(34,197,94,0.25); cursor: default;">
+          <div class="case-card-top">
+            <h3 style="color:#4ade80;">Live Demo: Multi-Agent AI Audit</h3>
+            <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#a78bfa;background:rgba(139,92,246,0.12);border:1px solid rgba(139,92,246,0.3);padding:3px 10px;border-radius:20px;">Ran on this dashboard · March 2026</span>
+          </div>
+          <p style="margin-bottom:16px;">I ran a team of 3 specialized AI agents in parallel to audit this entire dashboard — one reviewed the portfolio data logic, one reviewed the UI and CSS, one reviewed the GitHub Pages config and deploy process. A 4th agent fetched live ETH and ARKK prices simultaneously. All agents coordinated through a shared task list. Every finding was fixed and deployed in a single session.</p>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:16px;">
+            <div style="background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.15);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#4ade80;margin-bottom:6px;">Portfolio Agent</div>
+              <div style="font-size:0.78rem;color:#e2eed8;line-height:1.5;">Found that <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">stocks.html</code> never read <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">prices.json</code> — the entire price-refresh cron was wasted. Fixed with dynamic fetch + re-render.</div>
+            </div>
+            <div style="background:rgba(139,92,246,0.06);border:1px solid rgba(139,92,246,0.15);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#a78bfa;margin-bottom:6px;">UI / CSS Agent</div>
+              <div style="font-size:0.78rem;color:#e2eed8;line-height:1.5;">Found section labels were near-invisible (#2a3e1a on near-black), no <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">:focus-visible</code> on any element, and color drift across 3 pages. All fixed.</div>
+            </div>
+            <div style="background:rgba(6,182,212,0.06);border:1px solid rgba(6,182,212,0.15);border-radius:12px;padding:12px 14px;">
+              <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#22d3ee;margin-bottom:6px;">Deploy Agent</div>
+              <div style="font-size:0.78rem;color:#e2eed8;line-height:1.5;">Found the Mr. Tight card linked to a redirect loop to the resume page. Found <code style="background:rgba(255,255,255,0.07);padding:1px 5px;border-radius:4px;font-size:0.74rem;">sync.js</code> existed in both repos but not in source — one push from deletion.</div>
+            </div>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <span class="case-tag" style="background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:#4ade80;">3 Parallel Agents</span>
+            <span class="case-tag" style="background:rgba(139,92,246,0.1);border-color:rgba(139,92,246,0.3);color:#a78bfa;">Shared Task List</span>
+            <span class="case-tag">20+ Fixes Deployed</span>
+            <span class="case-tag">Live Price Fetch</span>
+            <span class="case-tag">Agentic AI</span>
+          </div>
+        </div>
+
+        <!-- Why We're Better — full width pitch -->
+        <div id="why-were-better" class="case-card" style="grid-column: 1 / -1; flex-direction: column; gap: 0; padding: 0; overflow: hidden; cursor: default;">
+
+          <!-- Header -->
+          <div style="padding: 20px 24px 16px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: baseline; gap: 12px;">
+            <span style="font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #22c55e;">Client Pitch</span>
+            <h3 style="font-size: 1rem; color: #f1f5f9;">Why We're Better</h3>
+            <span style="font-size: 0.78rem; color: #94a3b8; margin-left: auto;">lookslikelarry.com — 6 directions, built with AI</span>
+          </div>
+
+          <div class="why-better-body" style="display: flex; align-items: stretch; gap: 0;">
+
+            <!-- BEFORE column -->
+            <div class="why-better-before" style="width: 200px; flex-shrink: 0; padding: 20px 18px; border-right: 1px solid rgba(255,255,255,0.06); display: flex; flex-direction: column; gap: 10px; background: rgba(0,0,0,0.15);">
+              <div style="font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #94a3b8;">Before</div>
+              <div style="font-size: 0.85rem; font-weight: 700; color: #94a3b8; text-decoration: line-through; line-height: 1.3;">lookslikelarry.com</div>
+              <img src="./larryshoot.webp" alt="Old site" style="width: 100%; height: 90px; object-fit: cover; border-radius: 8px; border: 1px solid rgba(255,255,255,0.06); opacity: 0.45;" onerror="this.style.display='none'">
+              <p style="font-size: 0.74rem; color: #94a3b8; line-height: 1.5; flex: 1;">Static. No story. No reason to stay. A placeholder, not a presence.</p>
+            </div>
+
+            <!-- AFTER — 5 tiles -->
+            <div class="why-better-tiles" style="flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: 0;">
+
+              <a href="toddfather.html" style="text-decoration: none; padding: 18px 14px; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 8px; background: rgba(196,96,42,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(196,96,42,0.1)'" onmouseout="this.style.background='rgba(196,96,42,0.04)'">
+                <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #c4602a;">Cinematic</div>
+                <img src="./toddfather.jpg" alt="Cinematic" style="width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(196,96,42,0.3);" onerror="this.style.display='none'">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #d87840; line-height: 1.3;">ToddFather Classic</div>
+                <p style="font-size: 0.68rem; color: #94a3b8; line-height: 1.45; flex: 1;">Bebas Neue, rust palette, film-grade presence.</p>
+                <span style="font-size: 0.62rem; color: #c4602a;">View ↗</span>
+              </a>
+
+              <a href="futurefather.html" style="text-decoration: none; padding: 18px 14px; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 8px; background: rgba(99,102,241,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(99,102,241,0.1)'" onmouseout="this.style.background='rgba(99,102,241,0.04)'">
+                <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #818cf8;">Future</div>
+                <img src="./future_todd.png" alt="Future" style="width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(99,102,241,0.3);" onerror="this.style.display='none'">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #a5b4fc; line-height: 1.3;">Future Vision</div>
+                <p style="font-size: 0.68rem; color: #94a3b8; line-height: 1.45; flex: 1;">Exo 2, neon-on-void, sci-fi energy.</p>
+                <span style="font-size: 0.62rem; color: #818cf8;">View ↗</span>
+              </a>
+
+              <a href="aifather.html" style="text-decoration: none; padding: 18px 14px; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 8px; background: rgba(6,182,212,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(6,182,212,0.1)'" onmouseout="this.style.background='rgba(6,182,212,0.04)'">
+                <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #22d3ee;">AI</div>
+                <img src="./ai_logo.png" alt="AI" style="width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(6,182,212,0.3);" onerror="this.style.display='none'">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #67e8f9; line-height: 1.3;">AI Father</div>
+                <p style="font-size: 0.68rem; color: #94a3b8; line-height: 1.45; flex: 1;">Orbitron, cyan grid, machine intelligence.</p>
+                <span style="font-size: 0.62rem; color: #22d3ee;">View ↗</span>
+              </a>
+
+              <a href="expeditionfather.html" style="text-decoration: none; padding: 18px 14px; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 8px; background: rgba(245,158,11,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(245,158,11,0.1)'" onmouseout="this.style.background='rgba(245,158,11,0.04)'">
+                <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #f59e0b;">Retro</div>
+                <img src="./toddsvan.jpg" alt="Retro" style="width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(245,158,11,0.3);" onerror="this.style.display='none'">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #fbbf24; line-height: 1.3;">Retro Father</div>
+                <p style="font-size: 0.68rem; color: #94a3b8; line-height: 1.45; flex: 1;">Barlow, amber tones, adventure-brand feel.</p>
+                <span style="font-size: 0.62rem; color: #f59e0b;">View ↗</span>
+              </a>
+
+              <a href="monsterfather.html" style="text-decoration: none; padding: 18px 14px; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; gap: 8px; background: rgba(239,68,68,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(239,68,68,0.1)'" onmouseout="this.style.background='rgba(239,68,68,0.04)'">
+                <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #ef4444;">Monster</div>
+                <img src="./toddfather3.png" alt="Monster" style="width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(239,68,68,0.3);" onerror="this.style.display='none'">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #fca5a5; line-height: 1.3;">Monster Father</div>
+                <p style="font-size: 0.68rem; color: #94a3b8; line-height: 1.45; flex: 1;">Bold, dark, high-energy brand identity.</p>
+                <span style="font-size: 0.62rem; color: #ef4444;">View ↗</span>
+              </a>
+
+              <a href="lookslikelarry.html" style="text-decoration: none; padding: 18px 14px; display: flex; flex-direction: column; gap: 8px; background: rgba(200,16,46,0.04); transition: background 0.15s;" onmouseover="this.style.background='rgba(200,16,46,0.1)'" onmouseout="this.style.background='rgba(200,16,46,0.04)'">
+                <div style="font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #C8102E;">1950s</div>
+                <img src="./huey_minibike.png" alt="LooksLikeLarry" style="width: 100%; height: 70px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(200,16,46,0.3);" onerror="this.style.display='none'">
+                <div style="font-size: 0.75rem; font-weight: 700; color: #fca5a5; line-height: 1.3;">LooksLikeLarry</div>
+                <p style="font-size: 0.68rem; color: #94a3b8; line-height: 1.45; flex: 1;">Standard Oil palette, 1950s gas station feel.</p>
+                <span style="font-size: 0.62rem; color: #C8102E;">View ↗</span>
+              </a>
+
+            </div>
+          </div>
+
+          <!-- Footer -->
+          <div style="padding: 12px 24px; border-top: 1px solid rgba(255,255,255,0.05); background: rgba(34,197,94,0.03); display: flex; align-items: center; justify-content: space-between;">
+            <span style="font-size: 0.72rem; color: #94a3b8;">Each direction built with AI in hours — not weeks. Pick a vibe, we ship it.</span>
+            <span style="font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #22c55e;">Website Rebuild · 6 Directions</span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- ABOUT -->
+    <div class="section">
+      <div class="section-header">
+        <span>About</span>
+        <h2>Background</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-item">
+          <div class="about-label">Experience</div>
+          <div class="about-value">20+ years in database administration and software development — core background in data: ETL, Oracle, SQL Server, PL/SQL, package/procedure/trigger/function development, Oracle migrations, API integration, and full-stack delivery. Now building with AI — Claude Code, Gemini CLI, Gemini image generation, multi-agent workflows, and live APIs. Old school data discipline, new school tools.</div>
+        </div>
+        <div class="about-item">
+          <div class="about-label">Current Focus</div>
+          <div class="about-value">AI-assisted development, rapid prototyping, and shipping real working software</div>
+        </div>
+        <div class="about-item">
+          <div class="about-label">What I Build With</div>
+          <div class="about-value">Claude Code, Gemini CLI, Gemini image generation, gstack, vanilla JS, GitHub Pages, live APIs — no framework needed</div>
+        </div>
+        <div class="about-item">
+          <div class="about-label">Status</div>
+          <div class="about-value">Open to work — consulting, contract, or full-time</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta">
+      <h2>Let's Talk</h2>
+      <p>If you're building something and need a developer who knows how to ship — I'd love to hear about it.</p>
+      <div class="contact-links">
+        <a href="resume.html" class="contact-btn contact-btn-primary">
+          📄 View Resume
+        </a>
+        <button onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(()=>{this.textContent='✓ Copied!';setTimeout(()=>{this.innerHTML='✉ tomhusom@gmail.com'},1500)})" class="contact-btn contact-btn-secondary" style="cursor:pointer;border:none;">
+          ✉ tomhusom@gmail.com
+        </button>
+        <a href="https://www.linkedin.com/in/thomas-husom-0418314/" target="_blank" rel="noopener" class="contact-btn contact-btn-secondary">
+          LinkedIn
+        </a>
+        <a href="https://github.com/tomhusom-sudo" target="_blank" rel="noopener" class="contact-btn contact-btn-secondary">
+          GitHub
+        </a>
+      </div>
+    </div>
+
+    <div class="footer">
+      Built with Claude Code + gstack &nbsp;·&nbsp; Shipped to production on every push &nbsp;·&nbsp; <a href="dashboard.html" style="color:#334155;">Honest Tom's Dashboard</a>
+    </div>
+
+  </div>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}</script>
+</body>
+</html>

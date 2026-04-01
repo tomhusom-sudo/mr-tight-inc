@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>HonestTom | Mattel Football</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* ── BASE ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body {
+      height: 100vh;
+      background: #000;
+      color: #fff;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 20px; font-family: 'Inter', sans-serif; user-select: none;
+      overflow: hidden;
+    }
+
+    /* ── AERIAL STADIUM CONTAINER ── */
+    .stadium-aerial {
+      width: min(1200px, 95vw);
+      height: min(650px, 80vh);
+      background: #1a1a1a; 
+      border-radius: 300px;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 0 100px rgba(0,0,0,0.5);
+      border: 12px solid #333;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+
+    .field-markings {
+      position: absolute; inset: 0;
+      background: 
+        repeating-linear-gradient(90deg, transparent, transparent 9.8%, rgba(255,255,255,0.05) 9.8%, rgba(255,255,255,0.05) 10%),
+        linear-gradient(rgba(0,0,0,0.2) 0%, transparent 20%, transparent 80%, rgba(0,0,0,0.2) 100%);
+      pointer-events: none;
+    }
+
+    /* ── GAME CORE ── */
+    .game-core {
+      width: 80%;
+      height: 75%;
+      background: #051405; /* Dark field green */
+      border-radius: 40px;
+      box-shadow: 0 0 60px rgba(0,0,0,1);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      border: 4px solid #444;
+      z-index: 10;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* ── STATES ── */
+    .game-state {
+      display: none;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .game-state.active { display: flex; }
+
+    /* ── TEAM SELECT ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      width: 80%;
+    }
+
+    .team-card {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid #444;
+      border-radius: 20px;
+      padding: 20px;
+      cursor: pointer;
+      transition: transform 0.2s, background 0.2s, border-color 0.2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .team-card:hover {
+      background: rgba(255,255,255,0.1);
+      transform: scale(1.05);
+      border-color: #fff;
+    }
+
+    .team-logo {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: #000;
+      border: 3px solid currentColor;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+      font-weight: 900;
+      font-size: 2rem;
+    }
+
+    .team-logo img { width: 110%; height: 110%; object-fit: cover; }
+
+    .team-name { font-weight: 900; text-transform: uppercase; font-size: 1.2rem; }
+
+    /* ── PLAY SELECT ── */
+    .play-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      width: 90%;
+    }
+
+    .play-card {
+      background: #222;
+      border: 2px solid #444;
+      border-radius: 15px;
+      padding: 15px;
+      cursor: pointer;
+      font-weight: 700;
+      text-transform: uppercase;
+      transition: all 0.2s;
+    }
+
+    .play-card:hover { background: #333; border-color: #ffd060; }
+    .play-card.run { border-left: 6px solid #ff4d4d; }
+    .play-card.pass { border-left: 6px solid #4d94ff; }
+
+    /* ── MATTEL SIM ── */
+    #sim-canvas {
+      background: #000;
+      border: 4px solid #333;
+      box-shadow: inset 0 0 20px #0f0;
+      image-rendering: pixelated;
+    }
+
+    /* ── VIDEO ── */
+    #video-player {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ── UI OVERLAYS ── */
+    .game-title {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.5rem;
+      color: #ffd060;
+      margin-bottom: 30px;
+      text-shadow: 4px 4px 0 #000;
+    }
+
+    .hud {
+      position: absolute; top: 20px; width: 90%;
+      display: flex; justify-content: space-between;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem; color: #ff4d4d;
+      pointer-events: none;
+    }
+
+    #video-overlay {
+      position: absolute; bottom: 40px;
+      display: none;
+      background: rgba(0,0,0,0.8);
+      padding: 15px 30px;
+      border-radius: 10px;
+      border: 2px solid #ffd060;
+      color: #ffd060;
+      cursor: pointer;
+      font-family: 'Press Start 2P', cursive;
+      z-index: 100;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
+
+    #video-overlay:hover { background: #ffd060; color: #000; }
+
+  </style>
+</head>
+<body>
+
+  <div class="stadium-aerial">
+    <div class="field-markings"></div>
+    
+    <div class="game-core">
+      
+      <!-- STATE: TEAM SELECT -->
+      <div id="state-team" class="game-state active">
+        <h1 class="game-title">CHOOSE YOUR SQUAD</h1>
+        <div class="team-grid">
+          <!-- Vikings -->
+          <div class="team-card" onclick="selectTeam('purple')">
+            <div class="team-logo" style="color: #FFC62F;"><img src="./helmet_vikings.png" alt="Vikings"></div>
+            <div class="team-name" style="color: #FFC62F;">Purple Peeps</div>
+          </div>
+          <!-- Packers -->
+          <div class="team-card" onclick="selectTeam('pack')">
+            <div class="team-logo" style="color: #FFB612; background: #204E32;">G</div>
+            <div class="team-name" style="color: #FFB612;">The Pack</div>
+          </div>
+          <!-- Bears -->
+          <div class="team-card" onclick="selectTeam('windy')">
+            <div class="team-logo" style="color: #C83803; background: #0B162A;">C</div>
+            <div class="team-name" style="color: #C83803;">Windy City</div>
+          </div>
+          <!-- Lions -->
+          <div class="team-card" onclick="selectTeam('motor')">
+            <div class="team-logo" style="color: #B0B7BC;"><img src="./helmet_lions.png" alt="Lions"></div>
+            <div class="team-name" style="color: #B0B7BC;">Motor Town</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATE: PLAY SELECT -->
+      <div id="state-play" class="game-state">
+        <h1 class="game-title">SELECT PLAY</h1>
+        <div class="play-grid">
+          <div class="play-card run" onclick="startSim('Dive')">Dive</div>
+          <div class="play-card run" onclick="startSim('Sweep')">Sweep</div>
+          <div class="play-card run" onclick="startSim('Draw')">Draw</div>
+          <div class="play-card pass" onclick="startSim('Slant')">Slant</div>
+          <div class="play-card pass" onclick="startSim('Post')">Post</div>
+          <div class="play-card pass" onclick="startSim('Screen')">Screen</div>
+        </div>
+        <button onclick="setState('state-team')" style="margin-top: 20px; background:none; border:none; color:#666; cursor:pointer; text-decoration:underline;">Change Team</button>
+      </div>
+
+      <!-- STATE: SIMULATION -->
+      <div id="state-sim" class="game-state">
+        <div class="hud">
+          <div>
+            <span id="hud-play">RUN: DIVE</span><br>
+            <span id="hud-team-name" style="font-size: 0.6rem; color: #666;">VIKINGS</span>
+          </div>
+          <div style="text-align: right;">
+            <span>SCORE</span><br>
+            <span id="score-val" style="color: #ffd060;">0</span>
+          </div>
+        </div>
+        <canvas id="sim-canvas" width="400" height="200"></canvas>
+      </div>
+
+      <!-- STATE: VIDEO -->
+      <div id="state-video" class="game-state">
+        <video id="video-player" playsinline muted>
+          <source src="./Jets_Running_10.mp4" type="video/mp4">
+        </video>
+        <div id="video-overlay" onclick="setState('state-play')">Play Again</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const teams = {
+      purple: { name: "Purple Peeps", color1: "#4F2683", color2: "#FFC62F", hud: "VIKES" },
+      pack: { name: "The Pack", color1: "#204E32", color2: "#FFB612", hud: "PACK" },
+      windy: { name: "Windy City", color1: "#0B162A", color2: "#C83803", hud: "BEARS" },
+      motor: { name: "Motor Town", color1: "#0076B6", color2: "#B0B7BC", hud: "LIONS" }
+    };
+
+    let currentTeam = null;
+    let currentPlay = null;
+    let score = 0;
+    let audioCtx = null;
+
+    function initAudio() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    function beep(freq, duration) {
+      if (!audioCtx) return;
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.type = 'square';
+      osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.start();
+      osc.stop(audioCtx.currentTime + duration);
+    }
+
+    function setState(stateId) {
+      document.querySelectorAll('.game-state').forEach(s => s.classList.remove('active'));
+      document.getElementById(stateId).classList.add('active');
+      
+      if (stateId === 'state-video') {
+        document.getElementById('video-overlay').style.display = 'none';
+      }
+    }
+
+    function selectTeam(teamKey) {
+      initAudio();
+      currentTeam = teams[teamKey];
+      document.getElementById('hud-team-name').innerText = currentTeam.name.toUpperCase();
+      document.getElementById('hud-team-name').style.color = currentTeam.color2;
+      setState('state-play');
+      beep(440, 0.1);
+    }
+
+    function startSim(playName) {
+      currentPlay = playName;
+      document.getElementById('hud-play').innerText = playName.toUpperCase();
+      setState('state-sim');
+      runMattelSim();
+    }
+
+    function runMattelSim() {
+      const canvas = document.getElementById('sim-canvas');
+      const ctx = canvas.getContext('2d');
+      const cw = canvas.width;
+      const ch = canvas.height;
+      const gridX = 20;
+      const gridY = 10;
+      const cellW = cw / gridX;
+      const cellH = ch / gridY;
+
+      let frame = 0;
+      let ballActive = true;
+      let outcome = "TOUCHDOWN";
+
+      // Player State
+      let player = {
+        x: 1, y: 5, 
+        vx: 0, vy: 0,
+        isQB: true,
+        hasBall: true,
+        state: 'hike' // hike, dropback, run, pass
+      };
+
+      // Play Logic Constants
+      const playConfigs = {
+        'Dive':   { type: 'run',  targetY: 5,   chaos: 0.1,  speed: 0.12 },
+        'Sweep':  { type: 'run',  targetY: 2,   chaos: 0.3,  speed: 0.14 },
+        'Draw':   { type: 'run',  targetY: 8,   chaos: 0.2,  speed: 0.10 },
+        'Slant':  { type: 'pass', targetY: 4,   dist: 8,     speed: 0.15 },
+        'Post':   { type: 'pass', targetY: 2,   dist: 12,    speed: 0.13 },
+        'Screen': { type: 'pass', targetY: 7,   dist: 4,     speed: 0.11 }
+      };
+      const cfg = playConfigs[currentPlay] || playConfigs['Dive'];
+
+      let defenders = [
+        {x: 6, y: 3, vx: -0.02, vy: 0, mode: 'wait'},
+        {x: 6, y: 7, vx: -0.02, vy: 0, mode: 'wait'},
+        {x: 10, y: 2, vx: -0.03, vy: 0, mode: 'wait'},
+        {x: 10, y: 8, vx: -0.03, vy: 0, mode: 'wait'},
+        {x: 14, y: 5, vx: -0.05, vy: 0, mode: 'wait'},
+        {x: 18, y: 4, vx: -0.1, vy: 0, mode: 'pursue'}
+      ];
+
+      function drawPlayer(x, y, color, isBallCarrier = false) {
+        ctx.save();
+        ctx.translate(x * cellW + cellW/2, y * cellH + cellH/2);
+        
+        // Glow/Shadow
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = color;
+
+        // "Little Football Man" Shape
+        // Helmet
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        ctx.arc(0, -6, 5, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Body/Shoulder Pads
+        ctx.fillRect(-8, -2, 16, 10);
+        
+        // Legs (Animated based on frame)
+        const legSwing = Math.sin(frame * 0.3) * 4;
+        ctx.fillRect(-5, 8, 3, 5 + legSwing);
+        ctx.fillRect(2, 8, 3, 5 - legSwing);
+
+        // Football
+        if (isBallCarrier) {
+          ctx.fillStyle = '#654321'; // Brown
+          ctx.shadowBlur = 0;
+          ctx.beginPath();
+          ctx.ellipse(8, 2, 5, 3, Math.PI/4, 0, Math.PI * 2);
+          ctx.fill();
+          // Laces
+          ctx.strokeStyle = '#fff';
+          ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(6, 1); ctx.lineTo(10, 3); ctx.stroke();
+        }
+
+        ctx.restore();
+      }
+
+      function draw() {
+        if (!ballActive) return;
+
+        // Clear
+        ctx.fillStyle = '#051405';
+        ctx.fillRect(0, 0, cw, ch);
+
+        // Field Markings
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+        for(let i=0; i<=gridX; i++) {
+          ctx.beginPath(); ctx.moveTo(i*cellW, 0); ctx.lineTo(i*cellW, ch); ctx.stroke();
+          if (i % 5 === 0) {
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.font = '10px Arial';
+            ctx.fillText((i*5).toString(), i*cellW + 2, 15);
+          }
+        }
+
+        // Sim Logic
+        frame++;
+        if (frame % 20 === 0) beep(800, 0.02);
+
+        // Specific Play Movement
+        if (cfg.type === 'run') {
+          player.x += cfg.speed;
+          // Curve toward targetY
+          player.y += (cfg.targetY - player.y) * 0.02;
+          // Add some "juke" chaos
+          player.y += (Math.random() - 0.5) * cfg.chaos;
+        } else {
+          // Pass Logic
+          if (player.state === 'hike') {
+            player.x -= 0.05; // QB Dropback
+            if (frame > 40) player.state = 'pass';
+          } else if (player.state === 'pass') {
+            player.x += 0.4;
+            player.y += (cfg.targetY - player.y) * 0.05;
+            if (player.x > cfg.dist) player.state = 'run';
+          } else {
+            player.x += cfg.speed;
+            player.y += (Math.random() - 0.5) * 0.1;
+          }
+        }
+
+        // Defender AI
+        defenders.forEach(d => {
+          if (player.x > d.x - 8) d.mode = 'pursue';
+          
+          if (d.mode === 'pursue') {
+            const dx = player.x - d.x;
+            const dy = player.y - d.y;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+            d.x += (dx/dist) * 0.04;
+            d.y += (dy/dist) * 0.04;
+          }
+          
+          drawPlayer(d.x, d.y, '#ff4d4d', false);
+        });
+
+        // Player
+        drawPlayer(player.x, player.y, currentTeam.color2, true);
+
+        // Collisions
+        defenders.forEach(d => {
+          const dx = Math.abs(d.x - player.x);
+          const dy = Math.abs(d.y - player.y);
+          if (dx < 0.5 && dy < 0.5) {
+            ballActive = false;
+            outcome = "SACKED";
+            beep(200, 0.4);
+            showResult(outcome);
+          }
+        });
+
+        if (player.x >= gridX - 1) {
+          ballActive = false;
+          outcome = "TOUCHDOWN";
+          score += 7;
+          document.getElementById('score-val').innerText = score;
+          beep(1200, 0.1); setTimeout(() => beep(1500, 0.2), 100);
+          showResult(outcome);
+        }
+
+        if (ballActive) {
+          requestAnimationFrame(draw);
+        }
+      }
+
+      function showResult(text) {
+        ctx.fillStyle = 'rgba(0,0,0,0.8)';
+        ctx.fillRect(0, 0, cw, ch);
+        ctx.fillStyle = text === 'TOUCHDOWN' ? '#ffd060' : '#ff4d4d';
+        ctx.font = '24px "Press Start 2P"';
+        ctx.textAlign = 'center';
+        ctx.fillText(text + '!', cw/2, ch/2);
+        
+        setTimeout(() => {
+          playVideoOutcome();
+        }, 1500);
+      }
+
+      draw();
+    }
+
+    function playVideoOutcome() {
+      setState('state-video');
+      const video = document.getElementById('video-player');
+      video.currentTime = 0;
+      video.play();
+      video.onended = () => {
+        document.getElementById('video-overlay').style.display = 'block';
+      };
+    }
+  </script>
+
+</body>
+</html>

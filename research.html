@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260328a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+        url('./angry_lincoln.png') center 20% / cover no-repeat fixed;
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 52px 32px 72px;
+    }
+
+    /* ── NAV ── */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; font-weight: 600; color: #4ade80;
+      text-decoration: none; letter-spacing: 0.04em;
+      margin-bottom: 36px; opacity: 0.8; transition: opacity 0.18s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    /* ── HEADER ── */
+    .header { margin-bottom: 40px; }
+    .eyebrow {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.22em;
+      text-transform: uppercase; color: #4ade80; margin-bottom: 10px;
+    }
+    .title {
+      font-size: clamp(2.2rem, 5vw, 3.4rem); font-weight: 800;
+      line-height: 1.05; color: #f0fae8; letter-spacing: -0.03em;
+    }
+    .title em { font-style: normal; color: #4ade80; }
+    .subtitle { margin-top: 12px; font-size: 0.93rem; color: #a8bc98; line-height: 1.5; }
+
+    /* ── API KEY SETUP ── */
+    .setup-card {
+      background: rgba(74,222,128,0.06);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 18px;
+      padding: 22px 26px;
+      margin-bottom: 32px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+    .setup-card.hidden { display: none; }
+    .setup-label {
+      font-size: 0.78rem; font-weight: 700; color: #4ade80;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .setup-sub {
+      font-size: 0.78rem; color: #a8bc98; margin-top: 3px;
+    }
+    .setup-sub a { color: #4ade80; text-decoration: none; }
+    .setup-sub a:hover { text-decoration: underline; }
+    .setup-input-wrap { display: flex; gap: 8px; flex: 1; min-width: 200px; }
+    .setup-input-wrap input {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 10px; padding: 9px 14px;
+      font-size: 0.875rem; color: #e2eed8; font-family: inherit;
+      outline: none; transition: border-color 0.18s;
+    }
+    .setup-input-wrap input:focus { border-color: rgba(74,222,128,0.45); }
+    .btn-save-key {
+      background: rgba(34,197,94,0.15); border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 10px; padding: 9px 18px; font-size: 0.8rem; font-weight: 700;
+      color: #4ade80; cursor: pointer; font-family: inherit; white-space: nowrap;
+      transition: background 0.18s, border-color 0.18s;
+    }
+    .btn-save-key:hover { background: rgba(34,197,94,0.25); border-color: rgba(74,222,128,0.5); }
+
+    .key-active {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.8rem; color: #a8bc98;
+    }
+    .key-active.hidden { display: none; }
+    .key-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; flex-shrink: 0; }
+    .btn-change-key {
+      background: none; border: none; color: #6a8a52; cursor: pointer;
+      font-size: 0.75rem; font-family: inherit; text-decoration: underline;
+      padding: 0; transition: color 0.15s;
+    }
+    .btn-change-key:hover { color: #4ade80; }
+
+    /* ── SECTION LAYOUT ── */
+    .section { margin-bottom: 40px; }
+    .section-title {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #4ade80; margin-bottom: 14px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-title::after {
+      content: ''; flex: 1; height: 1px; background: rgba(74,222,128,0.12);
+    }
+
+    /* ── WATCHLIST EDIT ── */
+    .watchlist-bar {
+      display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+    .watchlist-tag {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(34,197,94,0.1); border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 8px; padding: 4px 10px;
+      font-size: 0.72rem; font-weight: 700; color: #4ade80; letter-spacing: 0.06em;
+    }
+    .watchlist-tag.portfolio { opacity: 0.6; }
+    .watchlist-tag .del-tag {
+      background: none; border: none; cursor: pointer; color: #6a8a52;
+      padding: 0; line-height: 1; font-size: 0.9rem; transition: color 0.15s;
+    }
+    .watchlist-tag .del-tag:hover { color: #f87171; }
+    .add-ticker-wrap { display: flex; gap: 6px; }
+    .add-ticker-wrap input {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px; padding: 6px 12px; font-size: 0.8rem; color: #e2eed8;
+      font-family: inherit; width: 100px; text-transform: uppercase; outline: none;
+      transition: border-color 0.18s;
+    }
+    .add-ticker-wrap input:focus { border-color: rgba(74,222,128,0.4); }
+    .add-ticker-wrap input::placeholder { text-transform: none; color: #6a8a52; }
+    .btn-add-ticker {
+      background: rgba(34,197,94,0.12); border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 8px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+      color: #4ade80; cursor: pointer; font-family: inherit; transition: background 0.18s;
+    }
+    .btn-add-ticker:hover { background: rgba(34,197,94,0.22); }
+
+    /* ── EARNINGS CARD ── */
+    .earnings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .earn-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 18px 20px;
+      position: relative; overflow: hidden;
+    }
+
+    .earn-card.upcoming {
+      background: rgba(34,197,94,0.06);
+      border-color: rgba(34,197,94,0.18);
+    }
+
+    .earn-ticker {
+      font-size: 1.1rem; font-weight: 800; color: #f0fae8;
+      letter-spacing: -0.01em; margin-bottom: 2px;
+    }
+    .earn-name {
+      font-size: 0.72rem; color: #a8bc98; margin-bottom: 14px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .earn-date {
+      font-size: 0.82rem; font-weight: 600; color: #d4e8c0; margin-bottom: 4px;
+    }
+    .earn-time {
+      display: inline-block; font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 2px 8px; border-radius: 5px; margin-bottom: 10px;
+    }
+    .earn-time.bmo { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+    .earn-time.amc { background: rgba(99,102,241,0.12); color: #818cf8; border: 1px solid rgba(99,102,241,0.2); }
+    .earn-time.dmh { background: rgba(255,255,255,0.06); color: #6a8a5a; border: 1px solid rgba(255,255,255,0.1); }
+
+    .earn-eps-row { display: flex; gap: 16px; margin-top: 6px; }
+    .earn-eps { font-size: 0.75rem; color: #a8bc98; }
+    .earn-eps span { display: block; font-size: 0.88rem; font-weight: 600; color: #d4e8c0; margin-top: 2px; }
+
+    .earn-na {
+      font-size: 0.78rem; color: #7a9068; font-style: italic; margin-top: 8px;
+    }
+
+    .days-badge {
+      position: absolute; top: 14px; right: 14px;
+      background: rgba(74,222,128,0.12); border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 8px; padding: 2px 9px;
+      font-size: 0.65rem; font-weight: 700; color: #4ade80; letter-spacing: 0.06em;
+    }
+
+    /* ── ANALYST RATINGS ── */
+    .ratings-list { display: flex; flex-direction: column; gap: 10px; }
+
+    .rating-row {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    }
+
+    .rating-ticker {
+      font-size: 0.98rem; font-weight: 800; color: #f0fae8;
+      letter-spacing: -0.01em; min-width: 54px;
+    }
+    .rating-consensus {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; padding: 4px 12px; border-radius: 8px;
+      min-width: 90px; text-align: center; flex-shrink: 0;
+    }
+    .consensus-strong-buy { background: rgba(34,197,94,0.18); color: #4ade80; border: 1px solid rgba(34,197,94,0.25); }
+    .consensus-buy        { background: rgba(74,222,128,0.12); color: #86efac; border: 1px solid rgba(74,222,128,0.2); }
+    .consensus-hold       { background: rgba(251,191,36,0.1);  color: #fbbf24; border: 1px solid rgba(251,191,36,0.18); }
+    .consensus-sell       { background: rgba(248,113,113,0.1); color: #f87171; border: 1px solid rgba(248,113,113,0.18); }
+    .consensus-na         { background: rgba(255,255,255,0.05); color: #6a8a52; border: 1px solid rgba(255,255,255,0.08); }
+
+    .rating-bar-wrap { flex: 1; min-width: 180px; }
+    .rating-bar {
+      height: 8px; border-radius: 999px; overflow: hidden;
+      display: flex; gap: 2px;
+    }
+    .bar-seg { height: 100%; border-radius: 999px; }
+    .bar-strong-buy { background: #22c55e; }
+    .bar-buy        { background: #86efac; }
+    .bar-hold       { background: #fbbf24; }
+    .bar-sell       { background: #fb923c; }
+    .bar-strong-sell{ background: #f87171; }
+
+    .rating-counts {
+      display: flex; gap: 10px; margin-top: 7px; flex-wrap: wrap;
+    }
+    .rating-count {
+      font-size: 0.68rem; color: #a8bc98;
+    }
+    .rating-count b { color: #a0c880; }
+
+    .rating-target {
+      font-size: 0.8rem; color: #a8bc98; flex-shrink: 0;
+      white-space: nowrap;
+    }
+    .rating-target b { color: #d4e8c0; font-weight: 600; }
+
+    /* ── LOADING / ERROR ── */
+    .loading-row {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.82rem; color: #6a8a52; padding: 8px 0;
+    }
+    .spinner {
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid rgba(74,222,128,0.15);
+      border-top-color: #4ade80;
+      animation: spin 0.8s linear infinite; flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .no-key-msg {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 28px 24px;
+      font-size: 0.85rem; color: #6a8a52; text-align: center; font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px; display: flex; justify-content: space-between;
+      align-items: center; font-size: 0.68rem; color: #2e3e1e;
+      border-top: 1px solid rgba(255,255,255,0.05); padding-top: 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .page { padding: 36px 16px 56px; }
+      .setup-card { flex-direction: column; align-items: flex-start; }
+      .earnings-grid { grid-template-columns: 1fr 1fr; }
+      .rating-row { gap: 10px; }
+    }
+    @media (max-width: 400px) {
+      .earnings-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-btn" href="./dashboard.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Dashboard
+  </a>
+
+  <div class="header">
+    <div class="eyebrow">Analysis</div>
+    <h1 class="title"><em>Research</em></h1>
+    <p class="subtitle">Upcoming earnings dates &amp; analyst consensus for your holdings and watchlist.</p>
+  </div>
+
+  <!-- API Key Setup -->
+  <div class="setup-card" id="setup-card">
+    <div>
+      <div class="setup-label">🔑 Finnhub API Key Required</div>
+      <div class="setup-sub">Free at <a href="https://finnhub.io" target="_blank" rel="noopener">finnhub.io</a> — sign up takes 30 seconds, no credit card.</div>
+    </div>
+    <div class="setup-input-wrap">
+      <input type="text" id="key-input" placeholder="Paste your free API key here…" autocomplete="off" spellcheck="false">
+      <button class="btn-save-key" onclick="saveKey()">Save Key</button>
+    </div>
+  </div>
+
+  <div class="key-active hidden" id="key-active">
+    <div class="key-dot"></div>
+    <span>Finnhub API key active</span>
+    <button class="btn-change-key" onclick="changeKey()">change key</button>
+    <button class="btn-change-key" onclick="loadAll()" style="margin-left:8px;color:#4ade80;">↻ reload data</button>
+    <span id="key-status" style="margin-left:6px;font-size:0.72rem;"></span>
+  </div>
+
+  <!-- Watchlist -->
+  <div class="section">
+    <div class="section-title">Tickers</div>
+    <div class="watchlist-bar" id="watchlist-bar"></div>
+    <div class="add-ticker-wrap">
+      <input type="text" id="new-ticker" placeholder="Add ticker…" maxlength="12">
+      <button class="btn-add-ticker" onclick="addTicker()">+ Add</button>
+      <button class="btn-change-key" onclick="resetTickers()" style="margin-left:8px;" title="Restore portfolio tickers">↺ reset</button>
+    </div>
+  </div>
+
+  <!-- Earnings Calendar -->
+  <div class="section">
+    <div class="section-title">Upcoming Earnings</div>
+    <div id="earnings-wrap">
+      <div class="no-key-msg">Enter your Finnhub API key above to load earnings data.</div>
+    </div>
+  </div>
+
+  <!-- Analyst Ratings -->
+  <div class="section">
+    <div class="section-title">Analyst Ratings</div>
+    <div id="ratings-wrap">
+      <div class="no-key-msg">Enter your Finnhub API key above to load analyst ratings.</div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Research — Honest Tom's Dashboard</span>
+    <span id="footer-time"></span>
+  </footer>
+
+</div>
+<script>
+  var API_KEY_STORAGE  = 'research_finnhub_key';
+  var WATCHLIST_KEY    = 'research_watchlist';
+
+  // Portfolio tickers loaded dynamically from prices.json
+  var PORTFOLIO_TICKERS = [];
+
+  // ── Key management ──
+  function getKey() { return localStorage.getItem(API_KEY_STORAGE) || ''; }
+
+  function saveKey() {
+    var val = document.getElementById('key-input').value.trim();
+    if (!val) return;
+    localStorage.setItem(API_KEY_STORAGE, val);
+    showKeyStatus();
+    loadAll();
+  }
+
+  function changeKey() {
+    document.getElementById('key-active').classList.add('hidden');
+    document.getElementById('setup-card').classList.remove('hidden');
+    document.getElementById('key-input').value = getKey();
+    document.getElementById('key-input').focus();
+  }
+
+  function showKeyStatus() {
+    var key = getKey();
+    if (key) {
+      document.getElementById('setup-card').classList.add('hidden');
+      document.getElementById('key-active').classList.remove('hidden');
+    } else {
+      document.getElementById('setup-card').classList.remove('hidden');
+      document.getElementById('key-active').classList.add('hidden');
+    }
+  }
+
+  document.getElementById('key-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') saveKey();
+  });
+
+  // ── Watchlist — single unified list ──
+  function getWatchlist() {
+    try { return JSON.parse(localStorage.getItem(WATCHLIST_KEY)) || null; } catch(e) { return null; }
+  }
+
+  function saveWatchlist(arr) { localStorage.setItem(WATCHLIST_KEY, JSON.stringify(arr)); }
+
+  // Seed the list from portfolio tickers on first visit (or after reset)
+  function seedWatchlist() {
+    var existing = getWatchlist();
+    if (!existing) {
+      saveWatchlist(PORTFOLIO_TICKERS.slice());
+    }
+  }
+
+  function allTickers() {
+    return getWatchlist() || PORTFOLIO_TICKERS.slice();
+  }
+
+  function renderWatchlistBar() {
+    var list = allTickers();
+    var bar  = document.getElementById('watchlist-bar');
+    bar.innerHTML = list.map(function(t, i) {
+      return '<span class="watchlist-tag">' + esc(t)
+        + '<button class="del-tag" onclick="removeTicker(' + i + ')" title="Remove ' + esc(t) + '">✕</button>'
+        + '</span>';
+    }).join('');
+  }
+
+  function addTicker() {
+    var val = document.getElementById('new-ticker').value.trim().toUpperCase();
+    if (!val) return;
+    document.getElementById('new-ticker').value = '';
+    var list = allTickers();
+    if (list.indexOf(val) !== -1) return;
+    list.push(val);
+    saveWatchlist(list);
+    renderWatchlistBar();
+    if (getKey()) loadAll();
+  }
+
+  function removeTicker(i) {
+    var list = allTickers();
+    list.splice(i, 1);
+    saveWatchlist(list);
+    renderWatchlistBar();
+    if (getKey()) loadAll();
+  }
+
+  function resetTickers() {
+    saveWatchlist(PORTFOLIO_TICKERS.slice());
+    renderWatchlistBar();
+    if (getKey()) loadAll();
+  }
+
+  document.getElementById('new-ticker').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') addTicker();
+  });
+
+  // ── Finnhub fetch helpers ──
+  function fhFetch(path) {
+    var key = getKey();
+    return fetch('https://finnhub.io/api/v1' + path + (path.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(key))
+      .then(function(r) {
+        if (!r.ok) return r.json().then(function(d) { return { _error: d.error || ('HTTP ' + r.status), _status: r.status }; });
+        return r.json();
+      })
+      .then(function(data) {
+        if (data && data.error) return { _error: data.error };
+        return data;
+      })
+      .catch(function(e) { return { _error: e.message || 'network error' }; });
+  }
+
+  function isApiError(data) { return data && data._error; }
+  function isAuthError(data) { return isApiError(data) && (data._status === 401 || data._status === 403 || /invalid|auth|access/i.test(data._error || '')); }
+  function isRateLimit(data) { return isApiError(data) && (data._status === 429 || /limit|rate/i.test(data._error || '')); }
+
+  function delay(ms) { return new Promise(function(res) { setTimeout(res, ms); }); }
+
+  // ── Earnings ──
+  function dateStr(d) {
+    return d.toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric', year:'numeric' });
+  }
+
+  function daysUntil(dateStr) {
+    var now   = new Date(); now.setHours(0,0,0,0);
+    var then  = new Date(dateStr + 'T00:00:00');
+    return Math.round((then - now) / 86400000);
+  }
+
+  function loadEarnings() {
+    var tickers = allTickers();
+    var wrap = document.getElementById('earnings-wrap');
+    wrap.innerHTML = '<div class="loading-row"><div class="spinner"></div>Loading earnings…</div>';
+
+    var today = new Date();
+    var future = new Date(); future.setDate(future.getDate() + 90);
+    function fmt(d) { return d.toISOString().slice(0,10); }
+    var from = fmt(today), to = fmt(future);
+
+    // Stagger requests at 350ms each to stay within Finnhub free tier burst limits
+    var promises = tickers.map(function(ticker, i) {
+      return delay(i * 350).then(function() {
+        return fhFetch('/calendar/earnings?symbol=' + encodeURIComponent(ticker) + '&from=' + from + '&to=' + to)
+          .then(function(data) { return { ticker: ticker, data: data }; });
+      });
+    });
+
+    Promise.all(promises).then(function(results) {
+      // Check any result for auth/rate errors
+      for (var ri = 0; ri < results.length; ri++) {
+        var d = results[ri].data;
+        if (isAuthError(d)) {
+          wrap.innerHTML = '<div class="no-key-msg">⚠️ Invalid or missing Finnhub API key — enter a valid key above.</div>';
+          return;
+        }
+        if (isRateLimit(d)) {
+          wrap.innerHTML = '<div class="no-key-msg">⚠️ Finnhub rate limit hit — wait 60 seconds and click ↻ reload.</div>';
+          return;
+        }
+      }
+      var cards = results.map(function(res) {
+        var ticker = res.ticker;
+        var data   = res.data;
+        var events = (data && data.earningsCalendar) ? data.earningsCalendar : [];
+        // Pick the soonest upcoming event
+        var event = events.length ? events[0] : null;
+        var days  = event ? daysUntil(event.date) : null;
+        var isUpcoming = days !== null && days >= 0 && days <= 14;
+
+        var timeLabel = '';
+        var timeCls   = 'dmh';
+        if (event) {
+          if (event.hour === 'bmo') { timeLabel = 'Before Open'; timeCls = 'bmo'; }
+          else if (event.hour === 'amc') { timeLabel = 'After Close'; timeCls = 'amc'; }
+          else { timeLabel = 'TBD'; timeCls = 'dmh'; }
+        }
+
+        var daysHtml = '';
+        if (days !== null && days >= 0) {
+          daysHtml = days === 0
+            ? '<div class="days-badge">Today</div>'
+            : '<div class="days-badge">' + days + 'd</div>';
+        }
+
+        var epsHtml = '';
+        if (event && (event.epsEstimate !== null || event.epsActual !== null)) {
+          var est = event.epsEstimate !== null ? '$' + Number(event.epsEstimate).toFixed(2) : '—';
+          var act = event.epsActual   !== null ? '$' + Number(event.epsActual).toFixed(2)   : '—';
+          epsHtml = '<div class="earn-eps-row">'
+            + '<div class="earn-eps">EPS Est.<span>' + est + '</span></div>'
+            + '<div class="earn-eps">Actual<span>' + act + '</span></div>'
+            + '</div>';
+        }
+
+        return '<div class="earn-card' + (isUpcoming ? ' upcoming' : '') + '">'
+          + daysHtml
+          + '<div class="earn-ticker">' + esc(ticker) + '</div>'
+          + '<div class="earn-name">' + (event && event.symbol ? '' : '') + '&nbsp;</div>'
+          + (event
+            ? '<div class="earn-date">' + dateStr(new Date(event.date + 'T00:00:00')) + '</div>'
+              + (timeLabel ? '<span class="earn-time ' + timeCls + '">' + timeLabel + '</span>' : '')
+              + epsHtml
+            : '<div class="earn-na">No earnings in the next 90 days</div>')
+          + '</div>';
+      });
+
+      wrap.innerHTML = '<div class="earnings-grid">' + cards.join('') + '</div>';
+    });
+  }
+
+  // ── Analyst Ratings ──
+  function consensusLabel(sb, b, h, s, ss) {
+    var total = sb + b + h + s + ss;
+    if (!total) return { label: 'N/A', cls: 'consensus-na' };
+    var score = (sb * 5 + b * 4 + h * 3 + s * 2 + ss * 1) / total;
+    if (score >= 4.2) return { label: 'Strong Buy',  cls: 'consensus-strong-buy' };
+    if (score >= 3.5) return { label: 'Buy',         cls: 'consensus-buy' };
+    if (score >= 2.5) return { label: 'Hold',        cls: 'consensus-hold' };
+    if (score >= 1.5) return { label: 'Sell',        cls: 'consensus-sell' };
+    return { label: 'Strong Sell', cls: 'consensus-sell' };
+  }
+
+  function loadRatings() {
+    var tickers = allTickers();
+    var wrap = document.getElementById('ratings-wrap');
+    wrap.innerHTML = '<div class="loading-row"><div class="spinner"></div>Loading analyst ratings…</div>';
+
+    // Stagger at 350ms offset from earnings calls (start at numTickers*350) to avoid burst
+    var offset = tickers.length * 350;
+    var promises = tickers.map(function(ticker, i) {
+      return delay(offset + i * 350).then(function() {
+        return fhFetch('/stock/recommendation?symbol=' + encodeURIComponent(ticker))
+          .then(function(data) { return { ticker: ticker, data: data }; });
+      });
+    });
+
+    Promise.all(promises).then(function(results) {
+      for (var ri = 0; ri < results.length; ri++) {
+        var d = results[ri].data;
+        if (isAuthError(d)) {
+          wrap.innerHTML = '<div class="no-key-msg">⚠️ Finnhub key rejected — double-check it at finnhub.io and re-enter above.</div>';
+          var ks = document.getElementById('key-status');
+          if (ks) ks.innerHTML = '<span style="color:#f87171;">✗ key rejected</span>';
+          return;
+        }
+        if (isRateLimit(d)) {
+          wrap.innerHTML = '<div class="no-key-msg">⚠️ Finnhub rate limit hit — wait 60 seconds and click ↻ reload.</div>';
+          return;
+        }
+      }
+      var ks = document.getElementById('key-status');
+      if (ks) ks.innerHTML = '<span style="color:#4ade80;">✓ loaded</span>';
+      var rows = results.map(function(res) {
+        var ticker = res.ticker;
+        var arr    = Array.isArray(res.data) ? res.data : [];
+        var rec    = arr.length ? arr[0] : null; // most recent period
+
+        if (!rec || (!rec.strongBuy && !rec.buy && !rec.hold && !rec.sell && !rec.strongSell)) {
+          return '<div class="rating-row">'
+            + '<div class="rating-ticker">' + esc(ticker) + '</div>'
+            + '<div class="rating-consensus consensus-na">N/A</div>'
+            + '<div class="rating-bar-wrap" style="color:#7a9068;font-size:0.78rem;font-style:italic">No analyst coverage found</div>'
+            + '</div>';
+        }
+
+        var sb = rec.strongBuy || 0, b = rec.buy || 0, h = rec.hold || 0,
+            s  = rec.sell     || 0, ss = rec.strongSell || 0;
+        var total = sb + b + h + s + ss;
+        var con   = consensusLabel(sb, b, h, s, ss);
+
+        function pct(n) { return total ? ((n / total) * 100).toFixed(1) : 0; }
+
+        var barHtml = '<div class="rating-bar">'
+          + (sb ? '<div class="bar-seg bar-strong-buy" style="flex:' + sb + '"></div>' : '')
+          + (b  ? '<div class="bar-seg bar-buy"        style="flex:' + b  + '"></div>' : '')
+          + (h  ? '<div class="bar-seg bar-hold"       style="flex:' + h  + '"></div>' : '')
+          + (s  ? '<div class="bar-seg bar-sell"       style="flex:' + s  + '"></div>' : '')
+          + (ss ? '<div class="bar-seg bar-strong-sell"style="flex:' + ss + '"></div>' : '')
+          + '</div>'
+          + '<div class="rating-counts">'
+          + (sb ? '<span class="rating-count"><b>' + sb + '</b> Strong Buy</span>' : '')
+          + (b  ? '<span class="rating-count"><b>' + b  + '</b> Buy</span>'        : '')
+          + (h  ? '<span class="rating-count"><b>' + h  + '</b> Hold</span>'       : '')
+          + (s  ? '<span class="rating-count"><b>' + s  + '</b> Sell</span>'       : '')
+          + (ss ? '<span class="rating-count"><b>' + ss + '</b> Strong Sell</span>': '')
+          + '<span class="rating-count" style="margin-left:auto;">' + total + ' analysts · ' + (rec.period || '') + '</span>'
+          + '</div>';
+
+        return '<div class="rating-row">'
+          + '<div class="rating-ticker">' + esc(ticker) + '</div>'
+          + '<div class="rating-consensus ' + con.cls + '">' + con.label + '</div>'
+          + '<div class="rating-bar-wrap">' + barHtml + '</div>'
+          + '</div>';
+      });
+
+      wrap.innerHTML = '<div class="ratings-list">' + rows.join('') + '</div>';
+    });
+  }
+
+  function loadAll() {
+    loadEarnings();
+    loadRatings();
+  }
+
+  // ── Util ──
+  function esc(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ── Init — load tickers from prices.json, then render ──
+  showKeyStatus();
+
+  var CRYPTO    = ['BTC','ETH','SOL','DOGE','XRP','ADA','AVAX','MATIC'];
+  var FALLBACK  = ['AA','MSFT','AMZN','NVDA','VOO','VONG','EXE'];
+
+  fetch('prices.json?t=' + Date.now())
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data && data.prices) {
+        PORTFOLIO_TICKERS = Object.keys(data.prices).filter(function(t) {
+          return CRYPTO.indexOf(t) === -1 && data.prices[t] > 0;
+        });
+      } else {
+        PORTFOLIO_TICKERS = FALLBACK;
+      }
+    })
+    .catch(function() {
+      PORTFOLIO_TICKERS = FALLBACK;
+    })
+    .then(function() {
+      seedWatchlist();
+      renderWatchlistBar();
+      if (getKey()) loadAll();
+    });
+
+  document.getElementById('footer-time').textContent =
+    'Loaded ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+</script>
+</body>
+</html>

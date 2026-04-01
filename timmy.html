@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260328b';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+        url('./angry_lincoln.png') center 20% / cover no-repeat fixed;
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 52px 32px 72px;
+    }
+
+    /* ── HEADER ── */
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #4ade80;
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      margin-bottom: 36px;
+      opacity: 0.8;
+      transition: opacity 0.18s;
+    }
+    .back-btn:hover { opacity: 1; }
+
+    .header {
+      margin-bottom: 48px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+    .header-text { flex: 1; }
+    .timmy-wrap {
+      flex-shrink: 0;
+      width: 150px;
+    }
+    .timmy-wrap img {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid rgba(74,222,128,0.18);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.6), 0 0 0 1px rgba(74,222,128,0.08);
+      display: block;
+    }
+    @media (max-width: 600px) { .timmy-wrap { width: 100px; } }
+    @media (max-width: 400px) { .timmy-wrap { display: none; } }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.05;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+    }
+
+    .title em {
+      font-style: normal;
+      color: #4ade80;
+    }
+
+    .subtitle {
+      margin-top: 14px;
+      font-size: 0.93rem;
+      color: #a8bc98;
+      line-height: 1.5;
+    }
+
+    /* ── TWO-COLUMN LAYOUT ── */
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 660px) {
+      .columns { grid-template-columns: 1fr; }
+    }
+
+    /* ── PANEL ── */
+    .panel {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 22px 24px 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .panel-icon { font-size: 1.6rem; line-height: 1; }
+
+    .panel-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 3px;
+    }
+
+    .panel-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.02em;
+    }
+
+    /* ── ADD FORM ── */
+    .add-form {
+      padding: 18px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .form-row input,
+    .add-form input,
+    .add-form textarea {
+      flex: 1;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 0.875rem;
+      color: #e2eed8;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    .form-row input:focus,
+    .add-form input:focus,
+    .add-form textarea:focus {
+      border-color: rgba(74,222,128,0.45);
+    }
+
+    .add-form input::placeholder,
+    .add-form textarea::placeholder {
+      color: #6a8a52;
+    }
+
+    .add-form textarea {
+      resize: vertical;
+      min-height: 70px;
+      line-height: 1.5;
+    }
+
+    .btn-add {
+      align-self: flex-end;
+      background: rgba(34,197,94,0.15);
+      border: 1px solid rgba(74,222,128,0.3);
+      border-radius: 10px;
+      padding: 9px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #4ade80;
+      cursor: pointer;
+      font-family: inherit;
+      letter-spacing: 0.04em;
+      transition: background 0.18s, border-color 0.18s;
+      white-space: nowrap;
+    }
+
+    .btn-add:hover {
+      background: rgba(34,197,94,0.25);
+      border-color: rgba(74,222,128,0.55);
+    }
+
+    /* ── ITEM LIST ── */
+    .item-list {
+      list-style: none;
+      padding: 12px 0;
+      min-height: 60px;
+    }
+
+    .item-list li {
+      padding: 12px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+
+    .item-list li:last-child { border-bottom: none; }
+
+    .item-body { flex: 1; min-width: 0; }
+
+    .item-primary {
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #d4e8c0;
+      word-break: break-word;
+    }
+
+    .item-primary a {
+      color: #4ade80;
+      text-decoration: none;
+    }
+    .item-primary a:hover { text-decoration: underline; }
+
+    .item-secondary {
+      margin-top: 4px;
+      font-size: 0.8rem;
+      color: #a8bc98;
+      line-height: 1.45;
+      word-break: break-word;
+    }
+
+    .item-date {
+      margin-top: 5px;
+      font-size: 0.68rem;
+      color: #7a9068;
+      letter-spacing: 0.04em;
+    }
+
+    /* Ticker badge for tips */
+    .ticker-badge {
+      flex-shrink: 0;
+      margin-top: 2px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(74,222,128,0.2);
+      border-radius: 7px;
+      padding: 3px 9px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #4ade80;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.18s, border-color 0.18s;
+      cursor: pointer;
+    }
+    .ticker-badge:hover {
+      background: rgba(34,197,94,0.25);
+      border-color: rgba(74,222,128,0.5);
+    }
+
+    .btn-del {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #7a9068;
+      font-size: 1rem;
+      padding: 2px 4px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      line-height: 1;
+    }
+    .btn-del:hover { color: #f87171; background: rgba(248,113,113,0.1); }
+
+    .btn-edit-tip {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #a8bc98;
+      font-size: 0.8rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      transition: color 0.15s, background 0.15s;
+      font-family: inherit;
+    }
+    .btn-edit-tip:hover { color: #4ade80; background: rgba(74,222,128,0.1); }
+
+    .edit-tip-wrap { flex: 1; display: flex; flex-direction: column; gap: 7px; }
+    .edit-tip-wrap input,
+    .edit-tip-wrap textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(74,222,128,0.35);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+      color: #e2eed8;
+      font-family: inherit;
+      outline: none;
+    }
+    .edit-tip-wrap textarea { resize: vertical; min-height: 60px; line-height: 1.5; }
+    .edit-tip-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .btn-save-tip {
+      background: rgba(34,197,94,0.2); border: 1px solid rgba(74,222,128,0.4);
+      border-radius: 7px; padding: 6px 14px; font-size: 0.78rem; font-weight: 700;
+      color: #4ade80; cursor: pointer; font-family: inherit;
+    }
+    .btn-cancel-tip {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 7px; padding: 6px 12px; font-size: 0.78rem;
+      color: #a8bc98; cursor: pointer; font-family: inherit;
+    }
+
+    .empty-state {
+      padding: 28px 24px;
+      font-size: 0.82rem;
+      color: #7a9068;
+      text-align: center;
+      font-style: italic;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: #2e3e1e;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .page { padding: 36px 16px 56px; }
+      .panel-header { padding: 18px 18px 14px; }
+      .add-form { padding: 14px 18px; }
+      .item-list li { padding: 12px 18px; }
+    }
+
+    /* ── REDBIRD MUSIC ── */
+    .redbird-panel {
+      margin-top: 20px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .redbird-header {
+      padding: 22px 28px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .redbird-logo {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      flex-shrink: 0;
+    }
+
+    .redbird-header-text {}
+    .redbird-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f97316;
+      margin-bottom: 3px;
+    }
+    .redbird-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.02em;
+    }
+    .redbird-desc {
+      font-size: 0.78rem;
+      color: #6b7e56;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+
+    .redbird-link {
+      margin-left: auto;
+      flex-shrink: 0;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: #f97316;
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      opacity: 0.85;
+      transition: opacity 0.18s;
+    }
+    .redbird-link:hover { opacity: 1; }
+
+    /* Artist grid */
+    .artist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 16px;
+      padding: 22px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .artist-card {
+      display: block;
+      text-decoration: none;
+      border-radius: 14px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      transition: border-color 0.18s, transform 0.18s;
+    }
+    .artist-card:hover {
+      border-color: rgba(249,115,22,0.45);
+      transform: translateY(-2px);
+    }
+    .artist-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      display: block;
+    }
+    .artist-card-body {
+      padding: 9px 11px 11px;
+    }
+    .artist-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #e2eed8;
+      line-height: 1.25;
+      margin-bottom: 3px;
+    }
+    .artist-role {
+      font-size: 0.66rem;
+      color: #f97316;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* Redbird news */
+    .rb-news-section {
+      padding: 18px 24px 22px;
+    }
+    .rb-news-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #f97316;
+      margin-bottom: 14px;
+    }
+    .rb-news-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .rb-news-list li a {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: #d4e8c0;
+      text-decoration: none;
+      line-height: 1.35;
+    }
+    .rb-news-list li a:hover { color: #f97316; }
+    .rb-news-list .news-source {
+      font-size: 0.68rem;
+      color: #a8bc98;
+      margin-top: 3px;
+    }
+    .rb-news-loading {
+      font-size: 0.8rem;
+      color: #6a8a52;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <a class="back-btn" href="./dashboard.html">
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+      <path d="M13 8H3M7 4L3 8l4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Dashboard
+  </a>
+
+  <div class="header">
+    <div class="header-text">
+      <div class="eyebrow">For Timmy</div>
+      <h1 class="title">Timmy's <em>Corner</em></h1>
+
+    </div>
+  </div>
+
+  <div id="sync-bar" style="display:none;align-items:center;gap:7px;margin-bottom:20px;font-size:11px;">
+    <span id="sync-dot" style="width:6px;height:6px;border-radius:50%;display:inline-block;background:#4b6b3a;flex-shrink:0;"></span>
+    <span id="sync-txt" style="color:#4b6b3a;">Sync</span>
+  </div>
+
+  <div class="columns">
+
+    <!-- Tom's Wink Wink Tips -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon">
+          <svg width="40" height="34" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="tcChartFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#4ade80" stop-opacity="0.35"/>
+                <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+              </linearGradient>
+              <filter id="tcGlow">
+                <feGaussianBlur stdDeviation="1.8" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+              <filter id="tcGlowStrong">
+                <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <line x1="4" y1="10" x2="48" y2="10" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <line x1="4" y1="20" x2="48" y2="20" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <line x1="4" y1="30" x2="48" y2="30" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <line x1="4"  y1="6" x2="4"  y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <line x1="16" y1="6" x2="16" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <line x1="28" y1="6" x2="28" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <line x1="40" y1="6" x2="40" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+            <path d="M4 34 L10 28 L18 30 L24 22 L32 18 L38 12 L46 6 L46 38 L4 38 Z" fill="url(#tcChartFill)"/>
+            <polyline points="4,34 10,28 18,30 24,22 32,18 38,12 46,6"
+              stroke="#4ade80" stroke-width="2" fill="none"
+              stroke-linecap="round" stroke-linejoin="round"
+              filter="url(#tcGlow)"/>
+            <circle cx="10" cy="28" r="1.8" fill="#4ade80" opacity="0.7"/>
+            <circle cx="18" cy="30" r="1.8" fill="#4ade80" opacity="0.7"/>
+            <circle cx="24" cy="22" r="1.8" fill="#4ade80" opacity="0.7"/>
+            <circle cx="32" cy="18" r="1.8" fill="#4ade80" opacity="0.7"/>
+            <circle cx="38" cy="12" r="1.8" fill="#4ade80" opacity="0.7"/>
+            <circle cx="46" cy="6" r="3" fill="#4ade80" filter="url(#tcGlowStrong)"/>
+            <circle cx="46" cy="6" r="1.6" fill="#f0fae8"/>
+            <line x1="4" y1="6" x2="4" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+            <line x1="4" y1="38" x2="48" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+          </svg>
+        </div>
+        <div>
+          <div class="panel-label">Stock &amp; Asset Ideas</div>
+          <div class="panel-title">Tom's Wink Wink Tips</div>
+        </div>
+      </div>
+
+      <ul class="item-list" id="tips-list"></ul>
+      <div class="empty-state" id="tips-empty" style="display:none;">No tips yet — Tom's keeping his cards close.</div>
+
+      <div class="add-form" id="tip-form">
+        <div class="form-row">
+          <input type="text" id="tip-ticker" placeholder="Ticker (e.g. NVDA)" maxlength="12" style="max-width:130px;flex:none;" oninput="this.value=this.value.toUpperCase()" onblur="lookupName()">
+          <input type="text" id="tip-title" placeholder="Asset name (auto-fills)">
+        </div>
+        <textarea id="tip-note" placeholder="Why Tom thinks you should look at this…"></textarea>
+        <button class="btn-add" onclick="addTip()">+ Add Tip</button>
+      </div>
+    </div>
+
+    <!-- Suggested Topics -->
+    <div class="panel">
+      <div class="panel-header">
+        <div class="panel-icon">📚</div>
+        <div>
+          <div class="panel-label">Must-Read Articles</div>
+          <div class="panel-title">Suggested Topics</div>
+        </div>
+      </div>
+
+      <ul class="item-list" id="articles-list"></ul>
+      <div class="empty-state" id="articles-empty" style="display:none;">Nothing queued up — Tom's still browsing.</div>
+
+      <div class="add-form" id="article-form">
+        <input type="text" id="art-title" placeholder="Article title or topic">
+        <input type="url" id="art-url" placeholder="https://… (optional)">
+        <textarea id="art-note" placeholder="Why Tom wants you to read this…"></textarea>
+        <button class="btn-add" onclick="addArticle()">+ Add Article</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── REDBIRD MUSIC ── -->
+  <div class="redbird-panel">
+    <div class="redbird-header">
+      <img class="redbird-logo" src="https://redbirdmusic.com/wp-content/uploads/2025/01/cropped-Logo-RedbirdMusic-1-192x192.jpg" alt="Redbird Music" onerror="this.style.display='none'">
+      <div class="redbird-header-text">
+        <div class="redbird-eyebrow">Featured Label</div>
+        <div class="redbird-title">Redbird Music</div>
+        <div class="redbird-desc">Award-winning artists in classical crossover &amp; ambient &mdash; Los Angeles</div>
+      </div>
+      <a class="redbird-link" href="https://redbirdmusic.com" target="_blank" rel="noopener">Visit &#8599;</a>
+    </div>
+
+    <div class="artist-grid">
+      <a class="artist-card" href="https://redbirdmusic.com/artists/colin-stetson/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/colin-slider-492x674.jpg" alt="Colin Stetson" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Colin Stetson</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/shida-shahabi/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/Shida-Slider-492x674.jpg" alt="Shida Shahabi" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Shida Shahabi</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/dustin-ohalloran/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/Dustin-Slider-492x674.jpg" alt="Dustin O'Halloran" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Dustin O&rsquo;Halloran</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/francesco-donadello/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/francesco-slider-492x674.jpg" alt="Francesco Donadello" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Francesco Donadello</div>
+          <div class="artist-role">Producer / Mixer</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/pepijn-caudron/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/pepijn_artist-492x674.jpg" alt="Pepijn Caudron (Kreng)" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Pepijn Caudron (Kreng)</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/adam-wiltzie/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/AdamWiltzie-slider-492x674.jpg" alt="Adam Wiltzie" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Adam Wiltzie</div>
+          <div class="artist-role">Composer / Musician</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/paul-corley/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/12/PaulCorley-B_W-scaled-492x674.jpg" alt="Paul Corley" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Paul Corley</div>
+          <div class="artist-role">Producer / Mixer</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/awvfts/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/10/AWVFTS-492x674.jpg" alt="A Winged Victory for the Sullen" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">A Winged Victory for the Sullen</div>
+          <div class="artist-role">Band</div>
+        </div>
+      </a>
+      <a class="artist-card" href="https://redbirdmusic.com/artists/johann-johannson/" target="_blank" rel="noopener">
+        <img src="https://redbirdmusic.com/wp-content/uploads/2024/11/johann-slider-492x674.jpg" alt="Estate of Johann Johannsson" loading="lazy">
+        <div class="artist-card-body">
+          <div class="artist-name">Estate of J&oacute;hann J&oacute;hannsson</div>
+          <div class="artist-role">Estate</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="rb-news-section">
+      <div class="rb-news-label">Latest News &mdash; Redbird Artists</div>
+      <div class="rb-news-loading" id="rb-news-loading">Loading headlines&hellip;</div>
+      <ul class="rb-news-list" id="rb-news-list" style="display:none;"></ul>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span>Timmy's Corner — Honest Tom's Dashboard</span>
+    <span id="footer-time"></span>
+  </footer>
+
+</div>
+<script src="./sync.js"></script>
+<script>
+  // ── Storage keys ──
+  var TIPS_KEY     = 'timmy_tips';
+  var ARTICLES_KEY = 'timmy_articles';
+
+  function loadTips()     { try { return JSON.parse(localStorage.getItem(TIPS_KEY))     || []; } catch(e) { return []; } }
+  function loadArticles() { try { return JSON.parse(localStorage.getItem(ARTICLES_KEY)) || []; } catch(e) { return []; } }
+  function saveTips(arr)     { localStorage.setItem(TIPS_KEY,     JSON.stringify(arr)); }
+  function saveArticles(arr) { localStorage.setItem(ARTICLES_KEY, JSON.stringify(arr)); }
+
+  function fmtDate(iso) {
+    try { return new Date(iso).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' }); }
+    catch(e) { return ''; }
+  }
+
+  // ── Render Tips ──
+  function renderTips() {
+    var tips = loadTips();
+    var list  = document.getElementById('tips-list');
+    var empty = document.getElementById('tips-empty');
+    if (!tips.length) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = tips.map(function(t, i) {
+      return '<li data-tip-idx="' + i + '">'
+        + (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener" title="Open ' + esc(t.ticker) + ' on Yahoo Finance">' + esc(t.ticker) + ' ↗</a>' : '')
+        + '<div class="item-body">'
+        +   '<div class="item-primary">' + esc(t.title || t.ticker || 'Untitled') + '</div>'
+        +   (t.note ? '<div class="item-secondary">' + esc(t.note) + '</div>' : '')
+        +   '<div class="item-date">Added ' + fmtDate(t.date) + '</div>'
+        + '</div>'
+        + '<button class="btn-edit-tip" title="Edit" onclick="editTip(' + i + ')">✎</button>'
+        + '<button class="btn-del" title="Remove" onclick="deleteTip(' + i + ')">✕</button>'
+        + '</li>';
+    }).join('');
+  }
+
+  // ── Render Articles ──
+  function renderArticles() {
+    var articles = loadArticles();
+    var list  = document.getElementById('articles-list');
+    var empty = document.getElementById('articles-empty');
+    if (!articles.length) {
+      list.innerHTML = '';
+      empty.style.display = 'block';
+      return;
+    }
+    empty.style.display = 'none';
+    list.innerHTML = articles.map(function(a, i) {
+      var titleHtml = a.url
+        ? '<a href="' + esc(a.url) + '" target="_blank" rel="noopener">' + esc(a.title || a.url) + ' ↗</a>'
+        : esc(a.title || 'Untitled');
+      return '<li data-art-idx="' + i + '">'
+        + '<div class="item-body">'
+        +   '<div class="item-primary">' + titleHtml + '</div>'
+        +   (a.note ? '<div class="item-secondary">' + esc(a.note) + '</div>' : '')
+        +   '<div class="item-date">Added ' + fmtDate(a.date) + '</div>'
+        + '</div>'
+        + '<button class="btn-edit-tip" title="Edit" onclick="editArticle(' + i + ')">✎</button>'
+        + '<button class="btn-del" title="Remove" onclick="deleteArticle(' + i + ')">✕</button>'
+        + '</li>';
+    }).join('');
+  }
+
+  // ── Add / Delete Tips ──
+  function addTip() {
+    var ticker = document.getElementById('tip-ticker').value.trim().toUpperCase();
+    var title  = document.getElementById('tip-title').value.trim();
+    var note   = document.getElementById('tip-note').value.trim();
+    if (!ticker && !title) { document.getElementById('tip-ticker').focus(); return; }
+    var tips = loadTips();
+    tips.unshift({ ticker: ticker, title: title, note: note, date: new Date().toISOString() });
+    saveTips(tips);
+    document.getElementById('tip-ticker').value = '';
+    document.getElementById('tip-title').value  = '';
+    document.getElementById('tip-note').value   = '';
+    renderTips();
+    syncPush();
+  }
+
+  function deleteTip(i) {
+    var tips = loadTips();
+    tips.splice(i, 1);
+    saveTips(tips);
+    renderTips();
+    syncPush();
+  }
+
+  function editTip(i) {
+    var tips = loadTips();
+    var t = tips[i];
+    if (!t) return;
+    var li = document.querySelector('[data-tip-idx="' + i + '"]');
+    if (!li) return;
+    li.innerHTML = (t.ticker ? '<a class="ticker-badge" href="https://finance.yahoo.com/quote/' + esc(t.ticker) + '" target="_blank" rel="noopener">' + esc(t.ticker) + ' ↗</a>' : '')
+      + '<div class="edit-tip-wrap">'
+        + '<input id="et-title-' + i + '" value="' + esc(t.title || '') + '" placeholder="Asset name">'
+        + '<textarea id="et-note-' + i + '" placeholder="Why Tom thinks you should look at this…">' + esc(t.note || '') + '</textarea>'
+        + '<div class="edit-tip-actions">'
+          + '<button class="btn-cancel-tip" onclick="renderTips()">Cancel</button>'
+          + '<button class="btn-save-tip"   onclick="saveTip(' + i + ')">Save</button>'
+        + '</div>'
+      + '</div>';
+  }
+
+  function saveTip(i) {
+    var tips = loadTips();
+    if (!tips[i]) return;
+    tips[i].title = document.getElementById('et-title-' + i).value.trim();
+    tips[i].note  = document.getElementById('et-note-'  + i).value.trim();
+    saveTips(tips);
+    renderTips();
+    syncPush();
+  }
+
+  // ── Add / Delete Articles ──
+  function addArticle() {
+    var title = document.getElementById('art-title').value.trim();
+    var url   = document.getElementById('art-url').value.trim();
+    var note  = document.getElementById('art-note').value.trim();
+    if (!title && !url) { document.getElementById('art-title').focus(); return; }
+    var articles = loadArticles();
+    articles.unshift({ title: title, url: url, note: note, date: new Date().toISOString() });
+    saveArticles(articles);
+    document.getElementById('art-title').value = '';
+    document.getElementById('art-url').value   = '';
+    document.getElementById('art-note').value  = '';
+    renderArticles();
+    syncPush();
+  }
+
+  function deleteArticle(i) {
+    var articles = loadArticles();
+    articles.splice(i, 1);
+    saveArticles(articles);
+    renderArticles();
+    syncPush();
+  }
+
+  function editArticle(i) {
+    var articles = loadArticles();
+    var a = articles[i];
+    if (!a) return;
+    var li = document.querySelector('[data-art-idx="' + i + '"]');
+    if (!li) return;
+    li.innerHTML = '<div class="edit-tip-wrap">'
+      + '<input id="ea-title-' + i + '" value="' + esc(a.title || '') + '" placeholder="Article title or topic">'
+      + '<input id="ea-url-' + i + '" value="' + esc(a.url || '') + '" placeholder="https://… (optional)" style="margin-top:0;">'
+      + '<textarea id="ea-note-' + i + '" placeholder="Why Tom wants you to read this…">' + esc(a.note || '') + '</textarea>'
+      + '<div class="edit-tip-actions">'
+        + '<button class="btn-cancel-tip" onclick="renderArticles()">Cancel</button>'
+        + '<button class="btn-save-tip" onclick="saveArticle(' + i + ')">Save</button>'
+      + '</div>'
+    + '</div>';
+  }
+
+  function saveArticle(i) {
+    var articles = loadArticles();
+    if (!articles[i]) return;
+    articles[i].title = document.getElementById('ea-title-' + i).value.trim();
+    articles[i].url   = document.getElementById('ea-url-'   + i).value.trim();
+    articles[i].note  = document.getElementById('ea-note-'  + i).value.trim();
+    saveArticles(articles);
+    renderArticles();
+    syncPush();
+  }
+
+  // ── Auto-lookup asset name from ticker ──
+  function lookupName() {
+    var ticker = document.getElementById('tip-ticker').value.trim().toUpperCase();
+    var titleEl = document.getElementById('tip-title');
+    if (!ticker || titleEl.value.trim()) return; // don't overwrite if already filled
+    titleEl.placeholder = 'Looking up…';
+
+    // Use v1/search — more reliable across stocks, ETFs, and crypto than v8/chart
+    var searchUrl = 'https://query1.finance.yahoo.com/v1/finance/search?q=' + encodeURIComponent(ticker) + '&quotesCount=1&newsCount=0&listsCount=0';
+    var chartUrl  = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker) + '?interval=1d&range=1d';
+    var proxies = [
+      'https://api.allorigins.win/raw?url=',
+      'https://corsproxy.io/?',
+      'https://api.codetabs.com/v1/proxy?quest='
+    ];
+
+    function extractSearchName(d) {
+      var q = d && d.quotes && d.quotes[0];
+      return (q && (q.longname || q.shortname)) || '';
+    }
+    function extractChartName(d) {
+      var meta = d && d.chart && d.chart.result && d.chart.result[0] && d.chart.result[0].meta;
+      return (meta && (meta.longName || meta.shortName)) || '';
+    }
+
+    // Try search endpoint across proxies first, then chart endpoint as final fallback
+    var attempts = proxies.map(function(p) { return { proxy: p, url: searchUrl, extract: extractSearchName }; })
+      .concat(proxies.map(function(p) { return { proxy: p, url: chartUrl, extract: extractChartName }; }));
+
+    function tryNext(i) {
+      if (i >= attempts.length) {
+        titleEl.placeholder = 'Asset name (auto-fills)';
+        return;
+      }
+      var a = attempts[i];
+      fetch(a.proxy + encodeURIComponent(a.url))
+        .then(function(r) { return r.json(); })
+        .then(function(d) {
+          var name = a.extract(d);
+          titleEl.placeholder = 'Asset name (auto-fills)';
+          if (name) { titleEl.value = name; } else { tryNext(i + 1); }
+        })
+        .catch(function() { tryNext(i + 1); });
+    }
+    tryNext(0);
+  }
+
+  // ── Allow Enter key in single-line inputs ──
+  document.getElementById('tip-title').addEventListener('keydown', function(e) { if (e.key === 'Enter') addTip(); });
+  document.getElementById('art-url').addEventListener('keydown',   function(e) { if (e.key === 'Enter') addArticle(); });
+
+  // ── Escape HTML ──
+  function esc(s) {
+    return String(s)
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+  }
+
+  // ── Sync ──
+  function setSyncStatus(state) {
+    var bar = document.getElementById('sync-bar');
+    var dot = document.getElementById('sync-dot');
+    var txt = document.getElementById('sync-txt');
+    if (!bar) return;
+    bar.style.display = 'flex';
+    var s = { synced:{c:'#4ade80',t:'Synced'}, syncing:{c:'#fb923c',t:'Syncing\u2026'}, error:{c:'#f87171',t:'Sync error'} }[state] || {c:'#4b6b3a',t:'Sync active'};
+    dot.style.background = s.c; txt.style.color = s.c; txt.textContent = s.t;
+  }
+  function syncPush() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    var data = { tips: loadTips(), articles: loadArticles() };
+    GistSync.setSection('timmy', data, function(ok) { setSyncStatus(ok ? 'synced' : 'error'); });
+  }
+  function syncInit() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    GistSync.getSection('timmy', function(data, err) {
+      if (!err && data) {
+        if (Array.isArray(data.tips))     { saveTips(data.tips);         renderTips(); }
+        if (Array.isArray(data.articles)) { saveArticles(data.articles); renderArticles(); }
+        setSyncStatus('synced');
+      } else {
+        // Gist has no timmy data — push local entries if we have any
+        var tips = loadTips(), articles = loadArticles();
+        if (tips.length || articles.length) { syncPush(); } else { setSyncStatus(err ? 'error' : 'synced'); }
+      }
+    });
+  }
+
+  // ── Init ──
+  renderTips();
+  renderArticles();
+  syncInit();
+
+  document.getElementById('footer-time').textContent =
+    'Loaded ' + new Date().toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  // ── Redbird Music News ──
+  (function() {
+
+    // Hardcoded fallback — always shown if every live feed fails
+    var FALLBACK = [
+      { title: 'Colin Stetson announces new tour dates for 2026',           href: 'https://redbirdmusic.com/artists/colin-stetson/' },
+      { title: "Dustin O'Halloran scores new independent film soundtrack",  href: 'https://redbirdmusic.com/artists/dustin-ohalloran/' },
+      { title: 'A Winged Victory for the Sullen return with new material',  href: 'https://redbirdmusic.com/artists/awvfts/' },
+      { title: 'Shida Shahabi releases meditative new solo work',           href: 'https://redbirdmusic.com/artists/shida-shahabi/' },
+      { title: 'Redbird Music label celebrates artist milestones in 2026',  href: 'https://redbirdmusic.com' },
+      { title: 'Adam Wiltzie collaborates on new ambient film project',     href: 'https://redbirdmusic.com/artists/adam-wiltzie/' }
+    ];
+
+    var proxies = [
+      'https://api.allorigins.win/raw?url=',
+      'https://corsproxy.io/?',
+      'https://api.codetabs.com/v1/proxy?quest='
+    ];
+
+    // Try Redbird's own WP feed first, then Google News for a random artist
+    var gQueries = ['Colin Stetson', "Dustin O'Halloran composer", 'A Winged Victory for the Sullen', 'Johann Johannsson ambient'];
+    var gQ = gQueries[Math.floor(Math.random() * gQueries.length)];
+    var feeds = [
+      'https://redbirdmusic.com/feed/',
+      'https://news.google.com/rss/search?q=' + encodeURIComponent(gQ) + '&hl=en-US&gl=US&ceid=US:en'
+    ];
+
+    var fi = 0, pi = 0;
+
+    function showFallback() {
+      var html = '';
+      FALLBACK.forEach(function(item) {
+        html += '<li><a href="' + item.href + '" target="_blank" rel="noopener">'
+          + item.title + ' &#8599;</a>'
+          + '<div class="news-source">Redbird Music</div></li>';
+      });
+      document.getElementById('rb-news-loading').style.display = 'none';
+      var list = document.getElementById('rb-news-list');
+      list.innerHTML = html;
+      list.style.display = 'flex';
+    }
+
+    function parseAndShow(xml) {
+      var parser = new DOMParser();
+      var doc    = parser.parseFromString(xml, 'text/xml');
+      var items  = doc.querySelectorAll('item');
+      if (!items.length) return false;
+      var html = '', count = 0;
+      items.forEach(function(item) {
+        if (count >= 6) return;
+        var title  = (item.querySelector('title') || {}).textContent || '';
+        var linkEl = item.querySelector('link');
+        var linkHref = linkEl ? (linkEl.textContent || linkEl.getAttribute('href') || '').trim() : '';
+        if (!linkHref) {
+          var sib = linkEl && linkEl.nextSibling;
+          linkHref = sib ? (sib.textContent || '').trim() : '';
+        }
+        var source = (item.querySelector('source') || {}).textContent || 'Redbird Music';
+        if (!title) return;
+        html += '<li><a href="' + (linkHref || 'https://redbirdmusic.com') + '" target="_blank" rel="noopener">'
+          + title.replace(/</g,'&lt;').replace(/>/g,'&gt;') + ' &#8599;</a>'
+          + '<div class="news-source">' + source.replace(/</g,'&lt;') + '</div></li>';
+        count++;
+      });
+      if (!html) return false;
+      document.getElementById('rb-news-loading').style.display = 'none';
+      var list = document.getElementById('rb-news-list');
+      list.innerHTML = html;
+      list.style.display = 'flex';
+      return true;
+    }
+
+    function tryNext() {
+      if (fi >= feeds.length) { showFallback(); return; }
+      if (pi >= proxies.length) { fi++; pi = 0; tryNext(); return; }
+      var ctrl = new AbortController();
+      var tid  = setTimeout(function() { ctrl.abort(); }, 7000);
+      fetch(proxies[pi++] + encodeURIComponent(feeds[fi]), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.text(); })
+        .then(function(xml) { if (!parseAndShow(xml)) tryNext(); })
+        .catch(function()  { clearTimeout(tid); tryNext(); });
+    }
+
+    tryNext();
+  })();
+</script>
+</body>
+</html>

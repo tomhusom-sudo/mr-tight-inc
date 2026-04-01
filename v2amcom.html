@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --green:        #16a34a;
+      --green-light:  #4ade80;
+      --green-dim:    rgba(22,163,74,0.12);
+      --orange:       #f97316;
+      --orange-dim:   rgba(249,115,22,0.12);
+      --red:          #dc2626;
+      --red-dim:      rgba(220,38,38,0.1);
+      --bg:           #050d07;
+      --surface:      rgba(255,255,255,0.03);
+      --border:       rgba(255,255,255,0.07);
+      --text:         #e2e8f0;
+      --muted:        #64748b;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(5,13,7,0.82) 0%, rgba(5,13,7,0.90) 60%, rgba(5,13,7,0.96) 100%),
+        url('./amcom.png') center 30% / cover no-repeat fixed;
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: radial-gradient(rgba(22,163,74,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* top accent bar */
+    .top-bar {
+      position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 100;
+      background: linear-gradient(90deg, var(--green) 0%, var(--orange) 50%, var(--red) 100%);
+    }
+
+    .page {
+      position: relative; z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 60px 24px 100px;
+    }
+
+    /* NAV */
+    .back-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 14px; background: transparent;
+      border: 1px solid var(--green); border-radius: 8px;
+      color: var(--green-light); font-size: 0.78rem; font-weight: 600;
+      text-decoration: none; letter-spacing: 0.04em;
+      transition: background 0.15s; margin-bottom: 48px;
+    }
+    .back-btn:hover { background: var(--green-dim); }
+
+    /* HERO */
+    .hero {
+      display: flex; align-items: center; gap: 32px;
+      margin-bottom: 60px; flex-wrap: wrap;
+    }
+    .hero-logo {
+      width: 130px; height: 130px;
+      flex-shrink: 0;
+    }
+    .hero-text {}
+    .hero-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: var(--green); margin-bottom: 10px;
+    }
+    .hero h1 {
+      font-size: 2.6rem; font-weight: 800; color: #f8fafc;
+      letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 8px;
+    }
+    .hero h1 span { color: var(--orange); }
+    .hero-sub {
+      font-size: 0.9rem; color: var(--muted); line-height: 1.6; max-width: 540px;
+    }
+
+    /* PITCH */
+    .pitch {
+      background: linear-gradient(135deg, rgba(22,163,74,0.06) 0%, rgba(249,115,22,0.04) 100%);
+      border: 1px solid rgba(22,163,74,0.2);
+      border-radius: 20px;
+      padding: 36px 40px;
+      margin-bottom: 56px;
+      position: relative; overflow: hidden;
+    }
+    .pitch::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--green), var(--orange));
+    }
+    .pitch-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 16px;
+    }
+    .pitch p {
+      font-size: 1.1rem; line-height: 1.75; color: #cbd5e1; font-weight: 400;
+    }
+    .pitch p strong { color: #f8fafc; font-weight: 700; }
+
+    /* SERVICES */
+    .section-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 20px;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 700px) { .services-grid { grid-template-columns: 1fr; } }
+
+    .service-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .service-card:hover { border-color: rgba(22,163,74,0.3); background: rgba(255,255,255,0.05); }
+    .service-icon { font-size: 2rem; margin-bottom: 14px; }
+    .service-name {
+      font-size: 0.95rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;
+    }
+    .service-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.6; }
+    .service-tag {
+      display: inline-block; margin-top: 12px;
+      padding: 2px 10px; border-radius: 20px; font-size: 0.65rem;
+      font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .tag-green { background: var(--green-dim); color: var(--green-light); }
+    .tag-orange { background: var(--orange-dim); color: var(--orange); }
+    .tag-red { background: var(--red-dim); color: var(--red); }
+
+    /* STORY */
+    .story-section {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 48px;
+      align-items: start;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 760px) {
+      .story-section { grid-template-columns: 1fr; }
+      .story-art { margin: 0 auto; }
+    }
+    .story-art {
+      width: 280px;
+      background: rgba(22,163,74,0.05);
+      border: 1px solid rgba(22,163,74,0.15);
+      border-radius: 20px;
+      padding: 24px;
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      flex-shrink: 0;
+    }
+    .story-art-label {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--green); text-align: center;
+    }
+    .story-body {}
+    .story-title {
+      font-size: 1.5rem; font-weight: 800; color: #f8fafc;
+      letter-spacing: -0.02em; margin-bottom: 6px;
+    }
+    .story-eyebrow {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--orange); margin-bottom: 20px;
+    }
+    .story-body p {
+      font-size: 0.88rem; line-height: 1.8; color: #94a3b8; margin-bottom: 16px;
+    }
+    .story-body p strong { color: #e2e8f0; font-weight: 600; }
+    .story-body p.story-lead {
+      font-size: 0.95rem; color: #cbd5e1; font-weight: 400;
+    }
+    .story-body p.story-kicker {
+      font-size: 0.92rem; color: #cbd5e1;
+      border-left: 3px solid var(--orange);
+      padding-left: 16px; margin-top: 20px;
+    }
+    .story-years {
+      display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .story-stat {
+      text-align: center;
+    }
+    .story-stat-num { font-size: 1.8rem; font-weight: 800; color: var(--green-light); line-height: 1; }
+    .story-stat-lbl { font-size: 0.65rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 2px; }
+
+    /* DIVIDER */
+    .divider {
+      border: none; border-top: 1px solid rgba(255,255,255,0.06);
+      margin: 0 0 56px;
+    }
+
+    /* ── CSV ANALYZER SECTION ── */
+    .csv-header { margin-bottom: 32px; }
+    .csv-header h2 {
+      font-size: 1.6rem; font-weight: 800; color: #f8fafc;
+      letter-spacing: -0.02em; margin-bottom: 8px;
+    }
+    .csv-header p { font-size: 0.88rem; color: var(--muted); line-height: 1.6; }
+
+    .drop-zone {
+      border: 2px dashed rgba(22,163,74,0.4);
+      border-radius: 20px;
+      padding: 56px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      background: rgba(22,163,74,0.02);
+      margin-bottom: 32px;
+      position: relative;
+    }
+    .drop-zone:hover, .drop-zone.drag-over {
+      border-color: var(--green);
+      background: var(--green-dim);
+    }
+    .drop-zone input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .drop-icon { font-size: 3rem; margin-bottom: 16px; }
+    .drop-zone h3 { font-size: 1.05rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px; }
+    .drop-zone p { font-size: 0.85rem; color: var(--muted); }
+    .browse-link { color: var(--green-light); text-decoration: underline; cursor: pointer; }
+
+    #results { display: none; }
+
+    .file-header {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 12px;
+      padding: 16px 20px;
+      background: var(--green-dim);
+      border: 1px solid rgba(22,163,74,0.2);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    .file-name { font-size: 1rem; font-weight: 700; color: var(--green-light); }
+    .file-meta { font-size: 0.8rem; color: var(--muted); }
+    .reset-btn {
+      padding: 6px 14px; background: transparent;
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;
+      color: var(--muted); font-size: 0.78rem; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .reset-btn:hover { border-color: #ef4444; color: #ef4444; }
+
+    .stat-label-sm {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--green);
+      margin-bottom: 14px; margin-top: 28px;
+    }
+
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 8px;
+    }
+    @media (max-width: 700px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+    }
+    .stat-card .sc-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+    .stat-card .sc-value { font-size: 1.6rem; font-weight: 800; color: var(--green-light); font-variant-numeric: tabular-nums; }
+    .stat-card .sc-sub { font-size: 0.75rem; color: #475569; margin-top: 4px; }
+
+    .quality-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+    }
+    @media (max-width: 600px) { .quality-grid { grid-template-columns: 1fr; } }
+
+    .quality-card {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 12px; padding: 16px;
+    }
+    .quality-card .q-label { font-size: 0.72rem; color: var(--muted); margin-bottom: 6px; }
+    .quality-card .q-value { font-size: 1.3rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+    .q-good { color: var(--green-light); }
+    .q-warn { color: #fbbf24; }
+    .q-bad  { color: #f87171; }
+
+    .col-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .col-table th {
+      text-align: left; padding: 10px 12px;
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #475569;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .col-table td {
+      padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: #cbd5e1; font-variant-numeric: tabular-nums;
+    }
+    .col-table tr:last-child td { border-bottom: none; }
+    .col-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+    .type-badge {
+      display: inline-block; padding: 2px 8px; border-radius: 20px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .type-number { background: var(--green-dim); color: var(--green); }
+    .type-text   { background: rgba(99,102,241,0.1); color: #818cf8; }
+    .type-date   { background: rgba(245,158,11,0.1); color: #fbbf24; }
+
+    .missing-pill {
+      display: inline-block; padding: 2px 8px; border-radius: 20px; font-size: 0.68rem; font-weight: 600;
+    }
+    .missing-none { background: var(--green-dim); color: var(--green-light); }
+    .missing-some { background: rgba(245,158,11,0.12); color: #fbbf24; }
+    .missing-lots { background: rgba(239,68,68,0.12); color: #f87171; }
+
+    .charts-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    @media (max-width: 640px) { .charts-grid { grid-template-columns: 1fr; } }
+
+    .chart-card {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+    }
+    .chart-card h4 { font-size: 0.85rem; font-weight: 700; color: #94a3b8; margin-bottom: 16px; }
+    .chart-card canvas { max-height: 220px; }
+
+    .preview-wrap { overflow-x: auto; border-radius: 12px; border: 1px solid var(--border); }
+    .preview-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; white-space: nowrap; }
+    .preview-table th {
+      padding: 10px 14px; text-align: left; background: rgba(255,255,255,0.03);
+      color: var(--green); font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .preview-table td {
+      padding: 8px 14px; color: #94a3b8;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      max-width: 200px; overflow: hidden; text-overflow: ellipsis;
+    }
+    .preview-table tr:last-child td { border-bottom: none; }
+
+    .table-wrap {
+      background: rgba(255,255,255,0.02); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px;
+    }
+  </style>
+</head>
+<body>
+<div class="top-bar"></div>
+<div class="page">
+
+  <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:48px;">
+    <a href="dashboard.html" class="back-btn" style="margin-bottom:0;">← Dashboard</a>
+    <span style="display:inline-flex;align-items:center;padding:5px 13px;border:1px solid #f97316;border-radius:20px;color:#fb923c;font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:rgba(249,115,22,0.08);">★ New Startup Idea</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" class="hero-logo" aria-label="V2Amcom">
+      <defs>
+        <radialGradient id="v2-sphere" cx="38%" cy="32%" r="65%">
+          <stop offset="0%" stop-color="#fde68a"/>
+          <stop offset="35%" stop-color="#f97316"/>
+          <stop offset="100%" stop-color="#7c2d12"/>
+        </radialGradient>
+        <radialGradient id="v2-glow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f97316" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#f97316" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="v2-bloom" x="-40%" y="-40%" width="180%" height="180%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="4" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <filter id="v2-rg" x="-30%" y="-80%" width="160%" height="260%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="b"/>
+          <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <clipPath id="v2-top"><rect x="0" y="0" width="200" height="100"/></clipPath>
+        <clipPath id="v2-bot"><rect x="0" y="100" width="200" height="100"/></clipPath>
+      </defs>
+
+      <!-- Ambient orange glow -->
+      <circle cx="100" cy="100" r="64" fill="url(#v2-glow)"/>
+
+      <!-- Back half of rings (behind planet) -->
+      <g filter="url(#v2-rg)" clip-path="url(#v2-top)">
+        <ellipse cx="100" cy="100" rx="93" ry="25" fill="none" stroke="#16a34a" stroke-width="6" opacity="0.3"/>
+        <ellipse cx="100" cy="100" rx="82" ry="20" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.25"/>
+        <ellipse cx="100" cy="100" rx="70" ry="16" fill="none" stroke="#dc2626" stroke-width="3.5" opacity="0.35"/>
+      </g>
+
+      <!-- Planet sphere -->
+      <circle cx="100" cy="100" r="46" fill="url(#v2-sphere)" filter="url(#v2-bloom)"/>
+
+      <!-- Latitude / longitude grid on surface -->
+      <ellipse cx="100" cy="100" rx="46" ry="14" fill="none" stroke="rgba(253,230,138,0.2)" stroke-width="0.8"/>
+      <ellipse cx="100" cy="100" rx="46" ry="27" fill="none" stroke="rgba(253,230,138,0.13)" stroke-width="0.8"/>
+      <line x1="100" y1="54" x2="100" y2="146" stroke="rgba(253,230,138,0.18)" stroke-width="0.8"/>
+      <line x1="54" y1="100" x2="146" y2="100" stroke="rgba(253,230,138,0.12)" stroke-width="0.8"/>
+
+      <!-- Front half of rings (in front of planet) -->
+      <g filter="url(#v2-rg)" clip-path="url(#v2-bot)">
+        <ellipse cx="100" cy="100" rx="93" ry="25" fill="none" stroke="#16a34a" stroke-width="6" opacity="0.95"/>
+        <ellipse cx="100" cy="100" rx="82" ry="20" fill="none" stroke="#22c55e" stroke-width="2" opacity="0.75"/>
+        <ellipse cx="100" cy="100" rx="70" ry="16" fill="none" stroke="#dc2626" stroke-width="3.5" opacity="0.9"/>
+      </g>
+
+      <!-- Circuit nodes on ring ends -->
+      <circle cx="193" cy="100" r="4.5" fill="#4ade80" filter="url(#v2-bloom)"/>
+      <circle cx="7" cy="100" r="4.5" fill="#4ade80" filter="url(#v2-bloom)"/>
+      <circle cx="170" cy="93" r="2.5" fill="#86efac" opacity="0.8"/>
+      <circle cx="30" cy="107" r="2.5" fill="#86efac" opacity="0.8"/>
+
+      <!-- Circuit trace lines -->
+      <polyline points="193,100 198,89 198,77" fill="none" stroke="#4ade80" stroke-width="1.4" opacity="0.75"/>
+      <circle cx="198" cy="77" r="2.5" fill="#4ade80" opacity="0.65"/>
+      <line x1="198" y1="77" x2="192" y2="72" stroke="#4ade80" stroke-width="1" opacity="0.5"/>
+      <circle cx="192" cy="72" r="1.5" fill="#4ade80" opacity="0.5"/>
+
+      <polyline points="7,100 2,111 2,123" fill="none" stroke="#4ade80" stroke-width="1.4" opacity="0.75"/>
+      <circle cx="2" cy="123" r="2.5" fill="#4ade80" opacity="0.65"/>
+      <line x1="2" y1="123" x2="8" y2="128" stroke="#4ade80" stroke-width="1" opacity="0.5"/>
+
+      <!-- Distant stars -->
+      <circle cx="22" cy="28" r="1.2" fill="#4ade80" opacity="0.45"/>
+      <circle cx="172" cy="22" r="1.4" fill="#fbbf24" opacity="0.35"/>
+      <circle cx="185" cy="162" r="1" fill="#4ade80" opacity="0.3"/>
+      <circle cx="14" cy="168" r="1.2" fill="#f97316" opacity="0.35"/>
+      <circle cx="188" cy="42" r="0.9" fill="#86efac" opacity="0.4"/>
+    </svg>
+    <div class="hero-text">
+      <div class="hero-eyebrow">AI · ETL · Data Integration</div>
+      <h1>V2<span>Amcom</span></h1>
+      <p class="hero-sub">AI Data Driven Company. Providing ETL Services and Data Integration using Agentic AI workflows — so your data works for you instead of against you.</p>
+    </div>
+  </div>
+
+  <!-- PITCH -->
+  <div class="pitch">
+    <div class="pitch-label">The Problem We Solve</div>
+    <p>
+      <strong>Your data is a mess.</strong> It's scattered, it's dirty, and it's costing you time you don't have.
+      Modern data integration tools cut through the chaos — cleaning, transforming, and connecting all your sources
+      so your data works for you instead of against you.
+    </p>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="section-label">What We Do</div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="filter:drop-shadow(0 0 10px rgba(22,163,74,0.35));">
+          <!-- Star field -->
+          <circle cx="8"  cy="6"  r="0.8" fill="#4ade80" opacity="0.5"/>
+          <circle cx="55" cy="10" r="0.6" fill="#4ade80" opacity="0.35"/>
+          <circle cx="60" cy="28" r="0.5" fill="#4ade80" opacity="0.3"/>
+          <circle cx="4"  cy="42" r="0.7" fill="#4ade80" opacity="0.4"/>
+          <circle cx="50" cy="56" r="0.6" fill="#4ade80" opacity="0.3"/>
+          <circle cx="20" cy="58" r="0.5" fill="#4ade80" opacity="0.25"/>
+          <circle cx="38" cy="4"  r="0.5" fill="#16a34a" opacity="0.4"/>
+
+          <!-- Large center gear (Transform) -->
+          <g transform="translate(26,24)">
+            <circle cx="6" cy="6" r="5.2" fill="#0d3320" stroke="#16a34a" stroke-width="1.4"/>
+            <circle cx="6" cy="6" r="2.2" fill="#16a34a" opacity="0.9"/>
+            <!-- Teeth -->
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(0 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(45 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(90 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(135 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(180 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(225 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(270 6 6)"/>
+            <rect x="4.5" y="-1.5" width="3" height="3.2" rx="0.5" fill="#16a34a" transform="rotate(315 6 6)"/>
+          </g>
+
+          <!-- Small top-left gear (Extract) -->
+          <g transform="translate(10,10)">
+            <circle cx="5" cy="5" r="4" fill="#051a0e" stroke="#4ade80" stroke-width="1.2"/>
+            <circle cx="5" cy="5" r="1.6" fill="#4ade80" opacity="0.8"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#4ade80" transform="rotate(0 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#4ade80" transform="rotate(60 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#4ade80" transform="rotate(120 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#4ade80" transform="rotate(180 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#4ade80" transform="rotate(240 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#4ade80" transform="rotate(300 5 5)"/>
+          </g>
+
+          <!-- Small bottom-right gear (Load) -->
+          <g transform="translate(40,38)">
+            <circle cx="5" cy="5" r="4" fill="#051a0e" stroke="#21a366" stroke-width="1.2"/>
+            <circle cx="5" cy="5" r="1.6" fill="#21a366" opacity="0.8"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#21a366" transform="rotate(0 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#21a366" transform="rotate(60 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#21a366" transform="rotate(120 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#21a366" transform="rotate(180 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#21a366" transform="rotate(240 5 5)"/>
+            <rect x="3.8" y="-0.8" width="2.4" height="2.6" rx="0.4" fill="#21a366" transform="rotate(300 5 5)"/>
+          </g>
+
+          <!-- Connection dots between gears -->
+          <circle cx="22" cy="22" r="1" fill="#4ade80" opacity="0.6"/>
+          <circle cx="25" cy="25" r="0.7" fill="#16a34a" opacity="0.4"/>
+          <circle cx="38" cy="35" r="1" fill="#21a366" opacity="0.6"/>
+          <circle cx="41" cy="38" r="0.7" fill="#16a34a" opacity="0.4"/>
+        </svg>
+      </div>
+      <div class="service-name">ETL Services</div>
+      <div class="service-desc">Extract data from any source, transform it into a clean, usable shape, and load it exactly where you need it. Built for scale, built for reliability.</div>
+      <span class="service-tag tag-green">Extract · Transform · Load</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none" style="filter:drop-shadow(0 0 10px rgba(249,115,22,0.3));">
+          <!-- DNA left strand (S-curve) -->
+          <path d="M20 4 C20 14, 44 18, 44 28 C44 38, 20 42, 20 52 C20 56, 20 60, 20 62"
+                stroke="#f97316" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.9"/>
+          <!-- DNA right strand (opposing S-curve) -->
+          <path d="M44 4 C44 14, 20 18, 20 28 C20 38, 44 42, 44 52 C44 56, 44 60, 44 62"
+                stroke="#dc2626" stroke-width="2.2" stroke-linecap="round" fill="none" opacity="0.9"/>
+          <!-- Rungs — color alternates green / orange / red -->
+          <line x1="20" y1="10" x2="44" y2="10" stroke="#4ade80"  stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+          <line x1="22" y1="17" x2="42" y2="17" stroke="#f97316"  stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <line x1="30" y1="23" x2="34" y2="23" stroke="#dc2626"  stroke-width="1.6" stroke-linecap="round" opacity="0.75"/>
+          <line x1="32" y1="28" x2="32" y2="28" stroke="#4ade80"  stroke-width="2"   stroke-linecap="round" opacity="0.6"/>
+          <line x1="30" y1="33" x2="34" y2="33" stroke="#f97316"  stroke-width="1.6" stroke-linecap="round" opacity="0.75"/>
+          <line x1="22" y1="39" x2="42" y2="39" stroke="#dc2626"  stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <line x1="20" y1="46" x2="44" y2="46" stroke="#4ade80"  stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+          <line x1="22" y1="53" x2="42" y2="53" stroke="#f97316"  stroke-width="1.6" stroke-linecap="round" opacity="0.8"/>
+          <!-- Node dots on strands -->
+          <circle cx="20" cy="10" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="44" cy="10" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="22" cy="17" r="2"   fill="#f97316" opacity="0.85"/>
+          <circle cx="42" cy="17" r="2"   fill="#f97316" opacity="0.85"/>
+          <circle cx="30" cy="23" r="1.8" fill="#dc2626" opacity="0.8"/>
+          <circle cx="34" cy="23" r="1.8" fill="#dc2626" opacity="0.8"/>
+          <circle cx="30" cy="33" r="1.8" fill="#f97316" opacity="0.8"/>
+          <circle cx="34" cy="33" r="1.8" fill="#f97316" opacity="0.8"/>
+          <circle cx="22" cy="39" r="2"   fill="#dc2626" opacity="0.85"/>
+          <circle cx="42" cy="39" r="2"   fill="#dc2626" opacity="0.85"/>
+          <circle cx="20" cy="46" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="44" cy="46" r="2.4" fill="#4ade80" opacity="0.9"/>
+          <circle cx="22" cy="53" r="2"   fill="#f97316" opacity="0.85"/>
+          <circle cx="42" cy="53" r="2"   fill="#f97316" opacity="0.85"/>
+        </svg>
+      </div>
+      <div class="service-name">Data Integration</div>
+      <div class="service-desc">Connect disparate systems — databases, flat files, APIs, cloud platforms. One pipeline that speaks every dialect your business runs on.</div>
+      <span class="service-tag tag-orange">System Connectivity</span>
+    </div>
+    <div class="service-card">
+      <div class="service-icon">🤖</div>
+      <div class="service-name">Agentic AI Workflows</div>
+      <div class="service-desc">AI agents that don't just report on your data — they act on it. Automated pipelines that discover, clean, and route data with minimal human intervention.</div>
+      <span class="service-tag tag-red">AI · Automation</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- OUR STORY -->
+  <div class="section-label">Our Story</div>
+  <div class="story-section">
+
+    <!-- Handshake photo -->
+    <div class="story-art" style="padding:0;overflow:hidden;">
+      <img src="./tombrad.png" alt="Tom and Chad — V2Amcom founders" style="width:100%;border-radius:18px 18px 0 0;display:block;object-fit:cover;">
+      <div class="story-art-label" style="padding:12px 0 14px;">Tom &amp; Chad · V2Amcom</div>
+    </div>
+
+    <!-- Story text -->
+    <div class="story-body">
+      <div class="story-eyebrow">V2Amcom · Our Story</div>
+      <div class="story-title">We Didn't Build This in a Clean Room.</div>
+
+      <div class="story-years">
+        <div class="story-stat"><div class="story-stat-num">20+</div><div class="story-stat-lbl">Years Ago</div></div>
+        <div class="story-stat"><div class="story-stat-num">20+</div><div class="story-stat-lbl">Years Together</div></div>
+        <div class="story-stat"><div class="story-stat-num">100s</div><div class="story-stat-lbl">Hospital DBs</div></div>
+      </div>
+
+      <p class="story-lead">Twenty-plus years ago I was hired by a company called Amcom Software after riding out the dot-com bubble working for a company called Techies.com. Jack Collins founded the place and ran it. I met a guy named Chad Belmer while working there, trained him on the database, and somewhere along the way we became great friends. He was part of the team, then he became my boss. Then he left. Then I became the boss and hired him back as soon as I could. <strong>We spent 20+ years together building something — from Amcom to SPOK — and we weren't done yet.</strong></p>
+
+      <p>We're talking hundreds of crappy hospital databases. Government systems held together with duct tape and prayer. Ancient Word docs. Handwritten notes — yes, actual handwritten notes — that somehow needed to live in a database. HL7 patient data. HIPAA certifications. ETL pipelines pulling data from places that had no business being called a data source.</p>
+
+      <p>And when it broke — and it always broke — there was no hiding. <strong>Systems down. Customers screaming. CEO standing over your shoulder at 2am</strong> sweating bullets while you're on-call trying to hold the whole thing together with your bare hands.</p>
+
+      <p>We lived that. For 20+ years.</p>
+
+      <p>Today we're starting V2 Amcom. We are a data company built for the future — powered by AI and the tools that actually work today. We've seen the worst data imaginable and we cleaned it up. We integrate data, deploy AI tools, and send agentic agents to work — helping companies around the world get their house in order before the AI future arrives and leaves them behind.</p>
+
+      <p class="story-kicker"><strong>AI is only as good as the data you feed it.</strong> Dirty data, scattered data, ignored data — it'll sink you. Clean data wins. Organized data wins. That's what we do. We get your data ready so you can compete in the world that's already here.</p>
+
+    </div>
+
+  </div>
+
+  <!-- JACK COLLINS MEMORIAL -->
+  <div style="margin-bottom:60px;">
+    <div style="
+      display:flex; align-items:center; gap:36px; flex-wrap:wrap;
+      background: linear-gradient(135deg, rgba(22,163,74,0.04) 0%, rgba(0,0,0,0) 100%);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-left: 4px solid rgba(22,163,74,0.4);
+      border-radius: 20px;
+      padding: 36px 40px;
+      position: relative; overflow: hidden;
+    ">
+      <!-- Subtle candle glow -->
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:radial-gradient(ellipse at 20% 50%, rgba(22,163,74,0.04) 0%, transparent 60%);pointer-events:none;"></div>
+
+      <!-- Portrait -->
+      <div style="flex-shrink:0; text-align:center;">
+        <img src="./jack.png" alt="Jack Collins"
+          style="width:140px;height:160px;object-fit:cover;object-position:center top;
+                 border-radius:14px;
+                 border:1px solid rgba(22,163,74,0.2);
+                 filter:grayscale(15%);
+                 display:block;">
+        <div style="margin-top:10px;font-size:0.62rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:rgba(22,163,74,0.6);">In Memoriam</div>
+      </div>
+
+      <!-- Text -->
+      <div style="flex:1;min-width:220px;">
+        <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:rgba(22,163,74,0.7);margin-bottom:8px;">1940 — 2010</div>
+        <h3 style="font-size:1.6rem;font-weight:800;color:#f8fafc;letter-spacing:-0.02em;margin-bottom:4px;">Jack Collins</h3>
+        <div style="font-size:0.8rem;color:#475569;margin-bottom:20px;font-style:italic;">Founder · Amcom Software</div>
+
+        <div style="display:flex;gap:24px;margin-bottom:20px;flex-wrap:wrap;">
+          <div style="text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:rgba(22,163,74,0.8);line-height:1;">1983</div>
+            <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:#475569;margin-top:2px;">Founded Amcom</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:rgba(22,163,74,0.8);line-height:1;">70</div>
+            <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:#475569;margin-top:2px;">Years</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:1.4rem;font-weight:800;color:rgba(22,163,74,0.8);line-height:1;">27+</div>
+            <div style="font-size:0.62rem;text-transform:uppercase;letter-spacing:0.08em;color:#475569;margin-top:2px;">Years at Amcom</div>
+          </div>
+        </div>
+
+        <p style="font-size:0.88rem;color:#64748b;line-height:1.75;margin:0;">
+          In 1983, Jack Collins started Amcom Software and built something that lasted. He gave people like us a place to grow, a problem worth solving, and a standard worth meeting.
+          V2 Amcom carries his name forward. <span style="color:#94a3b8;font-style:italic;">Long live Jack.</span> 🕯️
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CSV ANALYZER -->
+  <div class="csv-header">
+    <div class="section-label">Live Data Tool</div>
+    <h2>CSV Analyzer</h2>
+    <p>Drop any CSV file and get an instant data quality report — row counts, column types, missing values, duplicates, completeness score, and auto-generated charts. Runs entirely in your browser. Nothing leaves your machine.</p>
+  </div>
+
+  <div class="drop-zone" id="dropZone">
+    <input type="file" accept=".csv,.CSV" id="fileInput">
+    <div class="drop-icon">📊</div>
+    <h3>Drop your CSV file here</h3>
+    <p>or <span class="browse-link">browse to upload</span> &nbsp;·&nbsp; Stays in your browser, never uploaded</p>
+  </div>
+
+  <div id="results">
+
+    <div class="file-header">
+      <div>
+        <div class="file-name" id="fileName"></div>
+        <div class="file-meta" id="fileMeta"></div>
+      </div>
+      <button class="reset-btn" onclick="resetAnalyzer()">✕ Clear</button>
+    </div>
+
+    <div class="stat-label-sm">Summary</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="sc-label">Rows</div><div class="sc-value" id="statRows">—</div><div class="sc-sub">data records</div></div>
+      <div class="stat-card"><div class="sc-label">Columns</div><div class="sc-value" id="statCols">—</div><div class="sc-sub">fields detected</div></div>
+      <div class="stat-card"><div class="sc-label">Numeric</div><div class="sc-value" id="statNumeric">—</div><div class="sc-sub">number columns</div></div>
+      <div class="stat-card"><div class="sc-label">Text</div><div class="sc-value" id="statText">—</div><div class="sc-sub">text columns</div></div>
+    </div>
+
+    <div class="stat-label-sm">Data Quality</div>
+    <div class="quality-grid">
+      <div class="quality-card">
+        <div class="q-label">Missing Values</div>
+        <div class="q-value" id="qMissing">—</div>
+        <div style="font-size:0.72rem;color:#475569;margin-top:4px;" id="qMissingDesc"></div>
+      </div>
+      <div class="quality-card">
+        <div class="q-label">Duplicate Rows</div>
+        <div class="q-value" id="qDupes">—</div>
+        <div style="font-size:0.72rem;color:#475569;margin-top:4px;" id="qDupesDesc"></div>
+      </div>
+      <div class="quality-card">
+        <div class="q-label">Completeness</div>
+        <div class="q-value" id="qComplete">—</div>
+        <div style="font-size:0.72rem;color:#475569;margin-top:4px;">of all cells filled</div>
+      </div>
+    </div>
+
+    <div class="stat-label-sm">Charts</div>
+    <div class="charts-grid" id="chartsGrid"></div>
+
+    <div class="stat-label-sm">Column Breakdown</div>
+    <div class="table-wrap">
+      <table class="col-table">
+        <thead>
+          <tr>
+            <th>Column</th><th>Type</th><th>Missing</th><th>Unique</th><th>Min</th><th>Max</th><th>Average</th>
+          </tr>
+        </thead>
+        <tbody id="colTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="stat-label-sm">Preview <span style="font-size:0.65rem;color:#475569;font-weight:400;text-transform:none;letter-spacing:0;">— first 10 rows</span></div>
+    <div class="preview-wrap">
+      <table class="preview-table" id="previewTable"></table>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ── CSV PARSER ──
+function parseCSV(text) {
+  text = text.replace(/^\uFEFF/, '');
+  var lines = text.split(/\r\n|\r|\n/).filter(l => l.trim());
+  if (!lines.length) return { headers: [], rows: [] };
+
+  function splitLine(line) {
+    var result = [], cur = '', inQ = false;
+    for (var i = 0; i < line.length; i++) {
+      var c = line[i];
+      if (c === '"') { inQ = !inQ; }
+      else if (c === ',' && !inQ) { result.push(cur.trim()); cur = ''; }
+      else { cur += c; }
+    }
+    result.push(cur.trim());
+    return result;
+  }
+
+  var headers = splitLine(lines[0]);
+  var rows = [];
+  for (var i = 1; i < lines.length; i++) {
+    var vals = splitLine(lines[i]);
+    if (!vals.length || (vals.length === 1 && vals[0] === '')) continue;
+    var row = {};
+    headers.forEach((h, j) => row[h] = j < vals.length ? vals[j] : '');
+    rows.push(row);
+  }
+  return { headers, rows };
+}
+
+function detectType(values) {
+  var filled = values.filter(v => v !== '' && v !== null && v !== undefined);
+  if (!filled.length) return 'text';
+  var numCount = filled.filter(v => !isNaN(parseFloat(v)) && isFinite(v)).length;
+  if (numCount / filled.length > 0.8) return 'number';
+  var dateCount = filled.filter(v => !isNaN(Date.parse(v)) && v.length > 4).length;
+  if (dateCount / filled.length > 0.7) return 'date';
+  return 'text';
+}
+
+function colStats(values, type) {
+  var filled = values.filter(v => v !== '' && v !== null);
+  if (type !== 'number') return { min: '—', max: '—', avg: '—' };
+  var nums = filled.map(v => parseFloat(v)).filter(n => !isNaN(n));
+  if (!nums.length) return { min: '—', max: '—', avg: '—' };
+  var min = Math.min(...nums), max = Math.max(...nums);
+  var avg = nums.reduce((a, b) => a + b, 0) / nums.length;
+  var fmt = n => Math.abs(n) >= 1000 ? n.toLocaleString('en-US', {maximumFractionDigits:1}) : n.toLocaleString('en-US', {maximumFractionDigits:2});
+  return { min: fmt(min), max: fmt(max), avg: fmt(avg) };
+}
+
+var chartInstances = [];
+function clearCharts() {
+  chartInstances.forEach(c => c.destroy());
+  chartInstances = [];
+  document.getElementById('chartsGrid').innerHTML = '';
+}
+
+function makeChart(col, values, type) {
+  var grid = document.getElementById('chartsGrid');
+  var card = document.createElement('div');
+  card.className = 'chart-card';
+  var title = document.createElement('h4');
+  title.textContent = col;
+  card.appendChild(title);
+  var canvas = document.createElement('canvas');
+  card.appendChild(canvas);
+  grid.appendChild(card);
+
+  var CLR = 'rgba(22,163,74,0.7)', CLR_BORDER = '#16a34a';
+  var opts = { responsive: true, plugins: { legend: { display: false } }, scales: { x: { ticks: { color: '#475569', maxTicksLimit: 8 }, grid: { color: 'rgba(255,255,255,0.04)' } }, y: { ticks: { color: '#475569' }, grid: { color: 'rgba(255,255,255,0.06)' } } } };
+
+  if (type === 'number') {
+    var nums = values.filter(v => v !== '' && !isNaN(parseFloat(v))).map(Number);
+    var min = Math.min(...nums), max = Math.max(...nums);
+    var bins = 10, step = (max - min) / bins || 1;
+    var counts = Array(bins).fill(0);
+    nums.forEach(n => { var i = Math.min(Math.floor((n - min) / step), bins - 1); counts[i]++; });
+    var labels = counts.map((_, i) => (min + i * step).toLocaleString('en-US', {maximumFractionDigits:1}));
+    chartInstances.push(new Chart(canvas, { type: 'bar', data: { labels, datasets: [{ data: counts, backgroundColor: CLR, borderColor: CLR_BORDER, borderWidth: 1, borderRadius: 4 }] }, options: opts }));
+  } else {
+    var freq = {};
+    values.forEach(v => { if (v) freq[v] = (freq[v] || 0) + 1; });
+    var sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 10);
+    chartInstances.push(new Chart(canvas, { type: 'bar', data: { labels: sorted.map(e => e[0].length > 14 ? e[0].slice(0, 12) + '…' : e[0]), datasets: [{ data: sorted.map(e => e[1]), backgroundColor: CLR, borderColor: CLR_BORDER, borderWidth: 1, borderRadius: 4 }] }, options: opts }));
+  }
+}
+
+function countDupes(rows) {
+  var seen = new Set(), dupes = 0;
+  rows.forEach(row => { var key = JSON.stringify(row); if (seen.has(key)) dupes++; else seen.add(key); });
+  return dupes;
+}
+
+function analyze(file, text) {
+  var parsed = parseCSV(text);
+  var { headers, rows } = parsed;
+  if (!rows.length) { alert('No data rows found — check that the file uses comma delimiters.'); return; }
+
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileMeta').textContent = rows.length.toLocaleString() + ' rows · ' + headers.length + ' columns · ' + (file.size / 1024).toFixed(1) + ' KB';
+
+  var colInfo = headers.map(h => {
+    var values = rows.map(r => r[h] || '');
+    var type = detectType(values);
+    var missing = values.filter(v => v === '' || v === null).length;
+    var unique = new Set(values.filter(v => v !== '')).size;
+    var stats = colStats(values, type);
+    return { name: h, type, values, missing, unique, ...stats };
+  });
+
+  var numericCols = colInfo.filter(c => c.type === 'number');
+  var textCols = colInfo.filter(c => c.type !== 'number');
+  document.getElementById('statRows').textContent = rows.length.toLocaleString();
+  document.getElementById('statCols').textContent = headers.length;
+  document.getElementById('statNumeric').textContent = numericCols.length;
+  document.getElementById('statText').textContent = textCols.length;
+
+  var totalCells = rows.length * headers.length;
+  var totalMissing = colInfo.reduce((s, c) => s + c.missing, 0);
+  var dupes = countDupes(rows);
+  var completeness = ((totalCells - totalMissing) / totalCells * 100).toFixed(1);
+
+  var qM = document.getElementById('qMissing');
+  qM.textContent = totalMissing.toLocaleString();
+  qM.className = 'q-value ' + (totalMissing === 0 ? 'q-good' : totalMissing < totalCells * 0.05 ? 'q-warn' : 'q-bad');
+  document.getElementById('qMissingDesc').textContent = totalMissing === 0 ? 'No empty cells — clean!' : 'across ' + colInfo.filter(c => c.missing > 0).length + ' columns';
+
+  var qD = document.getElementById('qDupes');
+  qD.textContent = dupes.toLocaleString();
+  qD.className = 'q-value ' + (dupes === 0 ? 'q-good' : dupes < rows.length * 0.05 ? 'q-warn' : 'q-bad');
+  document.getElementById('qDupesDesc').textContent = dupes === 0 ? 'All rows unique' : ((dupes / rows.length * 100).toFixed(1) + '% of rows');
+
+  var qC = document.getElementById('qComplete');
+  qC.textContent = completeness + '%';
+  qC.className = 'q-value ' + (completeness >= 99 ? 'q-good' : completeness >= 90 ? 'q-warn' : 'q-bad');
+
+  clearCharts();
+  [...numericCols.slice(0, 2), ...textCols.slice(0, 2)].slice(0, 4).forEach(c => makeChart(c.name, c.values, c.type));
+
+  var tbody = document.getElementById('colTableBody');
+  tbody.innerHTML = '';
+  colInfo.forEach(c => {
+    var tr = document.createElement('tr');
+    var missingPct = (c.missing / rows.length * 100).toFixed(0);
+    var missingClass = c.missing === 0 ? 'missing-none' : c.missing < rows.length * 0.1 ? 'missing-some' : 'missing-lots';
+    tr.innerHTML = '<td style="font-weight:600;color:#f1f5f9;">' + c.name + '</td>' +
+      '<td><span class="type-badge type-' + c.type + '">' + c.type + '</span></td>' +
+      '<td><span class="missing-pill ' + missingClass + '">' + (c.missing === 0 ? 'None' : c.missing + ' (' + missingPct + '%)') + '</span></td>' +
+      '<td>' + c.unique.toLocaleString() + '</td>' +
+      '<td>' + c.min + '</td><td>' + c.max + '</td><td>' + c.avg + '</td>';
+    tbody.appendChild(tr);
+  });
+
+  var preview = document.getElementById('previewTable');
+  preview.innerHTML = '<thead><tr>' + headers.map(h => '<th>' + h + '</th>').join('') + '</tr></thead>' +
+    '<tbody>' + rows.slice(0, 10).map(row => '<tr>' + headers.map(h => '<td>' + (row[h] || '') + '</td>').join('') + '</tr>').join('') + '</tbody>';
+
+  document.getElementById('results').style.display = 'block';
+  document.getElementById('dropZone').style.display = 'none';
+}
+
+function resetAnalyzer() {
+  clearCharts();
+  document.getElementById('results').style.display = 'none';
+  document.getElementById('dropZone').style.display = 'block';
+  document.getElementById('fileInput').value = '';
+}
+
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  if (!file) return;
+  var reader = new FileReader();
+  reader.onload = ev => analyze(file, ev.target.result);
+  reader.readAsText(file);
+});
+
+var dz = document.getElementById('dropZone');
+dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('drag-over'); });
+dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+dz.addEventListener('drop', e => {
+  e.preventDefault();
+  dz.classList.remove('drag-over');
+  var file = e.dataTransfer.files[0];
+  if (!file || !file.name.toLowerCase().endsWith('.csv')) { alert('Please drop a CSV file.'); return; }
+  var reader = new FileReader();
+  reader.onload = ev => analyze(file, ev.target.result);
+  reader.readAsText(file);
+});
+</script>
+</body>
+</html>

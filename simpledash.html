@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0e17;
+      color: #e2e8f0;
+      font-family: system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      margin-bottom: 40px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      line-height: 1.1;
+    }
+
+    .title em {
+      color: #22c55e;
+      font-style: normal;
+    }
+
+    .eyebrow {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    .pills {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+      margin-top: 4px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 12px;
+      border: 1px solid #22c55e;
+      border-radius: 20px;
+      color: #4ade80;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .pill:hover { background: rgba(34,197,94,0.1); }
+
+    /* ── GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    @media (max-width: 700px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+      .featured { grid-column: 1 / -1; }
+    }
+    @media (max-width: 440px) {
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── CARDS ── */
+    .card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 14px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .card:hover {
+      border-color: rgba(34,197,94,0.4);
+      background: rgba(34,197,94,0.04);
+    }
+
+    .card.featured { grid-column: span 2; }
+    .card.full { grid-column: 1 / -1; }
+
+    .card-icon {
+      font-size: 1.8rem;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .card-eyebrow {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #22c55e;
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #f1f5f9;
+    }
+
+    .card-desc {
+      font-size: 0.78rem;
+      color: #64748b;
+      line-height: 1.5;
+      flex: 1;
+    }
+
+    .card-cta {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #22c55e;
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-label {
+      grid-column: 1 / -1;
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #334155;
+      padding: 4px 0 2px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 4px;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      font-size: 0.7rem;
+      color: #1e293b;
+    }
+  </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div>
+      <div class="eyebrow">Personal Command Center</div>
+      <h1 class="title">Honest <em>Tom's</em> Dashboard</h1>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;">
+      <div class="pills">
+        <a href="./resume.html" class="pill">📄 Resume</a>
+        <a href="./howIwork.html" class="pill">✦ How I Work</a>
+      </div>
+      <a href="./dashboard.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border:1px solid rgba(255,255,255,0.3);border-radius:20px;color:#ffffff;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;transition:border-color 0.15s,background 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.6)';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)';this.style.background='transparent'">Link to KILLER Dashboard</a>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- Mr. Tight -->
+    <a class="card featured" href="./">
+      <div class="card-icon">
+        <svg width="40" height="34" viewBox="0 0 52 44" fill="none">
+          <polyline points="4,34 10,28 18,30 24,22 32,18 38,12 46,6"
+            stroke="#4ade80" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="4" y1="6" x2="4" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+          <line x1="4" y1="38" x2="48" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+          <circle cx="46" cy="6" r="3" fill="#4ade80"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Portfolio Manager</div>
+      <div class="card-title">Mr. Tight</div>
+      <div class="card-desc">Live holdings tracker — market prices, P&amp;L, cost basis, and total return across stocks, ETFs, and crypto.</div>
+      <div class="card-cta">Open Portfolio →</div>
+    </a>
+
+    <!-- Tommy's Choice -->
+    <a class="card" href="./tommyschoice.html">
+      <div class="card-icon">⭐</div>
+      <div class="card-eyebrow">Star Pick</div>
+      <div class="card-title">Tommy's Choice</div>
+      <div class="card-desc">Tom's spotlight pick — full chart vs S&amp;P 500, deep news coverage on one featured asset.</div>
+      <div class="card-cta">See the Pick →</div>
+    </a>
+
+    <!-- News -->
+    <a class="card" href="./news.html">
+      <div class="card-icon">📰</div>
+      <div class="card-eyebrow">Headlines</div>
+      <div class="card-title">News Feed</div>
+      <div class="card-desc">Live headlines from Google News, Yahoo Finance &amp; CoinDesk for your holdings.</div>
+      <div class="card-cta">Read News →</div>
+    </a>
+
+    <!-- Research -->
+    <a class="card" href="./research.html">
+      <div class="card-icon">🔬</div>
+      <div class="card-eyebrow">Analysis</div>
+      <div class="card-title">Research</div>
+      <div class="card-desc">Upcoming earnings dates &amp; analyst buy/hold/sell consensus for your holdings and watchlist.</div>
+      <div class="card-cta">Open Research →</div>
+    </a>
+
+    <!-- Weather -->
+    <a class="card" href="./weather.html">
+      <div class="card-icon">🌤️</div>
+      <div class="card-eyebrow">Forecast</div>
+      <div class="card-title">Weather</div>
+      <div class="card-desc">Local conditions and 7-day extended outlook. Set your city once, always up to date.</div>
+      <div class="card-cta">Check Weather →</div>
+    </a>
+
+    <!-- AI News -->
+    <a class="card" href="./ainews.html">
+      <div class="card-icon">🤖</div>
+      <div class="card-eyebrow">Intelligence</div>
+      <div class="card-title">AI News</div>
+      <div class="card-desc">Latest headlines, videos &amp; breakthroughs from the world of artificial intelligence.</div>
+      <div class="card-cta">Open AI News →</div>
+    </a>
+
+    <!-- Helm's Deep -->
+    <a class="card" href="./helmsdeep.html">
+      <div class="card-icon">🏰</div>
+      <div class="card-eyebrow">Brad's Lair</div>
+      <div class="card-title">Helm's Deep</div>
+      <div class="card-desc">Minnesota Sports, Burnsville Jags, Flog, SPOK in the News and more. How about a Fresca?</div>
+      <div class="card-cta">Enter the Deep →</div>
+    </a>
+
+    <!-- Timmy's Corner -->
+    <a class="card" href="./timmy.html">
+      <div class="card-icon">💡</div>
+      <div class="card-eyebrow">For Timmy</div>
+      <div class="card-title">Timmy's Corner</div>
+      <div class="card-desc">Tom's Wink Wink Tips — stock &amp; asset picks worth a look. Plus suggested reading from Tommy.</div>
+      <div class="card-cta">Open Timmy's →</div>
+    </a>
+
+    <!-- Daily Journal -->
+    <a class="card" href="./journal.html">
+      <div class="card-icon">📓</div>
+      <div class="card-eyebrow">Personal</div>
+      <div class="card-title">Daily Journal</div>
+      <div class="card-desc">Log your day — add photos, notes &amp; drop a pin on Google Maps for where you were.</div>
+      <div class="card-cta">Open Journal →</div>
+    </a>
+
+    <!-- Rip's Dip -->
+    <a class="card" href="./rips_dip.html">
+      <div class="card-icon">🎸</div>
+      <div class="card-eyebrow">For Pat Ripley · Flat Buzz</div>
+      <div class="card-title">Rip's Dip</div>
+      <div class="card-desc">MN sports, smallmouth bass fishing, First Ave bands, Bitcoin &amp; ETH prices — all things Rip.</div>
+      <div class="card-cta">Open Rip's Dip →</div>
+    </a>
+
+    <!-- Music -->
+    <a class="card" href="./music.html">
+      <div class="card-icon">🎵</div>
+      <div class="card-eyebrow">Listening</div>
+      <div class="card-title">Music Picks</div>
+      <div class="card-desc">Tom's current suggested listening — albums, tracks, and playlists worth your time.</div>
+      <div class="card-cta">Open Music →</div>
+    </a>
+
+    <!-- Wayne's Corner -->
+    <a class="card" href="./waynes_corner.html">
+      <div class="card-icon">🎣</div>
+      <div class="card-eyebrow">For Wayne · SD &amp; MN</div>
+      <div class="card-title">Wayne's Corner</div>
+      <div class="card-desc">MN sports, South Dakota walleye fishing, golf tips &amp; news — all things Wayne.</div>
+      <div class="card-cta">Open Wayne's →</div>
+    </a>
+
+    <!-- Section: Todd Father pages -->
+    <div class="section-label">LooksLikeLarry — Todd Father Productions</div>
+
+    <!-- The Todd Father -->
+    <a class="card" href="./toddfather.html">
+      <div class="card-icon">🎩</div>
+      <div class="card-eyebrow">Design Concept</div>
+      <div class="card-title">The Todd Father</div>
+      <div class="card-desc">What LooksLikeLarry.com could look like — a full redesign concept by Honest Tom.</div>
+      <div class="card-cta">See the Vision →</div>
+    </a>
+
+    <!-- Retro Father -->
+    <a class="card" href="./expeditionfather.html">
+      <div class="card-icon">📷</div>
+      <div class="card-eyebrow">Classic</div>
+      <div class="card-title">Retro Father</div>
+      <div class="card-desc">Old-school craft. New-school glass. Vintage garage vibes, sharp shots, dirty hands.</div>
+      <div class="card-cta">Enter the Garage →</div>
+    </a>
+
+    <!-- Future Father -->
+    <a class="card" href="./futurefather.html">
+      <div class="card-icon">🚀</div>
+      <div class="card-eyebrow">Future Vision</div>
+      <div class="card-title">Future Father</div>
+      <div class="card-desc">ToddFather Productions reimagined — full spectrum photography, futuristic design, zero limits.</div>
+      <div class="card-cta">Enter the Future →</div>
+    </a>
+
+    <!-- AI Father -->
+    <a class="card" href="./aifather.html">
+      <div class="card-icon">
+        <svg width="36" height="36" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="14" stroke="#22c55e" stroke-width="1.4"/>
+          <circle cx="28" cy="28" r="7" fill="rgba(34,197,94,0.12)" stroke="#4ade80" stroke-width="1.4"/>
+          <circle cx="28" cy="28" r="3" fill="#22c55e" opacity="0.8"/>
+          <line x1="28" y1="6" x2="28" y2="14" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <line x1="28" y1="42" x2="28" y2="50" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <line x1="6" y1="28" x2="14" y2="28" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <line x1="42" y1="28" x2="50" y2="28" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Intelligence Division</div>
+      <div class="card-title">AI Father</div>
+      <div class="card-desc">The lens that thinks. Machine intelligence meets artistic command — future patina, precision optics.</div>
+      <div class="card-cta">Activate Protocol →</div>
+    </a>
+
+    <!-- Monster Father -->
+    <a class="card" href="./monsterfather.html">
+      <div class="card-icon">👹</div>
+      <div class="card-eyebrow">Themed</div>
+      <div class="card-title">Monster Father</div>
+      <div class="card-desc">Pin-ups, holiday shoots &amp; themed terror. Todd has transformed. The monster behind the lens is ready.</div>
+      <div class="card-cta">Enter if You Dare →</div>
+    </a>
+
+    <!-- Section: Business -->
+    <div class="section-label">Business</div>
+
+    <!-- The Pitch -->
+    <a class="card" href="./pitch.html">
+      <div class="card-icon">📈</div>
+      <div class="card-eyebrow">The Case for More Tokens</div>
+      <div class="card-title">Why We're Better</div>
+      <div class="card-desc">Side-by-side: what LooksLikeLarry.com is vs what AI-powered ToddFather Productions could be.</div>
+      <div class="card-cta">See the Pitch →</div>
+    </a>
+
+    <!-- V2Amcom -->
+    <a class="card" href="./v2amcom.html">
+      <div class="card-icon">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" width="36" height="36">
+          <defs>
+            <radialGradient id="s-sphere" cx="38%" cy="32%" r="65%">
+              <stop offset="0%" stop-color="#fde68a"/>
+              <stop offset="40%" stop-color="#f97316"/>
+              <stop offset="100%" stop-color="#7c2d12"/>
+            </radialGradient>
+            <clipPath id="s-top"><rect x="0" y="0" width="200" height="100"/></clipPath>
+            <clipPath id="s-bot"><rect x="0" y="100" width="200" height="100"/></clipPath>
+          </defs>
+          <ellipse cx="100" cy="100" rx="88" ry="22" fill="none" stroke="#16a34a" stroke-width="5" opacity="0.35" clip-path="url(#s-top)"/>
+          <circle cx="100" cy="100" r="44" fill="url(#s-sphere)"/>
+          <ellipse cx="100" cy="100" rx="88" ry="22" fill="none" stroke="#16a34a" stroke-width="5" opacity="0.9" clip-path="url(#s-bot)"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">AI · ETL · Data Integration</div>
+      <div class="card-title">V2Amcom</div>
+      <div class="card-desc">AI Data Driven Company. ETL services, data integration, and Agentic AI workflows.</div>
+      <div class="card-cta">Open V2Amcom →</div>
+    </a>
+
+    <!-- CSV Analyzer -->
+    <a class="card" href="./csvanalyzer.html">
+      <div class="card-icon">📊</div>
+      <div class="card-eyebrow">Data Tools · In-Browser</div>
+      <div class="card-title">CSV Analyzer</div>
+      <div class="card-desc">Drop any CSV and get instant stats: row/column counts, data quality, missing values, and charts.</div>
+      <div class="card-cta">Analyze Data →</div>
+    </a>
+
+    <!-- Section: Portfolio -->
+    <div class="section-label">Portfolio &amp; Tools</div>
+
+    <!-- How I Work -->
+    <a class="card full" href="./howIwork.html">
+      <div class="card-icon">
+        <svg width="36" height="36" viewBox="0 0 52 52" fill="none">
+          <path d="M14 20h24M14 26h16M14 32h20" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="38" cy="32" r="6" stroke="#4ade80" stroke-width="2"/>
+          <path d="M36 32l1.5 1.5L40 30" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Tom Husom · Open to Work</div>
+      <div class="card-title">How I Work</div>
+      <div class="card-desc">20+ years of experience, now building with Claude Code, gstack, and live APIs. Every page on this dashboard is a live project. See the full story, tools stack, and contact info.</div>
+      <div class="card-cta">View Portfolio →</div>
+    </a>
+
+    <!-- Schneider -->
+    <a class="card full" href="./schneider.html">
+      <div class="card-icon">🔧</div>
+      <div class="card-eyebrow">Mr. Tight · Paid Staff</div>
+      <div class="card-title">Schneider</div>
+      <div class="card-desc">Our Maintenance Technician. Speed tests, connection diagnostics, app tools, and cache controls. If it's broken, Schneider fixes it.</div>
+      <div class="card-cta">Open Schneider →</div>
+    </a>
+
+  </div>
+
+  <footer>Honest Tom's Dashboard</footer>
+
+</div>
+</body>
+</html>

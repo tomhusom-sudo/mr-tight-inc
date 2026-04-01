@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HonestTom">
+  <link rel="apple-touch-icon" href="/lincoln.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260330a';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --void: #020817;
+      --panel: #050f1f;
+      --border: rgba(0,212,255,0.18);
+      --cyan: #00d4ff;
+      --cyan2: #00aacc;
+      --purple: #8b5cf6;
+      --green: #22c55e;
+      --gold: #f59e0b;
+      --text: #e2f0ff;
+      --muted: #7a9ab8;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background: var(--void);
+      color: var(--text);
+      font-family: 'Inter', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Animated grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+      animation: gridPulse 8s ease-in-out infinite;
+    }
+
+    @keyframes gridPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* Glow orbs */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(139,92,246,0.12) 0%, transparent 70%);
+      top: -150px; right: -100px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 48px 32px 80px;
+    }
+
+    /* ── BACK PILL ── */
+    .back-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      border: 1px solid rgba(0,212,255,0.3);
+      border-radius: 999px;
+      padding: 5px 14px;
+      text-decoration: none;
+      margin-bottom: 40px;
+      display: inline-flex;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .back-pill:hover { background: rgba(0,212,255,0.07); border-color: rgba(0,212,255,0.5); }
+    .work-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--purple);
+      border: 1px solid rgba(139,92,246,0.4);
+      border-radius: 999px;
+      padding: 5px 14px;
+      text-decoration: none;
+      margin-bottom: 40px;
+      margin-left: 10px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .work-pill:hover { background: rgba(139,92,246,0.1); border-color: rgba(139,92,246,0.7); }
+
+    /* ── HERO ── */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 48px;
+      padding: 40px;
+      background: rgba(0,212,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.06) 0%, transparent 60%, rgba(139,92,246,0.06) 100%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 10px;
+    }
+
+    .hero-name {
+      font-family: 'Orbitron', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      line-height: 1.05;
+      letter-spacing: -0.01em;
+      margin-bottom: 8px;
+    }
+
+    .hero-name span {
+      background: linear-gradient(90deg, var(--cyan), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-title {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--muted);
+      margin-bottom: 20px;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-contact {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .hero-contact a {
+      color: var(--cyan2);
+      text-decoration: none;
+    }
+    .hero-contact a:hover { color: var(--cyan); }
+
+    .hero-badge {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .badge-ring {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      border: 2px solid var(--cyan);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      animation: ringPulse 3s ease-in-out infinite;
+      background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
+      overflow: hidden;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(0,212,255,0.3), 0 0 20px rgba(0,212,255,0.1); }
+      50% { box-shadow: 0 0 0 8px rgba(0,212,255,0), 0 0 30px rgba(0,212,255,0.2); }
+    }
+
+    .badge-ring svg { width: 52px; height: 52px; }
+
+    .hero-photo {
+      width: 140px; height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact-section {
+      padding: 32px 40px;
+      background: rgba(0,212,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,212,255,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .contact-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+    .contact-sub {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+    .form-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.88rem;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    .form-input:focus { border-color: var(--cyan); }
+    textarea.form-input { resize: vertical; min-height: 90px; }
+    .form-footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 12px; }
+    .form-btn {
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
+      color: #000;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 28px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .form-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-btn:not(:disabled):hover { opacity: 0.85; }
+    .form-msg { font-size: 0.82rem; }
+    .form-msg.success { color: #4ade80; }
+    .form-msg.error { color: #f87171; }
+    @media (max-width: 640px) { .form-row { grid-template-columns: 1fr; } }
+
+    .badge-label {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.58rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      line-height: 1.4;
+    }
+
+    /* ── AI SPOTLIGHT ── */
+    .ai-spotlight {
+      background: linear-gradient(135deg, rgba(139,92,246,0.12) 0%, rgba(0,212,255,0.08) 100%);
+      border: 1px solid rgba(139,92,246,0.35);
+      border-radius: 20px;
+      padding: 36px;
+      margin-bottom: 28px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ai-spotlight::before {
+      content: 'AI';
+      position: absolute;
+      right: 24px; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 8rem;
+      font-weight: 900;
+      color: rgba(139,92,246,0.07);
+      pointer-events: none;
+      line-height: 1;
+    }
+
+    .section-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--purple);
+      margin-bottom: 12px;
+    }
+
+    .ai-spotlight .section-label { color: var(--purple); }
+
+    .section-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: 0.05em;
+    }
+
+    .ai-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .ai-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(139,92,246,0.25);
+      border-radius: 14px;
+      padding: 20px;
+    }
+
+    .ai-card-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: rgba(139,92,246,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+
+    .ai-card-icon svg { width: 18px; height: 18px; }
+
+    .ai-card-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 6px;
+    }
+
+    .ai-card-desc {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 28px;
+    }
+
+    .stat {
+      background: var(--panel);
+      padding: 20px 16px;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--cyan);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      margin-bottom: 28px;
+      background: rgba(5,15,31,0.8);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 32px;
+    }
+
+    .section .section-label { color: var(--cyan); }
+
+    /* Summary */
+    .summary-text {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text);
+    }
+
+    /* Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .skill-group-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 10px;
+    }
+
+    .skill-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 500;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(0,212,255,0.08);
+      border: 1px solid rgba(0,212,255,0.2);
+      color: var(--text);
+    }
+
+    .tag.purple {
+      background: rgba(139,92,246,0.1);
+      border-color: rgba(139,92,246,0.3);
+    }
+
+    .tag.green {
+      background: rgba(34,197,94,0.08);
+      border-color: rgba(34,197,94,0.25);
+      color: #86efac;
+    }
+
+    .tag.gold {
+      background: rgba(245,158,11,0.08);
+      border-color: rgba(245,158,11,0.25);
+      color: #fcd34d;
+    }
+
+    /* Experience */
+    .job { margin-bottom: 32px; }
+    .job:last-child { margin-bottom: 0; }
+
+    .job-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .job-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .job-company {
+      font-size: 0.82rem;
+      color: var(--cyan2);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .job-dates {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      background: rgba(0,212,255,0.06);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .job-divider {
+      height: 1px;
+      background: linear-gradient(90deg, var(--cyan) 0%, transparent 100%);
+      margin-bottom: 14px;
+      opacity: 0.25;
+    }
+
+    .job-bullets {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .job-bullets li {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.6;
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .job-bullets li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 9px;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      opacity: 0.6;
+    }
+
+    .job-bullets li strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Job separator */
+    .job-sep {
+      height: 1px;
+      background: var(--border);
+      margin: 28px 0;
+    }
+
+    /* Education */
+    .edu-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .edu-degree {
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .edu-school {
+      font-size: 0.8rem;
+      color: var(--cyan2);
+      margin-top: 3px;
+    }
+
+    /* Live projects strip */
+    .projects-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .proj-card {
+      background: rgba(0,212,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .proj-card:hover {
+      background: rgba(0,212,255,0.08);
+      border-color: rgba(0,212,255,0.4);
+    }
+
+    .proj-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--cyan);
+      margin-bottom: 4px;
+    }
+
+    .proj-desc {
+      font-size: 0.72rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* CTA */
+    .cta-strip {
+      text-align: center;
+      margin-top: 32px;
+      padding: 32px;
+      background: linear-gradient(135deg, rgba(0,212,255,0.05) 0%, rgba(139,92,246,0.05) 100%);
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: 16px;
+    }
+
+    .cta-text {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--cyan) 0%, var(--purple) 100%);
+      color: #000;
+      font-weight: 700;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 12px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .cta-btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    @media (max-width: 640px) {
+      .hero { grid-template-columns: 1fr; }
+      .hero-badge { flex-direction: row; align-items: center; }
+      .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9KFJ9RZ2QS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-9KFJ9RZ2QS');
+  </script>
+</head>
+<body>
+
+  <!-- Space background: stars + Saturn -->
+  <svg style="position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 900">
+    <!-- Stars -->
+    <circle cx="72"  cy="48"  r="0.8" fill="white" opacity="0.55"/>
+    <circle cx="210" cy="130" r="1.1" fill="white" opacity="0.45"/>
+    <circle cx="380" cy="60"  r="0.6" fill="white" opacity="0.5"/>
+    <circle cx="520" cy="95"  r="1.0" fill="white" opacity="0.4"/>
+    <circle cx="640" cy="30"  r="0.7" fill="white" opacity="0.6"/>
+    <circle cx="780" cy="112" r="0.9" fill="white" opacity="0.35"/>
+    <circle cx="930" cy="55"  r="0.6" fill="white" opacity="0.5"/>
+    <circle cx="1100" cy="88" r="1.2" fill="white" opacity="0.4"/>
+    <circle cx="1260" cy="42" r="0.7" fill="white" opacity="0.55"/>
+    <circle cx="1390" cy="110" r="0.9" fill="white" opacity="0.38"/>
+    <circle cx="150" cy="220" r="0.7" fill="white" opacity="0.3"/>
+    <circle cx="460" cy="190" r="1.0" fill="white" opacity="0.35"/>
+    <circle cx="700" cy="240" r="0.6" fill="white" opacity="0.28"/>
+    <circle cx="1000" cy="195" r="0.8" fill="white" opacity="0.32"/>
+    <circle cx="1320" cy="230" r="1.1" fill="white" opacity="0.3"/>
+    <circle cx="50"  cy="350" r="0.9" fill="white" opacity="0.25"/>
+    <circle cx="290" cy="400" r="0.7" fill="white" opacity="0.22"/>
+    <circle cx="850" cy="370" r="1.0" fill="white" opacity="0.2"/>
+    <circle cx="1180" cy="420" r="0.6" fill="white" opacity="0.25"/>
+    <circle cx="1420" cy="360" r="0.8" fill="white" opacity="0.2"/>
+    <!-- Faint twinklers deeper down -->
+    <circle cx="130" cy="620" r="0.6" fill="white" opacity="0.15"/>
+    <circle cx="600" cy="700" r="0.8" fill="white" opacity="0.12"/>
+    <circle cx="1050" cy="650" r="0.7" fill="white" opacity="0.14"/>
+    <circle cx="1350" cy="750" r="0.9" fill="white" opacity="0.12"/>
+    <!-- Saturn — top-right corner, understated -->
+    <g transform="translate(1270,108)" opacity="0.28">
+      <!-- planet body -->
+      <circle cx="0" cy="0" r="28" fill="url(#satGrad)"/>
+      <!-- ring -->
+      <ellipse cx="0" cy="0" rx="52" ry="11" fill="none" stroke="rgba(200,180,130,0.55)" stroke-width="5"/>
+      <!-- ring overlap (front half of planet masks back of ring) -->
+      <ellipse cx="0" cy="3" rx="28" ry="14" fill="url(#satGrad)" opacity="0.9"/>
+    </g>
+    <defs>
+      <radialGradient id="satGrad" cx="38%" cy="35%" r="65%">
+        <stop offset="0%"   stop-color="#d4b483"/>
+        <stop offset="60%"  stop-color="#a0845a"/>
+        <stop offset="100%" stop-color="#6b5030"/>
+      </radialGradient>
+    </defs>
+  </svg>
+
+  <div class="page">
+
+    <a href="./dashboard.html" class="back-pill">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M8 2L4 6L8 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Dashboard
+    </a>
+    <a href="./howIwork.html" class="work-pill">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1L7.5 4.5L11 5L8.5 7.5L9 11L6 9.5L3 11L3.5 7.5L1 5L4.5 4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      How I Work
+    </a>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div>
+        <div class="hero-eyebrow">Senior Database Architect &nbsp;/&nbsp; AI Systems Builder</div>
+        <h1 class="hero-name">Thomas<br><span>Husom</span></h1>
+        <div class="hero-title">Oracle DBA &nbsp;&bull;&nbsp; Database Developer &nbsp;&bull;&nbsp; AI-Assisted Builder</div>
+        <div class="hero-contact">
+<span onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(function(){var s=document.getElementById('email-inline');s.textContent='Copied!';setTimeout(function(){s.textContent='tomhusom@gmail.com';},2000);})" id="email-inline" style="cursor:pointer;color:var(--cyan2);transition:color 0.2s;" title="Click to copy">tomhusom@gmail.com</span>
+          <a href="https://www.linkedin.com/in/thomas-husom-0418314/" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;background:rgba(10,102,194,0.12);border:1px solid rgba(10,102,194,0.35);color:#60a5fa;font-size:0.75rem;font-weight:600;padding:5px 12px;border-radius:20px;text-decoration:none;letter-spacing:0.04em;transition:background 0.15s;" onmouseover="this.style.background='rgba(10,102,194,0.22)'" onmouseout="this.style.background='rgba(10,102,194,0.12)'"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg> LinkedIn</a>
+          <a href="https://tomhusom-sudo.github.io" target="_blank">Live Portfolio</a>
+          <a href="./Thomas_Husom_Resume.pdf" target="_blank" rel="noopener" download style="display:inline-flex;align-items:center;gap:6px;background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.35);color:#4ade80;font-size:0.75rem;font-weight:600;padding:5px 12px;border-radius:20px;text-decoration:none;letter-spacing:0.04em;transition:background 0.15s;" onmouseover="this.style.background='rgba(34,197,94,0.2)'" onmouseout="this.style.background='rgba(34,197,94,0.1)'"><svg width="13" height="13" viewBox="0 0 16 16" fill="none"><path d="M8 2v8M5 7l3 3 3-3M3 12h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Download PDF</a>
+        </div>
+        <div style="margin-top:16px;">
+          <a href="Thomas_Husom_Resume.pdf" download class="back-pill" style="color:var(--cyan);border-color:rgba(0,212,255,0.3);margin-bottom:0;">&#8595; Download PDF</a>
+        </div>
+      </div>
+      <div class="hero-badge">
+<div class="badge-ring">
+          <img src="toms_resume.png" alt="Thomas Husom" class="hero-photo"
+               onerror="this.style.display='none';document.getElementById('hero-fallback-svg').style.display='flex'">
+          <!-- CPU/AI chip icon — fallback if photo fails to load -->
+          <div id="hero-fallback-svg" style="display:none;align-items:center;justify-content:center;width:100%;height:100%">
+            <svg viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:52px;">
+              <rect x="14" y="14" width="24" height="24" rx="4" stroke="#00d4ff" stroke-width="1.8"/>
+              <rect x="18" y="18" width="16" height="16" rx="2" fill="rgba(0,212,255,0.1)" stroke="#8b5cf6" stroke-width="1.2"/>
+              <line x1="19" y1="26" x2="23" y2="26" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="29" y1="26" x2="33" y2="26" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="26" y1="19" x2="26" y2="23" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="26" y1="29" x2="26" y2="33" stroke="#00d4ff" stroke-width="1.2"/>
+              <line x1="20" y1="8" x2="20" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="26" y1="8" x2="26" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="32" y1="8" x2="32" y2="14" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="20" y1="38" x2="20" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="26" y1="38" x2="26" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="32" y1="38" x2="32" y2="44" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="20" x2="14" y2="20" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="26" x2="14" y2="26" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="8" y1="32" x2="14" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="44" y2="20" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="38" y1="26" x2="44" y2="26" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="38" y1="32" x2="44" y2="32" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="26" cy="26" r="3" fill="#8b5cf6" opacity="0.8"/>
+            </svg>
+          </div>
+        </div>
+        <div class="badge-label">20+ Years<br>Database<br>+ AI</div>
+      </div>
+    </div>
+
+    <!-- STATS BAR -->
+    <div class="stats-bar">
+      <div class="stat">
+        <div class="stat-num">20+</div>
+        <div class="stat-label">Years Experience</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">13+</div>
+        <div class="stat-label">AI Pages Built</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">20yr</div>
+        <div class="stat-label">Spok Inc.</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">19c</div>
+        <div class="stat-label">Oracle Expertise</div>
+      </div>
+    </div>
+
+    <!-- AI SPOTLIGHT -->
+    <div class="ai-spotlight">
+      <div class="section-label">Emerging Technology &nbsp;/&nbsp; Current Focus</div>
+      <div class="section-title">AI-Augmented Development &nbsp;&amp;&nbsp; Agentic Workflows</div>
+      <div class="ai-grid">
+        <div class="ai-card">
+          <div class="ai-card-icon">
+            <svg viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7" stroke="#8b5cf6" stroke-width="1.5"/><path d="M6 9h6M9 6v6" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="ai-card-title">Claude Code · Gemini CLI · Agentic Workflows</div>
+          <div class="ai-card-desc">Building full production web applications end-to-end using Claude Code and Gemini CLI — from zero to deployed in a single session. Multi-file edits, git pushes, live CORS API integrations, all orchestrated autonomously across both AI platforms.</div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-card-icon">
+            <svg viewBox="0 0 18 18" fill="none"><rect x="2" y="3" width="14" height="10" rx="2" stroke="#8b5cf6" stroke-width="1.5"/><path d="M6 15h6" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="ai-card-title">Honest Tom's Dashboard</div>
+          <div class="ai-card-desc">Designed and shipped a multi-page personal finance + lifestyle dashboard on GitHub Pages. Live stock/ETH/BTC prices, earnings calendar, AI news aggregator, weather, cross-device Gist sync, and 12+ branded sub-pages — all hand-coded with AI pair programming.</div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-card-icon">
+            <svg viewBox="0 0 18 18" fill="none"><path d="M3 14L9 4l6 10H3z" stroke="#8b5cf6" stroke-width="1.5" stroke-linejoin="round"/><circle cx="9" cy="11" r="1" fill="#00d4ff"/></svg>
+          </div>
+          <div class="ai-card-title">Multi-Brand AI Marketing Suite</div>
+          <div class="ai-card-desc">Architected 6 fully distinct brand identities for a single photographer — each with custom design system, themed copy, live pages, and AI-generated imagery via Gemini image generation. Zero ad agency required.</div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-card-icon">
+            <svg viewBox="0 0 18 18" fill="none"><path d="M9 2v4M9 12v4M2 9h4M12 9h4" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/><circle cx="9" cy="9" r="3" stroke="#00d4ff" stroke-width="1.5"/></svg>
+          </div>
+          <div class="ai-card-title">Live Data Pipeline Integration</div>
+          <div class="ai-card-desc">Integrated real-time financial APIs (Yahoo Finance via CORS proxy chain), ESPN RSS feeds, Google News, Open-Meteo weather, iTunes album art — all without a backend server. Cascading fallback logic for 99%+ uptime on free infrastructure.</div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-card-icon">
+            <svg viewBox="0 0 18 18" fill="none"><rect x="3" y="5" width="12" height="8" rx="1.5" stroke="#8b5cf6" stroke-width="1.5"/><path d="M6 5V4a3 3 0 016 0v1" stroke="#00d4ff" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="ai-card-title">AI-Assisted Research &amp; Strategy</div>
+          <div class="ai-card-desc">Using agentic AI for competitive analysis, brand strategy, and market research — producing pitch decks, comparison frameworks, and ROI narratives that would take a marketing agency weeks to produce. Delivered in hours.</div>
+        </div>
+        <div class="ai-card">
+          <div class="ai-card-icon">
+            <svg viewBox="0 0 18 18" fill="none"><path d="M4 13V8a5 5 0 0110 0v5" stroke="#8b5cf6" stroke-width="1.5" stroke-linecap="round"/><rect x="2" y="12" width="14" height="4" rx="1" stroke="#00d4ff" stroke-width="1.5"/></svg>
+          </div>
+          <div class="ai-card-title">GitHub Pages DevOps</div>
+          <div class="ai-card-desc">Full git-based deployment workflow: branch strategy, cache-busting versioning, cross-device iCloud sync workarounds, and rapid iteration cycles. Ships to production in under 60 seconds from code to live URL.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIVE PROJECTS -->
+    <div class="section">
+      <div class="section-label">Live Projects</div>
+      <div class="section-title" style="font-family:'Orbitron',sans-serif;font-size:1rem;font-weight:700;margin-bottom:4px;">Built &amp; Deployed — No Agency, No Backend, No Budget</div>
+      <div style="font-size:0.8rem;color:var(--muted);margin-bottom:16px;">All pages live on GitHub Pages. Conceived, designed, and shipped using AI-augmented development.</div>
+      <div class="projects-strip">
+        <a href="./dashboard.html" class="proj-card">
+          <div class="proj-name">Honest Tom's Dashboard</div>
+          <div class="proj-desc">Personal finance hub — live prices, bento grid, 12+ sub-pages</div>
+        </a>
+        <a href="./index.html" class="proj-card">
+          <div class="proj-name">Portfolio Tracker</div>
+          <div class="proj-desc">Live stock/ETF/crypto P&amp;L with real-time Yahoo Finance prices</div>
+        </a>
+        <a href="./research.html" class="proj-card">
+          <div class="proj-name">Earnings Research</div>
+          <div class="proj-desc">Analyst consensus, earnings dates, Finnhub API integration</div>
+        </a>
+        <a href="./toddfather.html" class="proj-card">
+          <div class="proj-name">ToddFather Productions</div>
+          <div class="proj-desc">5-brand photography marketing suite — AI-designed identities</div>
+        </a>
+        <a href="./pitch.html" class="proj-card">
+          <div class="proj-name">Competitive Pitch Deck</div>
+          <div class="proj-desc">Live comparison vs. competitor — built entirely with AI research</div>
+        </a>
+        <a href="./lincoln.html" class="proj-card">
+          <div class="proj-name">Lincoln Legacy Page</div>
+          <div class="proj-desc">Historical timeline, quotes, Emancipation — fully responsive</div>
+        </a>
+        <a href="./csvanalyzer.html" class="proj-card">
+          <div class="proj-name">CSV Analyzer</div>
+          <div class="proj-desc">Client-side data profiling — type inference, null detection, completeness scoring, Chart.js visualizations. No server, no upload.</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- SUMMARY -->
+    <div class="section">
+      <div class="section-label">Professional Summary</div>
+      <p class="summary-text">
+        Senior Oracle Database Administrator, Developer and Manager with <strong>20+ years of experience</strong> in high-availability Linux/Unix environments. Expert in Oracle versions 7 through 19c, specializing in large-scale migrations, ETL integration, and HIPAA-compliant data architecture. Proven leader with 5 years of experience managing teams of 6+ DBAs and Analysts. Worked as an Oracle Developer in Agile/SCRUM environments.
+      </p>
+      <br>
+      <p class="summary-text">
+        Currently at the leading edge of <strong>AI-assisted development</strong> — leveraging Claude Code, Open Claw agentic workflows, and autonomous agent frameworks to design, build, and ship production-grade web applications faster than traditional development cycles allow. Applying 20+ years of deep database, ETL, and systems architecture expertise to next-generation AI data pipelines and analytics projects.
+      </p>
+    </div>
+
+    <!-- CORE SKILLS -->
+    <div class="section">
+      <div class="section-label">Core Competencies</div>
+      <div class="skills-grid">
+        <div>
+          <div class="skill-group-title">Database &amp; Architecture</div>
+          <div class="skill-tags">
+            <span class="tag">Oracle 7–19c</span>
+            <span class="tag">PL/SQL</span>
+            <span class="tag">Stored Procedures</span>
+            <span class="tag">RMAN</span>
+            <span class="tag">Data Guard</span>
+            <span class="tag">Fast Start Failover</span>
+            <span class="tag">Standby DB</span>
+            <span class="tag">ETL Integration</span>
+            <span class="tag">HL7 / HIPAA</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Systems &amp; Tools</div>
+          <div class="skill-tags">
+            <span class="tag">Linux / Unix (RedHat)</span>
+            <span class="tag">Bash / CRON</span>
+            <span class="tag">SQL Server</span>
+            <span class="tag">Crystal Reports</span>
+            <span class="tag">STIG / JITC</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">Leadership</div>
+          <div class="skill-tags">
+            <span class="tag purple">Team Mgmt (6+ staff)</span>
+            <span class="tag purple">Agile / SCRUM</span>
+            <span class="tag purple">Project Mgmt</span>
+<span class="tag purple">Statements of Work</span>
+            <span class="tag purple">Client Consulting</span>
+          </div>
+        </div>
+        <div>
+          <div class="skill-group-title">AI &amp; Emerging Tech</div>
+          <div class="skill-tags">
+            <span class="tag green">Claude Code</span>
+            <span class="tag green">Open Claw Agent</span>
+            <span class="tag green">Agentic Workflows</span>
+            <span class="tag green">AI-Assisted Dev</span>
+            <span class="tag green">Financial Data Pipelines</span>
+            <span class="tag green">GitHub Pages DevOps</span>
+            <span class="tag green">CORS API Integration</span>
+            <span class="tag green">Live Data Dashboards</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXPERIENCE -->
+    <div class="section">
+      <div class="section-label">Professional Experience</div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Senior Oracle Database Architect &amp; Strategist</div>
+            <div class="job-company">Spok Inc.</div>
+          </div>
+          <div class="job-dates">Aug 2002 – Apr 2023 &nbsp;(20 yr 9 mo)</div>
+        </div>
+        <div class="job-divider"></div>
+        <ul class="job-bullets">
+          <li><strong>Served as Manager of Database Services for 5 years</strong> — directed a team of 6+ DBAs and Analysts across mission-critical healthcare paging infrastructure.</li>
+          <li>Monitored and maintained <strong>Oracle databases v7–12c</strong>: full lifecycle ownership across installs, patches, major version migrations, and performance tuning.</li>
+          <li>Designed and maintained <strong>ETL pipelines including HL7 (HIPAA-compliant)</strong> data integrations — ensuring audit-grade data integrity for healthcare clients.</li>
+          <li>Implemented Oracle <strong>high-availability architecture</strong>: Standby Database, Data Guard, Fast Start Failover — zero unplanned downtime posture for critical systems.</li>
+          <li>Led government and defense <strong>STIG and JITC security compliance</strong> testing for federal database deployments.</li>
+          <li>Partnered with sales teams to author <strong>technical SOWs and client database proposals</strong> — bridging engineering and commercial operations.</li>
+          <li>Collaborated with development organizations using <strong>Tiger Teams, SCRUM, and Agile</strong> methodologies throughout the SDLC.</li>
+          <li>Administered <strong>Linux/RedHat environments</strong>; built CRON and Bash automation for HR data feeds, reporting pipelines, and database cleanup routines.</li>
+        </ul>
+      </div>
+
+      <div class="job-sep"></div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Oracle Database Administrator</div>
+            <div class="job-company">Techies.com</div>
+          </div>
+          <div class="job-dates">1999 – 2002 &nbsp;(3 yr)</div>
+        </div>
+        <div class="job-divider"></div>
+        <ul class="job-bullets">
+          <li>Managed the Oracle database environment for <strong>Techies.com</strong> — a venture-backed ($100M+) tech marketplace that was one of the early players in online IT staffing and tech talent during the peak dot-com boom. The site no longer exists, but for a moment it was close to being a very big deal.</li>
+          <li>Orchestrated a <strong>full-scale corporate database migration from SQL Server to Oracle</strong> — on time, zero data loss.</li>
+          <li>Led database tuning, quality assurance, and development of comprehensive test plans for all release cycles.</li>
+          <li>Designed and delivered complex <strong>data reporting via Crystal Reports and PL/SQL</strong> for executive and operational stakeholders.</li>
+        </ul>
+      </div>
+
+      <div class="job-sep"></div>
+
+      <div class="job">
+        <div class="job-header">
+          <div>
+            <div class="job-title">Shipping &amp; Warehouse Manager</div>
+            <div class="job-company">Network Communications Corp.</div>
+          </div>
+          <div class="job-dates">Jun 1996 – Mar 1999</div>
+        </div>
+        <div class="job-divider"></div>
+        <ul class="job-bullets">
+          <li>Managed warehouse logistics and shipping operations for a regional communications technology company.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EDUCATION -->
+    <div class="section">
+      <div class="section-label">Education</div>
+      <div class="edu-row">
+        <div>
+          <div class="edu-degree">Certificate of Programming, Computer Science</div>
+          <div class="edu-school">Brown College &nbsp;&bull;&nbsp; 1999 – 2000</div>
+          <div style="margin-top:8px;font-size:0.78rem;color:var(--cyan);opacity:0.8;">Java &nbsp;&middot;&nbsp; C &nbsp;&middot;&nbsp; C+ &nbsp;&middot;&nbsp; RPG &nbsp;&middot;&nbsp; COBOL &nbsp;&middot;&nbsp; Basic &nbsp;&middot;&nbsp; Assembler</div>
+        </div>
+        <div class="job-dates">Brown College</div>
+      </div>
+    </div>
+
+    <!-- CONTACT FORM -->
+    <div class="contact-section">
+      <div class="contact-title">Get In Touch</div>
+      <div class="contact-sub">Available for Oracle DBA, database architecture, and AI-assisted development roles.</div>
+      <form id="contact-form" action="https://formspree.io/f/mreobrvj" method="POST">
+        <input type="hidden" name="_gotcha" style="display:none">
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cf-name">Name</label>
+            <input class="form-input" type="text" id="cf-name" name="name" required placeholder="Your name">
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="cf-email">Email</label>
+            <input class="form-input" type="email" id="cf-email" name="email" required placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-group" style="margin-bottom:0;">
+          <label class="form-label" for="cf-message">Message</label>
+          <textarea class="form-input" id="cf-message" name="message" required placeholder="Tell me about the role or project..."></textarea>
+        </div>
+        <div class="form-footer">
+          <button type="submit" id="cf-btn" class="form-btn">Send Message</button>
+          <span id="cf-msg" class="form-msg"></span>
+        </div>
+      </form>
+    </div>
+
+    <!-- CTA -->
+    <div class="cta-strip">
+      <div class="cta-text">20+ years of database expertise. Now building the future with AI.<br>Let's talk data, dashboards, and what agentic workflows can do for your organization.</div>
+      <button onclick="navigator.clipboard.writeText('tomhusom@gmail.com').then(function(){var b=document.getElementById('copy-btn');b.textContent='Copied!';setTimeout(function(){b.textContent='tomhusom@gmail.com';},2000);})" id="copy-btn" class="cta-btn" style="cursor:pointer;border:none;font-family:inherit;font-size:inherit;letter-spacing:inherit;">tomhusom@gmail.com</button>
+    </div>
+
+  </div>
+
+  <script>
+    (function() {
+      var form = document.getElementById('contact-form');
+      var btn  = document.getElementById('cf-btn');
+      var msg  = document.getElementById('cf-msg');
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        btn.disabled = true;
+        btn.textContent = 'Sending...';
+        msg.textContent = '';
+        msg.className = 'form-msg';
+        try {
+          var res = await fetch('https://formspree.io/f/mreobrvj', {
+            method: 'POST',
+            body: new FormData(form),
+            headers: { 'Accept': 'application/json' }
+          });
+          if (res.ok) {
+            msg.textContent = 'Message sent! I\'ll be in touch soon.';
+            msg.className = 'form-msg success';
+            form.reset();
+          } else {
+            var data = await res.json().catch(function(){return {};});
+            msg.textContent = (data.errors && data.errors[0] && data.errors[0].message)
+              ? data.errors[0].message
+              : 'Something went wrong. Or email me directly: tomhusom@gmail.com';
+            msg.className = 'form-msg error';
+          }
+        } catch(err) {
+          msg.textContent = 'Could not send — try tomhusom@gmail.com directly.';
+          msg.className = 'form-msg error';
+        } finally {
+          btn.disabled = false;
+          btn.textContent = 'Send Message';
+        }
+      });
+    })();
+  </script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}</script>
+</body>
+</html>

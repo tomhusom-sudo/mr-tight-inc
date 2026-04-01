@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260326b';
+    if (location.search.indexOf(VER) === -1) location.replace(location.pathname + '?' + VER);
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(10,30,60,0.92) 0%, rgba(5,15,35,0.96) 50%, rgba(8,20,10,0.97) 100%),
+        url('./lincoln.jpg') center 20% / cover no-repeat fixed;
+      color: #d4e8ff;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(100,180,255,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 56px 28px 72px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-bottom: 48px;
+    }
+
+    .header-logo {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      object-fit: cover;
+      border: 2px solid rgba(100,180,255,0.3);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.5);
+      flex-shrink: 0;
+      background: rgba(100,180,255,0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3.5rem;
+    }
+
+    .header-logo img {
+      width: 120px;
+      height: 120px;
+      border-radius: 20px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .header-logo img:hover { transform: scale(1.04); box-shadow: 0 6px 24px rgba(0,0,0,0.6); }
+
+    /* Lightbox */
+    #logo-lightbox {
+      display: none; position: fixed; inset: 0; z-index: 999;
+      background: rgba(0,0,0,0.85); align-items: center; justify-content: center;
+      cursor: zoom-out;
+    }
+    #logo-lightbox.open { display: flex; }
+    #logo-lightbox img {
+      max-width: 92vw; max-height: 88vh;
+      border-radius: 18px;
+      box-shadow: 0 16px 64px rgba(0,0,0,0.8);
+      animation: lbIn 0.18s ease;
+    }
+    @keyframes lbIn { from { opacity:0; transform:scale(0.9); } to { opacity:1; transform:scale(1); } }
+
+    .eyebrow {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 6px;
+    }
+
+    .title {
+      font-size: clamp(2rem, 4.5vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.06;
+      color: #e8f4ff;
+      letter-spacing: -0.03em;
+    }
+
+    .title em {
+      font-style: normal;
+      color: #60a5fa;
+    }
+
+    .subtitle {
+      margin-top: 6px;
+      font-size: 0.88rem;
+      color: #3a5a7a;
+    }
+
+    a.back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #3a5a7a;
+      text-decoration: none;
+      letter-spacing: 0.05em;
+      margin-bottom: 32px;
+    }
+
+    a.back:hover { color: #60a5fa; }
+
+    /* ── SECTION ── */
+    .section { margin-bottom: 42px; }
+
+    .section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(100,180,255,0.12);
+    }
+
+    /* ── CRYPTO STRIP ── */
+    .crypto-strip {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .crypto-card {
+      background: rgba(100,180,255,0.06);
+      border: 1px solid rgba(100,180,255,0.14);
+      border-radius: 16px;
+      padding: 20px 22px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .crypto-icon {
+      font-size: 2rem;
+      line-height: 1;
+    }
+
+    .crypto-ticker {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      color: #60a5fa;
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .crypto-name {
+      font-size: 0.78rem;
+      color: #3a5a7a;
+      margin-bottom: 4px;
+    }
+
+    .crypto-price {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #e8f4ff;
+      letter-spacing: -0.02em;
+    }
+
+    .crypto-change {
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .up { color: #4ade80; }
+    .dn { color: #f87171; }
+
+    /* ── SPORTS GRID ── */
+    .sports-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .team-card {
+      background: rgba(100,180,255,0.05);
+      border: 1px solid rgba(100,180,255,0.12);
+      border-radius: 14px;
+      padding: 16px 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .team-card:hover {
+      background: rgba(100,180,255,0.10);
+      border-color: rgba(100,180,255,0.3);
+      transform: translateY(-3px);
+    }
+
+    .team-logo {
+      font-size: 1.8rem;
+      line-height: 1;
+    }
+    .team-logo img {
+      width: 48px; height: 48px; object-fit: contain;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+    }
+
+    .team-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: #e8f4ff;
+    }
+
+    .team-sport {
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #3a5a7a;
+    }
+
+    .team-record {
+      font-size: 0.78rem;
+      color: #60a5fa;
+      font-weight: 500;
+    }
+
+    /* ── BANDS LIST ── */
+    .bands-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .band-row {
+      background: rgba(100,180,255,0.05);
+      border: 1px solid rgba(100,180,255,0.11);
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .band-era {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #60a5fa;
+      background: rgba(100,180,255,0.1);
+      border-radius: 6px;
+      padding: 2px 7px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .band-info {}
+
+    .band-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e8f4ff;
+      margin-bottom: 2px;
+    }
+
+    .band-desc {
+      font-size: 0.72rem;
+      color: #3a5a7a;
+      line-height: 1.45;
+    }
+
+    /* ── FISHING SECTION ── */
+    .fishing-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .fish-card {
+      background: rgba(100,180,255,0.05);
+      border: 1px solid rgba(100,180,255,0.12);
+      border-radius: 14px;
+      padding: 18px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+    }
+
+    .fish-card:hover {
+      background: rgba(100,180,255,0.10);
+      border-color: rgba(100,180,255,0.3);
+      transform: translateY(-3px);
+    }
+
+    .fish-icon { font-size: 2rem; margin-bottom: 8px; }
+
+    .fish-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #e8f4ff;
+      margin-bottom: 4px;
+    }
+
+    .fish-desc {
+      font-size: 0.72rem;
+      color: #3a5a7a;
+      line-height: 1.5;
+    }
+
+    .fish-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 10px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    /* ── LOADING ── */
+    .loading { color: #3a5a7a; font-size: 0.85rem; }
+
+    @media (max-width: 600px) {
+      .crypto-strip { grid-template-columns: 1fr 1fr; }
+      .sports-grid { grid-template-columns: 1fr 1fr; }
+      .bands-grid { grid-template-columns: 1fr; }
+      .fishing-cards { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .sports-grid { grid-template-columns: 1fr 1fr; }
+      .fishing-cards { grid-template-columns: 1fr; }
+    }
+  </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <a class="back" href="./dashboard.html">
+    ← Dashboard
+  </a>
+
+  <header class="header">
+    <div class="header-logo">
+      <img src="./rips_dip.png" alt="Rip's Dip" onclick="document.getElementById('logo-lightbox').classList.add('open')" onerror="this.parentElement.textContent='🎸'">
+    </div>
+    <div>
+      <div class="eyebrow">Pat Ripley · Flat Buzz · Minneapolis</div>
+      <h1 class="title">Rip's <em>Dip</em></h1>
+    </div>
+  </header>
+
+  <!-- ── CRYPTO ── -->
+  <div class="section">
+    <div class="section-title">Crypto</div>
+    <div class="crypto-strip">
+      <div class="crypto-card">
+        <div class="crypto-icon">₿</div>
+        <div>
+          <div class="crypto-ticker">BTC</div>
+          <div class="crypto-name">Bitcoin</div>
+          <div class="crypto-price" id="btc-price">—</div>
+          <div class="crypto-change" id="btc-change"></div>
+        </div>
+      </div>
+      <div class="crypto-card">
+        <div class="crypto-icon">Ξ</div>
+        <div>
+          <div class="crypto-ticker">ETH</div>
+          <div class="crypto-name">Ethereum</div>
+          <div class="crypto-price" id="eth-price">—</div>
+          <div class="crypto-change" id="eth-change"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── MINNESOTA PRO SPORTS ── -->
+  <div class="section">
+    <div class="section-title">Minnesota Pro Sports</div>
+    <div class="sports-grid">
+      <a class="team-card" href="https://www.vikings.com" target="_blank" rel="noopener">
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/nfl/500/min.png" alt="Vikings" onerror="this.outerHTML='🏈'"></div>
+        <div class="team-name">Vikings</div>
+        <div class="team-sport">NFL · Football</div>
+        <div class="team-record" id="vikes-info">Minnesota Vikings</div>
+      </a>
+      <a class="team-card" href="https://www.nba.com/timberwolves" target="_blank" rel="noopener">
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/nba/500/min.png" alt="Timberwolves" onerror="this.outerHTML='🏀'"></div>
+        <div class="team-name">Timberwolves</div>
+        <div class="team-sport">NBA · Basketball</div>
+        <div class="team-record" id="wolves-info">Minnesota Timberwolves</div>
+      </a>
+      <a class="team-card" href="https://www.nhl.com/wild" target="_blank" rel="noopener">
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/nhl/500/min.png" alt="Wild" onerror="this.outerHTML='🏒'"></div>
+        <div class="team-name">Wild</div>
+        <div class="team-sport">NHL · Hockey</div>
+        <div class="team-record" id="wild-info">Minnesota Wild</div>
+      </a>
+      <a class="team-card" href="https://www.mlb.com/twins" target="_blank" rel="noopener">
+        <div class="team-logo"><img src="https://www.mlbstatic.com/team-logos/team-cap-on-dark/142.svg" alt="Twins" onerror="this.outerHTML='⚾'"></div>
+        <div class="team-name">Twins</div>
+        <div class="team-sport">MLB · Baseball</div>
+        <div class="team-record" id="twins-info">Minnesota Twins</div>
+      </a>
+      <a class="team-card" href="https://www.mnunited.com" target="_blank" rel="noopener">
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/soccer/500/994.png" alt="MN United" onerror="this.outerHTML='⚽'"></div>
+        <div class="team-name">MN United</div>
+        <div class="team-sport">MLS · Soccer</div>
+        <div class="team-record">Minnesota United FC</div>
+      </a>
+      <a class="team-card" href="https://lynx.wnba.com" target="_blank" rel="noopener">
+        <div class="team-logo"><img src="https://a.espncdn.com/i/teamlogos/wnba/500/min.png" alt="Lynx" onerror="this.src='https://cdn.nba.com/logos/wnba/1611661319/global/L/logo.svg';this.onerror=null;"></div>
+        <div class="team-name">Lynx</div>
+        <div class="team-sport">WNBA · Basketball</div>
+        <div class="team-record">Minnesota Lynx</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── MINNESOTA SPORTS NEWS ── -->
+  <div class="section">
+    <div class="section-title">MN Sports Headlines</div>
+    <div id="sports-news">
+      <div class="loading">Loading headlines…</div>
+    </div>
+  </div>
+
+  <!-- ── SMALLMOUTH BASS FISHING ── -->
+  <div class="section">
+    <div class="section-title">Smallmouth Bass · Minnesota Fishing</div>
+    <div class="fishing-cards">
+      <a class="fish-card" href="https://www.dnr.state.mn.us/fishing/index.html" target="_blank" rel="noopener">
+        <div class="fish-icon">🎣</div>
+        <div class="fish-title">MN DNR Fishing</div>
+        <div class="fish-desc">Regulations, lake finder, stocking reports, and license info from the MN Department of Natural Resources.</div>
+        <div class="fish-link">Open DNR →</div>
+      </a>
+      <a class="fish-card" href="https://www.dnr.state.mn.us/lakefind/index.html" target="_blank" rel="noopener">
+        <div class="fish-icon">🗺️</div>
+        <div class="fish-title">Lake Finder</div>
+        <div class="fish-desc">Survey data and fish population reports for 4,000+ Minnesota lakes — find where the bass are biting.</div>
+        <div class="fish-link">Find a Lake →</div>
+      </a>
+      <a class="fish-card" href="https://www.bassmaster.com/conservation/bass-fishing/smallmouth-bass-fishing" target="_blank" rel="noopener">
+        <div class="fish-icon">🐟</div>
+        <div class="fish-title">Smallmouth Tips</div>
+        <div class="fish-desc">Techniques, rigs, and seasonal patterns for trophy smallmouth — tube baits, drop shot, and finesse.</div>
+        <div class="fish-link">Read Tips →</div>
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FISHING NEWS ── -->
+  <div class="section">
+    <div class="section-title">Fishing Headlines</div>
+    <div id="fishing-news">
+      <div class="loading">Loading…</div>
+    </div>
+  </div>
+
+  <!-- ── FIRST AVE + MN BANDS ── -->
+  <div class="section">
+    <div class="section-title">First Avenue &amp; Minnesota Bands</div>
+    <div class="bands-grid">
+      <div class="band-row" style="border-left:3px solid var(--accent);padding-left:12px;">
+        <div class="band-era" style="color:var(--accent);">Rip's Band</div>
+        <div class="band-info">
+          <div class="band-name">Flat Buzz</div>
+          <div class="band-desc">Pat Ripley's band — bass, groove, and the real Minneapolis sound. If you know, you know.</div>
+        </div>
+      </div>
+      <div class="band-row" style="border-left:3px solid var(--accent);padding-left:12px;">
+        <div class="band-era" style="color:var(--accent);">Rip's Band</div>
+        <div class="band-info">
+          <div class="band-name">Raised by Flies</div>
+          <div class="band-desc">Another chapter in Rip's musical story. Raw, honest, and exactly what Minneapolis produces when you let it.</div>
+        </div>
+      </div>
+      <div class="band-row" style="border-left:3px solid var(--accent);padding-left:12px;">
+        <div class="band-era" style="color:var(--accent);">Rip's Band</div>
+        <div class="band-info">
+          <div class="band-name">17 Kevins</div>
+          <div class="band-desc">Only in Minneapolis do you name a band 17 Kevins and it makes perfect sense. Rip on the low end, holding it all together.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Legend</div>
+        <div class="band-info">
+          <div class="band-name">Prince</div>
+          <div class="band-desc">Made First Ave famous. Purple Rain filmed right there on 7th St. The greatest to ever do it.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Classic</div>
+        <div class="band-info">
+          <div class="band-name">The Replacements</div>
+          <div class="band-desc">Westerberg's glorious mess. Let It Be to Pleased to Meet Me — the soul of Twin Cities rock.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Classic</div>
+        <div class="band-info">
+          <div class="band-name">Hüsker Dü</div>
+          <div class="band-desc">Bob Mould + Grant Hart destroyed eardrums and invented alt-rock before anyone called it that.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Classic</div>
+        <div class="band-info">
+          <div class="band-name">Soul Asylum</div>
+          <div class="band-desc">Dave Pirner screamed through the 80s underground before Runaway Train put them everywhere.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Legacy</div>
+        <div class="band-info">
+          <div class="band-name">The Hold Steady</div>
+          <div class="band-desc">Craig Finn's bar-rock mythology — Separation Sunday is a masterpiece. Still going strong.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Legacy</div>
+        <div class="band-info">
+          <div class="band-name">Atmosphere</div>
+          <div class="band-desc">Slug &amp; Ant built Rhymesayers into the best indie hip-hop label in the country. Pure Minneapolis.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Modern</div>
+        <div class="band-info">
+          <div class="band-name">Hippo Campus</div>
+          <div class="band-desc">St. Paul kids who grew up on First Ave and became one of indie rock's most reliable live acts.</div>
+        </div>
+      </div>
+      <div class="band-row">
+        <div class="band-era">Modern</div>
+        <div class="band-info">
+          <div class="band-name">Lizzo</div>
+          <div class="band-desc">Came up through the Minneapolis scene before blowing up globally. Still repping MN.</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:14px; text-align:center;">
+      <a href="https://first-avenue.com/calendar/" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:6px;font-size:0.78rem;font-weight:600;color:#60a5fa;text-decoration:none;background:rgba(100,180,255,0.08);border:1px solid rgba(100,180,255,0.2);border-radius:10px;padding:9px 18px;">
+        🎵 First Avenue Full Calendar →
+      </a>
+    </div>
+  </div>
+
+  <!-- ── FIRST AVE NEWS ── -->
+  <div class="section">
+    <div class="section-title">MN Music Headlines</div>
+    <div id="music-news">
+      <div class="loading">Loading…</div>
+    </div>
+  </div>
+
+</div>
+
+<style>
+  .news-list { display: flex; flex-direction: column; gap: 8px; }
+  .news-item {
+    background: rgba(100,180,255,0.04);
+    border: 1px solid rgba(100,180,255,0.10);
+    border-radius: 10px;
+    padding: 11px 14px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .news-item a {
+    font-size: 0.83rem;
+    font-weight: 500;
+    color: #c8dff5;
+    text-decoration: none;
+    line-height: 1.45;
+    flex: 1;
+  }
+  .news-item a:hover { color: #60a5fa; }
+  .news-src {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #3a5a7a;
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .err { color: #f87171; font-size: 0.8rem; }
+</style>
+
+<!-- Logo lightbox -->
+<div id="logo-lightbox" onclick="this.classList.remove('open')">
+  <img src="./rips_dip.png" alt="Rip's Dip full size">
+</div>
+
+<script>
+  var PROXIES = [
+    'https://api.allorigins.win/raw?url=',
+    'https://corsproxy.io/?',
+    'https://api.codetabs.com/v1/proxy?quest='
+  ];
+
+  // Try each proxy in order; move to next if fetch fails OR parsed items are empty
+  function fetchRss(url, src, cb) {
+    function tryNext(i) {
+      if (i >= PROXIES.length) { cb([]); return; }
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 7000);
+      fetch(PROXIES[i] + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.text(); })
+        .then(function(txt) {
+          var items = parseRss(txt, src);
+          if (items.length > 0) { cb(items); }
+          else { tryNext(i + 1); }
+        })
+        .catch(function() { clearTimeout(tid); tryNext(i + 1); });
+    }
+    tryNext(0);
+  }
+
+  function parseRss(xml, src) {
+    try {
+      var doc = new DOMParser().parseFromString(xml, 'text/xml');
+      return Array.from(doc.querySelectorAll('item')).map(function(n) {
+        var title = (n.querySelector('title') || {}).textContent || '';
+        // RSS <link> is tricky — try element text, then childNode scan
+        var link = '';
+        var le = n.querySelector('link');
+        if (le) link = le.textContent || le.getAttribute('href') || '';
+        if (!link) {
+          var ch = n.childNodes;
+          for (var i = 0; i < ch.length; i++) {
+            if (ch[i].nodeName === 'link') { link = ch[i].textContent || ''; break; }
+          }
+        }
+        title = title.trim(); link = link.trim();
+        // Strip trailing source attribution (e.g. " - Star Tribune")
+        title = title.replace(/\s[-–—]\s[^-–—]{2,50}$/, '').trim();
+        if (!link || link.indexOf('http') !== 0) return null;
+        return { title: title, link: link, src: src };
+      }).filter(Boolean);
+    } catch(e) { return []; }
+  }
+
+  function renderNews(containerId, items) {
+    var el = document.getElementById(containerId);
+    if (!items || items.length === 0) {
+      el.innerHTML = '<div class="err">Headlines unavailable — check back later.</div>';
+      return;
+    }
+    el.innerHTML = '<div class="news-list">'
+      + items.map(function(i) {
+          return '<div class="news-item"><span class="news-src">' + i.src + '</span>'
+            + '<a href="' + i.link + '" target="_blank" rel="noopener">' + i.title + '</a></div>';
+        }).join('')
+      + '</div>';
+  }
+
+  // ── Crypto prices ──
+  function fetchCrypto(ticker, priceId, changeId) {
+    var url = 'https://query2.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(ticker + '-USD') + '?interval=1d&range=1d';
+    var pi = 0;
+    function tryNext() {
+      if (pi >= PROXIES.length) return;
+      var ctrl = new AbortController();
+      var tid = setTimeout(function() { ctrl.abort(); }, 7000);
+      fetch(PROXIES[pi++] + encodeURIComponent(url), { signal: ctrl.signal })
+        .then(function(r) { clearTimeout(tid); return r.json(); })
+        .then(function(d) {
+          var res = d.chart && d.chart.result && d.chart.result[0];
+          if (!res || !res.meta || !res.meta.regularMarketPrice) { tryNext(); return; }
+          var meta = res.meta;
+          var price = meta.regularMarketPrice;
+          var prev  = meta.chartPreviousClose || meta.previousClose;
+          var chg   = prev ? price - prev : null;
+          var pct   = prev ? (chg / prev * 100) : null;
+          document.getElementById(priceId).textContent =
+            '$' + price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+          if (chg !== null) {
+            var sign = chg >= 0 ? '+' : '';
+            var el = document.getElementById(changeId);
+            el.textContent = sign + '$' + Math.abs(chg).toFixed(2) + ' (' + sign + pct.toFixed(2) + '%)';
+            el.className = 'crypto-change ' + (chg >= 0 ? 'up' : 'dn');
+          }
+        })
+        .catch(function() { clearTimeout(tid); tryNext(); });
+    }
+    tryNext();
+  }
+
+  fetchCrypto('BTC', 'btc-price', 'btc-change');
+  fetchCrypto('ETH', 'eth-price', 'eth-change');
+
+  // ── Minnesota Sports News — Google News RSS (no ESPN dependency) ──
+  var sportsUrl = 'https://news.google.com/rss/search?q=Vikings+OR+Timberwolves+OR+Twins+OR+"Minnesota+Wild"+OR+"MN+United"+OR+Lynx+Minnesota+sports&hl=en-US&gl=US&ceid=US:en';
+  fetchRss(sportsUrl, 'Google News', function(items) {
+    renderNews('sports-news', items.slice(0, 6));
+  });
+
+  // ── Fishing News ──
+  var fishUrl = 'https://news.google.com/rss/search?q=Minnesota+bass+fishing+smallmouth&hl=en-US&gl=US&ceid=US:en';
+  fetchRss(fishUrl, 'Google News', function(items) {
+    renderNews('fishing-news', items.slice(0, 5));
+  });
+
+  // ── MN Music News ──
+  var musicUrl = 'https://news.google.com/rss/search?q=First+Avenue+Minneapolis+music+concert&hl=en-US&gl=US&ceid=US:en';
+  fetchRss(musicUrl, 'Google News', function(items) {
+    renderNews('music-news', items.slice(0, 5));
+  });
+</script>
+</body>
+</html>

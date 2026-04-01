@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background:
+      linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+      url('./angry_lincoln.png') center 20% / cover no-repeat fixed;
+    min-height: 100vh;
+    color: #e2e8f0;
+  }
+  .page-wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 80px; }
+  .top-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #4ade80; text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 6px 12px; border: 1px solid #22c55e; border-radius: 999px;
+    transition: background 0.2s;
+  }
+  .back-btn:hover { background: rgba(34,197,94,0.12); }
+  h1 { font-size: 26px; font-weight: 600; color: #f1f5f9; }
+  .form-card {
+    background: rgba(15,23,10,0.72);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 32px;
+    backdrop-filter: blur(8px);
+  }
+  .form-card h2 { font-size: 16px; font-weight: 600; color: #a8bc98; margin-bottom: 18px; }
+  .form-row { margin-bottom: 14px; }
+  label { display: block; font-size: 12px; color: #6b9f55; font-weight: 500; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.05em; }
+  textarea, input { width: 100%; background: rgba(0,0,0,0.35); border: 1px solid rgba(34,197,94,0.2); border-radius: 8px; color: #e2e8f0; font-family: 'Inter', sans-serif; font-size: 14px; padding: 10px 12px; outline: none; transition: border-color 0.2s; }
+  textarea:focus, input:focus { border-color: #22c55e; }
+  textarea { resize: vertical; min-height: 90px; }
+  .photo-drop { border: 2px dashed rgba(34,197,94,0.3); border-radius: 10px; padding: 20px; text-align: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; position: relative; }
+  .photo-drop:hover { border-color: #22c55e; background: rgba(34,197,94,0.05); }
+  .photo-drop input { position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%; border: none; padding: 0; }
+  .photo-drop-text { font-size: 13px; color: #6b9f55; margin-top: 8px; }
+  #photo-preview { margin-top: 12px; display: none; }
+  #photo-preview img { max-width: 100%; max-height: 220px; border-radius: 8px; object-fit: cover; }
+  .remove-photo { display: inline-block; margin-top: 6px; font-size: 12px; color: #f87171; cursor: pointer; text-decoration: underline; }
+  .btn-save { display: block; width: 100%; background: #22c55e; color: #0a0e17; border: none; border-radius: 8px; padding: 12px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: background 0.2s; margin-top: 4px; }
+  .btn-save:hover { background: #4ade80; }
+  .entries-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .entries-header h2 { font-size: 18px; font-weight: 600; color: #f1f5f9; }
+  .entry-count { font-size: 13px; color: #6b9f55; }
+  .entry-card { background: rgba(15,23,10,0.72); border: 1px solid rgba(34,197,94,0.15); border-radius: 14px; padding: 20px; margin-bottom: 16px; backdrop-filter: blur(8px); }
+  .entry-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .entry-date { font-size: 13px; font-weight: 600; color: #4ade80; }
+  .entry-time { font-size: 12px; color: #6b9f55; margin-left: 8px; }
+  .btn-delete { background: none; border: none; color: #f87171; font-size: 13px; cursor: pointer; padding: 2px 6px; border-radius: 4px; transition: background 0.2s; }
+  .btn-delete:hover { background: rgba(248,113,113,0.12); }
+  .entry-photo { margin-bottom: 12px; }
+  .entry-photo img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; }
+  .entry-text { font-size: 14px; color: #c8d8b8; line-height: 1.65; white-space: pre-wrap; }
+  .entry-map { display: inline-flex; align-items: center; gap: 6px; margin-top: 12px; font-size: 13px; color: #4ade80; text-decoration: none; border-bottom: 1px solid rgba(74,222,128,0.3); }
+  .entry-map:hover { color: #86efac; }
+  .empty-state { text-align: center; padding: 48px 0; color: #4b6b3a; font-size: 14px; }
+  .empty-icon { font-size: 40px; margin-bottom: 12px; }
+</style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+<script src="./sync.js"></script>
+</head>
+<body>
+<div class="page-wrap">
+  <div class="top-bar">
+    <a class="back-btn" href="./dashboard.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Dashboard
+    </a>
+    <h1>Daily Journal</h1>
+  </div>
+
+  <div class="form-card">
+    <h2>New Entry</h2>
+    <div class="form-row">
+      <label>Photo</label>
+      <div class="photo-drop" id="drop-zone">
+        <input type="file" id="photo-input" accept="image/*">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <div class="photo-drop-text">Tap to choose a photo</div>
+      </div>
+      <div id="photo-preview">
+        <img id="preview-img" src="" alt="Preview">
+        <span class="remove-photo" id="remove-photo">Remove photo</span>
+      </div>
+    </div>
+    <div class="form-row">
+      <label>Notes</label>
+      <textarea id="f-desc" placeholder="What happened today?"></textarea>
+    </div>
+    <div class="form-row">
+      <label>Location (optional)</label>
+      <input type="text" id="f-map" placeholder="Type a place, address, or paste a Maps link">
+    </div>
+    <button class="btn-save" id="save-btn">Save Entry</button>
+  </div>
+
+  <div class="entries-header">
+    <h2>Past Entries</h2>
+    <span class="entry-count" id="entry-count"></span>
+  </div>
+  <div id="entries-list"></div>
+</div>
+
+<script>
+(function() {
+  var STORE_KEY = 'bacon_journal_v1';
+  var photoData = null;
+  var photoInput = document.getElementById('photo-input');
+  var previewImg = document.getElementById('preview-img');
+  var previewBox = document.getElementById('photo-preview');
+  var dropZone = document.getElementById('drop-zone');
+
+  // Compress image to max 900px wide/tall, JPEG 0.72 — keeps photos small for iOS localStorage
+  function compressPhoto(dataUrl, callback) {
+    var img = new Image();
+    img.onload = function() {
+      var MAX = 900, w = img.width, h = img.height;
+      if (w > MAX || h > MAX) {
+        if (w >= h) { h = Math.round(h * MAX / w); w = MAX; }
+        else        { w = Math.round(w * MAX / h); h = MAX; }
+      }
+      var canvas = document.createElement('canvas');
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      callback(canvas.toDataURL('image/jpeg', 0.72));
+    };
+    img.onerror = function() { callback(dataUrl); };
+    img.src = dataUrl;
+  }
+
+  photoInput.addEventListener('change', function() {
+    var file = this.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      compressPhoto(e.target.result, function(compressed) {
+        photoData = compressed;
+        previewImg.src = photoData;
+        previewBox.style.display = 'block';
+        dropZone.style.display = 'none';
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+
+  document.getElementById('remove-photo').addEventListener('click', function() {
+    photoData = null;
+    previewBox.style.display = 'none';
+    previewImg.src = '';
+    photoInput.value = '';
+    dropZone.style.display = '';
+  });
+
+  document.getElementById('save-btn').addEventListener('click', function() {
+    var desc = document.getElementById('f-desc').value.trim();
+    var mapRaw = document.getElementById('f-map').value.trim();
+    if (!desc && !photoData) { alert('Add a photo or some notes first.'); return; }
+
+    var mapUrl = '', mapLabel = '';
+    if (mapRaw) {
+      if (/^https?:\/\//.test(mapRaw)) { mapUrl = mapRaw; mapLabel = 'View on Map'; }
+      else { mapUrl = 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(mapRaw); mapLabel = mapRaw; }
+    }
+
+    var now = new Date();
+    var entry = {
+      id: Date.now(),
+      date: now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' }),
+      time: now.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit' }),
+      photo: photoData || null,
+      desc: desc,
+      map: mapUrl,
+      mapLabel: mapLabel
+    };
+
+    var entries = load();
+    entries.unshift(entry);
+
+    var ok = save(entries);
+    if (!ok && entry.photo) {
+      // Photo too large — retry without it
+      entries[0].photo = null;
+      ok = save(entries);
+      if (ok) { alert('Entry saved — photo was too large for this device\'s storage and was not included.'); }
+    }
+    if (!ok) { alert('Could not save: storage is full. Delete some old entries and try again.'); return; }
+
+    // Clear form
+    document.getElementById('f-desc').value = '';
+    document.getElementById('f-map').value = '';
+    photoData = null;
+    previewBox.style.display = 'none';
+    previewImg.src = '';
+    photoInput.value = '';
+    dropZone.style.display = '';
+
+    // Flash "Saved!" on the button
+    var btn = document.getElementById('save-btn');
+    btn.textContent = 'Saved!';
+    btn.style.background = '#4ade80';
+    setTimeout(function() { btn.textContent = 'Save Entry'; btn.style.background = ''; }, 1800);
+
+    render();
+    syncPush();
+  });
+
+  function load() { try { return JSON.parse(localStorage.getItem(STORE_KEY) || '[]'); } catch(e) { return []; } }
+  function save(entries) {
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(entries)); return true; }
+    catch(e) { return false; }
+  }
+
+  // ── Gist Sync ──
+  function syncPush() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    GistSync.setSection('journal', load());
+  }
+  function syncInit() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    GistSync.getSection('journal', function(data, err) {
+      if (!err && Array.isArray(data) && data.length) {
+        save(data);
+        render();
+      } else {
+        // Gist has no journal data yet — push whatever is in localStorage
+        var local = load();
+        if (local.length) syncPush();
+      }
+    });
+  }
+
+  window._journalDel = function(id) {
+    if (confirm('Delete this entry?')) {
+      save(load().filter(function(e) { return e.id !== id; }));
+      syncPush();
+      render();
+    }
+  };
+
+  function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function render() {
+    var entries = load();
+    document.getElementById('entry-count').textContent = entries.length + (entries.length === 1 ? ' entry' : ' entries');
+    var list = document.getElementById('entries-list');
+    if (!entries.length) {
+      list.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128221;</div><p>No entries yet. Add your first one above.</p></div>';
+      return;
+    }
+    list.innerHTML = entries.map(function(e) {
+      return '<div class="entry-card">' +
+        '<div class="entry-meta"><div><span class="entry-date">' + esc(e.date) + '</span><span class="entry-time">' + esc(e.time) + '</span></div>' +
+        '<button class="btn-delete" onclick="_journalDel(' + e.id + ')">Delete</button></div>' +
+        (e.photo ? '<div class="entry-photo"><img src="' + e.photo + '" alt="photo"></div>' : '') +
+        (e.desc ? '<div class="entry-text">' + esc(e.desc) + '</div>' : '') +
+        (e.map ? '<a class="entry-map" href="' + esc(e.map) + '" target="_blank" rel="noopener"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' + esc(e.mapLabel || 'View on Map') + '</a>' : '') +
+      '</div>';
+    }).join('');
+  }
+
+  render();
+  syncInit();
+})();
+</script>
+</body>
+</html>

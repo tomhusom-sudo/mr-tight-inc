@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260326m';
+    if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --void:   #050208;
+      --deep:   #0d0510;
+      --plate:  #120818;
+      --slime:  #39e640;
+      --slime2: #7fff50;
+      --blood:  #cc0a1a;
+      --blood2: #ff1a2a;
+      --purple: #8b00ff;
+      --pink:   #ff2d78;
+      --cream:  #f5e6d0;
+      --dim:    #5a4560;
+      --border: rgba(57,230,64,0.2);
+      --rule:   rgba(57,230,64,0.1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body { background: var(--void); color: var(--cream); font-family: 'Barlow', sans-serif; overflow-x: hidden; }
+
+    /* Spooky dot grid */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image: radial-gradient(circle, rgba(57,230,64,0.04) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Animated drip from top */
+    body::after {
+      content: '';
+      position: fixed; top: 0; left: 0; right: 0; height: 6px; z-index: 101;
+      background: repeating-linear-gradient(
+        90deg,
+        var(--slime) 0, var(--slime) 18px,
+        var(--blood) 18px, var(--blood) 36px,
+        var(--purple) 36px, var(--purple) 54px,
+        var(--pink) 54px, var(--pink) 72px,
+        var(--void) 72px, var(--void) 90px
+      );
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 6px; left: 0; right: 0; z-index: 100;
+      background: rgba(5,2,8,0.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 48px; height: 104px;
+    }
+    @media (max-width: 768px) { nav { padding: 0 20px; } }
+
+    .nav-logo { text-decoration: none; display: flex; align-items: center; gap: 18px; }
+
+    .monster-icon-nav {
+      width: 76px; height: 76px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--deep); border: 2px solid var(--slime);
+      border-radius: 4px; box-shadow: 0 0 18px rgba(57,230,64,0.25);
+    }
+
+    .tf-badge { display: flex; align-items: stretch; }
+    .tf-badge-bar {
+      width: 5px; flex-shrink: 0; margin-right: 16px; border-radius: 1px;
+      background: linear-gradient(180deg, var(--slime), var(--purple));
+    }
+    .tf-badge-text { display: flex; flex-direction: column; justify-content: center; line-height: 1; }
+    .tf-name-monster {
+      font-family: 'Creepster', cursive; font-size: 2.6rem;
+      color: var(--slime); letter-spacing: 0.06em; line-height: 1;
+      text-shadow: 0 0 20px rgba(57,230,64,0.4);
+    }
+    .tf-name-father {
+      font-family: 'Creepster', cursive; font-size: 2.6rem;
+      color: var(--pink); letter-spacing: 0.06em; line-height: 1; margin-left: 12px;
+      text-shadow: 0 0 20px rgba(255,45,120,0.4);
+    }
+    .tf-name-prod {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--dim); margin-top: 6px;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 32px; list-style: none; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--slime); }
+    .nav-cta {
+      border: 1px solid var(--blood) !important; color: var(--blood) !important;
+      padding: 9px 22px; border-radius: 1px;
+      background: rgba(204,10,26,0.08) !important; transition: background 0.2s !important;
+    }
+    .nav-cta:hover { background: rgba(204,10,26,0.2) !important; }
+    @media (max-width: 768px) { .nav-links { display: none; } }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; padding-top: 110px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+
+    /* Radial glow behind hero text */
+    .hero::before {
+      content: '';
+      position: absolute; top: 30%; left: 50%; transform: translateX(-50%);
+      width: 700px; height: 400px;
+      background: radial-gradient(ellipse, rgba(139,0,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem; font-weight: 800;
+      letter-spacing: 0.38em; text-transform: uppercase; color: var(--blood);
+      margin-bottom: 20px; position: relative; z-index: 1;
+    }
+
+    .hero-monster-title {
+      font-family: 'Creepster', cursive;
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.95; letter-spacing: 0.04em;
+      position: relative; z-index: 1; margin-bottom: 8px;
+    }
+    .hero-monster-title .m1 { color: var(--slime); text-shadow: 0 0 40px rgba(57,230,64,0.5); }
+    .hero-monster-title .m2 { color: var(--pink); text-shadow: 0 0 40px rgba(255,45,120,0.5); }
+
+    .hero-creature {
+      position: relative; z-index: 1; margin: 28px 0;
+    }
+
+    .hero-sub {
+      font-family: 'Barlow Condensed', sans-serif; font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 400; letter-spacing: 0.06em; color: var(--dim);
+      margin-bottom: 40px; position: relative; z-index: 1; max-width: 600px;
+    }
+    .hero-sub .accent { color: var(--slime); }
+
+    .hero-ctas { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+    .btn-primary {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 800;
+      letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+      padding: 16px 36px; background: var(--blood); color: var(--cream); border-radius: 1px;
+      transition: background 0.2s; border: none;
+    }
+    .btn-primary:hover { background: var(--blood2); }
+    .btn-ghost {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+      padding: 16px 36px; border: 1px solid var(--border); color: var(--slime); border-radius: 1px;
+      transition: border-color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--slime); }
+
+    /* ── TRANSFORMATION STRIP ── */
+    .transform-strip {
+      position: relative; z-index: 1;
+      background: var(--deep); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+      padding: 48px 64px;
+      display: flex; align-items: center; gap: 32px; justify-content: center; flex-wrap: wrap;
+    }
+    @media (max-width: 700px) { .transform-strip { padding: 40px 24px; gap: 20px; } }
+    .transform-step {
+      display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center;
+    }
+    .transform-icon { font-size: 2.8rem; line-height: 1; }
+    .transform-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.24em; text-transform: uppercase; color: var(--dim);
+    }
+    .transform-arrow {
+      font-family: 'Creepster', cursive; font-size: 2rem; color: var(--slime); opacity: 0.5;
+    }
+
+    /* ── SECTION ── */
+    .section { position: relative; z-index: 1; padding: 80px 64px; }
+    @media (max-width: 700px) { .section { padding: 60px 28px; } }
+
+    .section-rule {
+      width: 100%; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    .section-head { margin-bottom: 48px; }
+    .section-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--slime); margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: 'Creepster', cursive; font-size: clamp(2.2rem, 4vw, 3.6rem);
+      color: var(--cream); line-height: 1.0; letter-spacing: 0.04em;
+    }
+    .section-sub {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: var(--dim);
+      margin-top: 8px; letter-spacing: 0.04em;
+    }
+
+    /* ── THEMED SESSIONS ── */
+    .sessions-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+      background: var(--rule);
+    }
+    @media (max-width: 900px) { .sessions-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px) { .sessions-grid { grid-template-columns: 1fr; } }
+
+    .session-card {
+      background: var(--deep); padding: 36px 28px;
+      position: relative; overflow: hidden; transition: background 0.2s;
+    }
+    .session-card:not([style]):hover { background: var(--plate); }
+    .session-card.featured {
+      grid-column: 1 / -1;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;
+      padding: 48px;
+    }
+    @media (max-width: 700px) { .session-card.featured { grid-template-columns: 1fr; } }
+
+    .session-emoji { font-size: 2.4rem; margin-bottom: 14px; line-height: 1; }
+    .session-num {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.65rem; font-weight: 800;
+      letter-spacing: 0.28em; color: var(--blood); margin-bottom: 10px;
+    }
+    .session-title {
+      font-family: 'Creepster', cursive; font-size: 1.5rem; color: #ffffff;
+      letter-spacing: 0.04em; margin-bottom: 10px; line-height: 1.1;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+    }
+    .session-desc { font-size: 0.9rem; line-height: 1.6; color: #d4c8c0; text-shadow: 0 1px 3px rgba(0,0,0,0.9); }
+    .session-tag {
+      display: inline-block; margin-top: 12px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 800;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px;
+      background: rgba(57,230,64,0.08); border: 1px solid rgba(57,230,64,0.2); color: var(--slime);
+    }
+    .session-tag.blood { background: rgba(204,10,26,0.1); border-color: rgba(204,10,26,0.3); color: var(--blood2); }
+    .session-tag.pink { background: rgba(255,45,120,0.1); border-color: rgba(255,45,120,0.3); color: var(--pink); }
+    .session-tag.purple { background: rgba(139,0,255,0.1); border-color: rgba(139,0,255,0.3); color: #bf80ff; }
+
+    .session-specs {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px;
+    }
+    .session-spec {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--rule); padding: 14px 16px;
+    }
+    .session-spec-val {
+      font-family: 'Creepster', cursive; font-size: 1.4rem; color: var(--slime); line-height: 1;
+    }
+    .session-spec-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.62rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-top: 4px;
+    }
+
+    /* ── PACKAGES ── */
+    .packages-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    }
+    @media (max-width: 900px) { .packages-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 580px) { .packages-grid { grid-template-columns: 1fr; } }
+
+    .package-card {
+      background: var(--deep); border: 1px solid var(--rule);
+      padding: 28px 24px; position: relative; overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .package-card:hover { border-color: rgba(57,230,64,0.35); }
+    .package-card.featured-pkg { border-color: rgba(255,45,120,0.3); }
+    .package-card.featured-pkg:hover { border-color: rgba(255,45,120,0.6); }
+
+    .pkg-badge {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 999px; display: inline-block; margin-bottom: 16px;
+    }
+    .pkg-badge.green { background: rgba(57,230,64,0.1); border: 1px solid rgba(57,230,64,0.3); color: var(--slime); }
+    .pkg-badge.pink { background: rgba(255,45,120,0.1); border: 1px solid rgba(255,45,120,0.3); color: var(--pink); }
+    .pkg-badge.blood { background: rgba(204,10,26,0.1); border: 1px solid rgba(204,10,26,0.3); color: var(--blood2); }
+
+    .pkg-title {
+      font-family: 'Creepster', cursive; font-size: 1.4rem; color: var(--cream);
+      letter-spacing: 0.04em; margin-bottom: 10px;
+    }
+    .pkg-desc { font-size: 0.88rem; line-height: 1.6; color: var(--dim); margin-bottom: 16px; }
+    .pkg-price {
+      font-family: 'Creepster', cursive; font-size: 1.8rem; line-height: 1;
+    }
+    .pkg-price.green { color: var(--slime); text-shadow: 0 0 12px rgba(57,230,64,0.3); }
+    .pkg-price.pink { color: var(--pink); text-shadow: 0 0 12px rgba(255,45,120,0.3); }
+    .pkg-price.blood { color: var(--blood2); }
+
+    /* ── HOLIDAY CALENDAR ── */
+    .holidays-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+    }
+    @media (max-width: 900px) { .holidays-grid { grid-template-columns: 1fr 1fr; } }
+
+    .holiday-card {
+      background: var(--deep); border: 1px solid var(--rule);
+      padding: 24px 20px; text-align: center; transition: border-color 0.2s, background 0.2s;
+      cursor: default;
+    }
+    .holiday-card:hover { background: var(--plate); border-color: var(--border); }
+    .holiday-icon { font-size: 2.8rem; margin-bottom: 10px; line-height: 1; }
+    .holiday-name {
+      font-family: 'Creepster', cursive; font-size: 1.1rem; color: var(--cream);
+      letter-spacing: 0.04em; margin-bottom: 6px;
+    }
+    .holiday-desc { font-size: 0.8rem; line-height: 1.5; color: var(--dim); }
+    .holiday-month {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.6rem; font-weight: 800;
+      letter-spacing: 0.24em; text-transform: uppercase; color: var(--slime);
+      margin-top: 8px;
+    }
+
+    /* ── THE TRANSFORMATION (About) ── */
+    .transform-about {
+      position: relative; z-index: 1; padding: 80px 64px;
+      display: grid; grid-template-columns: auto 1fr; gap: 64px; align-items: center;
+    }
+    @media (max-width: 900px) { .transform-about { grid-template-columns: 1fr; gap: 40px; padding: 60px 28px; } }
+
+    .monster-portrait {
+      width: 260px; flex-shrink: 0; position: relative;
+    }
+    @media (max-width: 900px) { .monster-portrait { width: 200px; margin: 0 auto; } }
+    .monster-portrait svg { width: 100%; height: auto; filter: drop-shadow(0 0 30px rgba(57,230,64,0.3)); }
+
+    .about-label {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.68rem; font-weight: 800;
+      letter-spacing: 0.32em; text-transform: uppercase; color: var(--blood); margin-bottom: 12px;
+    }
+    .about-title {
+      font-family: 'Creepster', cursive; font-size: clamp(2.4rem, 4vw, 3.8rem);
+      line-height: 0.95; margin-bottom: 20px;
+    }
+    .about-title .s { color: var(--slime); text-shadow: 0 0 20px rgba(57,230,64,0.35); }
+    .about-title .p { color: var(--pink); text-shadow: 0 0 20px rgba(255,45,120,0.35); }
+    .about-rule { width: 48px; height: 3px; background: var(--blood); margin-bottom: 24px; }
+    .about-text { font-size: 1.0rem; line-height: 1.75; color: var(--dim); margin-bottom: 16px; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      background: var(--deep); border-top: 1px solid var(--rule);
+      padding: 36px 64px;
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-brand {
+      font-family: 'Creepster', cursive; font-size: 1.2rem; letter-spacing: 0.08em;
+    }
+    .footer-brand .s { color: var(--slime); }
+    .footer-brand .p { color: var(--pink); }
+    .footer-copy {
+      font-family: 'Barlow Condensed', sans-serif; font-size: 0.72rem;
+      letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+    }
+    @media (max-width: 700px) { footer { padding: 28px 20px; } }
+
+    /* ── BACK PILL ── */
+    .dashboard-bar { position: fixed; bottom: 20px; right: 20px; z-index: 200; }
+    .back-dash {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(5,2,8,0.95); backdrop-filter: blur(8px);
+      border: 1px solid rgba(57,230,64,0.35); border-radius: 999px; padding: 10px 20px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--slime); text-decoration: none; transition: border-color 0.2s;
+    }
+    .back-dash:hover { border-color: rgba(57,230,64,0.8); }
+
+    /* Keyframes */
+    @keyframes eyePulse { 0%,100%{opacity:0.9;} 50%{opacity:0.4;} }
+    @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);} }
+    .float { animation: float 4s ease-in-out infinite; }
+  </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <div class="monster-icon-nav">
+        <svg width="48" height="48" viewBox="0 0 56 56" fill="none">
+          <ellipse cx="28" cy="26" rx="16" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+          <ellipse cx="21" cy="23" rx="4" ry="3.5" fill="#39e640" opacity="0.9" style="animation:eyePulse 2s ease-in-out infinite;"/>
+          <ellipse cx="35" cy="23" rx="4" ry="3.5" fill="#cc0a1a" opacity="0.9" style="animation:eyePulse 2s ease-in-out infinite 0.3s;"/>
+          <circle cx="21" cy="23" r="2" fill="#050208"/>
+          <circle cx="35" cy="23" r="2" fill="#050208"/>
+          <polygon points="23,34 21,40 25,34" fill="#f5e6d0" opacity="0.9"/>
+          <polygon points="31,34 29,40 33,34" fill="#f5e6d0" opacity="0.9"/>
+          <polygon points="16,14 12,4 20,12" fill="#39e640" opacity="0.7"/>
+          <polygon points="40,14 44,4 36,12" fill="#39e640" opacity="0.7"/>
+          <circle cx="28" cy="44" r="5" fill="none" stroke="#ff2d78" stroke-width="1.5"/>
+          <circle cx="28" cy="44" r="2.5" fill="#ff2d78" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="tf-badge">
+        <div class="tf-badge-bar"></div>
+        <div class="tf-badge-text">
+          <div style="display:flex;align-items:baseline;">
+            <span class="tf-name-monster">Monster</span>
+            <span class="tf-name-father">Father</span>
+          </div>
+          <div class="tf-name-prod">ToddFather Productions &bull; Minneapolis, MN</div>
+        </div>
+      </div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#sessions">Sessions</a></li>
+      <li><a href="#packages">Packages</a></li>
+      <li><a href="#holidays">Holidays</a></li>
+      <li><a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="nav-cta">Book a Shoot</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-eyebrow">The Creature Behind the Lens</div>
+    <div class="hero-monster-title">
+      <span class="m1">Monster</span><br>
+      <span class="m2">Father</span>
+    </div>
+
+    <!-- Creature SVG -->
+    <div class="hero-creature float">
+      <svg width="220" height="260" viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Body -->
+        <ellipse cx="110" cy="160" rx="55" ry="65" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+        <!-- Arms -->
+        <path d="M55 140 Q20 160 15 190" stroke="#39e640" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M165 140 Q200 160 205 190" stroke="#39e640" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <!-- Claws left -->
+        <path d="M15 190 Q5 195 8 205" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M15 190 Q10 200 15 208" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M15 190 Q18 200 22 206" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <!-- Claws right -->
+        <path d="M205 190 Q215 195 212 205" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M205 190 Q210 200 205 208" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M205 190 Q202 200 198 206" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <!-- Camera in hands -->
+        <rect x="75" y="195" width="70" height="48" rx="6" fill="#050208" stroke="#ff2d78" stroke-width="2"/>
+        <circle cx="110" cy="219" r="14" fill="none" stroke="#ff2d78" stroke-width="2"/>
+        <circle cx="110" cy="219" r="8" fill="none" stroke="#ff2d78" stroke-width="1.5" opacity="0.5"/>
+        <circle cx="110" cy="219" r="3" fill="#ff2d78" opacity="0.8"/>
+        <rect x="88" y="197" width="14" height="6" rx="2" fill="#0d1a0e" stroke="#ff2d78" stroke-width="1"/>
+        <!-- Flash/shutter glow -->
+        <circle cx="140" cy="201" r="5" fill="#ff2d78" opacity="0.7"/>
+        <!-- Head -->
+        <ellipse cx="110" cy="90" rx="50" ry="46" fill="#0d1a0e" stroke="#39e640" stroke-width="2"/>
+        <!-- Horns -->
+        <polygon points="75,52 60,10 88,48" fill="#39e640" opacity="0.8"/>
+        <polygon points="145,52 160,10 132,48" fill="#39e640" opacity="0.8"/>
+        <!-- Eyes -->
+        <ellipse cx="90" cy="85" rx="12" ry="10" fill="#39e640" opacity="0.95"/>
+        <ellipse cx="130" cy="85" rx="12" ry="10" fill="#cc0a1a" opacity="0.95"/>
+        <circle cx="90" cy="85" r="6" fill="#050208"/>
+        <circle cx="130" cy="85" r="6" fill="#050208"/>
+        <circle cx="87" cy="82" r="2" fill="#39e640" opacity="0.6"/>
+        <circle cx="127" cy="82" r="2" fill="#ff4444" opacity="0.6"/>
+        <!-- Brow wrinkle -->
+        <path d="M78 72 Q90 65 102 70" stroke="#39e640" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+        <path d="M118 70 Q130 65 142 72" stroke="#cc0a1a" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+        <!-- Nose -->
+        <ellipse cx="110" cy="100" rx="6" ry="4" fill="#0a1409" stroke="#39e640" stroke-width="1" opacity="0.7"/>
+        <!-- Mouth / smile -->
+        <path d="M88 112 Q110 126 132 112" stroke="#39e640" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <!-- Fangs -->
+        <polygon points="98,114 95,128 101,114" fill="#f5e6d0"/>
+        <polygon points="118,114 115,128 121,114" fill="#f5e6d0"/>
+        <!-- Ears -->
+        <ellipse cx="60" cy="90" rx="8" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+        <ellipse cx="160" cy="90" rx="8" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+        <!-- Tie (fancy) -->
+        <polygon points="110,135 103,148 110,175 117,148" fill="#cc0a1a" opacity="0.8"/>
+        <polygon points="110,135 103,148 110,143 117,148" fill="#880010" opacity="0.9"/>
+      </svg>
+    </div>
+
+    <p class="hero-sub">He used to be a photographer. Now he's a <span class="accent">monster</span> who happens to shoot the most glamorous pin-ups and themed sessions in Minneapolis.</p>
+    <div class="hero-ctas">
+      <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Book a Session</a>
+      <a href="#sessions" class="btn-ghost">See the Themes</a>
+    </div>
+  </section>
+
+  <!-- Transformation strip -->
+  <div class="transform-strip">
+    <div class="transform-step">
+      <div class="transform-icon"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="16" r="10" fill="#1a1a1a" stroke="#5a4560" stroke-width="1.5"/><path d="M16 26 Q22 40 28 26" fill="#1a1a1a" stroke="#5a4560" stroke-width="1.5"/><ellipse cx="18" cy="15" rx="3" ry="3" fill="#5a4560"/><ellipse cx="26" cy="15" rx="3" ry="3" fill="#5a4560"/></svg></div>
+      <div class="transform-label">Normal Photographer</div>
+    </div>
+    <div class="transform-arrow">→</div>
+    <div class="transform-step">
+      <div class="transform-icon"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="6" y="14" width="32" height="22" rx="4" fill="#111" stroke="#5a4560" stroke-width="1.5"/><rect x="14" y="10" width="10" height="6" rx="2" fill="#111" stroke="#5a4560" stroke-width="1.5"/><circle cx="22" cy="25" r="7" fill="none" stroke="#39e640" stroke-width="1.5"/><circle cx="22" cy="25" r="4" fill="none" stroke="#39e640" stroke-width="1" opacity="0.5"/><circle cx="22" cy="25" r="2" fill="#39e640" opacity="0.7"/><circle cx="32" cy="17" r="3" fill="#cc0a1a"/></svg></div>
+      <div class="transform-label">Brilliant Shoots</div>
+    </div>
+    <div class="transform-arrow">→</div>
+    <div class="transform-step">
+      <div class="transform-icon"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><circle cx="22" cy="22" r="16" fill="#0a0010" stroke="#8b00ff" stroke-width="1.5"/><circle cx="22" cy="22" r="10" fill="none" stroke="#8b00ff" stroke-width="1" opacity="0.5"/><path d="M22 6 L22 2 M36 22 L40 22 M22 38 L22 42 M6 22 L2 22" stroke="#8b00ff" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/><circle cx="22" cy="22" r="4" fill="#8b00ff" opacity="0.6"/></svg></div>
+      <div class="transform-label">Full Moon Rising</div>
+    </div>
+    <div class="transform-arrow">→</div>
+    <div class="transform-step">
+      <div class="transform-icon"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="12" y="14" width="20" height="22" rx="3" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><rect x="10" y="10" width="24" height="6" rx="2" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><rect x="16" y="6" width="12" height="6" rx="1" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><ellipse cx="17" cy="22" rx="3" ry="3.5" fill="#39e640"/><ellipse cx="27" cy="22" rx="3" ry="3.5" fill="#cc0a1a"/><circle cx="17" cy="22" r="1.5" fill="#050208"/><circle cx="27" cy="22" r="1.5" fill="#050208"/><path d="M16 30 Q22 34 28 30" stroke="#39e640" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="18" y="30" width="3" height="5" rx="1" fill="#f5e6d0"/><rect x="23" y="30" width="3" height="5" rx="1" fill="#f5e6d0"/><rect x="6" y="24" width="4" height="8" rx="1" fill="#39e640" opacity="0.4"/><rect x="34" y="24" width="4" height="8" rx="1" fill="#39e640" opacity="0.4"/></svg></div>
+      <div class="transform-label">Transformation</div>
+    </div>
+    <div class="transform-arrow">→</div>
+    <div class="transform-step">
+      <div class="transform-icon"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><ellipse cx="22" cy="26" rx="14" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><polygon points="12,14 8,4 16,12" fill="#39e640" opacity="0.8"/><polygon points="32,14 36,4 28,12" fill="#39e640" opacity="0.8"/><ellipse cx="17" cy="22" rx="4" ry="4.5" fill="#39e640"/><ellipse cx="27" cy="22" rx="4" ry="4.5" fill="#cc0a1a"/><circle cx="17" cy="22" r="2" fill="#050208"/><circle cx="27" cy="22" r="2" fill="#050208"/><path d="M15 32 Q22 37 29 32" stroke="#39e640" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="17" y="32" width="3" height="5" rx="1" fill="#f5e6d0"/><rect x="24" y="32" width="3" height="5" rx="1" fill="#f5e6d0"/></svg></div>
+      <div class="transform-label">Monster Father</div>
+    </div>
+    <div class="transform-arrow">→</div>
+    <div class="transform-step">
+      <div class="transform-icon"><svg width="44" height="44" viewBox="0 0 44 44" fill="none"><rect x="6" y="14" width="32" height="22" rx="4" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><rect x="14" y="10" width="10" height="6" rx="2" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><circle cx="22" cy="25" r="7" fill="none" stroke="#ff2d78" stroke-width="2"/><circle cx="22" cy="25" r="4" fill="none" stroke="#ff2d78" stroke-width="1" opacity="0.5"/><circle cx="22" cy="25" r="2" fill="#ff2d78" opacity="0.8"/><circle cx="32" cy="17" r="3" fill="#39e640" style="animation:eyePulse 1s infinite;"/></svg></div>
+      <div class="transform-label">Still Takes Great Shots</div>
+    </div>
+  </div>
+
+  <div class="section-rule"></div>
+
+  <!-- Themed Sessions -->
+  <section class="section" id="sessions">
+    <div class="section-head">
+      <div class="section-label">What the Monster Shoots</div>
+      <h2 class="section-title">Themed Sessions</h2>
+      <p class="section-sub">Every shoot has a story. Pick your theme, bring your look, the monster handles the rest.</p>
+    </div>
+    <div class="sessions-grid">
+      <div class="session-card" style="background:linear-gradient(160deg,rgba(10,2,0,0.94) 0%,rgba(20,5,0,0.92) 100%),url('./holloween_father.png') center 20%/cover no-repeat;">
+        <div class="session-emoji">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="22" r="16" fill="#1a0a00" stroke="#cc0a1a" stroke-width="1.5"/><polygon points="14,10 10,2 18,8" fill="#39e640" opacity="0.8"/><polygon points="34,10 38,2 30,8" fill="#39e640" opacity="0.8"/><ellipse cx="17" cy="20" rx="4" ry="5" fill="#39e640"/><ellipse cx="31" cy="20" rx="4" ry="5" fill="#cc0a1a"/><path d="M15 30 Q20 26 24 30 Q28 26 33 30" stroke="#cc0a1a" stroke-width="2" fill="none" stroke-linecap="round"/><rect x="19" y="30" width="3" height="5" rx="1" fill="#f5e6d0"/><rect x="26" y="30" width="3" height="5" rx="1" fill="#f5e6d0"/><path d="M12 44 L14 36 Q24 42 34 36 L36 44" stroke="#cc0a1a" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <div class="session-num">01</div>
+        <div class="session-title">Halloween Horror Pin-Up</div>
+        <div class="session-desc">Vintage horror glamour. Think 1950s pin-up meets Creature from the Black Lagoon. Fog machine included.</div>
+        <span class="session-tag blood">October</span>
+      </div>
+      <div class="session-card" style="background:linear-gradient(160deg,rgba(5,10,5,0.94) 0%,rgba(10,20,10,0.92) 100%),url('./xmas_father.jpg') center 20%/cover no-repeat;">
+        <div class="session-emoji">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><polygon points="24,4 30,16 42,16 32,24 36,36 24,28 12,36 16,24 6,16 18,16" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><circle cx="24" cy="18" r="3" fill="#cc0a1a"/><circle cx="18" cy="24" r="2" fill="#ff2d78"/><circle cx="30" cy="24" r="2" fill="#39e640"/><circle cx="24" cy="30" r="2" fill="#cc0a1a"/><rect x="20" y="36" width="8" height="6" rx="1" fill="#cc0a1a" stroke="#39e640" stroke-width="1"/><ellipse cx="36" cy="8" rx="6" ry="4" fill="#0d1a0e" stroke="#f5e6d0" stroke-width="1.5"/><path d="M32 8 Q34 5 36 8 Q38 5 40 8" stroke="#f5e6d0" stroke-width="1" fill="none"/><ellipse cx="36" cy="10" rx="2" ry="1.5" fill="#cc0a1a"/></svg>
+        </div>
+        <div class="session-num">02</div>
+        <div class="session-title">Monster Christmas</div>
+        <div class="session-desc">Santa went feral. Holiday glam with a twisted edge — ugly sweaters, fangs, tinsel, and attitude.</div>
+        <span class="session-tag">December</span>
+      </div>
+      <div class="session-card" style="background:linear-gradient(160deg,rgba(10,0,5,0.94) 0%,rgba(26,0,10,0.92) 100%),url('./love_father.jpg') center 20%/cover no-repeat;">
+        <div class="session-emoji">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 40 C24 40 6 28 6 16 C6 10 10 6 16 8 C20 9 24 14 24 14 C24 14 28 9 32 8 C38 6 42 10 42 16 C42 28 24 40 24 40Z" fill="#1a0005" stroke="#cc0a1a" stroke-width="1.5"/><path d="M24 36 C24 36 10 26 10 17" stroke="#ff2d78" stroke-width="1" opacity="0.4" fill="none" stroke-linecap="round"/><circle cx="34" cy="12" r="3" fill="none" stroke="#39e640" stroke-width="1.5"/><path d="M34 9 L34 6 M37 12 L40 12 M34 15 L34 18 M31 12 L28 12" stroke="#39e640" stroke-width="1" stroke-linecap="round"/><path d="M18 22 L21 25 L27 19" stroke="#ff2d78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="session-num">03</div>
+        <div class="session-title">Creature of Love</div>
+        <div class="session-desc">Valentine's Day pin-up for the dark-hearted. Red lights, lace, and monster energy. Perfect gift prints.</div>
+        <span class="session-tag pink">February</span>
+      </div>
+      <div class="session-card" style="background:linear-gradient(160deg,rgba(8,4,10,0.94) 0%,rgba(15,8,18,0.92) 100%),url('./bunny_father.webp') center 20%/cover no-repeat;">
+        <div class="session-emoji">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="28" rx="12" ry="14" fill="#1a0a10" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="18" cy="10" rx="4" ry="9" fill="#1a0a10" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="30" cy="10" rx="4" ry="9" fill="#1a0a10" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="18" cy="9" rx="2" ry="6" fill="#39e640" opacity="0.4"/><ellipse cx="30" cy="9" rx="2" ry="6" fill="#39e640" opacity="0.4"/><ellipse cx="20" cy="26" rx="3" ry="3.5" fill="#39e640"/><ellipse cx="28" cy="26" rx="3" ry="3.5" fill="#cc0a1a"/><circle cx="20" cy="26" r="1.5" fill="#050208"/><circle cx="28" cy="26" r="1.5" fill="#050208"/><ellipse cx="24" cy="31" rx="2" ry="1.5" fill="#ff2d78" opacity="0.7"/><path d="M19 35 Q24 38 29 35" stroke="#f5e6d0" stroke-width="1.5" fill="none" stroke-linecap="round"/><rect x="22" y="35" width="2" height="4" rx="1" fill="#f5e6d0"/></svg>
+        </div>
+        <div class="session-num">04</div>
+        <div class="session-title">Easter Freak</div>
+        <div class="session-desc">Pastel horror. The Easter Bunny's weirder, more glamorous cousin. Eggs, florals, and something deeply unsettling.</div>
+        <span class="session-tag">April</span>
+      </div>
+      <div class="session-card" style="background:linear-gradient(160deg,rgba(10,4,2,0.94) 0%,rgba(18,4,2,0.92) 100%),url('./july_father.jpg') center 20%/cover no-repeat;">
+        <div class="session-emoji">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="16" width="36" height="24" rx="2" fill="#0a0515" stroke="#39e640" stroke-width="1"/><rect x="6" y="16" width="36" height="8" fill="#cc0a1a" opacity="0.8"/><rect x="6" y="32" width="36" height="8" fill="#cc0a1a" opacity="0.8"/><rect x="6" y="20" width="15" height="12" fill="#0a0a3a" opacity="0.9"/><circle cx="9" cy="23" r="1" fill="#f5e6d0"/><circle cx="13" cy="23" r="1" fill="#f5e6d0"/><circle cx="17" cy="23" r="1" fill="#f5e6d0"/><circle cx="11" cy="27" r="1" fill="#f5e6d0"/><circle cx="15" cy="27" r="1" fill="#f5e6d0"/><path d="M24 4 L24 16" stroke="#39e640" stroke-width="2" stroke-linecap="round"/><ellipse cx="32" cy="10" rx="4" ry="2" fill="#cc0a1a" opacity="0.6"/><path d="M36 8 Q40 10 36 12" stroke="#cc0a1a" stroke-width="1" fill="none"/></svg>
+        </div>
+        <div class="session-num">05</div>
+        <div class="session-title">Freedom Freak</div>
+        <div class="session-desc">4th of July pin-up monster style. Stars, stripes, and something that just crawled out of the swamp.</div>
+        <span class="session-tag">July</span>
+      </div>
+      <div class="session-card" style="background:linear-gradient(160deg,rgba(10,6,2,0.94) 0%,rgba(18,10,2,0.92) 100%),url('./tday_father.jpg') center 20%/cover no-repeat;">
+        <div class="session-emoji">
+          <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="30" rx="10" ry="12" fill="#1a0a00" stroke="#d4900c" stroke-width="1.5"/><ellipse cx="24" cy="18" rx="7" ry="7" fill="#1a0a00" stroke="#d4900c" stroke-width="1.5"/><ellipse cx="20" cy="16" rx="2.5" ry="3" fill="#39e640"/><ellipse cx="28" cy="16" rx="2.5" ry="3" fill="#cc0a1a"/><circle cx="20" cy="16" r="1.2" fill="#050208"/><circle cx="28" cy="16" r="1.2" fill="#050208"/><path d="M20 22 Q24 25 28 22" stroke="#d4900c" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="36" cy="14" rx="3" ry="8" fill="#cc0a1a" opacity="0.7" transform="rotate(-20 36 14)"/><ellipse cx="38" cy="18" rx="2" ry="6" fill="#d4900c" opacity="0.5" transform="rotate(-10 38 18)"/><ellipse cx="40" cy="22" rx="2" ry="5" fill="#39e640" opacity="0.5" transform="rotate(5 40 22)"/><rect x="22" y="24" width="4" height="6" rx="1" fill="#d4900c" opacity="0.6"/></svg>
+        </div>
+        <div class="session-num">06</div>
+        <div class="session-title">Thanksghouling</div>
+        <div class="session-desc">Harvest horror. Fall foliage, plaid flannels, and a monster at the head of the table giving thanks.</div>
+        <span class="session-tag purple">November</span>
+      </div>
+
+      <!-- Featured: Custom Session -->
+      <div class="session-card featured">
+        <div>
+          <div class="session-num" style="color:var(--pink);">SIGNATURE</div>
+          <div class="session-title" style="font-size:2rem;margin-bottom:16px;">The Full Monster Pin-Up</div>
+          <div class="session-desc" style="margin-bottom:24px;font-size:1rem;">The whole experience. You pick the theme, we build the world around it. Custom backdrop, wardrobe consult, monster lighting, and 60 fully edited shots. From cute to creepy to pure glamour — no idea too weird.</div>
+          <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary">Build Your Session</a>
+        </div>
+        <div class="session-specs">
+          <div class="session-spec">
+            <div class="session-spec-val" style="color:var(--pink);">60</div>
+            <div class="session-spec-label">Edited Shots</div>
+          </div>
+          <div class="session-spec">
+            <div class="session-spec-val">2hr</div>
+            <div class="session-spec-label">Session Length</div>
+          </div>
+          <div class="session-spec">
+            <div class="session-spec-val" style="color:var(--blood2);">ANY</div>
+            <div class="session-spec-label">Theme</div>
+          </div>
+          <div class="session-spec">
+            <div class="session-spec-val">MN</div>
+            <div class="session-spec-label">On Location</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- Packages -->
+  <section class="section" id="packages">
+    <div class="section-head">
+      <div class="section-label">What It'll Cost Ya</div>
+      <h2 class="section-title">Packages</h2>
+    </div>
+    <div class="packages-grid">
+      <div class="package-card">
+        <div class="pkg-badge green">Starter</div>
+        <div class="pkg-title">🦷 The Bite</div>
+        <div class="pkg-desc">30-min session, 1 theme, 20 edited selects. Perfect for a gift print or holiday card. Digital delivery.</div>
+        <div class="pkg-price green">$99</div>
+      </div>
+      <div class="package-card featured-pkg">
+        <div class="pkg-badge pink">Most Popular</div>
+        <div class="pkg-title">🦎 The Full Creature</div>
+        <div class="pkg-desc">90-min session, custom theme, 45 edited finals, 1 large print included. The real Monster Father experience.</div>
+        <div class="pkg-price pink">$249</div>
+      </div>
+      <div class="package-card">
+        <div class="pkg-badge blood">Unleashed</div>
+        <div class="pkg-title">👹 Monster Unleashed</div>
+        <div class="pkg-desc">Half-day shoot, multiple themed sets, 80 edited images, 2 large prints, digital gallery. For those who want it all.</div>
+        <div class="pkg-price blood">$499</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-rule"></div>
+
+  <!-- Holiday Calendar -->
+  <section class="section" id="holidays">
+    <div class="section-head">
+      <div class="section-label">Book Ahead</div>
+      <h2 class="section-title">Holiday Calendar</h2>
+      <p class="section-sub">The monster books up fast around the holidays. Plan accordingly.</p>
+    </div>
+    <div class="holidays-grid">
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 33C20 33 5 23 5 13C5 8 8 5 13 7C16 8 20 12 20 12C20 12 24 8 27 7C32 5 35 8 35 13C35 23 20 33 20 33Z" fill="#1a0005" stroke="#cc0a1a" stroke-width="1.5"/><path d="M14 18 L17 21 L23 15" stroke="#ff2d78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="holiday-name">Valentine's</div>
+        <div class="holiday-desc">Dark romance, pin-up glam, monster love</div>
+        <div class="holiday-month">February</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><ellipse cx="20" cy="24" rx="10" ry="11" fill="#100810" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="14" cy="8" rx="3.5" ry="8" fill="#100810" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="26" cy="8" rx="3.5" ry="8" fill="#100810" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="16" cy="21" rx="3" ry="3.5" fill="#39e640"/><ellipse cx="24" cy="21" rx="3" ry="3.5" fill="#cc0a1a"/><circle cx="16" cy="21" r="1.5" fill="#050208"/><circle cx="24" cy="21" r="1.5" fill="#050208"/><rect x="19" y="29" width="2" height="4" rx="1" fill="#f5e6d0"/></svg></div>
+        <div class="holiday-name">Easter</div>
+        <div class="holiday-desc">Pastel horror, twisted spring glamour</div>
+        <div class="holiday-month">April</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><path d="M20 4 C11 4 6 10 6 18 C6 26 6 34 6 34 L10 30 L14 34 L18 30 L20 34 L22 30 L26 34 L30 30 L34 34 C34 34 34 26 34 18 C34 10 29 4 20 4Z" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><ellipse cx="15" cy="18" rx="4" ry="5" fill="#39e640" opacity="0.9"/><ellipse cx="25" cy="18" rx="4" ry="5" fill="#cc0a1a" opacity="0.9"/><circle cx="15" cy="18" r="2" fill="#050208"/><circle cx="25" cy="18" r="2" fill="#050208"/><path d="M15 26 Q20 30 25 26" stroke="#39e640" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div>
+        <div class="holiday-name">Halloween</div>
+        <div class="holiday-desc">The monster's favorite month of the year</div>
+        <div class="holiday-month">October</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><ellipse cx="20" cy="26" rx="9" ry="10" fill="#1a0a00" stroke="#d4900c" stroke-width="1.5"/><ellipse cx="20" cy="15" rx="6" ry="6" fill="#1a0a00" stroke="#d4900c" stroke-width="1.5"/><ellipse cx="16" cy="13" rx="2.5" ry="3" fill="#39e640"/><ellipse cx="24" cy="13" rx="2.5" ry="3" fill="#cc0a1a"/><circle cx="16" cy="13" r="1.2" fill="#050208"/><circle cx="24" cy="13" r="1.2" fill="#050208"/><ellipse cx="31" cy="12" rx="2.5" ry="7" fill="#cc0a1a" opacity="0.7" transform="rotate(-15 31 12)"/><ellipse cx="33" cy="16" rx="2" ry="5.5" fill="#d4900c" opacity="0.5" transform="rotate(5 33 16)"/><ellipse cx="34" cy="21" rx="2" ry="4.5" fill="#39e640" opacity="0.5" transform="rotate(15 34 21)"/></svg></div>
+        <div class="holiday-name">Thanksgiving</div>
+        <div class="holiday-desc">Harvest horror, grateful monster vibes</div>
+        <div class="holiday-month">November</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><polygon points="20,4 26,14 36,14 28,22 31,32 20,26 9,32 12,22 4,14 14,14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/><circle cx="20" cy="15" r="2.5" fill="#cc0a1a"/><circle cx="15" cy="20" r="1.5" fill="#ff2d78"/><circle cx="25" cy="20" r="1.5" fill="#39e640"/><rect x="17" y="32" width="6" height="5" rx="1" fill="#cc0a1a" stroke="#39e640" stroke-width="1"/><ellipse cx="30" cy="7" rx="5" ry="3" fill="#0d1a0e" stroke="#f5e6d0" stroke-width="1.5"/><path d="M27 7 Q29 4.5 30 7 Q31.5 4.5 33 7" stroke="#f5e6d0" stroke-width="1" fill="none"/></svg></div>
+        <div class="holiday-name">Christmas</div>
+        <div class="holiday-desc">The most wonderful &amp; terrifying time of year</div>
+        <div class="holiday-month">December</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="22" r="12" fill="#0a0010" stroke="#8b00ff" stroke-width="1.5"/><path d="M20 6 L20 2 M28 9 L31 6 M34 17 L38 17 M31 25 L34 28 M9 25 L6 28 M6 17 L2 17 M12 9 L9 6" stroke="#8b00ff" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/><path d="M14 20 L18 24 L26 16" stroke="#ff2d78" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="20" cy="22" r="4" fill="none" stroke="#8b00ff" stroke-width="1" opacity="0.5"/></svg></div>
+        <div class="holiday-name">New Year's</div>
+        <div class="holiday-desc">Glam countdown, new monster energy</div>
+        <div class="holiday-month">December 31</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><rect x="4" y="12" width="32" height="20" rx="2" fill="#0a0010" stroke="#39e640" stroke-width="1"/><rect x="4" y="12" width="32" height="7" fill="#cc0a1a" opacity="0.8"/><rect x="4" y="26" width="32" height="6" fill="#cc0a1a" opacity="0.8"/><rect x="4" y="15" width="13" height="11" fill="#0a0a3a"/><circle cx="7" cy="18" r="1" fill="#f5e6d0"/><circle cx="11" cy="18" r="1" fill="#f5e6d0"/><circle cx="9" cy="22" r="1" fill="#f5e6d0"/><circle cx="13" cy="22" r="1" fill="#f5e6d0"/><path d="M20 2 L20 12" stroke="#39e640" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <div class="holiday-name">4th of July</div>
+        <div class="holiday-desc">Patriotic monster. Freedom never looked so weird</div>
+        <div class="holiday-month">July</div>
+      </div>
+      <div class="holiday-card">
+        <div class="holiday-icon"><svg width="40" height="40" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="16" r="10" fill="#1a0010" stroke="#ff2d78" stroke-width="1.5"/><ellipse cx="16" cy="14" rx="3" ry="3.5" fill="#39e640"/><ellipse cx="24" cy="14" rx="3" ry="3.5" fill="#cc0a1a"/><circle cx="16" cy="14" r="1.5" fill="#050208"/><circle cx="24" cy="14" r="1.5" fill="#050208"/><path d="M15 21 Q20 24 25 21" stroke="#ff2d78" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M20 26 L20 36" stroke="#39e640" stroke-width="2" stroke-linecap="round"/><path d="M14 30 Q20 28 26 30" stroke="#39e640" stroke-width="1.5" fill="none" stroke-linecap="round"/><ellipse cx="13" cy="30" rx="4" ry="3" fill="#cc0a1a" opacity="0.5" transform="rotate(-20 13 30)"/><ellipse cx="27" cy="30" rx="4" ry="3" fill="#ff2d78" opacity="0.5" transform="rotate(20 27 30)"/></svg></div>
+        <div class="holiday-name">Custom Day</div>
+        <div class="holiday-desc">Birthdays, anniversaries, any occasion with monster flair</div>
+        <div class="holiday-month">Any Time</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Transformation / About -->
+  <div class="section-rule"></div>
+  <section class="transform-about" id="about">
+    <div class="monster-portrait">
+      <svg viewBox="0 0 220 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="110" cy="160" rx="55" ry="65" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+        <path d="M55 140 Q20 160 15 190" stroke="#39e640" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M165 140 Q200 160 205 190" stroke="#39e640" stroke-width="8" stroke-linecap="round" fill="none"/>
+        <path d="M15 190 Q5 195 8 205" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M15 190 Q10 200 15 208" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M15 190 Q18 200 22 206" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M205 190 Q215 195 212 205" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M205 190 Q210 200 205 208" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <path d="M205 190 Q202 200 198 206" stroke="#39e640" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <rect x="75" y="195" width="70" height="48" rx="6" fill="#050208" stroke="#ff2d78" stroke-width="2"/>
+        <circle cx="110" cy="219" r="14" fill="none" stroke="#ff2d78" stroke-width="2"/>
+        <circle cx="110" cy="219" r="8" fill="none" stroke="#ff2d78" stroke-width="1.5" opacity="0.5"/>
+        <circle cx="110" cy="219" r="3" fill="#ff2d78" opacity="0.8"/>
+        <circle cx="140" cy="201" r="5" fill="#ff2d78" opacity="0.7"/>
+        <ellipse cx="110" cy="90" rx="50" ry="46" fill="#0d1a0e" stroke="#39e640" stroke-width="2"/>
+        <polygon points="75,52 60,10 88,48" fill="#39e640" opacity="0.8"/>
+        <polygon points="145,52 160,10 132,48" fill="#39e640" opacity="0.8"/>
+        <ellipse cx="90" cy="85" rx="12" ry="10" fill="#39e640" opacity="0.95"/>
+        <ellipse cx="130" cy="85" rx="12" ry="10" fill="#cc0a1a" opacity="0.95"/>
+        <circle cx="90" cy="85" r="6" fill="#050208"/>
+        <circle cx="130" cy="85" r="6" fill="#050208"/>
+        <path d="M78 72 Q90 65 102 70" stroke="#39e640" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+        <path d="M118 70 Q130 65 142 72" stroke="#cc0a1a" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.5"/>
+        <ellipse cx="110" cy="100" rx="6" ry="4" fill="#0a1409" stroke="#39e640" stroke-width="1" opacity="0.7"/>
+        <path d="M88 112 Q110 126 132 112" stroke="#39e640" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+        <polygon points="98,114 95,128 101,114" fill="#f5e6d0"/>
+        <polygon points="118,114 115,128 121,114" fill="#f5e6d0"/>
+        <ellipse cx="60" cy="90" rx="8" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+        <ellipse cx="160" cy="90" rx="8" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+        <polygon points="110,135 103,148 110,175 117,148" fill="#cc0a1a" opacity="0.8"/>
+        <polygon points="110,135 103,148 110,143 117,148" fill="#880010" opacity="0.9"/>
+      </svg>
+    </div>
+    <div>
+      <div class="about-label">The Origin Story</div>
+      <h2 class="about-title"><span class="s">He Was</span><br>Just a <span class="p">Photographer</span></h2>
+      <div class="about-rule"></div>
+      <p class="about-text">Todd started out like any photographer — a camera, some lights, a van full of gear, and a whole lot of Minnesota to shoot. Then something happened. Nobody's entirely sure what. Some say it was a full moon over Lake Superior. Some say it was one too many late-night holiday shoots.</p>
+      <p class="about-text">Whatever the cause, the monster emerged. And it turns out the monster takes <em>incredible</em> photos. Themed pin-ups, holiday shoots, glam horror, custom concepts — the creature behind the lens has range.</p>
+      <p class="about-text" style="color:var(--slime);font-style:italic;">Fangs and all, still based in Minneapolis. Still answering emails.</p>
+      <a href="https://lookslikelarry.com" target="_blank" rel="noopener" class="btn-primary" style="display:inline-block;margin-top:16px;">Book the Monster</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-brand"><span class="s">MONSTER</span> <span class="p">FATHER</span> &mdash; ToddFather Productions</div>
+    <div class="footer-copy">&copy; 2026 &bull; Minneapolis, MN &bull; He's Friendly. Mostly.</div>
+  </footer>
+
+  <!-- Back to Dashboard -->
+  <div class="dashboard-bar">
+    <a class="back-dash" href="./dashboard.html">&#8592; Dashboard</a>
+  </div>
+
+</body>
+</html>

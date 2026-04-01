@@ -1,0 +1,19 @@
+{
+  "name": "Honest Tom's Dashboard",
+  "short_name": "HonestTom",
+  "description": "Tom Hugunin's personal dashboard — stocks, journal, news, and more.",
+  "start_url": "/dashboard.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0e17",
+  "theme_color": "#0a0e17",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/lincoln.jpg",
+      "sizes": "any",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}

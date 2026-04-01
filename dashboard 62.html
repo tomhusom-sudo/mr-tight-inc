@@ -1,0 +1,1177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="HonestTom">
+  <link rel="apple-touch-icon" href="/lincoln.jpg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260329f';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Bangers&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { overflow-x: hidden; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+        url('./lincoln.jpg') center 15% / cover no-repeat fixed;
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Subtle dot-grid texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 60px 32px 72px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      margin-bottom: 56px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 32px;
+    }
+
+    .header-text { flex: 1; }
+
+    .lincoln-wrap {
+      flex-shrink: 0;
+      width: 160px;
+      height: 200px;
+      border-radius: 18px;
+      overflow: hidden;
+      position: relative;
+      background: linear-gradient(180deg, rgba(10,14,23,0.18) 0%, rgba(10,14,23,0.72) 100%), url('./lincoln.jpg') center 10% / cover no-repeat;
+      border: 1px solid rgba(74,222,128,0.28);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.55), 0 0 0 1px rgba(74,222,128,0.08);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 14px 12px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .lincoln-wrap:hover {
+      border-color: rgba(74,222,128,0.6);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.7), 0 0 18px rgba(74,222,128,0.15);
+      transform: translateY(-2px);
+    }
+    .lincoln-wrap .lc-eyebrow {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 2px;
+    }
+    .lincoln-wrap .lc-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.9);
+      line-height: 1.2;
+    }
+    .lincoln-wrap .lc-sub {
+      font-size: 0.62rem;
+      color: #a3c4a3;
+      margin-top: 3px;
+    }
+
+    @media (max-width: 720px) {
+      .lincoln-wrap { width: 120px; height: 155px; }
+    }
+
+    @media (max-width: 460px) {
+      .lincoln-wrap { width: 96px; height: 124px; }
+    }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 800;
+      line-height: 1.04;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+    }
+
+    .title em {
+      font-style: normal;
+      color: #4ade80;
+    }
+
+    @keyframes starSpin {
+      0%   { transform: rotate(0deg) scale(1);    filter: drop-shadow(0 0 3px #4ade80) drop-shadow(0 0 6px #4ade80); }
+      25%  { transform: rotate(20deg) scale(1.35); filter: drop-shadow(0 0 8px #a7f3d0) drop-shadow(0 0 18px #4ade80); }
+      50%  { transform: rotate(0deg) scale(0.82);  filter: drop-shadow(0 0 2px #4ade80); }
+      75%  { transform: rotate(-18deg) scale(1.28);filter: drop-shadow(0 0 10px #6ee7b7) drop-shadow(0 0 22px #22c55e); }
+      100% { transform: rotate(0deg) scale(1);    filter: drop-shadow(0 0 3px #4ade80) drop-shadow(0 0 6px #4ade80); }
+    }
+    @keyframes nudgeFloat {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-3px); }
+    }
+    @keyframes labelPulse {
+      0%, 100% { opacity: 0.82; }
+      50%       { opacity: 1; box-shadow: 0 0 8px rgba(74,222,128,0.35); }
+    }
+    .resume-nudge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 6px;
+      animation: nudgeFloat 2.4s ease-in-out infinite;
+    }
+    .sparkle-star {
+      display: inline-block;
+      font-size: 1.1rem;
+      line-height: 1;
+      color: #4ade80;
+      animation: starSpin 2.4s ease-in-out infinite;
+      transform-origin: center;
+    }
+    .sparkle-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #4ade80;
+      font-family: 'Inter', sans-serif;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(74,222,128,0.4);
+      animation: labelPulse 2.4s ease-in-out infinite;
+    }
+
+    .date-line {
+      margin-top: 16px;
+      font-size: 0.95rem;
+      color: #8fba72;
+      font-weight: 400;
+    }
+
+    /* ── BENTO GRID ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    /* ── SECTION LABELS ── */
+    .section-label {
+      grid-column: 1 / -1;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #8fba72;
+      padding: 6px 0 2px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      margin-top: 6px;
+    }
+
+    /* ── CARD BASE ── */
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 22px;
+      padding: 30px 28px 26px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, background 0.22s, border-color 0.22s, box-shadow 0.22s;
+      text-decoration: none;
+      color: inherit;
+      min-height: 210px;
+    }
+
+    /* Featured card spans 2 cols */
+    .card.featured { grid-column: span 2; min-height: 230px; }
+
+    /* Mr. Tight godfather background */
+    .card.active.godfather-bg {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.72) 0%, rgba(10,14,23,0.38) 45%, rgba(10,14,23,0.08) 100%),
+        url('./god_father.JPEG') 50% 25% / cover no-repeat !important;
+      border-color: rgba(74,222,128,0.35);
+    }
+    .card.active.godfather-bg:hover {
+      background:
+        linear-gradient(135deg, rgba(10,14,23,0.62) 0%, rgba(10,14,23,0.28) 45%, rgba(10,14,23,0.04) 100%),
+        url('./god_father.JPEG') 50% 25% / cover no-repeat !important;
+    }
+
+    /* Active / clickable */
+    .card.active {
+      background: rgba(34,197,94,0.065);
+      border-color: rgba(34,197,94,0.22);
+      cursor: pointer;
+    }
+
+    .card.active::after {
+      content: '';
+      position: absolute;
+      top: -80px; right: -80px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(74,222,128,0.13) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .card.active:hover {
+      transform: translateY(-6px);
+      background: rgba(34,197,94,0.10);
+      border-color: rgba(74,222,128,0.45);
+      box-shadow: 0 24px 64px rgba(34,197,94,0.16), 0 0 0 1px rgba(74,222,128,0.18);
+    }
+
+    /* Dimmed / coming-soon */
+    .card.dim { opacity: 0.5; }
+
+    /* ── CARD INTERNALS ── */
+    .card-icon {
+      font-size: 2.4rem;
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .card-eyebrow {
+      font-size: 0.63rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 5px;
+    }
+    .card.dim .card-eyebrow { color: #3a5028; }
+
+    .card-title {
+      font-size: 1.55rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.025em;
+      margin-bottom: 10px;
+    }
+    .card.dim .card-title { color: #8fba72; }
+
+    .card-desc {
+      font-size: 0.875rem;
+      color: #c8dab8;
+      line-height: 1.55;
+      flex: 1;
+    }
+
+    .card-badge {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: #4ade80;
+      background: rgba(34,197,94,0.08);
+      border: 1px solid rgba(34,197,94,0.22);
+      border-radius: 999px;
+      padding: 3px 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .card-cta {
+      margin-top: 22px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #4ade80;
+      letter-spacing: 0.03em;
+    }
+
+    .card-cta svg { transition: transform 0.2s; }
+    .card.active:hover .card-cta svg { transform: translateX(5px); }
+
+    /* ── WEATHER CORNER ── */
+    .wx-corner {
+      position: absolute;
+      top: 22px;
+      right: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 2px;
+      pointer-events: none;
+    }
+
+    .wx-temp {
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+
+    .wx-cond {
+      font-size: 0.65rem;
+      font-weight: 600;
+      color: #4ade80;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-align: right;
+    }
+
+    .wx-icon {
+      font-size: 1.5rem;
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .soon-pill {
+      margin-top: 18px;
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 999px;
+      font-size: 0.63rem;
+      font-weight: 600;
+      color: #8fba72;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── ACCESSIBILITY ── */
+    a:focus-visible, button:focus-visible {
+      outline: 2px solid #4ade80;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: #8fba72;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .page { padding: 40px 18px 56px; }
+      .header { margin-bottom: 36px; }
+      .grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .card.featured { grid-column: span 2; }
+      .card { min-height: 180px; padding: 22px 20px 20px; }
+      .card-title { font-size: 1.25rem; }
+      .card-icon { font-size: 2rem; margin-bottom: 14px; }
+    }
+
+    @media (max-width: 460px) {
+      .title { font-size: 2.2rem; }
+      .grid { grid-template-columns: 1fr; gap: 10px; }
+      .grid > * { grid-column: 1 / -1 !important; }
+      .card { max-width: 100%; }
+    }
+    /* Father card text — brighter on photo backgrounds */
+    .card.active.metro-bg .card-title,.card.active.aitruck-bg .card-title,.card.active.futurebike-bg .card-title,.card.active.aifather-bg .card-title,.card.active.devil-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.metro-bg .card-eyebrow,.card.active.aitruck-bg .card-eyebrow,.card.active.futurebike-bg .card-eyebrow,.card.active.aifather-bg .card-eyebrow,.card.active.devil-bg .card-eyebrow{color:#6ef59a;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.metro-bg .card-desc,.card.active.aitruck-bg .card-desc,.card.active.futurebike-bg .card-desc,.card.active.aifather-bg .card-desc,.card.active.devil-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+
+    .card.active.deal-bg,.card.active.deal-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./deal.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.deal-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+
+    .card.active.server-bg,.card.active.server-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./server.png') 80% 50%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.server-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.server-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+
+    .card.active.football-bg,.card.active.football-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.75) 0%,rgba(10,14,23,0.42) 45%,rgba(10,14,23,0.12) 100%),url('./football.png') 50% 40%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.football-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.9);}
+    .card.active.football-bg .card-eyebrow{color:#6ef59a;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.football-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.football-bg .card-badge{background:rgba(0,0,0,0.35);border-color:rgba(74,222,128,0.4);color:#a7f3d0;}
+
+    .card.active.market-bg,.card.active.market-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./market.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.market-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.market-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+
+    /* Card photo backgrounds — last wins cascade */
+    .card.active.devil-bg,.card.active.devil-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.45) 0%,rgba(10,14,23,0.18) 45%,rgba(10,14,23,0.04) 100%),url('./devil.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.metro-bg,.card.active.metro-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.45) 0%,rgba(10,14,23,0.18) 45%,rgba(10,14,23,0.04) 100%),url('./metro.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.aitruck-bg,.card.active.aitruck-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.45) 0%,rgba(10,14,23,0.18) 45%,rgba(10,14,23,0.04) 100%),url('./ai_truck.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.futurebike-bg,.card.active.futurebike-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.45) 0%,rgba(10,14,23,0.18) 45%,rgba(10,14,23,0.04) 100%),url('./future_bike.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.larrygasbg,.card.active.larrygasbg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.5) 0%,rgba(10,14,23,0.22) 45%,rgba(10,14,23,0.06) 100%),url('./larry_gas.png') 50% 30%/cover no-repeat !important;border-color:rgba(200,16,46,0.45) !important;}
+    .card.active.larrygasbg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.9);}
+    .card.active.larrygasbg .card-eyebrow{color:#fca5a5;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.larrygasbg .card-desc{color:#ffe4e4;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.aifather-bg,.card.active.aifather-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.45) 0%,rgba(10,14,23,0.18) 45%,rgba(10,14,23,0.04) 100%),url('./ai_logo.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.paper-bg,.card.active.paper-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./paper.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.paper-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.paper-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.mad-bg,.card.active.mad-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./mad.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.mad-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.mad-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.weather-bg,.card.active.weather-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./weather.png') 50% 45%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.weather-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.weather-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.swarm-bg,.card.active.swarm-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./city.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.swarm-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.swarm-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.helms-bg,.card.active.helms-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./helms.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.helms-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.helms-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.la-bg,.card.active.la-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./la.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.la-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.la-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.journ-bg,.card.active.journ-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./journ.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.journ-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.journ-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.ave-bg,.card.active.ave-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./1ave.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.ave-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.ave-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.green-bg,.card.active.green-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./green.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.green-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.green-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.wayne-bg,.card.active.wayne-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./wayne.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.wayne-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.wayne-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.friends-bg,.card.active.friends-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./friends.png') 50% 35%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.friends-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.friends-bg .card-eyebrow{color:#6ef59a;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.friends-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+    .card.active.excel-bg,.card.active.excel-bg:hover{background:linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./excel.png') 50% 25%/cover no-repeat !important;border-color:rgba(34,197,94,0.35) !important;}
+    .card.active.excel-bg .card-title{color:#ffffff;text-shadow:0 1px 6px rgba(0,0,0,0.8);}
+    .card.active.excel-bg .card-desc{color:#ddeedd;text-shadow:0 1px 4px rgba(0,0,0,0.7);}
+  </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-text">
+      <div class="eyebrow" style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+        Personal Command Center
+        <span style="margin-left:auto;display:flex;align-items:center;gap:12px;">
+          <a href="./resume.html" style="text-decoration:none;" title="Thomas Husom — Resume"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">Click for Resume!</span></span></a>
+          <a href="./howIwork.html" style="text-decoration:none;" title="How I Work — Portfolio"><span class="resume-nudge"><span class="sparkle-star">&#10022;</span><span class="sparkle-label">How I Work</span></span></a>
+        </span>
+      </div>
+      <div style="display:flex;justify-content:flex-end;margin-top:8px;">
+        <a href="./simpledash.html" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px;padding:6px 18px;border:1px solid rgba(255,255,255,0.3);border-radius:20px;color:#ffffff;font-size:0.72rem;font-weight:600;letter-spacing:0.04em;transition:border-color 0.15s,background 0.15s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.6)';this.style.background='rgba(255,255,255,0.06)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.3)';this.style.background='transparent'">Link to Simple Honest Dashboard</a>
+      </div>
+      <a href="./resume.html" style="text-decoration:none;color:inherit;display:inline-block;" title="Thomas Husom — Resume">
+        <h1 class="title">Honest <em>Tom's</em><br>Dashboard</h1>
+      </a>
+      <div class="date-line" id="date-line"></div>
+    </div>
+
+    <!-- Lincoln Card -->
+    <a class="lincoln-wrap" href="./lincoln.html" title="Abraham Lincoln — quotes, history & timeline">
+      <div class="lc-eyebrow">16th President</div>
+      <div class="lc-title">Abraham Lincoln</div>
+      <div class="lc-sub">Bio &amp; Timeline →</div>
+    </a>
+
+  </header>
+
+  <div class="grid">
+
+    <div class="section-label">Finance &amp; Markets</div>
+
+    <!-- Mr. Tight — featured -->
+    <a class="card active featured godfather-bg" href="./stocks.html">
+      <div class="card-icon">
+        <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ade80" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="1.8" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glowStrong">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Grid lines -->
+          <line x1="4" y1="10" x2="48" y2="10" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4" y1="20" x2="48" y2="20" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4" y1="30" x2="48" y2="30" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="4"  y1="6" x2="4"  y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="16" y1="6" x2="16" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="28" y1="6" x2="28" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <line x1="40" y1="6" x2="40" y2="38" stroke="#4ade80" stroke-opacity="0.12" stroke-width="0.7"/>
+          <!-- Area fill under chart line -->
+          <path d="M4 34 L10 28 L18 30 L24 22 L32 18 L38 12 L46 6 L46 38 L4 38 Z" fill="url(#chartFill)"/>
+          <!-- Chart line -->
+          <polyline points="4,34 10,28 18,30 24,22 32,18 38,12 46,6"
+            stroke="#4ade80" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#glow)"/>
+          <!-- Node dots on line -->
+          <circle cx="10" cy="28" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="18" cy="30" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="24" cy="22" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="32" cy="18" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <circle cx="38" cy="12" r="1.8" fill="#4ade80" opacity="0.7"/>
+          <!-- Bright tip dot with glow -->
+          <circle cx="46" cy="6" r="3" fill="#4ade80" filter="url(#glowStrong)"/>
+          <circle cx="46" cy="6" r="1.6" fill="#f0fae8"/>
+          <!-- Axis lines -->
+          <line x1="4" y1="6" x2="4" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+          <line x1="4" y1="38" x2="48" y2="38" stroke="#4ade80" stroke-opacity="0.4" stroke-width="1"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Portfolio Manager</div>
+      <div class="card-title">Mr. Tight</div>
+      <div class="card-desc">Live holdings tracker — market prices, P&amp;L, cost basis, and total return across stocks, ETFs, and crypto.</div>
+      <div class="card-cta">
+        Open Portfolio
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Tommy's Choice -->
+    <a class="card active market-bg" href="./tommyschoice.html">
+      <div class="card-icon" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px;">
+        <div style="font-family:'Bangers','Impact',sans-serif;font-size:1.1rem;letter-spacing:0.12em;background:linear-gradient(160deg,#ffe033 0%,#ff9d00 40%,#ff4800 70%,#ffe033 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 5px rgba(255,180,0,0.5));">Shazbot!</div>
+        <img src="./mork.jpg" alt="Mork"
+          style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(255,180,0,0.3);box-shadow:0 4px 16px rgba(0,0,0,0.5);"
+          onerror="this.outerHTML='⭐'">
+      </div>
+      <div class="card-eyebrow">Star Pick</div>
+      <div class="card-title">Tommy's Choice</div>
+      <div class="card-desc">Tom's spotlight pick — full chart vs S&amp;P 500, deep news coverage on one featured asset.</div>
+      <div class="card-badge">Hand curated &amp; deep researched by Tommy</div>
+      <div class="card-cta">
+        See the Pick
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- News -->
+    <a class="card active paper-bg" href="./news.html">
+      <div class="card-icon">
+        <svg width="52" height="44" viewBox="0 0 52 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="nfFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#4ade80" stop-opacity="0.32"/>
+              <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="nfGlow">
+              <feGaussianBlur stdDeviation="1.6" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <!-- Newspaper page -->
+          <rect x="2" y="2" width="30" height="40" rx="3" fill="rgba(74,222,128,0.045)" stroke="#4ade80" stroke-opacity="0.28" stroke-width="1"/>
+          <!-- Corner fold -->
+          <path d="M24 2 L32 10 L24 10 Z" fill="#0c1808" stroke="#4ade80" stroke-opacity="0.2" stroke-width="0.8"/>
+          <!-- Headline bar -->
+          <rect x="5" y="6" width="16" height="3.5" rx="1" fill="#4ade80" opacity="0.55"/>
+          <!-- Subhead bar -->
+          <rect x="5" y="12" width="22" height="2" rx="1" fill="#4ade80" opacity="0.22"/>
+          <!-- Text lines -->
+          <line x1="5" y1="18" x2="27" y2="18" stroke="#4ade80" stroke-opacity="0.2" stroke-width="1.1" stroke-linecap="round"/>
+          <line x1="5" y1="22" x2="23" y2="22" stroke="#4ade80" stroke-opacity="0.16" stroke-width="1" stroke-linecap="round"/>
+          <line x1="5" y1="26" x2="25" y2="26" stroke="#4ade80" stroke-opacity="0.16" stroke-width="1" stroke-linecap="round"/>
+          <line x1="5" y1="30" x2="20" y2="30" stroke="#4ade80" stroke-opacity="0.13" stroke-width="1" stroke-linecap="round"/>
+          <!-- Grid lines for chart panel -->
+          <line x1="33" y1="10" x2="50" y2="10" stroke="#4ade80" stroke-opacity="0.11" stroke-width="0.6"/>
+          <line x1="33" y1="20" x2="50" y2="20" stroke="#4ade80" stroke-opacity="0.11" stroke-width="0.6"/>
+          <line x1="33" y1="30" x2="50" y2="30" stroke="#4ade80" stroke-opacity="0.11" stroke-width="0.6"/>
+          <line x1="33" y1="8"  x2="33" y2="38" stroke="#4ade80" stroke-opacity="0.18" stroke-width="0.8"/>
+          <!-- Chart fill -->
+          <path d="M33 36 L37 30 L41 32 L45 22 L50 8 L50 38 L33 38 Z" fill="url(#nfFill)"/>
+          <!-- Chart line -->
+          <polyline points="33,36 37,30 41,32 45,22 50,8"
+            stroke="#4ade80" stroke-width="2" fill="none"
+            stroke-linecap="round" stroke-linejoin="round"
+            filter="url(#nfGlow)"/>
+          <!-- Node dots -->
+          <circle cx="37" cy="30" r="1.5" fill="#4ade80" opacity="0.65"/>
+          <circle cx="41" cy="32" r="1.5" fill="#4ade80" opacity="0.65"/>
+          <circle cx="45" cy="22" r="1.5" fill="#4ade80" opacity="0.65"/>
+          <!-- Glowing tip -->
+          <circle cx="50" cy="8" r="2.8" fill="#4ade80" filter="url(#nfGlow)"/>
+          <circle cx="50" cy="8" r="1.4" fill="#f0fae8"/>
+          <!-- Axis -->
+          <line x1="33" y1="8" x2="33" y2="38" stroke="#4ade80" stroke-opacity="0.35" stroke-width="0.9"/>
+          <line x1="33" y1="38" x2="50" y2="38" stroke="#4ade80" stroke-opacity="0.35" stroke-width="0.9"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Headlines</div>
+      <div class="card-title">News Feed</div>
+      <div class="card-desc">Live headlines from Google News, Yahoo Finance &amp; CoinDesk for your holdings.</div>
+      <div class="card-cta">
+        Read News
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Research -->
+    <a class="card active mad-bg" href="./research.html">
+      <div class="card-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 8px rgba(74,222,128,0.45));">
+          <!-- Base platform -->
+          <rect x="10" y="44" width="32" height="4" rx="2" fill="#4ade80" opacity="0.7"/>
+          <!-- Stand arm -->
+          <rect x="23" y="22" width="6" height="22" rx="3" fill="#22c55e"/>
+          <!-- Horizontal arm -->
+          <rect x="23" y="20" width="18" height="5" rx="2.5" fill="#4ade80"/>
+          <!-- Objective barrel -->
+          <rect x="35" y="8" width="7" height="20" rx="3.5" fill="#16a34a"/>
+          <!-- Lens ring top -->
+          <ellipse cx="38.5" cy="8" rx="4" ry="2" fill="#4ade80" opacity="0.9"/>
+          <!-- Lens glass -->
+          <ellipse cx="38.5" cy="8" rx="2.5" ry="1.3" fill="#86efac" opacity="0.6"/>
+          <!-- Lens ring bottom -->
+          <ellipse cx="38.5" cy="28" rx="3.5" ry="1.8" fill="#4ade80" opacity="0.7"/>
+          <!-- Coarse focus knob -->
+          <ellipse cx="23" cy="30" rx="4" ry="2.5" fill="#15803d" transform="rotate(-15 23 30)"/>
+          <ellipse cx="23" cy="30" rx="2.5" ry="1.5" fill="#4ade80" opacity="0.5" transform="rotate(-15 23 30)"/>
+          <!-- Stage -->
+          <rect x="14" y="33" width="18" height="3" rx="1.5" fill="#22c55e" opacity="0.8"/>
+          <!-- Slide on stage -->
+          <rect x="17" y="31" width="10" height="2" rx="1" fill="#86efac" opacity="0.5"/>
+          <!-- Glow dot at lens -->
+          <circle cx="38.5" cy="8" r="3" fill="#4ade80" opacity="0.15"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Analysis</div>
+      <div class="card-title">Research</div>
+      <div class="card-desc">Upcoming earnings dates &amp; analyst buy/hold/sell consensus for your holdings and watchlist.</div>
+      <div class="card-cta">
+        Open Research
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Weather -->
+    <a class="card active weather-bg" href="./weather.html">
+      <div class="card-icon">🌤️</div>
+      <div class="card-eyebrow">Forecast</div>
+      <div class="card-title">Weather</div>
+      <div class="card-desc">Local conditions and 7-day extended outlook. Set your city once, always up to date.</div>
+      <div class="card-cta">
+        Check Weather
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="wx-corner" id="wx-corner" style="display:none">
+        <div class="wx-icon" id="wx-icon"></div>
+        <div class="wx-temp" id="wx-temp"></div>
+        <div class="wx-cond" id="wx-cond"></div>
+      </div>
+    </a>
+
+    <div class="section-label">Friends &amp; Family</div>
+
+    <!-- AI News -->
+    <a class="card active swarm-bg" href="./ainews.html">
+      <div class="card-icon">🤖</div>
+      <div class="card-eyebrow">Intelligence</div>
+      <div class="card-title">AI News</div>
+      <div class="card-desc">Latest headlines, videos &amp; breakthroughs from the world of artificial intelligence.</div>
+      <div class="card-cta">
+        Open AI News
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+
+    <!-- Timmy's Corner -->
+    <a class="card active la-bg" href="./timmy.html">
+      <div class="card-icon">
+        <img
+          src="https://i.dailymail.co.uk/1s/2025/05/28/15/98825521-14757659-image-a-25_1748442787630.jpg"
+          alt="Super Hans"
+          style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(74,222,128,0.25);box-shadow:0 4px 16px rgba(0,0,0,0.5);"
+        >
+      </div>
+      <div class="card-eyebrow">For Timmy</div>
+      <div class="card-title">Timmy's Corner</div>
+      <div class="card-desc">Tom's Wink Wink Tips — stock &amp; asset picks worth a look. Plus Suggested Topics: articles Tom thinks you should read.</div>
+      <div class="card-cta">
+        Open Timmy's Corner
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Daily Journal -->
+    <a class="card active journ-bg" href="./journal.html">
+      <div class="card-icon">
+        <svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="8" y="5" width="26" height="34" rx="3" stroke="#4ade80" stroke-width="1.8" fill="none"/>
+          <rect x="6" y="7" width="26" height="34" rx="3" stroke="#22c55e" stroke-width="1.4" fill="#0e1a08" opacity="0.9"/>
+          <line x1="12" y1="16" x2="28" y2="16" stroke="#4ade80" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="12" y1="21" x2="28" y2="21" stroke="#4ade80" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="12" y1="26" x2="22" y2="26" stroke="#4ade80" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="32" cy="33" r="6" fill="#14532d" stroke="#4ade80" stroke-width="1.4"/>
+          <line x1="32" y1="30" x2="32" y2="36" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round"/>
+          <line x1="29" y1="33" x2="35" y2="33" stroke="#4ade80" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Personal</div>
+      <div class="card-title">Daily Journal</div>
+      <div class="card-desc">Log your day — add photos, notes &amp; drop a pin on Google Maps for where you were.</div>
+      <div class="card-cta">
+        Open Journal
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Family & Friends hub -->
+    <a class="card active friends-bg" href="./friends.html">
+      <div class="card-icon" style="font-size:2.4rem;line-height:1;">👥</div>
+      <div class="card-eyebrow">Personal · Hub</div>
+      <div class="card-title">Family &amp; Friends</div>
+      <div class="card-desc">Rip's Dip, Wayne's Corner and the crew — pages built for the people.</div>
+      <div class="card-cta">
+        Open
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Music -->
+    <a class="card active green-bg" href="./music.html">
+      <div class="card-icon">
+        <img
+          src="./guitar_lincoln.png"
+          alt="Guitar Lincoln"
+          style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(74,222,128,0.25);box-shadow:0 4px 16px rgba(0,0,0,0.5);"
+        >
+      </div>
+      <div class="card-eyebrow">Listening</div>
+      <div class="card-title">Music Picks</div>
+      <div class="card-desc">Tom's current suggested listening — albums, tracks, and playlists worth your time.</div>
+      <div class="card-cta">
+        Open Music
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <div class="section-label">Todd Father Productions · LooksLikeLarry</div>
+
+    <!-- The Todd Father -->
+    <a class="card active metro-bg" href="./toddfather.html">
+      <div class="card-icon">
+        <img src="./toddfather3.png" alt="The Todd Father" style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(74,222,128,0.25);box-shadow:0 4px 16px rgba(0,0,0,0.5);" onerror="this.outerHTML='<span style=&quot;font-size:2.2rem&quot;>🎩</span>'">
+      </div>
+      <div class="card-eyebrow">Design Concept</div>
+      <div class="card-title">The Todd Father</div>
+      <div class="card-desc">What LooksLikeLarry.com could look like — a full redesign concept by Honest Tom.</div>
+      <div class="card-cta">
+        See the Vision
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Retro Father -->
+    <a class="card active aitruck-bg" href="./expeditionfather.html">
+      <div class="card-icon">
+        <img src="./retro_father.jpg" alt="Retro Father" style="width:56px;height:56px;object-fit:cover;object-position:center;border-radius:10px;border:1px solid rgba(196,24,16,0.4);box-shadow:0 0 16px rgba(196,24,16,0.25);filter:sepia(15%);" onerror="this.outerHTML='<span style=&quot;font-size:2.2rem&quot;>📷</span>'">
+      </div>
+      <div class="card-eyebrow">LooksLikeLarry Reimaged</div>
+      <div class="card-title">Retro Father</div>
+      <div class="card-desc">Old-school craft. New-school glass. Vintage garage vibes, sharp shots, dirty hands. ToddFather's most classic work.</div>
+      <div class="card-cta">
+        Enter the Garage
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Future Father -->
+    <a class="card active futurebike-bg" href="./futurefather.html" style="position:relative;">
+      <div style="position:absolute;top:12px;right:12px;display:flex;align-items:center;gap:4px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.3);border-radius:20px;padding:3px 8px 3px 6px;font-size:0.62rem;font-weight:700;letter-spacing:0.08em;color:#4ade80;text-transform:uppercase;white-space:nowrap;">
+        <span style="font-size:0.85rem;">&#128072;</span> Tommy's Pick
+      </div>
+      <div class="card-icon">
+        <img src="./future_todd.png" alt="Future Father" style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(0,212,255,0.4);box-shadow:0 0 16px rgba(0,212,255,0.2);" onerror="this.outerHTML='<span style=&quot;font-size:2.2rem&quot;>&#128247;</span>'">
+      </div>
+      <div class="card-eyebrow">LooksLikeLarry Reimaged</div>
+      <div class="card-title">Future Father</div>
+      <div class="card-desc">ToddFather Productions reimagined — full spectrum photography, futuristic design, zero limits.</div>
+      <div class="card-cta">
+        Enter the Future
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- LooksLikeLarry -->
+    <a class="card active larrygasbg" href="./lookslikelarry.html">
+      <div class="card-icon">
+        <img src="./huey_minibike.png" alt="LooksLikeLarry" style="width:56px;height:56px;object-fit:cover;object-position:top;border-radius:10px;border:1px solid rgba(200,16,46,0.5);box-shadow:0 4px 16px rgba(0,0,0,0.5);" onerror="this.outerHTML='<span style=&quot;font-size:2.2rem&quot;>⛽</span>'">
+      </div>
+      <div class="card-eyebrow">LooksLikeLarry Productions</div>
+      <div class="card-title">LooksLikeLarry</div>
+      <div class="card-desc">Standard Oil style — 1950s gas station vibes, full spectrum photography.</div>
+      <div class="card-cta">
+        Pull In
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- AI Father -->
+    <a class="card active aifather-bg" href="./aifather.html">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none">
+          <circle cx="28" cy="28" r="22" stroke="#22c55e" stroke-width="1.2" opacity="0.3"/>
+          <circle cx="28" cy="28" r="14" stroke="#22c55e" stroke-width="1.4"/>
+          <circle cx="28" cy="28" r="7" fill="rgba(34,197,94,0.12)" stroke="#4ade80" stroke-width="1.4"/>
+          <circle cx="28" cy="28" r="3" fill="#22c55e" opacity="0.8"/>
+          <line x1="28" y1="6"  x2="28" y2="14" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <line x1="28" y1="42" x2="28" y2="50" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <line x1="6"  y1="28" x2="14" y2="28" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <line x1="42" y1="28" x2="50" y2="28" stroke="#22c55e" stroke-width="1.4" stroke-linecap="round" opacity="0.6"/>
+          <circle cx="28" cy="6"  r="2" fill="#4ade80" opacity="0.7"/>
+          <circle cx="28" cy="50" r="2" fill="#4ade80" opacity="0.7"/>
+          <circle cx="6"  cy="28" r="2" fill="#4ade80" opacity="0.7"/>
+          <circle cx="50" cy="28" r="2" fill="#4ade80" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Intelligence Division</div>
+      <div class="card-title">AI Father</div>
+      <div class="card-desc">The lens that thinks. Machine intelligence meets artistic command — future patina, precision optics, galactic creative vision.</div>
+      <div class="card-cta">
+        Activate Protocol
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Monster Father -->
+    <a class="card active devil-bg" href="./monsterfather.html">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 0 8px rgba(57,230,64,0.5));">
+          <!-- Monster head -->
+          <ellipse cx="28" cy="26" rx="16" ry="14" fill="#0d1a0e" stroke="#39e640" stroke-width="1.5"/>
+          <!-- Eyes glow -->
+          <ellipse cx="21" cy="23" rx="4" ry="3.5" fill="#39e640" opacity="0.9"/>
+          <ellipse cx="35" cy="23" rx="4" ry="3.5" fill="#cc0a1a" opacity="0.9"/>
+          <circle cx="21" cy="23" r="2" fill="#050208"/>
+          <circle cx="35" cy="23" r="2" fill="#050208"/>
+          <!-- Fangs -->
+          <polygon points="23,34 21,40 25,34" fill="#f5e6d0" opacity="0.9"/>
+          <polygon points="31,34 29,40 33,34" fill="#f5e6d0" opacity="0.9"/>
+          <!-- Horns -->
+          <polygon points="16,14 12,4 20,12" fill="#39e640" opacity="0.7"/>
+          <polygon points="40,14 44,4 36,12" fill="#39e640" opacity="0.7"/>
+          <!-- Camera lens eye -->
+          <circle cx="28" cy="44" r="5" fill="none" stroke="#ff2d78" stroke-width="1.5"/>
+          <circle cx="28" cy="44" r="2.5" fill="#ff2d78" opacity="0.5"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow" style="color:#39e640;">LooksLikeLarry Reimaged</div>
+      <div class="card-title" style="color:#f5e6d0;">Monster Father</div>
+      <div class="card-desc" style="color:#6a8a6a;">Pin-ups, holiday shoots &amp; themed terror. Todd has transformed. The monster behind the lens is ready.</div>
+      <div class="card-cta" style="color:#39e640;border-color:rgba(57,230,64,0.2);">
+        Enter if You Dare
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#39e640" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <div class="section-label">Business</div>
+
+    <!-- The Pitch -->
+    <a class="card active deal-bg" href="./pitch.html">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" style="filter:drop-shadow(0 0 8px rgba(74,222,128,0.4));">
+          <!-- Podium / pitch chart -->
+          <rect x="6" y="36" width="10" height="14" rx="1" fill="#4ade80" opacity="0.5"/>
+          <rect x="19" y="26" width="10" height="24" rx="1" fill="#4ade80" opacity="0.75"/>
+          <rect x="32" y="14" width="10" height="36" rx="1" fill="#4ade80"/>
+          <!-- Up arrow -->
+          <path d="M46 18 L50 10 L54 18" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="50" y1="10" x2="50" y2="28" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+          <!-- Stars -->
+          <circle cx="8" cy="8" r="2" fill="#4ade80" opacity="0.6"/>
+          <circle cx="18" cy="4" r="1.5" fill="#4ade80" opacity="0.4"/>
+          <circle cx="28" cy="8" r="1" fill="#4ade80" opacity="0.3"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow" style="color:#4ade80;">The Case for More Tokens &nbsp;
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" style="vertical-align:middle;display:inline-block;" title="token">
+          <circle cx="9" cy="9" r="8" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1.2"/>
+          <circle cx="9" cy="9" r="6" fill="#f59e0b" opacity="0.25"/>
+          <text x="9" y="13" text-anchor="middle" font-size="8" font-weight="900" font-family="sans-serif" fill="#fcd34d">T</text>
+        </svg>
+      </div>
+      <div class="card-title" style="color:transparent;-webkit-text-stroke:1.5px #ff6b00;">Why We're Better</div>
+      <div class="card-desc">Side-by-side: what LooksLikeLarry.com is vs what AI-powered ToddFather Productions could be. The pitch is in the numbers.</div>
+      <div class="card-cta" style="color:#4ade80;">
+        See the Pitch
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- V2Amcom -->
+    <a class="card active" href="./v2amcom.html" style="background: linear-gradient(135deg, rgba(5,13,7,0.70) 0%, rgba(5,13,7,0.82) 100%), url('./amcom.png') center/cover no-repeat; border-color: rgba(22,163,74,0.35);">
+      <div class="card-icon">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" style="width:58px;height:58px;">
+          <defs>
+            <radialGradient id="dc-sphere2" cx="38%" cy="32%" r="65%"><stop offset="0%" stop-color="#fde68a"/><stop offset="40%" stop-color="#f97316"/><stop offset="100%" stop-color="#7c2d12"/></radialGradient>
+            <radialGradient id="dc-glow2" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f97316" stop-opacity="0.4"/><stop offset="100%" stop-color="#f97316" stop-opacity="0"/></radialGradient>
+            <filter id="dc-bloom2"><feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <filter id="dc-rg2"><feGaussianBlur in="SourceGraphic" stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+            <clipPath id="dc-top2"><rect x="0" y="0" width="200" height="100"/></clipPath>
+            <clipPath id="dc-bot2"><rect x="0" y="100" width="200" height="100"/></clipPath>
+          </defs>
+          <circle cx="100" cy="100" r="62" fill="url(#dc-glow2)"/>
+          <g filter="url(#dc-rg2)" clip-path="url(#dc-top2)">
+            <ellipse cx="100" cy="100" rx="92" ry="24" fill="none" stroke="#16a34a" stroke-width="5" opacity="0.35"/>
+            <ellipse cx="100" cy="100" rx="70" ry="16" fill="none" stroke="#dc2626" stroke-width="3" opacity="0.4"/>
+          </g>
+          <circle cx="100" cy="100" r="44" fill="url(#dc-sphere2)" filter="url(#dc-bloom2)"/>
+          <ellipse cx="100" cy="100" rx="44" ry="13" fill="none" stroke="rgba(253,230,138,0.18)" stroke-width="0.8"/>
+          <ellipse cx="100" cy="100" rx="44" ry="26" fill="none" stroke="rgba(253,230,138,0.12)" stroke-width="0.8"/>
+          <line x1="100" y1="56" x2="100" y2="144" stroke="rgba(253,230,138,0.15)" stroke-width="0.8"/>
+          <g filter="url(#dc-rg2)" clip-path="url(#dc-bot2)">
+            <ellipse cx="100" cy="100" rx="92" ry="24" fill="none" stroke="#16a34a" stroke-width="5" opacity="0.95"/>
+            <ellipse cx="100" cy="100" rx="70" ry="16" fill="none" stroke="#dc2626" stroke-width="3" opacity="0.9"/>
+          </g>
+          <circle cx="192" cy="100" r="4" fill="#4ade80" filter="url(#dc-bloom2)"/>
+          <circle cx="8" cy="100" r="4" fill="#4ade80" filter="url(#dc-bloom2)"/>
+          <polyline points="192,100 197,90 197,80" fill="none" stroke="#4ade80" stroke-width="1.2" opacity="0.7"/>
+          <circle cx="197" cy="80" r="2" fill="#4ade80" opacity="0.6"/>
+          <polyline points="8,100 3,110 3,120" fill="none" stroke="#4ade80" stroke-width="1.2" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">AI · ETL · Data Integration</div>
+      <div class="card-title">V2Amcom</div>
+      <div class="card-desc">AI Data Driven Company. ETL services, data integration, and Agentic AI workflows. Includes live CSV analysis tool.</div>
+      <div class="card-cta">
+        Open V2Amcom
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- CSV Analyzer -->
+    <a class="card active excel-bg" href="./csvanalyzer.html">
+      <div class="card-icon">
+        <svg width="56" height="56" viewBox="0 0 56 56" fill="none" style="filter:drop-shadow(0 0 8px rgba(33,115,70,0.5));">
+          <!-- Spreadsheet grid background -->
+          <rect x="4" y="4" width="36" height="48" rx="2" fill="#0d3320" opacity="0.7"/>
+          <line x1="4" y1="14" x2="40" y2="14" stroke="#1d6a40" stroke-width="1"/>
+          <line x1="4" y1="24" x2="40" y2="24" stroke="#1d6a40" stroke-width="1"/>
+          <line x1="4" y1="34" x2="40" y2="34" stroke="#1d6a40" stroke-width="1"/>
+          <line x1="4" y1="44" x2="40" y2="44" stroke="#1d6a40" stroke-width="1"/>
+          <line x1="16" y1="4" x2="16" y2="52" stroke="#1d6a40" stroke-width="1"/>
+          <line x1="28" y1="4" x2="28" y2="52" stroke="#1d6a40" stroke-width="1"/>
+          <!-- Header row fill -->
+          <rect x="4" y="4" width="36" height="10" rx="2" fill="#217346" opacity="0.9"/>
+          <!-- Data bars rising in cells -->
+          <rect x="7" y="36" width="6" height="8" rx="1" fill="#21a366" opacity="0.5"/>
+          <rect x="19" y="28" width="6" height="16" rx="1" fill="#21a366" opacity="0.75"/>
+          <rect x="31" y="18" width="6" height="26" rx="1" fill="#21a366"/>
+          <!-- Up arrow -->
+          <path d="M46 18 L50 10 L54 18" stroke="#21a366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <line x1="50" y1="10" x2="50" y2="30" stroke="#21a366" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Data Tools · In-Browser</div>
+      <div class="card-title">CSV / Excel Analyzer</div>
+      <div class="card-desc">Drop any CSV file and get instant stats: row/column counts, data quality, missing values, and auto-generated charts. Pure browser — nothing uploaded.</div>
+      <div class="card-cta">
+        Analyze Data
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <div class="section-label">Portfolio &amp; Tools</div>
+
+    <!-- Mattel Electronic Football -->
+    <a class="card active football-bg" href="./football.html" style="position:relative;overflow:hidden;">
+      <div style="font-size:0.72rem;color:#fbbf24;margin-bottom:6px;">🚧 Under Construction</div>
+      <div class="card-icon" style="font-size:2.6rem;line-height:1;">🏈</div>
+      <div class="card-eyebrow">Tom Husom · Retro Project</div>
+      <div class="card-title">Mattel Electronic Football</div>
+      <div class="card-desc">The 1977 classic. Rebuilt for the browser.</div>
+      <div class="card-badge">Retro Gaming</div>
+      <div class="card-cta">
+        Play Now
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- How I Work — Portfolio -->
+    <a class="card active" href="./howIwork.html" style="grid-column: 1 / -1; background: linear-gradient(135deg,rgba(10,14,23,0.72) 0%,rgba(10,14,23,0.38) 45%,rgba(10,14,23,0.08) 100%),url('./server_room.png') 50% 40%/cover no-repeat; border-color: rgba(34,197,94,0.35);">
+      <div class="card-icon">
+        <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect width="52" height="52" rx="12" fill="rgba(34,197,94,0.12)"/>
+          <path d="M14 20h24M14 26h16M14 32h20" stroke="#4ade80" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="38" cy="32" r="6" stroke="#4ade80" stroke-width="2"/>
+          <path d="M36 32l1.5 1.5L40 30" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="card-eyebrow">Tom Husom · Open to Work</div>
+      <div class="card-title">How I Work</div>
+      <div class="card-desc">20+ years of experience, now building with Claude Code, gstack, and live APIs. Every page on this dashboard is a live project. See the full story, tools stack, and contact info.</div>
+      <div class="card-cta">
+        View Portfolio
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+    <!-- Schneider — Maintenance -->
+    <a class="card active server-bg" href="./schneider.html" style="grid-column: 1 / -1;">
+      <div class="card-icon">
+        <img
+          src="./schnieider.webp"
+          alt="Schneider"
+          style="width:56px;height:56px;object-fit:cover;object-position:center;border-radius:10px;border:1px solid rgba(74,222,128,0.25);box-shadow:0 4px 16px rgba(0,0,0,0.5);"
+          onerror="this.outerHTML='<span style=&quot;font-size:2.4rem&quot;>🔧</span>'"
+        >
+      </div>
+      <div class="card-eyebrow">Mr. Tight · Paid Staff</div>
+      <div class="card-title">Schneider</div>
+      <div class="card-desc">Our Maintenance Technician. Speed tests, connection diagnostics, app tools, and cache controls. If it's broken, Schneider fixes it.</div>
+      <div class="card-cta">
+        Open Schneider
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="#4ade80" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+    </a>
+
+
+  </div>
+
+  <footer class="footer">
+    <span>Honest Tom's Dashboard</span>
+    <span id="footer-time"></span>
+  </footer>
+
+</div>
+<script>
+  var now = new Date();
+  document.getElementById('date-line').textContent =
+    now.toLocaleDateString('en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  document.getElementById('footer-time').textContent =
+    'Loaded ' + now.toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+
+  // ── Weather for 57401 (Aberdeen, SD) via Open-Meteo ──
+  var WMO_ICONS = {
+    0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+    45:'🌫️', 48:'🌫️',
+    51:'🌦️', 53:'🌦️', 55:'🌧️',
+    61:'🌧️', 63:'🌧️', 65:'🌧️',
+    71:'🌨️', 73:'🌨️', 75:'❄️', 77:'❄️',
+    80:'🌦️', 81:'🌧️', 82:'⛈️',
+    85:'🌨️', 86:'❄️',
+    95:'⛈️', 96:'⛈️', 99:'⛈️'
+  };
+  var WMO_DESC = {
+    0:'Clear', 1:'Mostly Clear', 2:'Partly Cloudy', 3:'Overcast',
+    45:'Fog', 48:'Icy Fog',
+    51:'Light Drizzle', 53:'Drizzle', 55:'Heavy Drizzle',
+    61:'Light Rain', 63:'Rain', 65:'Heavy Rain',
+    71:'Light Snow', 73:'Snow', 75:'Heavy Snow', 77:'Snow Grains',
+    80:'Showers', 81:'Heavy Showers', 82:'Violent Showers',
+    85:'Snow Showers', 86:'Heavy Snow Showers',
+    95:'Thunderstorm', 96:'Thunderstorm + Hail', 99:'Severe Thunderstorm'
+  };
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=45.4647&longitude=-98.4865&current_weather=true&temperature_unit=fahrenheit&wind_speed_unit=mph')
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      var cw = d && d.current_weather;
+      if (!cw) return;
+      var code = cw.weathercode;
+      var temp = Math.round(cw.temperature);
+      document.getElementById('wx-icon').textContent = WMO_ICONS[code] || '🌡️';
+      document.getElementById('wx-temp').textContent = temp + '°F';
+      document.getElementById('wx-cond').textContent = WMO_DESC[code] || 'Aberdeen, SD';
+      document.getElementById('wx-corner').style.display = 'flex';
+    })
+    .catch(function() {});
+</script>
+<script>if('serviceWorker' in navigator){navigator.serviceWorker.register('/sw.js');}</script>
+</body>

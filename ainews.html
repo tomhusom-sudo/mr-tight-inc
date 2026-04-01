@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+  <script>
+    var VER = 'v=20260325h';
+    if (location.search.indexOf(VER) === -1) {
+      location.replace(location.pathname + '?' + VER);
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      background:
+        linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+        url('./angry_lincoln.png') center 20% / cover no-repeat fixed;
+      color: #e2eed8;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 28px 28px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 60px 32px 72px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #a8bc98;
+      letter-spacing: 0.06em;
+      text-decoration: none;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: #4ade80; }
+
+    .eyebrow {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #4ade80;
+      margin-bottom: 12px;
+    }
+
+    .title {
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 800;
+      line-height: 1.04;
+      color: #f0fae8;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+    .title em { font-style: normal; color: #4ade80; }
+
+    .subtitle {
+      font-size: 0.95rem;
+      color: #a8bc98;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      margin-top: 48px;
+    }
+    .section-head:first-of-type { margin-top: 0; }
+
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #4ade80;
+    }
+
+    .section-meta {
+      font-size: 0.65rem;
+      color: #3a4e28;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── VIDEO GRID ── */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .video-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+      display: flex;
+      flex-direction: column;
+    }
+    .video-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(74,222,128,0.35);
+      box-shadow: 0 16px 48px rgba(34,197,94,0.12);
+    }
+
+    .video-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      background: #0a1206;
+      overflow: hidden;
+    }
+    .video-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.35);
+      transition: background 0.2s;
+    }
+    .video-card:hover .play-btn { background: rgba(0,0,0,0.15); }
+    .play-btn svg { filter: drop-shadow(0 2px 8px rgba(0,0,0,0.8)); }
+
+    .video-info {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .video-channel {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4ade80;
+    }
+    .video-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #e2eed8;
+      line-height: 1.4;
+    }
+
+    /* ── NEWS FEED ── */
+    .news-status {
+      font-size: 0.75rem;
+      color: #6a8a52;
+      margin-bottom: 14px;
+      min-height: 1.2em;
+    }
+    .news-status.ok { color: #4ade80; }
+    .news-status.err { color: #f87171; }
+
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .news-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px;
+      padding: 18px 20px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      transition: transform 0.18s, border-color 0.18s, background 0.18s;
+    }
+    .news-item:hover {
+      transform: translateY(-3px);
+      background: rgba(34,197,94,0.06);
+      border-color: rgba(74,222,128,0.28);
+    }
+
+    .news-source {
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #4ade80;
+    }
+    .news-headline {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #e2eed8;
+      line-height: 1.45;
+    }
+    .news-date {
+      font-size: 0.65rem;
+      color: #3a4e28;
+      margin-top: auto;
+    }
+
+    .news-loading {
+      grid-column: span 2;
+      text-align: center;
+      padding: 40px;
+      color: #6a8a52;
+      font-size: 0.85rem;
+    }
+
+    /* ── CHANNELS STRIP ── */
+    .channels-strip {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .channel-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 999px;
+      padding: 7px 14px 7px 10px;
+      text-decoration: none;
+      color: #c8ddb8;
+      font-size: 0.75rem;
+      font-weight: 600;
+      transition: background 0.18s, border-color 0.18s, color 0.18s;
+    }
+    .channel-pill:hover {
+      background: rgba(34,197,94,0.08);
+      border-color: rgba(74,222,128,0.3);
+      color: #4ade80;
+    }
+    .channel-pill .ch-icon { font-size: 1rem; }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 56px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.68rem;
+      color: #2e3e1e;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 20px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 720px) {
+      .page { padding: 40px 18px 56px; }
+      .video-grid { grid-template-columns: 1fr 1fr; }
+      .news-grid { grid-template-columns: 1fr; }
+      .news-loading { grid-column: span 1; }
+    }
+    @media (max-width: 460px) {
+      .title { font-size: 2.2rem; }
+      .video-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+<!-- Plausible Analytics -->
+<script defer data-domain="tomhusom-sudo.github.io" src="https://plausible.io/js/script.js"></script>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <a class="back-link" href="./dashboard.html">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+        <path d="M13 8H3M7 4l-4 4 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Dashboard
+    </a>
+    <div class="eyebrow">Intelligence Feed</div>
+    <h1 class="title"><em>AI</em> News</h1>
+    <p class="subtitle">Latest breakthroughs, research, and coverage from the world of artificial intelligence.</p>
+  </header>
+
+  <!-- ── FEATURED VIDEOS ── -->
+  <div class="section-head">
+    <div class="section-title">🎬 Must-Watch Videos</div>
+    <div class="section-meta">Click to open on YouTube</div>
+  </div>
+
+  <div class="video-grid">
+
+    <a class="video-card" href="https://www.youtube.com/@lexfridman" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#0a1206,#1a2e10)">
+        <img src="https://i.ytimg.com/vi/ugvHCXCOmm4/hqdefault.jpg" alt="Lex Fridman" onerror="this.style.display='none'">
+        <div class="play-btn">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="20" fill="rgba(74,222,128,0.18)"/>
+            <polygon points="16,13 30,20 16,27" fill="#4ade80"/>
+          </svg>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-channel">Lex Fridman</div>
+        <div class="video-title">Long-form AI conversations with the world's top researchers and founders</div>
+      </div>
+    </a>
+
+    <a class="video-card" href="https://www.youtube.com/@TwoMinutePapers" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#0a1206,#1a2e10)">
+        <img src="https://i.ytimg.com/vi/xgQ8NkCMdvA/hqdefault.jpg" alt="Two Minute Papers" onerror="this.style.display='none'">
+        <div class="play-btn">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="20" fill="rgba(74,222,128,0.18)"/>
+            <polygon points="16,13 30,20 16,27" fill="#4ade80"/>
+          </svg>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-channel">Two Minute Papers</div>
+        <div class="video-title">Bite-sized breakdowns of the latest AI research papers</div>
+      </div>
+    </a>
+
+    <a class="video-card" href="https://www.youtube.com/@AndrejKarpathy" target="_blank" rel="noopener">
+      <div class="video-thumb" style="background:linear-gradient(135deg,#0a1206,#1a2e10)">
+        <img src="https://i.ytimg.com/vi/7xTGNNLPyMI/hqdefault.jpg" alt="Andrej Karpathy" onerror="this.style.display='none'">
+        <div class="play-btn">
+          <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+            <circle cx="20" cy="20" r="20" fill="rgba(74,222,128,0.18)"/>
+            <polygon points="16,13 30,20 16,27" fill="#4ade80"/>
+          </svg>
+        </div>
+      </div>
+      <div class="video-info">
+        <div class="video-channel">Andrej Karpathy</div>
+        <div class="video-title">Deep-dives into neural networks, LLMs, and AI education from an OpenAI / Tesla veteran</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- ── CHANNEL LINKS ── -->
+  <div class="section-head">
+    <div class="section-title">📡 Top AI Channels</div>
+  </div>
+  <div class="channels-strip">
+    <a class="channel-pill" href="https://www.youtube.com/@lexfridman" target="_blank" rel="noopener"><span class="ch-icon">🎙️</span>Lex Fridman</a>
+    <a class="channel-pill" href="https://www.youtube.com/@TwoMinutePapers" target="_blank" rel="noopener"><span class="ch-icon">📄</span>Two Minute Papers</a>
+    <a class="channel-pill" href="https://www.youtube.com/@AndrejKarpathy" target="_blank" rel="noopener"><span class="ch-icon">🧠</span>Andrej Karpathy</a>
+    <a class="channel-pill" href="https://www.youtube.com/@aiexplained-official" target="_blank" rel="noopener"><span class="ch-icon">💡</span>AI Explained</a>
+    <a class="channel-pill" href="https://www.youtube.com/@MatthewBerman" target="_blank" rel="noopener"><span class="ch-icon">🤖</span>Matthew Berman</a>
+    <a class="channel-pill" href="https://www.youtube.com/@YannicKilcher" target="_blank" rel="noopener"><span class="ch-icon">🔬</span>Yannic Kilcher</a>
+    <a class="channel-pill" href="https://www.youtube.com/@aiwarren" target="_blank" rel="noopener"><span class="ch-icon">📊</span>AI Warren</a>
+    <a class="channel-pill" href="https://www.youtube.com/@SamsonVlogs" target="_blank" rel="noopener"><span class="ch-icon">🚀</span>Wes Roth</a>
+  </div>
+
+  <!-- ── LIVE NEWS FEED ── -->
+  <div class="section-head">
+    <div class="section-title">📰 Latest Headlines</div>
+    <div class="section-meta" id="news-ts"></div>
+  </div>
+  <div class="news-status" id="news-status">Loading AI news…</div>
+  <div class="news-grid" id="news-grid">
+    <div class="news-loading">Fetching latest AI headlines…</div>
+  </div>
+
+  <footer class="footer">
+    <span>Honest Tom's Dashboard</span>
+    <a href="./dashboard.html" style="color:#2e3e1e;text-decoration:none;">← Back</a>
+  </footer>
+
+</div>
+<script>
+  // ── Live AI news via Google News RSS (allorigins proxy) ──
+  var RSS_FEEDS = [
+    {
+      label: 'Google News — AI',
+      url: 'https://news.google.com/rss/search?q=artificial+intelligence+AI&hl=en-US&gl=US&ceid=US:en'
+    },
+    {
+      label: 'Google News — LLM',
+      url: 'https://news.google.com/rss/search?q=large+language+model+ChatGPT+Claude+Gemini&hl=en-US&gl=US&ceid=US:en'
+    },
+    {
+      label: 'VentureBeat AI',
+      url: 'https://venturebeat.com/category/ai/feed/'
+    },
+    {
+      label: 'MIT Tech Review',
+      url: 'https://www.technologyreview.com/feed/'
+    }
+  ];
+
+  function escHtml(s) {
+    return (s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function safeLink(raw) {
+    return (raw && raw.indexOf('http') === 0) ? raw : '#';
+  }
+
+  function parseDate(str) {
+    try { return new Date(str); } catch(e) { return new Date(0); }
+  }
+
+  function relTime(d) {
+    var diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 60) return 'just now';
+    if (diff < 3600) return Math.floor(diff/60) + 'm ago';
+    if (diff < 86400) return Math.floor(diff/3600) + 'h ago';
+    return Math.floor(diff/86400) + 'd ago';
+  }
+
+  function sourceName(item, feedLabel) {
+    // Google News wraps source in <source> tag; others use channel title
+    var src = item.querySelector('source');
+    if (src) return src.textContent.trim();
+    return feedLabel;
+  }
+
+  function fetchFeed(feed) {
+    var proxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(feed.url);
+    return fetch(proxy)
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var parser = new DOMParser();
+        var xml = parser.parseFromString(d.contents, 'text/xml');
+        var items = Array.from(xml.querySelectorAll('item'));
+        return items.map(function(it) {
+          return {
+            title: escHtml(it.querySelector('title') ? it.querySelector('title').textContent.trim() : ''),
+            link:  safeLink(it.querySelector('link') ? it.querySelector('link').textContent.trim() : ''),
+            date:  parseDate(it.querySelector('pubDate') ? it.querySelector('pubDate').textContent : ''),
+            source: sourceName(it, feed.label)
+          };
+        });
+      })
+      .catch(function() { return []; });
+  }
+
+  function renderNews(articles) {
+    var grid = document.getElementById('news-grid');
+    if (!articles.length) {
+      grid.innerHTML = '<div class="news-loading">No headlines found. Try refreshing.</div>';
+      return;
+    }
+    grid.innerHTML = articles.map(function(a) {
+      return '<a class="news-item" href="' + a.link + '" target="_blank" rel="noopener">' +
+        '<div class="news-source">' + escHtml(a.source) + '</div>' +
+        '<div class="news-headline">' + a.title + '</div>' +
+        '<div class="news-date">' + relTime(a.date) + '</div>' +
+        '</a>';
+    }).join('');
+  }
+
+  // Fetch all feeds in parallel, merge, dedupe, sort by date
+  document.getElementById('news-status').textContent = 'Loading AI news…';
+  Promise.all(RSS_FEEDS.map(fetchFeed))
+    .then(function(results) {
+      var all = [].concat.apply([], results);
+      // Dedupe by title prefix (first 60 chars)
+      var seen = {};
+      all = all.filter(function(a) {
+        var key = a.title.slice(0, 60).toLowerCase();
+        if (seen[key]) return false;
+        seen[key] = true;
+        return true;
+      });
+      // Sort newest first
+      all.sort(function(a, b) { return b.date - a.date; });
+      // Cap at 30
+      all = all.slice(0, 30);
+
+      var statusEl = document.getElementById('news-status');
+      var tsEl = document.getElementById('news-ts');
+      if (all.length) {
+        statusEl.className = 'news-status ok';
+        statusEl.textContent = '✓ ' + all.length + ' headlines loaded';
+        tsEl.textContent = 'Updated ' + new Date().toLocaleTimeString('en-US', {hour:'2-digit', minute:'2-digit'});
+      } else {
+        statusEl.className = 'news-status err';
+        statusEl.textContent = '✗ Could not load feeds — check connection';
+      }
+      renderNews(all);
+    });
+</script>
+</body>
+</html>

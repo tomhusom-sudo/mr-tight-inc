@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HonestTom | AI-Assisted Development &amp; Data Engineering</title>
+  <meta name="google-site-verification" content="xNW511C_p0gxCEqdU2Acuy_SEHVKBnK4dfmmdsonc6M" />
+  <meta name="description" content="Tom Hugunin — retired Oracle DBA with 25+ years experience, now building AI-assisted projects at honesttom.ai using Claude Code and modern data tools.">
+  <meta name="keywords" content="HonestTom, Tom Hugunin, AI development, Claude Code, Oracle DBA, data engineering, honesttom.ai">
+  <meta property="og:title" content="HonestTom"/>
+  <meta property="og:description" content="AI-assisted development and data engineering by Tom Hugunin"/>
+  <meta property="og:url" content="https://honesttom.ai"/>
+  <meta property="og:type" content="website"/>
+  <link rel="canonical" href="https://honesttom.ai"/>
+<script>
+  var VER = 'v=20260327k';
+  if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background:
+      linear-gradient(160deg, rgba(46,74,26,0.88) 0%, rgba(18,26,9,0.94) 50%, rgba(30,14,7,0.97) 100%),
+      url('./guitar_lincoln.png') center 20% / cover no-repeat fixed;
+    min-height: 100vh;
+    color: #e2e8f0;
+  }
+  .page-wrap { max-width: 760px; margin: 0 auto; padding: 28px 16px 80px; }
+
+  /* top bar */
+  .top-bar { display: flex; align-items: center; gap: 16px; margin-bottom: 8px; }
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: #4ade80; text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 6px 12px; border: 1px solid #22c55e; border-radius: 999px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .back-btn:hover { background: rgba(34,197,94,0.12); }
+  .page-title { font-size: 26px; font-weight: 700; color: #f1f5f9; }
+  .page-sub { font-size: 13px; color: #4b6b3a; margin-bottom: 28px; margin-top: 4px; }
+
+  /* section header */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+    text-transform: uppercase; color: #4ade80;
+  }
+  .item-count { font-size: 12px; color: #4b6b3a; }
+
+  /* picks list */
+  .picks-list { list-style: none; margin-bottom: 36px; }
+  .picks-list li {
+    background: rgba(15,23,10,0.72);
+    border: 1px solid rgba(34,197,94,0.15);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.2s;
+  }
+  .picks-list li:hover { border-color: rgba(34,197,94,0.32); }
+
+  /* album cover */
+  .pick-cover {
+    flex-shrink: 0;
+    width: 64px; height: 64px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: rgba(34,197,94,0.07);
+    border: 1px solid rgba(34,197,94,0.18);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pick-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pick-cover-placeholder {
+    color: rgba(74,222,128,0.3); font-size: 26px; line-height: 1;
+  }
+
+  .pick-type-badge {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 999px;
+    background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.28);
+    color: #4ade80;
+  }
+  .pick-type-badge.album  { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.3); color: #a78bfa; }
+  .pick-type-badge.track  { background: rgba(34,197,94,0.10); border-color: rgba(34,197,94,0.28); color: #4ade80; }
+  .pick-type-badge.playlist { background: rgba(251,146,60,0.10); border-color: rgba(251,146,60,0.28); color: #fb923c; }
+  .pick-type-badge.artist { background: rgba(56,189,248,0.10); border-color: rgba(56,189,248,0.28); color: #38bdf8; }
+
+  .pick-body { flex: 1; min-width: 0; }
+  .pick-title { font-size: 15px; font-weight: 600; color: #f1f5f9; margin-bottom: 2px; }
+  .pick-artist { font-size: 13px; color: #6b9f55; margin-bottom: 4px; }
+  .pick-note { font-size: 13px; color: #94a38a; line-height: 1.5; }
+  .pick-links { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+  .pick-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; color: #4ade80; font-weight: 500;
+    text-decoration: none; border-bottom: 1px solid rgba(74,222,128,0.3);
+    transition: color 0.2s;
+  }
+  .pick-link:hover { color: #86efac; }
+  .amazon-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; color: #fb923c; font-weight: 500;
+    text-decoration: none; border-bottom: 1px solid rgba(251,146,60,0.3);
+    transition: color 0.2s;
+  }
+  .amazon-link:hover { color: #fdba74; }
+
+  .pick-actions { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .btn-del {
+    background: none; border: none; color: #f87171; font-size: 13px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .btn-del:hover { background: rgba(248,113,113,0.12); }
+
+  /* add form */
+  .add-form {
+    background: rgba(15,23,10,0.72);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 16px;
+    padding: 22px 20px;
+    backdrop-filter: blur(8px);
+  }
+  .add-form h3 { font-size: 14px; font-weight: 600; color: #a8bc98; margin-bottom: 16px; }
+  .form-row { margin-bottom: 12px; }
+  label { display: block; font-size: 11px; color: #6b9f55; font-weight: 600; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.05em; }
+  input, select, textarea {
+    width: 100%; background: rgba(0,0,0,0.35); border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 8px; color: #e2e8f0; font-family: 'Inter', sans-serif;
+    font-size: 14px; padding: 9px 12px; outline: none; transition: border-color 0.2s;
+  }
+  input:focus, select:focus, textarea:focus { border-color: #22c55e; }
+  select option { background: #0e1a08; }
+  textarea { resize: vertical; min-height: 70px; }
+  .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .btn-add {
+    display: block; width: 100%; background: #22c55e; color: #0a0e17;
+    border: none; border-radius: 8px; padding: 11px;
+    font-family: 'Inter', sans-serif; font-size: 14px; font-weight: 700;
+    cursor: pointer; transition: background 0.2s; margin-top: 4px;
+  }
+  .btn-add:hover { background: #4ade80; }
+
+  .empty-state { text-align: center; padding: 40px 0; color: #4b6b3a; font-size: 14px; }
+
+  /* inline edit */
+  .edit-wrap { width: 100%; display: flex; flex-direction: column; gap: 8px; }
+  .edit-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .edit-wrap input, .edit-wrap select, .edit-wrap textarea {
+    width: 100%; background: rgba(0,0,0,0.45); border: 1px solid rgba(74,222,128,0.35);
+    border-radius: 7px; color: #e2e8f0; font-family: 'Inter', sans-serif;
+    font-size: 13px; padding: 7px 10px; outline: none;
+  }
+  .edit-wrap select option { background: #0e1a08; }
+  .edit-wrap textarea { resize: vertical; min-height: 56px; }
+  .edit-actions { display: flex; gap: 8px; justify-content: flex-end; }
+  .btn-save-edit {
+    background: #22c55e; color: #0a0e17; border: none; border-radius: 6px;
+    padding: 6px 16px; font-size: 13px; font-weight: 700; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-cancel-edit {
+    background: rgba(255,255,255,0.06); color: #94a38a; border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 6px; padding: 6px 14px; font-size: 13px; cursor: pointer;
+    font-family: 'Inter', sans-serif;
+  }
+  .btn-edit {
+    background: none; border: none; color: #6b9f55; font-size: 13px;
+    cursor: pointer; padding: 2px 6px; border-radius: 4px;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .btn-edit:hover { background: rgba(74,222,128,0.1); color: #4ade80; }
+
+  /* spotify embed */
+  .spotify-embed-wrap {
+    margin-top: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid rgba(34,197,94,0.15);
+  }
+  .spotify-embed-wrap iframe {
+    display: block; width: 100%; border: 0;
+  }
+  .spotify-link {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 12px; color: #1db954; font-weight: 600;
+    text-decoration: none; border-bottom: 1px solid rgba(29,185,84,0.3);
+    transition: color 0.2s;
+  }
+  .spotify-link:hover { color: #1ed760; }
+
+  @media (max-width: 500px) {
+    .form-row-2 { grid-template-columns: 1fr; }
+    .edit-row-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <div class="top-bar">
+    <a class="back-btn" href="./dashboard.html">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+      Dashboard
+    </a>
+    <img src="./guitar_lincoln.png" alt="Guitar Lincoln" style="width:44px;height:44px;object-fit:cover;object-position:top;border-radius:8px;border:1px solid rgba(74,222,128,0.3);box-shadow:0 2px 10px rgba(0,0,0,0.5);">
+    <h1 class="page-title">Music Picks</h1>
+  </div>
+  <p class="page-sub">Tom's current suggested listening — albums, tracks &amp; playlists worth your time.</p>
+  <div id="sync-bar" style="display:none;align-items:center;gap:7px;margin-bottom:14px;font-size:11px;">
+    <span id="sync-dot" style="width:6px;height:6px;border-radius:50%;display:inline-block;background:#4b6b3a;flex-shrink:0;"></span>
+    <span id="sync-txt" style="color:#4b6b3a;">Sync</span>
+  </div>
+
+  <!-- List -->
+  <div class="section-header">
+    <span class="section-label">Current Picks</span>
+    <span class="item-count" id="pick-count"></span>
+  </div>
+  <ul class="picks-list" id="picks-list"></ul>
+
+  <!-- Add form -->
+  <div class="add-form">
+    <h3>Add a Pick</h3>
+    <div class="form-row-2">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Title</label>
+        <input type="text" id="f-title" placeholder="Album, track, or artist name">
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Artist</label>
+        <input type="text" id="f-artist" placeholder="Artist / Band">
+      </div>
+    </div>
+    <div class="form-row-2" style="margin-top:12px">
+      <div class="form-row" style="margin-bottom:0">
+        <label>Type</label>
+        <select id="f-type">
+          <option value="album">Album</option>
+          <option value="track">Track</option>
+          <option value="playlist">Playlist</option>
+          <option value="artist">Artist</option>
+        </select>
+      </div>
+      <div class="form-row" style="margin-bottom:0">
+        <label>Spotify Link (optional)</label>
+        <input type="url" id="f-link" placeholder="https://open.spotify.com/album/…">
+      </div>
+    </div>
+    <div class="form-row" style="margin-top:12px">
+      <label>Note (optional)</label>
+      <textarea id="f-note" placeholder="Why it's worth a listen..."></textarea>
+    </div>
+    <button class="btn-add" id="btn-add">Add Pick</button>
+  </div>
+
+</div>
+<script src="./sync.js"></script>
+<script>
+(function() {
+  var KEY = 'bacon_music_v2';
+  // Amazon Associates affiliate tag — replace with your tag to earn commissions
+  var AMAZON_TAG = '';
+
+  var DEFAULT_PICKS = [
+    { id: 1, type: 'album', title: 'The Best Of Joe Pass',      artist: 'Joe Pass',                    note: 'One of the best Jazz/Fusion/All Around Guitar Players. Like to listen on a lazy Sunday Morning.', link: '' },
+    { id: 2, type: 'album', title: 'At the Royal Albert Hall',  artist: 'Creedence Clearwater Revival', note: 'Gritty - Crank this one boys. Turn down your treble - Fogerty likes it sharp!!',                  link: '' },
+    { id: 3, type: 'album', title: 'Milestones',                artist: 'Miles Davis',                  note: 'Milestones is significant as a creative hinge period between Davis\' bebop/hard bop period and his future modal period. The recording represented the formal expansion of his famous first quintet into a sextet with the addition of Cannonball Adderley, a band considered by many to be the finest small jazz ensemble in history.', link: '' }
+  ];
+
+  function load() {
+    try {
+      var raw = localStorage.getItem(KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e) { return null; }
+  }
+  function save(items) {
+    try { localStorage.setItem(KEY, JSON.stringify(items)); } catch(e) {}
+  }
+
+  function getPicks() {
+    var stored = load();
+    return stored !== null ? stored : DEFAULT_PICKS;
+  }
+
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  function render() {
+    var picks = getPicks();
+    var list = document.getElementById('picks-list');
+    document.getElementById('pick-count').textContent = picks.length + (picks.length === 1 ? ' pick' : ' picks');
+
+    if (!picks.length) {
+      list.innerHTML = '<div class="empty-state"><p>No picks yet. Add the first one below.</p></div>';
+      return;
+    }
+
+    list.innerHTML = picks.map(function(p) {
+      var typeLabel = { album:'Album', track:'Track', playlist:'Playlist', artist:'Artist' }[p.type] || p.type;
+      var spotifyEmbed = toSpotifyEmbed(p.link);
+      var coverHtml = p.coverUrl
+        ? '<img src="' + esc(p.coverUrl) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">'
+        : '<span class="pick-cover-placeholder">♫</span>';
+      // Hide cover box when we have a spotify embed (embed already shows art)
+      var coverEl = spotifyEmbed
+        ? ''
+        : '<div class="pick-cover" id="cover-' + p.id + '">' + coverHtml + '</div>';
+      var embedEl = spotifyEmbed
+        ? '<div class="spotify-embed-wrap"><iframe src="' + esc(spotifyEmbed) + '" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>'
+        : '';
+      return '<li data-id="' + p.id + '">'
+        + coverEl
+        + '<span class="pick-type-badge ' + esc(p.type) + '">' + esc(typeLabel) + '</span>'
+        + '<div class="pick-body">'
+          + '<div class="pick-title">' + esc(p.title) + '</div>'
+          + (p.artist ? '<div class="pick-artist">' + esc(p.artist) + '</div>' : '')
+          + (p.note   ? '<div class="pick-note">'   + esc(p.note)   + '</div>' : '')
+          + embedEl
+          + (function() {
+              var amzQ = encodeURIComponent((p.title || '') + ' ' + (p.artist || ''));
+              var amzUrl = 'https://www.amazon.com/s?k=' + amzQ + '&i=popular' + (AMAZON_TAG ? '&tag=' + AMAZON_TAG : '');
+              var listenBtn = p.link && !spotifyEmbed
+                ? '<a class="pick-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
+                  + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
+                  + 'Listen</a>'
+                : (spotifyEmbed
+                  ? '<a class="spotify-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
+                    + '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.623.623 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 1 1-.277-1.215c3.809-.87 7.076-.496 9.712 1.115.294.181.387.565.207.857zm1.223-2.722a.78.78 0 0 1-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 0 1-.973-.519.781.781 0 0 1 .52-.974c3.632-1.102 8.147-.568 11.233 1.329a.78.78 0 0 1 .257 1.073zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 1 1-.543-1.794c3.532-1.07 9.404-.863 13.115 1.333a.937.937 0 0 1-.955 1.618z"/></svg>'
+                    + 'Open in Spotify</a>'
+                  : '');
+              var amzBtn = '<a class="amazon-link" href="' + amzUrl + '" target="_blank" rel="noopener">'
+                + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.354 15.354A9 9 0 0 1 4.646 3.646"/><path d="M21 21l-4-4"/><path d="M3 3l4 4"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/></svg>'
+                + 'Amazon ↗</a>';
+              return '<div class="pick-links">' + listenBtn + (spotifyEmbed ? '' : amzBtn) + '</div>';
+            })()
+        + '</div>'
+        + '<div class="pick-actions">'
+          + '<button class="btn-edit" onclick="editPick(' + p.id + ')">Edit</button>'
+          + '<button class="btn-del"  onclick="delPick('  + p.id + ')">Remove</button>'
+        + '</div>'
+        + '</li>';
+    }).join('');
+  }
+
+  window.delPick = function(id) {
+    var picks = getPicks().filter(function(p) { return p.id !== id; });
+    save(picks);
+    syncPush(picks);
+    render();
+  };
+
+  window.editPick = function(id) {
+    var picks = getPicks();
+    var p; for (var i = 0; i < picks.length; i++) { if (picks[i].id === id) { p = picks[i]; break; } }
+    if (!p) return;
+    var li = document.querySelector('[data-id="' + id + '"]');
+    if (!li) return;
+    var typeOpts = ['album','track','playlist','artist'].map(function(t) {
+      return '<option value="' + t + '"' + (p.type === t ? ' selected' : '') + '>' + t.charAt(0).toUpperCase() + t.slice(1) + '</option>';
+    }).join('');
+    li.innerHTML = '<div class="edit-wrap">'
+      + '<div class="edit-row-2">'
+        + '<input id="ei-title-'  + id + '" value="' + esc(p.title)  + '" placeholder="Title">'
+        + '<input id="ei-artist-' + id + '" value="' + esc(p.artist) + '" placeholder="Artist">'
+      + '</div>'
+      + '<div class="edit-row-2">'
+        + '<select id="ei-type-' + id + '">' + typeOpts + '</select>'
+        + '<input id="ei-link-' + id + '" value="' + esc(p.link) + '" placeholder="Spotify URL">'
+      + '</div>'
+      + '<textarea id="ei-note-' + id + '" rows="2" placeholder="Note">' + esc(p.note) + '</textarea>'
+      + '<div class="edit-actions">'
+        + '<button class="btn-cancel-edit" onclick="render()">Cancel</button>'
+        + '<button class="btn-save-edit"   onclick="savePick(' + id + ')">Save</button>'
+      + '</div>'
+      + '</div>';
+  };
+
+  window.savePick = function(id) {
+    var picks = getPicks();
+    for (var i = 0; i < picks.length; i++) {
+      if (picks[i].id === id) {
+        picks[i].title   = document.getElementById('ei-title-'  + id).value.trim();
+        picks[i].artist  = document.getElementById('ei-artist-' + id).value.trim();
+        picks[i].type    = document.getElementById('ei-type-'   + id).value;
+        picks[i].link    = document.getElementById('ei-link-'   + id).value.trim();
+        picks[i].note    = document.getElementById('ei-note-'   + id).value.trim();
+        picks[i].coverUrl = ''; // clear so art re-fetches for new title/artist
+        break;
+      }
+    }
+    save(picks);
+    syncPush(picks);
+    render();
+    fetchCovers();
+  };
+
+  document.getElementById('btn-add').addEventListener('click', function() {
+    var title  = document.getElementById('f-title').value.trim();
+    var artist = document.getElementById('f-artist').value.trim();
+    var type   = document.getElementById('f-type').value;
+    var link   = document.getElementById('f-link').value.trim();
+    var note   = document.getElementById('f-note').value.trim();
+
+    if (!title) { document.getElementById('f-title').focus(); return; }
+
+    var picks = getPicks();
+    picks.unshift({ id: Date.now(), type: type, title: title, artist: artist, note: note, link: link });
+    save(picks);
+    syncPush(picks);
+
+    document.getElementById('f-title').value  = '';
+    document.getElementById('f-artist').value = '';
+    document.getElementById('f-link').value   = '';
+    document.getElementById('f-note').value   = '';
+
+    var btn = document.getElementById('btn-add');
+    btn.textContent = 'Added!';
+    btn.style.background = '#4ade80';
+    setTimeout(function() { btn.textContent = 'Add Pick'; btn.style.background = ''; }, 1600);
+
+    render();
+  });
+
+  // ── Convert Spotify share URL → embed URL ──
+  function toSpotifyEmbed(url) {
+    if (!url) return null;
+    var m = url.match(/open\.spotify\.com\/(album|track|playlist|artist)\/([A-Za-z0-9]+)/);
+    if (!m) return null;
+    return 'https://open.spotify.com/embed/' + m[1] + '/' + m[2] + '?utm_source=generator&theme=0';
+  }
+
+  // ── Fetch album art from iTunes (fallback for picks without a Spotify link) ──
+  function fetchCovers() {
+    var picks = getPicks();
+    var changed = false;
+    var pending = 0;
+
+    picks.forEach(function(p) {
+      if (p.coverUrl) return;
+      if (toSpotifyEmbed(p.link)) return; // Spotify embed handles art
+      var query = (p.title + ' ' + p.artist).trim();
+      if (!query) return;
+      var entity = p.type === 'artist' ? 'musicArtist' : 'album';
+      var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(query)
+              + '&media=music&entity=' + entity + '&limit=1';
+      pending++;
+      fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var result = data && data.results && data.results[0];
+          if (result && result.artworkUrl100) {
+            var art = result.artworkUrl100.replace('100x100bb', '500x500bb');
+            p.coverUrl = art;
+            changed = true;
+            var el = document.getElementById('cover-' + p.id);
+            if (el) el.innerHTML = '<img src="' + esc(art) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">';
+          }
+        })
+        .catch(function() {})
+        .then(function() {
+          pending--;
+          if (pending === 0 && changed) save(picks);
+        });
+    });
+  }
+
+  // ── Sync helpers ──
+  function setSyncStatus(state) {
+    var bar = document.getElementById('sync-bar');
+    var dot = document.getElementById('sync-dot');
+    var txt = document.getElementById('sync-txt');
+    if (!bar) return;
+    bar.style.display = 'flex';
+    var s = { synced:{c:'#4ade80',t:'Synced'}, syncing:{c:'#fb923c',t:'Syncing\u2026'}, error:{c:'#f87171',t:'Sync error'} }[state] || {c:'#4b6b3a',t:'Sync active'};
+    dot.style.background = s.c; txt.style.color = s.c; txt.textContent = s.t;
+  }
+  function syncPush(picks) {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    GistSync.setSection('music', picks, function(ok) { setSyncStatus(ok ? 'synced' : 'error'); });
+  }
+  function syncInit() {
+    if (!window.GistSync || !GistSync.isConfigured()) return;
+    setSyncStatus('syncing');
+    GistSync.getSection('music', function(data, err) {
+      if (!err && data && Array.isArray(data)) {
+        save(data);
+        render();
+        fetchCovers();
+      }
+      setSyncStatus(err ? 'error' : 'synced');
+    });
+  }
+
+  render();
+  fetchCovers();
+  syncInit();
+})();
+</script>
+</body>
+</html>
