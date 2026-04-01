@@ -91,7 +91,7 @@
 
     /* ── HERO ── */
     .hero {
-      background: var(--ht-text);
+      background: url('./Honest_Toms_Market.png') center center / cover no-repeat;
       color: var(--ht-white);
       padding: 72px 24px 80px;
       text-align: center;
@@ -103,9 +103,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(ellipse 60% 50% at 20% 80%, rgba(92,122,62,0.22) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 60% at 80% 20%, rgba(139,94,60,0.18) 0%, transparent 70%);
+      background: rgba(20, 12, 6, 0.62);
       pointer-events: none;
     }
 
@@ -115,14 +113,6 @@
       margin: 0 auto;
     }
 
-    .hero-logo {
-      width: 660px;
-      height: auto;
-      margin: 0 auto 32px;
-      display: block;
-      border-radius: 16px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.35);
-    }
 
     .hero-tagline {
       font-size: 0.75rem;
@@ -719,8 +709,7 @@
 
     @media (max-width: 480px) {
       .hero { padding: 52px 20px 60px; }
-      .hero-logo { width: 170px; }
-      .hero-actions { flex-direction: column; align-items: center; }
+.hero-actions { flex-direction: column; align-items: center; }
       .btn-hero { width: 100%; max-width: 320px; justify-content: center; }
     }
   </style>
@@ -742,8 +731,6 @@
 <!-- HERO -->
 <section class="hero">
   <div class="hero-inner">
-    <img class="hero-logo" src="./Honest_Toms_Market.png" alt="Honest Tom's Market"
-         onerror="this.style.display='none'">
     <div class="hero-tagline">Aberdeen, SD · Coming Soon</div>
     <h1 class="hero-title">Fresh. Local. Honest.</h1>
     <p class="hero-sub">Real food from real farms — fruit, vegetables, and meat you can trust, with a cup of coffee and something warm from the oven waiting for you.</p>
