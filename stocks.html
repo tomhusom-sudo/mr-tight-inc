@@ -901,46 +901,74 @@
     }
 
     function fetchCommodities() {
-      var symbols = ['GC=F', 'CL=F', 'BTC-USD'];
-      var results = {};
-      var done = 0;
+      var CACHE_KEY = 'ht_commodities_v2';
 
-      function onDone() {
-        done++;
-        if (done === symbols.length) renderCommodities(results);
+      // ── Show cached values immediately while live data loads ──
+      try {
+        var cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+        if (cached && cached.data) renderCommodities(cached.data);
+      } catch(e) {}
+
+      var results = {};
+      var pending = 2; // two fetch groups: CoinGecko (BTC+Gold) + Oil
+
+      function signal(ms) {
+        var c = new AbortController();
+        setTimeout(function(){ c.abort(); }, ms);
+        return c.signal;
       }
 
-      symbols.forEach(function(sym) {
-        var url = 'https://query1.finance.yahoo.com/v8/finance/chart/' + encodeURIComponent(sym) + '?interval=1d&range=1d';
+      function finish() {
+        pending--;
+        if (pending > 0) return;
+        // Merge new results over any cached values, then render & save
+        var merged = {};
+        try { var c2 = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); if (c2 && c2.data) merged = c2.data; } catch(e) {}
+        Object.assign(merged, results);
+        renderCommodities(merged);
+        try { localStorage.setItem(CACHE_KEY, JSON.stringify({ data: merged, ts: Date.now() })); } catch(e) {}
+      }
+
+      // ── GROUP 1: BTC + Gold via CoinGecko (direct, no proxy needed) ──
+      fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,tether-gold&vs_currencies=usd&include_24hr_change=true', { signal: signal(10000) })
+        .then(function(r) { return r.json(); })
+        .then(function(j) {
+          if (j.bitcoin)      results['BTC-USD'] = { price: j.bitcoin['usd'],       pct: j.bitcoin['usd_24h_change']       || 0 };
+          if (j['tether-gold']) results['GC=F']  = { price: j['tether-gold']['usd'], pct: j['tether-gold']['usd_24h_change'] || 0 };
+          finish();
+        })
+        .catch(function() { finish(); });
+
+      // ── GROUP 2: Oil (WTI) via Yahoo Finance proxy chain ──
+      (function fetchOil() {
+        var url = 'https://query1.finance.yahoo.com/v8/finance/chart/CL%3DF?interval=1d&range=1d';
         var proxies = [
+          'https://api.allorigins.win/get?url=' + encodeURIComponent(url),
           'https://api.allorigins.win/raw?url=' + encodeURIComponent(url),
           'https://corsproxy.io/?' + encodeURIComponent(url),
           'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(url)
         ];
-
         function tryProxy(i) {
-          if (i >= proxies.length) { onDone(); return; }
-          var ctrl = new AbortController();
-          var timer = setTimeout(function(){ ctrl.abort(); }, 8000);
+          if (i >= proxies.length) { finish(); return; }
+          var timer; var ctrl = new AbortController();
+          timer = setTimeout(function(){ ctrl.abort(); }, 7000);
           fetch(proxies[i], { signal: ctrl.signal })
             .then(function(r) { return r.json(); })
-            .then(function(json) {
+            .then(function(j) {
               clearTimeout(timer);
-              var meta = json && json.chart && json.chart.result && json.chart.result[0] && json.chart.result[0].meta;
-              if (!meta) throw new Error('no meta');
-              var price = meta.regularMarketPrice || 0;
+              // allorigins /get wraps response in {contents:"..."}
+              var parsed = (j && j.contents) ? JSON.parse(j.contents) : j;
+              var meta = parsed && parsed.chart && parsed.chart.result && parsed.chart.result[0] && parsed.chart.result[0].meta;
+              if (!meta || !meta.regularMarketPrice) throw new Error('no data');
+              var price = meta.regularMarketPrice;
               var prev  = meta.chartPreviousClose || meta.previousClose || price;
-              var pct   = prev > 0 ? ((price - prev) / prev) * 100 : 0;
-              results[sym] = { price: price, pct: pct };
-              onDone();
+              results['CL=F'] = { price: price, pct: prev > 0 ? ((price - prev) / prev) * 100 : 0 };
+              finish();
             })
-            .catch(function() {
-              clearTimeout(timer);
-              tryProxy(i + 1);
-            });
+            .catch(function() { clearTimeout(timer); tryProxy(i + 1); });
         }
         tryProxy(0);
-      });
+      })();
     }
 
     // Fetch prices.json and update LIVE_PRICES, then re-render with fresh prices.
