@@ -19,7 +19,7 @@
   <link rel="canonical" href="https://honesttom.ai"/>
   <script>
     // Force fresh load on every deploy — update VER when pushing new prices
-    var VER = 'v=20260331a';
+    var VER = 'v=20260402a';
     if (location.search.indexOf(VER) === -1) {
       location.replace(location.pathname + '?' + VER + (location.hash || ''));
     }
@@ -979,16 +979,30 @@
           if (!data || !data.prices) return;
           Object.assign(LIVE_PRICES, data.prices);
           if (data.indices) renderIndices(data.indices);
+          // Oil — seed the commodities cache from prices.json as a reliable fallback
+          if (data.oil && data.oil.price) {
+            try {
+              var CACHE_KEY = 'ht_commodities_v2';
+              var existing = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+              var cdata = (existing && existing.data) ? existing.data : {};
+              // Only overwrite oil if we don't already have a fresher live value
+              if (!cdata['CL=F']) {
+                cdata['CL=F'] = { price: data.oil.price, pct: data.oil.pct || 0 };
+                renderCommodities(cdata);
+                localStorage.setItem(CACHE_KEY, JSON.stringify({ data: cdata, ts: Date.now() }));
+              }
+            } catch(e) {}
+          }
           if (data.updated) {
             LAST_UPDATED = data.updated;
-            // Staleness warning: flag prices older than 2 days
+            // Staleness warning: flag prices older than 3 days
             var updEl = document.getElementById('last-updated');
             if (updEl) {
               var d = new Date(data.updated);
               var age = (Date.now() - d.getTime()) / 86400000;
-              var stale = age > 2 ? ' ⚠ stale' : '';
+              var stale = age > 3 ? ' ⚠ stale' : '';
               updEl.textContent = 'Last updated: ' + data.updated + stale;
-              updEl.style.color = age > 2 ? '#f87171' : '';
+              updEl.style.color = age > 3 ? '#f87171' : '';
             }
           }
           render();
