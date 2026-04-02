@@ -12,9 +12,9 @@
     "ARKK":  68.35
   },
   "indices": {
-    "NASDAQ": { "value": 21840.95, "change":  250.32, "pct":  1.16 },
-    "DOW":    { "value": 46565.74, "change":  224.23, "pct":  0.48 },
-    "S&P 500":{ "value":  6575.32, "change":   46.80, "pct":  0.72 }
+    "NASDAQ": { "value": 21811.50, "change":  -29.44, "pct": -0.13 },
+    "DOW":    { "value": 46459.53, "change": -106.21, "pct": -0.23 },
+    "S&P 500":{ "value":  6567.86, "change":   -7.46, "pct": -0.11 }
   },
   "oil": { "price": 105.57, "pct": 5.80 },
   "updated": "April 2, 2026"
