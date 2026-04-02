@@ -479,6 +479,20 @@
 
     .site-footer a:hover { color: var(--ht-accent); }
 
+    /* ── BACK LINK ── */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ht-muted);
+      text-decoration: none;
+      margin-bottom: 20px;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--ht-accent); }
+
     /* ── RESPONSIVE ── */
     @media (max-width: 520px) {
       .header-title { font-size: 1.5rem; }
@@ -494,6 +508,9 @@
 </head>
 <body>
 <div class="page">
+
+  <!-- BACK TO MARKET -->
+  <a class="back-link" href="./market.html">🥬 ← Back to Honest Tom's Market</a>
 
   <!-- TOPPED UP SUCCESS BANNER -->
   <div id="state-topped-up">
