@@ -639,6 +639,31 @@
     .btn-white:hover { background: var(--ht-green-light); transform: translateY(-2px); }
 
     /* ── FOOTER ── */
+    /* ── LIGHTBOX ── */
+    #img-lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    #img-lightbox.open { display: flex; }
+    #img-lightbox img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      box-shadow: 0 8px 48px rgba(0,0,0,0.6);
+    }
+    .pillar-icon-click {
+      cursor: pointer;
+      transition: transform 0.15s;
+      display: inline-block;
+    }
+    .pillar-icon-click:hover { transform: scale(1.2); }
+
     .site-footer {
       background: var(--ht-text);
       color: rgba(253,250,244,0.55);
@@ -760,7 +785,7 @@
       <p class="pillar-body">We only carry what we can trace. Every item on our list comes from a farm or supplier we've personally vetted. No mystery origins, no shrink-wrapped surprises. If we don't know where it came from, it doesn't come through our door.</p>
     </div>
     <div class="pillar pillar-2">
-      <div class="pillar-icon">💪</div>
+      <div class="pillar-icon"><span class="pillar-icon-click" onclick="document.getElementById('img-lightbox').classList.add('open')" title="Click me">💪</span></div>
       <div class="pillar-title">Healthy Foundations</div>
       <p class="pillar-body">Good food is the foundation of everything. We stock produce that's in-season, meats raised without unnecessary additives, and baked goods made from real ingredients you can read without a dictionary. Fuel your family right.</p>
     </div>
@@ -993,6 +1018,11 @@
     <span>Honest Sourcing · Healthy Foundations · Fair Trade</span>
   </div>
 </footer>
+
+<!-- LIGHTBOX -->
+<div id="img-lightbox" onclick="this.classList.remove('open')">
+  <img src="./crazy_market.png" alt="Crazy Market">
+</div>
 
 </body>
 </html>
