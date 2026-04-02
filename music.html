@@ -13,7 +13,7 @@
   <meta property="og:type" content="website"/>
   <link rel="canonical" href="https://honesttom.ai"/>
 <script>
-  var VER = 'v=20260327k';
+  var VER = 'v=20260402a';
   if (location.search.indexOf(VER) === -1) { location.replace(location.pathname + '?' + VER); }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -311,17 +311,23 @@
 
     list.innerHTML = picks.map(function(p) {
       var typeLabel = { album:'Album', track:'Track', playlist:'Playlist', artist:'Artist' }[p.type] || p.type;
-      var spotifyEmbed = toSpotifyEmbed(p.link);
+      var isSpotify = p.link && p.link.indexOf('open.spotify.com') !== -1;
       var coverHtml = p.coverUrl
         ? '<img src="' + esc(p.coverUrl) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">'
         : '<span class="pick-cover-placeholder">♫</span>';
-      // Hide cover box when we have a spotify embed (embed already shows art)
-      var coverEl = spotifyEmbed
-        ? ''
-        : '<div class="pick-cover" id="cover-' + p.id + '">' + coverHtml + '</div>';
-      var embedEl = spotifyEmbed
-        ? '<div class="spotify-embed-wrap"><iframe src="' + esc(spotifyEmbed) + '" height="80" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe></div>'
+      var coverEl = '<div class="pick-cover" id="cover-' + p.id + '">' + coverHtml + '</div>';
+      var amzQ   = encodeURIComponent((p.title || '') + ' ' + (p.artist || ''));
+      var amzUrl = 'https://www.amazon.com/s?k=' + amzQ + '&i=popular' + (AMAZON_TAG ? '&tag=' + AMAZON_TAG : '');
+      var listenBtn = p.link
+        ? '<a class="' + (isSpotify ? 'spotify-link' : 'pick-link') + '" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
+          + (isSpotify
+            ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.623.623 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 1 1-.277-1.215c3.809-.87 7.076-.496 9.712 1.115.294.181.387.565.207.857zm1.223-2.722a.78.78 0 0 1-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 0 1-.973-.519.781.781 0 0 1 .52-.974c3.632-1.102 8.147-.568 11.233 1.329a.78.78 0 0 1 .257 1.073zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 1 1-.543-1.794c3.532-1.07 9.404-.863 13.115 1.333a.937.937 0 0 1-.955 1.618z"/></svg> Open in Spotify'
+            : '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg> Listen')
+          + '</a>'
         : '';
+      var amzBtn = '<a class="amazon-link" href="' + amzUrl + '" target="_blank" rel="noopener">'
+        + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.354 15.354A9 9 0 0 1 4.646 3.646"/><path d="M21 21l-4-4"/><path d="M3 3l4 4"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/></svg>'
+        + 'Amazon ↗</a>';
       return '<li data-id="' + p.id + '">'
         + coverEl
         + '<span class="pick-type-badge ' + esc(p.type) + '">' + esc(typeLabel) + '</span>'
@@ -329,24 +335,7 @@
           + '<div class="pick-title">' + esc(p.title) + '</div>'
           + (p.artist ? '<div class="pick-artist">' + esc(p.artist) + '</div>' : '')
           + (p.note   ? '<div class="pick-note">'   + esc(p.note)   + '</div>' : '')
-          + embedEl
-          + (function() {
-              var amzQ = encodeURIComponent((p.title || '') + ' ' + (p.artist || ''));
-              var amzUrl = 'https://www.amazon.com/s?k=' + amzQ + '&i=popular' + (AMAZON_TAG ? '&tag=' + AMAZON_TAG : '');
-              var listenBtn = p.link && !spotifyEmbed
-                ? '<a class="pick-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
-                  + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>'
-                  + 'Listen</a>'
-                : (spotifyEmbed
-                  ? '<a class="spotify-link" href="' + esc(p.link) + '" target="_blank" rel="noopener">'
-                    + '<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm4.586 14.424a.623.623 0 0 1-.857.207c-2.348-1.435-5.304-1.76-8.785-.964a.623.623 0 1 1-.277-1.215c3.809-.87 7.076-.496 9.712 1.115.294.181.387.565.207.857zm1.223-2.722a.78.78 0 0 1-1.072.257c-2.687-1.652-6.785-2.131-9.965-1.166a.779.779 0 0 1-.973-.519.781.781 0 0 1 .52-.974c3.632-1.102 8.147-.568 11.233 1.329a.78.78 0 0 1 .257 1.073zm.105-2.835C14.692 8.95 9.375 8.775 6.297 9.71a.937.937 0 1 1-.543-1.794c3.532-1.07 9.404-.863 13.115 1.333a.937.937 0 0 1-.955 1.618z"/></svg>'
-                    + 'Open in Spotify</a>'
-                  : '');
-              var amzBtn = '<a class="amazon-link" href="' + amzUrl + '" target="_blank" rel="noopener">'
-                + '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.354 15.354A9 9 0 0 1 4.646 3.646"/><path d="M21 21l-4-4"/><path d="M3 3l4 4"/><path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"/></svg>'
-                + 'Amazon ↗</a>';
-              return '<div class="pick-links">' + listenBtn + (spotifyEmbed ? '' : amzBtn) + '</div>';
-            })()
+          + '<div class="pick-links">' + listenBtn + amzBtn + '</div>'
         + '</div>'
         + '<div class="pick-actions">'
           + '<button class="btn-edit" onclick="editPick(' + p.id + ')">Edit</button>'
@@ -443,38 +432,59 @@
     return 'https://open.spotify.com/embed/' + m[1] + '/' + m[2] + '?utm_source=generator&theme=0';
   }
 
-  // ── Fetch album art from iTunes (fallback for picks without a Spotify link) ──
+  // ── Fetch album art: Spotify oEmbed for Spotify picks, iTunes fallback for others ──
   function fetchCovers() {
     var picks = getPicks();
     var changed = false;
     var pending = 0;
 
+    function done() {
+      pending--;
+      if (pending === 0 && changed) save(picks);
+    }
+
     picks.forEach(function(p) {
       if (p.coverUrl) return;
-      if (toSpotifyEmbed(p.link)) return; // Spotify embed handles art
-      var query = (p.title + ' ' + p.artist).trim();
-      if (!query) return;
-      var entity = p.type === 'artist' ? 'musicArtist' : 'album';
-      var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(query)
-              + '&media=music&entity=' + entity + '&limit=1';
-      pending++;
-      fetch(url)
-        .then(function(r) { return r.json(); })
-        .then(function(data) {
-          var result = data && data.results && data.results[0];
-          if (result && result.artworkUrl100) {
-            var art = result.artworkUrl100.replace('100x100bb', '500x500bb');
-            p.coverUrl = art;
-            changed = true;
-            var el = document.getElementById('cover-' + p.id);
-            if (el) el.innerHTML = '<img src="' + esc(art) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">';
-          }
-        })
-        .catch(function() {})
-        .then(function() {
-          pending--;
-          if (pending === 0 && changed) save(picks);
-        });
+      var isSpotify = p.link && p.link.indexOf('open.spotify.com') !== -1;
+
+      if (isSpotify) {
+        // Spotify oEmbed returns thumbnail_url — works on any device, no auth needed
+        pending++;
+        fetch('https://open.spotify.com/oembed?url=' + encodeURIComponent(p.link))
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            if (data && data.thumbnail_url) {
+              p.coverUrl = data.thumbnail_url;
+              changed = true;
+              var el = document.getElementById('cover-' + p.id);
+              if (el) el.innerHTML = '<img src="' + esc(p.coverUrl) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">';
+            }
+          })
+          .catch(function() {})
+          .then(done);
+      } else {
+        // iTunes Search API fallback for non-Spotify picks
+        var query = (p.title + ' ' + p.artist).trim();
+        if (!query) return;
+        var entity = p.type === 'artist' ? 'musicArtist' : 'album';
+        var url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(query)
+                + '&media=music&entity=' + entity + '&limit=1';
+        pending++;
+        fetch(url)
+          .then(function(r) { return r.json(); })
+          .then(function(data) {
+            var result = data && data.results && data.results[0];
+            if (result && result.artworkUrl100) {
+              var art = result.artworkUrl100.replace('100x100bb', '500x500bb');
+              p.coverUrl = art;
+              changed = true;
+              var el = document.getElementById('cover-' + p.id);
+              if (el) el.innerHTML = '<img src="' + esc(art) + '" alt="cover" onerror="this.parentNode.innerHTML=\'<span class=pick-cover-placeholder>♫</span>\'">';
+            }
+          })
+          .catch(function() {})
+          .then(done);
+      }
     });
   }
 
