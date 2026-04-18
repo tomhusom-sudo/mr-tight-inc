@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Honest Tom's Campfire Songs</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: linear-gradient(135deg, rgba(26, 42, 58, 0.85) 0%, rgba(15, 28, 45, 0.9) 100%),
+                  url('https://honesttom.ai/campfire.JPEG') center/cover no-repeat fixed;
+      color: #f5e6d3;
+      font-family: 'Georgia', serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    header { text-align: center; margin: 40px 0 50px; }
+
+    h1 {
+      font-size: 3.2rem;
+      font-weight: normal;
+      letter-spacing: 0.08em;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #d4a660;
+      letter-spacing: 0.04em;
+      font-style: italic;
+    }
+
+    .main-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 60px;
+    }
+
+    .section {
+      background: rgba(26, 42, 58, 0.7);
+      border: 1px solid rgba(212, 165, 116, 0.4);
+      border-radius: 12px;
+      padding: 30px;
+      backdrop-filter: blur(12px);
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: #d4a660;
+      border-bottom: 2px solid rgba(212, 165, 116, 0.5);
+      padding-bottom: 12px;
+    }
+
+    .form-group { margin-bottom: 16px; }
+
+    label {
+      display: block;
+      font-size: 0.95rem;
+      margin-bottom: 6px;
+      color: #d4a660;
+      font-weight: bold;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid rgba(212, 165, 116, 0.4);
+      background: rgba(15, 28, 45, 0.6);
+      color: #f5e6d3;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #d4a660;
+      box-shadow: 0 0 12px rgba(212, 165, 116, 0.4);
+    }
+
+    textarea { resize: vertical; min-height: 70px; }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      font-weight: bold;
+      letter-spacing: 0.05em;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: #e06b38; color: #fff; }
+    .btn-primary:hover { background: #ff7f50; transform: translateY(-2px); }
+
+    .btn-secondary { background: rgba(212, 165, 116, 0.2); color: #d4a660; border: 1px solid #d4a660; }
+    .btn-secondary:hover { background: rgba(212, 165, 116, 0.4); }
+
+    .btn-danger { background: #8b4513; color: #fff; }
+    .btn-danger:hover { background: #a0522d; }
+
+    .btn-group { display: flex; gap: 8px; margin-top: 16px; }
+    .btn-group .btn { flex: 1; }
+
+    .songs-list {
+      display: grid;
+      gap: 16px;
+      max-height: 600px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .song-card {
+      background: rgba(26, 42, 58, 0.5);
+      border: 1px solid rgba(212, 165, 116, 0.3);
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .song-cover {
+      flex-shrink: 0;
+      width: 64px;
+      height: 64px;
+      border-radius: 6px;
+      overflow: hidden;
+      background: rgba(29, 185, 84, 0.15);
+      border: 1px solid rgba(29, 185, 84, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .song-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .song-cover-placeholder {
+      color: rgba(29, 185, 84, 0.4);
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .song-body { flex: 1; }
+
+    .song-card-title { font-size: 1.1rem; font-weight: bold; color: #d4a660; margin-bottom: 4px; }
+    .song-card-artist { font-size: 0.9rem; color: #c9a961; margin-bottom: 8px; }
+    .song-card-note { font-size: 0.85rem; color: #999; margin-bottom: 10px; font-style: italic; }
+
+    .song-actions { display: flex; gap: 8px; margin-top: 10px; }
+    .song-actions button { flex: 1; padding: 6px 10px; font-size: 0.8rem; }
+
+    .export-section {
+      grid-column: 1 / -1;
+      background: rgba(26, 42, 58, 0.7);
+      border: 1px solid rgba(212, 165, 116, 0.4);
+      border-radius: 12px;
+      padding: 30px;
+      text-align: center;
+    }
+
+    .export-section h2 { margin-bottom: 20px; color: #d4a660; }
+    .export-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .export-buttons button { padding: 12px 28px; font-size: 1rem; }
+
+    @media (max-width: 900px) {
+      .main-grid { grid-template-columns: 1fr; }
+      h1 { font-size: 2.4rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div style="margin-bottom: 30px; display: flex; justify-content: center;">
+      <img src="https://honesttom.ai/campfire2.png" alt="Honest Tom's Campfire Songs" style="max-width: 100%; width: auto; max-height: 300px; box-shadow: 0 8px 32px rgba(212, 165, 116, 0.3);" />
+    </div>
+    <p class="subtitle">Honest Tom's Collection of Acoustic Favorites</p>
+  </header>
+
+  <div class="main-grid">
+    <div class="section">
+      <h2>Add/Edit Song</h2>
+      <form id="songForm">
+        <div class="form-group">
+          <label for="songTitle">Song Title</label>
+          <input type="text" id="songTitle" placeholder="e.g., Rocky Raccoon" required />
+        </div>
+        <div class="form-group">
+          <label for="artistName">Artist</label>
+          <input type="text" id="artistName" placeholder="e.g., The Beatles" required />
+        </div>
+        <div class="form-group">
+          <label for="spotifyLink">Spotify Link</label>
+          <input type="url" id="spotifyLink" placeholder="https://open.spotify.com/..." />
+        </div>
+        <div class="form-group">
+          <label for="songNotes">Notes</label>
+          <textarea id="songNotes" placeholder="e.g., Acoustic version preferred..."></textarea>
+        </div>
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary">Save Song</button>
+          <button type="reset" class="btn btn-secondary">Clear</button>
+        </div>
+        <button type="button" class="btn btn-secondary" id="cancelEdit" style="display:none;width:100%;margin-top:8px;">Cancel Edit</button>
+      </form>
+    </div>
+
+    <div class="section">
+      <h2>Songs</h2>
+      <div class="songs-list" id="songsList"></div>
+    </div>
+  </div>
+
+  <div class="export-section">
+    <h2>📥 Export Songs</h2>
+    <div class="export-buttons">
+      <button class="btn btn-primary" id="exportCsv">Download as CSV</button>
+      <button class="btn btn-secondary" id="exportJson">Download as JSON</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let songs = [];
+let editingId = null;
+
+function loadSongs() {
+  const saved = localStorage.getItem('campfireSongs');
+  songs = saved ? JSON.parse(saved) : [];
+  renderSongs();
+  fetchCovers();
+}
+
+function saveSongs() {
+  localStorage.setItem('campfireSongs', JSON.stringify(songs));
+}
+
+function renderSongs() {
+  const list = document.getElementById('songsList');
+  list.innerHTML = '';
+
+  if (songs.length === 0) {
+    list.innerHTML = '<p style="color:#999;text-align:center;">No songs yet. Add one above!</p>';
+    return;
+  }
+
+  songs.forEach((song, idx) => {
+    const card = document.createElement('div');
+    card.className = 'song-card';
+    const coverHtml = song.coverUrl
+      ? `<img src="${song.coverUrl}" alt="${song.title}" onerror="this.parentNode.innerHTML='<span class=song-cover-placeholder>🎵</span>'">`
+      : `<span class="song-cover-placeholder">🎵</span>`;
+    const coverEl = `<div class="song-cover" id="cover-${idx}">${coverHtml}</div>`;
+    const spotifyLink = song.spotify ? `<a href="${song.spotify}" target="_blank" rel="noopener" style="color:#1db954;text-decoration:none;font-weight:600;">🎵 Open in Spotify</a>` : '';
+
+    card.innerHTML = `
+      ${coverEl}
+      <div class="song-body">
+        <div class="song-card-title">${song.title}</div>
+        <div class="song-card-artist">${song.artist}</div>
+        ${song.notes ? `<div class="song-card-note">${song.notes}</div>` : ''}
+        ${spotifyLink ? `<div style="margin-top:8px;">${spotifyLink}</div>` : ''}
+        <div class="song-actions" style="margin-top:10px;">
+          <button class="btn btn-secondary" style="flex:1;padding:6px 10px;font-size:0.8rem;" onclick="editSong(${idx})">Edit</button>
+          <button class="btn btn-danger" style="flex:1;padding:6px 10px;font-size:0.8rem;" onclick="deleteSong(${idx})">Delete</button>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+function fetchCovers() {
+  var changed = false;
+  var pending = 0;
+
+  function done() {
+    if (--pending === 0 && changed) {
+      saveSongs();
+    }
+  }
+
+  songs.forEach((song, idx) => {
+    if (song.spotify) {
+      pending++;
+      fetch('https://open.spotify.com/oembed?url=' + encodeURIComponent(song.spotify))
+        .then(r => r.json())
+        .then(data => {
+          if (data && data.thumbnail_url) {
+            song.coverUrl = data.thumbnail_url;
+            changed = true;
+            const el = document.getElementById('cover-' + idx);
+            if (el) el.innerHTML = `<img src="${song.coverUrl}" alt="${song.title}" onerror="this.parentNode.innerHTML='<span class=song-cover-placeholder>🎵</span>'">`;
+          }
+          done();
+        })
+        .catch(() => done());
+    } else if (!song.coverUrl && song.title && song.artist) {
+      pending++;
+      const url = 'https://itunes.apple.com/search?term=' + encodeURIComponent(song.title + ' ' + song.artist) + '&media=music&limit=1';
+      fetch(url)
+        .then(r => r.json())
+        .then(data => {
+          const result = data && data.results && data.results[0];
+          if (result && result.artworkUrl100) {
+            song.coverUrl = result.artworkUrl100.replace('100x100bb', '500x500bb');
+            changed = true;
+            const el = document.getElementById('cover-' + idx);
+            if (el) el.innerHTML = `<img src="${song.coverUrl}" alt="${song.title}" onerror="this.parentNode.innerHTML='<span class=song-cover-placeholder>🎵</span>'">`;
+          }
+          done();
+        })
+        .catch(() => done());
+    }
+  });
+
+  if (pending === 0) done();
+}
+
+document.getElementById('songForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const song = {
+    title: document.getElementById('songTitle').value,
+    artist: document.getElementById('artistName').value,
+    spotify: document.getElementById('spotifyLink').value || '',
+    notes: document.getElementById('songNotes').value || ''
+  };
+
+  if (editingId !== null) {
+    songs[editingId] = song;
+    editingId = null;
+    document.getElementById('cancelEdit').style.display = 'none';
+  } else {
+    songs.push(song);
+  }
+
+  saveSongs();
+  renderSongs();
+  fetchCovers();
+  document.getElementById('songForm').reset();
+});
+
+function editSong(idx) {
+  const song = songs[idx];
+  document.getElementById('songTitle').value = song.title;
+  document.getElementById('artistName').value = song.artist;
+  document.getElementById('spotifyLink').value = song.spotify;
+  document.getElementById('songNotes').value = song.notes;
+  editingId = idx;
+  document.getElementById('cancelEdit').style.display = 'block';
+  document.getElementById('songTitle').focus();
+}
+
+function deleteSong(idx) {
+  if (confirm(`Delete "${songs[idx].title}"?`)) {
+    songs.splice(idx, 1);
+    saveSongs();
+    renderSongs();
+  }
+}
+
+document.getElementById('cancelEdit').addEventListener('click', () => {
+  document.getElementById('songForm').reset();
+  editingId = null;
+  document.getElementById('cancelEdit').style.display = 'none';
+});
+
+document.getElementById('exportCsv').addEventListener('click', () => {
+  let csv = 'Song,Artist,Spotify,Notes\n';
+  songs.forEach(song => {
+    csv += `"${song.title}","${song.artist}","${song.spotify}","${song.notes}"\n`;
+  });
+  downloadFile(csv, 'campfire-songs.csv', 'text/csv');
+});
+
+document.getElementById('exportJson').addEventListener('click', () => {
+  const json = JSON.stringify(songs, null, 2);
+  downloadFile(json, 'campfire-songs.json', 'application/json');
+});
+
+function downloadFile(content, filename, type) {
+  const blob = new Blob([content], { type });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+function populateInitial() {
+  function spotifyUrl(artist, title) {
+    return `https://open.spotify.com/search/${encodeURIComponent(artist + ' ' + title)}`;
+  }
+
+  const initialSongs = [
+    { title: 'Rocky Raccoon', artist: 'The Beatles', spotify: spotifyUrl('The Beatles', 'Rocky Raccoon'), notes: '' },
+    { title: "Can't Buy Me Love", artist: 'The Beatles', spotify: spotifyUrl('The Beatles', "Can't Buy Me Love"), notes: '' },
+    { title: 'Norwegian Wood', artist: 'The Beatles', spotify: spotifyUrl('The Beatles', 'Norwegian Wood'), notes: 'Acoustic version' },
+    { title: 'Imagine', artist: 'John Lennon', spotify: spotifyUrl('John Lennon', 'Imagine'), notes: '' },
+    { title: 'Bad Moon Rising', artist: 'Creedence Clearwater Revival', spotify: spotifyUrl('CCR', 'Bad Moon Rising'), notes: '' },
+    { title: 'Sundown', artist: 'Gordon Lightfoot', spotify: spotifyUrl('Gordon Lightfoot', 'Sundown'), notes: '' },
+    { title: 'Billie Jean', artist: 'Michael Jackson', spotify: spotifyUrl('Michael Jackson', 'Billie Jean'), notes: '' },
+    { title: 'Squeeze Box', artist: 'The Who', spotify: spotifyUrl('The Who', 'Squeeze Box'), notes: '' },
+    { title: 'A Hard Day\'s Night', artist: 'The Beatles', spotify: spotifyUrl('The Beatles', 'A Hard Days Night'), notes: '' },
+    { title: 'Aberdeen', artist: 'Tom Husom', spotify: '', notes: "Tom's Original" },
+    { title: 'Back on the Drink', artist: 'Tom Husom', spotify: '', notes: "Tom's Original" },
+    { title: 'Lost and the Found', artist: 'Tom Husom', spotify: '', notes: "Tom's Original" },
+    { title: 'Troubadour', artist: 'George Strait', spotify: spotifyUrl('George Strait', 'Troubadour'), notes: '' },
+    { title: "Don't Be Cruel", artist: 'Elvis Presley', spotify: spotifyUrl('Elvis Presley', "Don't Be Cruel"), notes: '' },
+    { title: 'La Bamba', artist: 'Ritchie Valens', spotify: spotifyUrl('Ritchie Valens', 'La Bamba'), notes: '' },
+    { title: 'Have You Ever Seen the Rain', artist: 'Creedence Clearwater Revival', spotify: spotifyUrl('CCR', 'Have You Ever Seen the Rain'), notes: '' },
+    { title: 'Tequila Sunrise', artist: 'Eagles', spotify: spotifyUrl('Eagles', 'Tequila Sunrise'), notes: '' },
+    { title: 'The Wind Cries Mary', artist: 'Jimi Hendrix', spotify: spotifyUrl('Jimi Hendrix', 'The Wind Cries Mary'), notes: '' },
+    { title: 'Folsom Prison Blues', artist: 'Johnny Cash', spotify: spotifyUrl('Johnny Cash', 'Folsom Prison Blues'), notes: '' },
+    { title: 'Time', artist: 'Pink Floyd', spotify: spotifyUrl('Pink Floyd', 'Time'), notes: '' },
+    { title: 'Easy Like Sunday Morning', artist: 'Lionel Richie', spotify: spotifyUrl('Lionel Richie', 'Easy Like Sunday Morning'), notes: '' },
+    { title: 'King of the Road', artist: 'Roger Miller', spotify: spotifyUrl('Roger Miller', 'King of the Road'), notes: '' },
+    { title: 'I Shot the Sheriff', artist: 'Bob Marley', spotify: spotifyUrl('Bob Marley', 'I Shot the Sheriff'), notes: '' },
+    { title: 'Run to You', artist: 'Bryan Adams', spotify: spotifyUrl('Bryan Adams', 'Run to You'), notes: '' },
+    { title: 'Harvest Moon', artist: 'Neil Young', spotify: spotifyUrl('Neil Young', 'Harvest Moon'), notes: '' },
+    { title: 'You Can\'t Do That', artist: 'The Beatles', spotify: spotifyUrl('The Beatles', 'You Cant Do That'), notes: '' },
+    { title: 'Green River', artist: 'Creedence Clearwater Revival', spotify: spotifyUrl('CCR', 'Green River'), notes: '' },
+    { title: 'Knockin\' on Heaven\'s Door', artist: 'Bob Dylan', spotify: spotifyUrl('Bob Dylan', 'Knocking on Heavens Door'), notes: '' },
+    { title: 'Sailing', artist: 'Christopher Cross', spotify: spotifyUrl('Christopher Cross', 'Sailing'), notes: '' },
+    { title: 'Suspicious Minds', artist: 'Elvis Presley', spotify: spotifyUrl('Elvis Presley', 'Suspicious Minds'), notes: '' },
+    { title: 'Rainbow Connection', artist: 'Willie Nelson', spotify: spotifyUrl('Willie Nelson', 'Rainbow Connection'), notes: '' },
+    { title: 'You May Be Right', artist: 'Billy Joel', spotify: spotifyUrl('Billy Joel', 'You May Be Right'), notes: '' },
+    { title: 'Take On Me', artist: 'a-ha', spotify: spotifyUrl('a-ha', 'Take On Me'), notes: '' },
+    { title: 'Fortunate Son', artist: 'Creedence Clearwater Revival', spotify: spotifyUrl('CCR', 'Fortunate Son'), notes: '' },
+    { title: 'No Woman No Cry', artist: 'Bob Marley', spotify: spotifyUrl('Bob Marley', 'No Woman No Cry'), notes: '' },
+    { title: 'Stir It Up', artist: 'Bob Marley', spotify: spotifyUrl('Bob Marley', 'Stir It Up'), notes: '' },
+    { title: 'My Way', artist: 'Frank Sinatra', spotify: spotifyUrl('Frank Sinatra', 'My Way'), notes: '' }
+  ];
+
+  if (songs.length === 0) {
+    songs = initialSongs;
+  } else {
+    initialSongs.forEach(init => {
+      const existing = songs.find(s => s.title === init.title && s.artist === init.artist);
+      if (existing && !existing.spotify && init.spotify) {
+        existing.spotify = init.spotify;
+      }
+    });
+  }
+  saveSongs();
+  renderSongs();
+}
+
+loadSongs();
+populateInitial();
+</script>
+
+</body>
+</html>
