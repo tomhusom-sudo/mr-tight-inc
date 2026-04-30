@@ -57,6 +57,18 @@
       backdrop-filter: blur(12px);
     }
 
+    .gallery-link {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      margin-bottom: 40px;
+      transition: transform 0.15s ease, border-color 0.15s ease;
+    }
+    .gallery-link:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212, 165, 116, 0.9);
+    }
+
     .section h2 {
       font-size: 1.5rem;
       margin-bottom: 20px;
@@ -242,32 +254,13 @@
     </div>
   </div>
 
-    <div class="section">
-      <h2><img src="https://honesttom.ai/glaser_fishtrip.png" alt="Campfire Journal" style="height:80px;vertical-align:middle;margin-right:15px;">Campfire Journal</h2>
-
-      <div style="margin-bottom: 30px;">
-        <h3>New Entry</h3>
-        <div class="form-group">
-          <label for="journalNotes">Notes</label>
-          <textarea id="journalNotes" placeholder="What happened at the campfire..."></textarea>
-        </div>
-        <div class="form-group">
-          <label for="journalLocation">Location (optional)</label>
-          <input type="text" id="journalLocation" placeholder="e.g., Backyard Fire Pit" />
-        </div>
-        <div class="form-group">
-          <label for="journalPhoto">Photo (optional)</label>
-          <input type="file" id="journalPhoto" accept="image/*" />
-          <small style="color:#999;">Max 5MB. Formats: JPG, PNG, WebP</small>
-        </div>
-        <button type="button" class="btn btn-primary" id="saveJournalBtn" style="width:100%;">Save Entry</button>
-      </div>
-
-      <div>
-        <h3>Past Entries</h3>
-        <div id="journalEntries" style="max-height: 500px; overflow-y: auto;"></div>
-      </div>
-    </div>
+    <a href="https://campfire-53696.web.app" target="_blank" rel="noopener" class="section gallery-link">
+      <h2><img src="https://honesttom.ai/glaser_fishtrip.png" alt="Campfire Gallery" style="height:80px;vertical-align:middle;margin-right:15px;">Campfire Gallery</h2>
+      <p style="font-size:1.05rem;line-height:1.5;">
+        Shared photo journal — see everyone's campfire memories, or sign in with Google to add your own.
+      </p>
+      <p style="margin-top:14px;color:#d4a660;font-weight:bold;">Open the Gallery →</p>
+    </a>
   </div>
 
   <div class="export-section">
@@ -309,7 +302,6 @@
 <script>
 let honestTomSongs = [];
 let waynesSongs = [];
-let journalEntries = [];
 let editingId = null;
 let editingList = null; // 'honest' or 'wayne'
 
@@ -555,88 +547,6 @@ document.getElementById('toggleAddWayneForm').addEventListener('click', () => {
   document.getElementById('addFormSection').classList.toggle('visible');
 });
 
-// Journal functionality
-function loadJournal() {
-  const saved = localStorage.getItem('campfireJournal');
-  journalEntries = saved ? JSON.parse(saved) : [];
-  renderJournalEntries();
-}
-
-function renderJournalEntries() {
-  const container = document.getElementById('journalEntries');
-  if (journalEntries.length === 0) {
-    container.innerHTML = '<p style="color:#999;">No entries yet!</p>';
-    return;
-  }
-  container.innerHTML = '';
-  journalEntries.slice().reverse().forEach((entry, idx) => {
-    const realIdx = journalEntries.length - 1 - idx;
-    const date = new Date(entry.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-    const entryDiv = document.createElement('div');
-    entryDiv.style.cssText = 'background:rgba(15,28,45,0.4);border:1px solid rgba(212,165,116,0.3);border-radius:8px;padding:12px;margin-bottom:10px;';
-    entryDiv.innerHTML = `
-      <div style="font-size:0.85rem;color:#999;margin-bottom:6px;">${date}</div>
-      ${entry.photo ? `<img src="${entry.photo}" style="max-width:100%;height:auto;border-radius:6px;margin-bottom:10px;max-height:300px;">` : ''}
-      <div style="color:#f5e6d3;margin-bottom:6px;">${entry.notes}</div>
-      ${entry.location ? `<div style="color:#d4a660;font-size:0.9rem;margin-bottom:6px;">📍 ${entry.location}</div>` : ''}
-      <button class="btn btn-danger" style="width:100%;padding:4px;font-size:0.75rem;" onclick="deleteJournal(${realIdx})">Delete</button>
-    `;
-    container.appendChild(entryDiv);
-  });
-}
-
-function deleteJournal(idx) {
-  if (confirm('Delete this entry?')) {
-    journalEntries.splice(idx, 1);
-    localStorage.setItem('campfireJournal', JSON.stringify(journalEntries));
-    renderJournalEntries();
-  }
-}
-
-document.getElementById('saveJournalBtn').addEventListener('click', () => {
-  const notes = document.getElementById('journalNotes').value.trim();
-  const location = document.getElementById('journalLocation').value.trim();
-  const photoInput = document.getElementById('journalPhoto');
-
-  if (!notes) {
-    alert('Please add notes!');
-    return;
-  }
-
-  const entryData = { date: new Date().toISOString(), notes, location };
-
-  // Handle photo if selected
-  if (photoInput.files && photoInput.files[0]) {
-    const file = photoInput.files[0];
-
-    // Check file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      alert('Photo must be smaller than 5MB');
-      return;
-    }
-
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      entryData.photo = e.target.result;
-      journalEntries.push(entryData);
-      localStorage.setItem('campfireJournal', JSON.stringify(journalEntries));
-      renderJournalEntries();
-      document.getElementById('journalNotes').value = '';
-      document.getElementById('journalLocation').value = '';
-      photoInput.value = '';
-      showNotification('✓ Journal entry saved!');
-    };
-    reader.readAsDataURL(file);
-  } else {
-    journalEntries.push(entryData);
-    localStorage.setItem('campfireJournal', JSON.stringify(journalEntries));
-    renderJournalEntries();
-    document.getElementById('journalNotes').value = '';
-    document.getElementById('journalLocation').value = '';
-    showNotification('✓ Journal entry saved!');
-  }
-});
-
 document.getElementById('exportCsv').addEventListener('click', () => {
   let csv = 'Song,Artist,Spotify,Notes\n';
   songs.forEach(song => {
@@ -661,7 +571,6 @@ document.getElementById('exportJson').addEventListener('click', () => {
 });
 
 loadSongs();
-loadJournal();
 </script>
 
 </body>
