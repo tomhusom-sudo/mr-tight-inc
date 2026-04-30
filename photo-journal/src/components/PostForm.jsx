@@ -4,13 +4,18 @@ import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
 import { usePending } from '../context/PendingPostsContext';
 import { resizeImage } from '../lib/resizeImage';
+import { getAnonId } from '../lib/anonId';
+
+const NAME_KEY = 'campfire-author-name';
 
 export default function PostForm() {
   const { user } = useAuth();
   const { add, update, remove } = usePending();
   const [title, setTitle] = useState('');
   const [caption, setCaption] = useState('');
-  const [author, setAuthor] = useState(user?.displayName || '');
+  const [author, setAuthor] = useState(
+    () => user?.displayName || localStorage.getItem(NAME_KEY) || '',
+  );
   const [file, setFile] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
@@ -20,6 +25,7 @@ export default function PostForm() {
     if (!title || !file || !author) return;
     setSubmitting(true);
     setError(null);
+    localStorage.setItem(NAME_KEY, author);
 
     const tempId = `pending-${Date.now()}`;
     const localUrl = URL.createObjectURL(file);
@@ -30,8 +36,7 @@ export default function PostForm() {
       caption,
       author,
       imageUrl: localUrl,
-      uid: user.uid,
-      authorPhotoURL: user.photoURL || null,
+      authorPhotoURL: user?.photoURL || null,
       createdAt: { toDate: () => new Date() },
     });
 
@@ -50,12 +55,11 @@ export default function PostForm() {
         caption: snapshot.caption,
         author: snapshot.author,
         imageData,
-        uid: user.uid,
-        authorPhotoURL: user.photoURL || null,
+        authorAnonId: getAnonId(),
+        authorPhotoURL: user?.photoURL || null,
         createdAt: serverTimestamp(),
       });
 
-      // Real post will arrive via Firestore subscription; drop the placeholder.
       remove(tempId);
       URL.revokeObjectURL(localUrl);
     } catch (err) {
@@ -71,6 +75,14 @@ export default function PostForm() {
     >
       <h2 className="mb-3 font-semibold text-stone-900">New entry</h2>
       <div className="flex flex-col gap-3">
+        <input
+          type="text"
+          placeholder="Your name"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          required
+          className="rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none"
+        />
         <input
           type="text"
           placeholder="Title"
@@ -91,14 +103,6 @@ export default function PostForm() {
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
           rows={2}
-          className="rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none"
-        />
-        <input
-          type="text"
-          placeholder="Author name"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          required
           className="rounded-md border border-stone-300 px-3 py-2 text-sm focus:border-stone-500 focus:outline-none"
         />
         {error && <p className="text-sm text-red-600">{error}</p>}

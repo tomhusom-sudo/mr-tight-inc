@@ -1,8 +1,8 @@
-// Emails allowed to create posts. Reads/feed are public to signed-in users;
-// only these accounts can write. Mirror this list in Firestore Security Rules.
-export const ALLOWED_POSTERS = [
+// Admin emails — accounts that can delete any post or comment.
+// Mirror this list in the Firestore Security Rules `isAdmin()` function.
+export const ADMIN_EMAILS = [
   'tomhusom@gmail.com',
 ];
 
-export const canPost = (user) =>
-  !!user?.email && ALLOWED_POSTERS.includes(user.email.toLowerCase());
+export const isAdmin = (user) =>
+  !!user?.email && ADMIN_EMAILS.includes(user.email.toLowerCase());
