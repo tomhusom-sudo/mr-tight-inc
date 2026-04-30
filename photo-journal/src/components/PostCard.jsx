@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { deleteDoc, doc } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../context/AuthContext';
+import { isAdmin } from '../lib/allowedUsers';
 import LikeButton from './LikeButton';
 import Comments from './Comments';
 import Avatar from './Avatar';
@@ -11,7 +12,7 @@ export default function PostCard({ post }) {
   const { user } = useAuth();
   const [zoom, setZoom] = useState(false);
   const date = post.createdAt?.toDate?.();
-  const isOwner = user?.uid === post.uid;
+  const canDelete = isAdmin(user);
   const isPending = !!post.pending || !!post.error;
   const imageSrc = post.imageData || post.imageUrl;
 
@@ -67,7 +68,7 @@ export default function PostCard({ post }) {
               </p>
             </div>
           </div>
-          {isOwner && !isPending && (
+          {canDelete && !isPending && (
             <button
               onClick={onDelete}
               className="text-xs text-stone-400 hover:text-red-600"

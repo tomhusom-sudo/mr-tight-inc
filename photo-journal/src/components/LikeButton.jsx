@@ -1,11 +1,11 @@
 import { doc, setDoc, deleteDoc, onSnapshot, collection } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import { db } from '../firebase';
-import { useAuth } from '../context/AuthContext';
+import { getAnonId } from '../lib/anonId';
 
 export default function LikeButton({ postId }) {
-  const { user } = useAuth();
   const [likes, setLikes] = useState([]);
+  const anonId = getAnonId();
 
   useEffect(() => {
     return onSnapshot(collection(db, 'posts', postId, 'likes'), (snap) => {
@@ -13,11 +13,10 @@ export default function LikeButton({ postId }) {
     });
   }, [postId]);
 
-  const liked = user && likes.includes(user.uid);
+  const liked = likes.includes(anonId);
 
   const toggle = async () => {
-    if (!user) return;
-    const ref = doc(db, 'posts', postId, 'likes', user.uid);
+    const ref = doc(db, 'posts', postId, 'likes', anonId);
     if (liked) await deleteDoc(ref);
     else await setDoc(ref, { at: Date.now() });
   };
@@ -25,8 +24,7 @@ export default function LikeButton({ postId }) {
   return (
     <button
       onClick={toggle}
-      disabled={!user}
-      className="flex items-center gap-1.5 text-sm text-stone-600 hover:text-stone-900 disabled:cursor-not-allowed disabled:opacity-50"
+      className="flex items-center gap-1.5 text-sm text-stone-600 hover:text-stone-900"
       aria-pressed={liked}
     >
       <span className={liked ? 'text-red-500' : ''}>{liked ? '♥' : '♡'}</span>
