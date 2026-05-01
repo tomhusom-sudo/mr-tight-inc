@@ -29,7 +29,7 @@ export default function App() {
   return (
     <AuthProvider>
       <PendingPostsProvider>
-        <div className="min-h-screen bg-stone-50 text-stone-900">
+        <div className="min-h-screen text-stone-900">
           <Header />
           <Main />
         </div>

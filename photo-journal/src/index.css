@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body, #root {
+  min-height: 100%;
+}
+
+body {
+  background-image:
+    linear-gradient(rgba(245, 245, 244, 0.86), rgba(245, 245, 244, 0.86)),
+    url('https://honesttom.ai/glaser_fishtrip.png');
+  background-size: cover;
+  background-position: center top;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
